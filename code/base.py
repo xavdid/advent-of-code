@@ -12,8 +12,8 @@ class BaseSolution(object):
 
     def print_solutions(self):
         print '= Solutions for Day {}'.format(self.number)
-        for i in [1, 2]:
+        for i in [1, 2, 3]:
             if hasattr(self, 'part_{}'.format(i)):
-                print '== Part {}'.format(i)
+                print '\n== Part {}'.format(i)
                 sol_func = getattr(self, 'part_{}'.format(i))
                 print '=== {}'.format(sol_func())
