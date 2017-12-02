@@ -22,16 +22,21 @@
 # 123123 produces 12.
 # 12131415 produces 4.
 
-import os
+from base import BaseSolution
 
-with open(os.path.join(os.path.dirname(__file__), '../inputs/1.txt')) as file:
-    captcha_input = file.read()
+class Solution(BaseSolution):
+    def part_1(self):
+        return self.solve(1)
 
-total = 0
-halfway = len(captcha_input) / 2
+    def part_2(self):
+        return self.solve(len(self.input) / 2)
 
-for i, val in enumerate(captcha_input):
-    if val == captcha_input[(i + halfway) % len(captcha_input)]:
-        total += int(val)
+    def solve(self, jump):
+        total = 0
 
-print 'total is', total
+        for i, val in enumerate(self.input):
+            if val == self.input[(i + jump) % len(self.input)]:
+                total += int(val)
+
+        return total
+
