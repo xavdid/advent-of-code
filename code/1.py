@@ -7,20 +7,31 @@
 # 1234 produces 0 because no digit matches the next.
 # 91212129 produces 9 because the only digit that matches the next one is the last digit, 9.
 
+
+# Part 2
+
+# You notice a progress bar that jumps to 50% completion. Apparently, the door isn't yet satisfied, but it did emit a star as encouragement. The instructions change:
+
+# Now, instead of considering the next digit, it wants you to consider the digit halfway around the circular list. That is, if your list contains 10 items, only include a digit in your sum if the digit 10/2 = 5 steps forward matches it. Fortunately, your list has an even number of elements.
+
+# For example:
+
+# 1212 produces 6: the list contains 4 items, and all four digits match the digit 2 items ahead.
+# 1221 produces 0, because every comparison is between a 1 and a 2.
+# 123425 produces 4, because both 2s match each other, but no other digit has a match.
+# 123123 produces 12.
+# 12131415 produces 4.
+
 import os
 
 with open(os.path.join(os.path.dirname(__file__), '../inputs/1.txt')) as file:
     captcha_input = file.read()
 
 total = 0
+halfway = len(captcha_input) / 2
 
 for i, val in enumerate(captcha_input):
-    # check the circular part of the last item
-    if i == len(captcha_input) - 1:
-        if val == captcha_input[0]:
-            total += int(val)
-
-    elif val == captcha_input[i + 1]:
+    if val == captcha_input[(i + halfway) % len(captcha_input)]:
         total += int(val)
 
 print 'total is', total
