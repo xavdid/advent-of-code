@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cp -n example_solution.py "code/day_$1.py"
+touch "inputs/$1.txt"
+
+echo "Created Files for Day $1"
