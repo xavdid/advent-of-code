@@ -21,12 +21,14 @@
 # How many steps are required to carry the data from the square identified in your puzzle input all the way to the access port?
 
 import math
-from base import BaseSolution
+from base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
+    def input_type(self):
+        return InputTypes.INTEGER
+
     def part_1(self):
-        input_ = int(self.input)
-        side = math.ceil(math.sqrt(input_))  # odd-root for the side of the square we're in
+        side = math.ceil(math.sqrt(self.input))  # odd-root for the side of the square we're in
         if side % 2 == 0:
             side += 1  # odd roots only
 
@@ -34,7 +36,7 @@ class Solution(BaseSolution):
 
         # see how far our input is from the odd-square.
         # the possible values are a corner (max_distance) or the center of a row (half of that)
-        steps = max_distance - ((side ** 2 - input_) % max_distance)
+        steps = max_distance - ((side ** 2 - self.input) % max_distance)
         return int(steps)
 
     def part_2(self):

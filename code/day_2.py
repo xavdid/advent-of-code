@@ -27,18 +27,11 @@
 import csv
 import os
 from itertools import permutations
-from base import BaseSolution
+from base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
-    def read_input(self):
-        # tsv of ints
-        with open(os.path.join(os.path.dirname(__file__), '../inputs/{}.txt'.format(self.number))) as file:
-            reader = csv.reader(file, delimiter='\t')
-            input_ = []
-            for row in reader:
-                input_.append([int(i) for i in row])
-
-            return input_
+    def input_type(self):
+        return InputTypes.TSV
 
     def part_1(self):
         return self.solve(self.diff)
