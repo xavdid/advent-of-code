@@ -2,7 +2,7 @@
 import os
 
 class InputTypes(object):
-    TEXT, INTEGER, TSV, ARRAY = range(4)
+    TEXT, INTEGER, TSV, ARRAY, INTARRAY = range(5)
 
 class BaseSolution(object):
     def __init__(self, number):
@@ -35,6 +35,11 @@ class BaseSolution(object):
                 # an array, where each line is a new item
                 f = file.read()
                 return f.strip().split('\n')
+
+            elif input_type == InputTypes.INTARRAY:
+                f = file.read()
+                arr = f.strip().split('\n')
+                return [int(i) for i in arr]
 
     def print_solutions(self):
         print '= Solutions for Day {}'.format(self.number)

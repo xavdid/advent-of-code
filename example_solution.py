@@ -1,6 +1,6 @@
 # problem description
 
-from base import BaseSolution
+from base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
     def part_1(self):
