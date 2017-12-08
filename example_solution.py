@@ -1,5 +1,3 @@
-# problem description
-
 from base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
