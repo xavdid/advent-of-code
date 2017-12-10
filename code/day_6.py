@@ -6,12 +6,6 @@ class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.TSV
 
-    def part_1(self):
-        return self.solve()[0]
-
-    def part_2(self):
-        return self.solve()[1]
-
     def redistribute(self, arr):
         biggest = max(arr)
         i = arr.index(biggest)

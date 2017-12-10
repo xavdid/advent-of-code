@@ -12,6 +12,18 @@ class BaseSolution(object):
     def input_type(self):
         return InputTypes.TEXT
 
+    def part_1(self):
+        if hasattr(self, 'solve'):
+            res = self.solve()
+            if len(res) == 2:
+                return res[0]
+
+    def part_2(self):
+        if hasattr(self, 'solve'):
+            res = self.solve()
+            if len(res) == 2:
+                return res[1]
+
     def read_input(self, input_type):
         with open(os.path.join(os.path.dirname(__file__), '../inputs/{}.txt'.format(self.number))) as file:
             if input_type == InputTypes.TEXT:

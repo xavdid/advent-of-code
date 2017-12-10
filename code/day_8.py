@@ -8,12 +8,6 @@ class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.ARRAY
 
-    def part_1(self):
-        return self.solve()[0]
-
-    def part_2(self):
-        return self.solve()[1]
-
     def solve(self):
         ops = {'>': gt, '<': lt, '>=': ge, '<=': le, '==': eq, '!=': ne, 'inc': add, 'dec': sub}
         res = defaultdict(int)

@@ -2,6 +2,8 @@
 
 import sys
 
+USAGE = 'usage: advent <day>'
+
 def main(day):
     try:
         solver = __import__('code.day_{}'.format(day), fromlist=['Solution']).Solution
@@ -12,9 +14,13 @@ def main(day):
     s = solver(day)
     s.print_solutions()
 
-try:
-    day_num = int(sys.argv[1])
-    main(day_num)
-
-except IndexError:
-    print 'usage: advent <day>'
+if len(sys.argv) != 2:
+    print USAGE
+    exit(1)
+else:
+    try:
+        day_num = int(sys.argv[1])
+        main(day_num)
+    except ValueError:
+        print 'ERR: day must be a number'
+        print USAGE
