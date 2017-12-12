@@ -20,7 +20,9 @@ if len(sys.argv) != 2:
 else:
     try:
         day_num = int(sys.argv[1])
-        main(day_num)
     except ValueError:
         print 'ERR: day must be a number'
         print USAGE
+        exit(1)
+
+    main(day_num)
