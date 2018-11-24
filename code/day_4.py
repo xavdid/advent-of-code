@@ -18,12 +18,12 @@ class Solution(BaseSolution):
         def sans(arr, i):
             # return an array missing a single element
             if i < 0:
-                raise ValueError('index must be positive, weird result otherwise')
-            return arr[:i] + arr[(i + 1):]
+                raise ValueError("index must be positive, weird result otherwise")
+            return arr[:i] + arr[(i + 1) :]
 
         def anagram(pw):
             for i, phrase in enumerate(pw):
-                anagrams = set([''.join(s) for s in permutations(phrase)])
+                anagrams = set(["".join(s) for s in permutations(phrase)])
                 the_rest = set(sans(pw, i))
                 if anagrams.intersection(the_rest):
                     return False
@@ -34,7 +34,7 @@ class Solution(BaseSolution):
     def solve(self, f):
         total = 0
         for pw in self.input:
-            pw = pw.split(' ')
+            pw = pw.split(" ")
             if f(pw):
                 total += 1
 

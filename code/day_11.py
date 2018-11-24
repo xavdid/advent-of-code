@@ -5,16 +5,17 @@ from collections import defaultdict
 
 # these totally cancel each other out
 OPPOSITES = [
-    ('sw', 'n', 'nw'),
-    ('se', 'n', 'ne'),
-    ('nw', 's', 'sw'),
-    ('nw', 'ne', 'n'),
-    ('sw', 'se', 's'),
-    ('ne', 's', 'se'),
-    ('n', 's'),
-    ('ne', 'sw'),
-    ('nw', 'se')
+    ("sw", "n", "nw"),
+    ("se", "n", "ne"),
+    ("nw", "s", "sw"),
+    ("nw", "ne", "n"),
+    ("sw", "se", "s"),
+    ("ne", "s", "se"),
+    ("n", "s"),
+    ("ne", "sw"),
+    ("nw", "se"),
 ]
+
 
 class Solution(BaseSolution):
     def input_type(self):

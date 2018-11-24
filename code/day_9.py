@@ -2,6 +2,7 @@
 
 from base import BaseSolution, InputTypes
 
+
 class Solution(BaseSolution):
     def solve(self):
         res = 0
@@ -12,23 +13,23 @@ class Solution(BaseSolution):
         while i < len(self.input):
             char = self.input[i]
 
-            if char == '!':
+            if char == "!":
                 i += 1
 
-            elif garbage and char != '>':
+            elif garbage and char != ">":
                 garbage_count += 1
 
-            elif char == '{':
+            elif char == "{":
                 depth += 1
 
-            elif char == '}':
+            elif char == "}":
                 res += depth
                 depth -= 1
 
-            elif char == '<':
+            elif char == "<":
                 garbage = True
 
-            elif char == '>':
+            elif char == ">":
                 garbage = False
 
             i += 1

@@ -4,12 +4,13 @@ from base import BaseSolution, InputTypes
 from itertools import islice, cycle
 from operator import xor
 
+
 class Solution(BaseSolution):
     def rotate(self, l, n):
         return l[n:] + l[:n]
 
     def part_1(self):
-        input_ = [int(i) for i in self.input.split(',')]
+        input_ = [int(i) for i in self.input.split(",")]
 
         res = self.knot(1, input_)
 
@@ -23,7 +24,7 @@ class Solution(BaseSolution):
 
         dense = self.densify(sparse)
 
-        return ''.join(dense)
+        return "".join(dense)
 
     def knot(self, num_rounds, input_):
         i = 0
@@ -55,7 +56,7 @@ class Solution(BaseSolution):
                 break
             res = hex(reduce(xor, temp))[2:]
             if len(res) == 1:
-                res = '0' + res  # no good padding method?
+                res = "0" + res  # no good padding method?
 
             dense.append(res)
 

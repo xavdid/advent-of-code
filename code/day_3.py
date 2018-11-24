@@ -3,12 +3,15 @@
 import math
 from base import BaseSolution, InputTypes
 
+
 class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.INTEGER
 
     def part_1(self):
-        side = math.ceil(math.sqrt(self.input))  # odd-root for the side of the square we're in
+        side = math.ceil(
+            math.sqrt(self.input)
+        )  # odd-root for the side of the square we're in
         if side % 2 == 0:
             side += 1  # odd roots only
 

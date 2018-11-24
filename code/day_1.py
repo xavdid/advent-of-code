@@ -2,6 +2,7 @@
 
 from base import BaseSolution
 
+
 class Solution(BaseSolution):
     def part_1(self):
         return self.solve(1)

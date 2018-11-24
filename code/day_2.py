@@ -5,6 +5,7 @@ import os
 from itertools import permutations
 from base import BaseSolution, InputTypes
 
+
 class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.TSV
