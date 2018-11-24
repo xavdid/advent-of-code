@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/1
 
-from base import BaseSolution
+from .base import BaseSolution
 
 
 class Solution(BaseSolution):
@@ -8,7 +8,7 @@ class Solution(BaseSolution):
         return self._solve(1)
 
     def part_2(self):
-        return self._solve(len(self.input) / 2)
+        return self._solve(len(self.input) // 2)
 
     def _solve(self, jump):
         total = 0

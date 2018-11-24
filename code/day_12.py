@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/12
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
@@ -30,7 +30,7 @@ class Solution(BaseSolution):
 
         already_seen = set(groups[0])
 
-        for i in xrange(len(self.tree)):
+        for i in range(len(self.tree)):
             if i not in already_seen:
                 groups.append(self.recurse_connections(i))
                 already_seen.update(groups[-1])

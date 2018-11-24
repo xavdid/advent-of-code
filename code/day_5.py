@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/5
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):

@@ -2,7 +2,7 @@
 import os
 
 class InputTypes(object):
-    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT = range(6)
+    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT = list(range(6))
 
 class BaseSolution(object):
     def __init__(self, number):
@@ -67,7 +67,7 @@ class BaseSolution(object):
                 return arr
 
     def print_solutions(self):
-        print '= Solutions for Day {}'.format(self.number)
+        print('= Solutions for Day {}'.format(self.number))
         res = self.solve()
         if res:
             for i, ans in enumerate(res):
@@ -80,5 +80,5 @@ class BaseSolution(object):
 
     def print_answer(self, i, ans):
         if ans:
-            print '\n== Part {}'.format(i)
-            print '=== {}'.format(ans)
+            print('\n== Part {}'.format(i))
+            print('=== {}'.format(ans))

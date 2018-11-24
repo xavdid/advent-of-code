@@ -1,28 +1,30 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import sys
 
-USAGE = 'usage: advent <day>'
+USAGE = "usage: advent <day>"
+
 
 def main(day):
     try:
-        solver = __import__('code.day_{}'.format(day), fromlist=['Solution']).Solution
+        solver = __import__("code.day_{}".format(day), fromlist=["Solution"]).Solution
     except ImportError:
-        print 'solution not found for day {}'.format(day)
+        print("solution not found for day {}".format(day))
         sys.exit(1)
 
     s = solver(day)
     s.print_solutions()
 
+
 if len(sys.argv) != 2:
-    print USAGE
+    print(USAGE)
     exit(1)
 else:
     try:
         day_num = int(sys.argv[1])
     except ValueError:
-        print 'ERR: day must be a number'
-        print USAGE
+        print("ERR: day must be a number")
+        print(USAGE)
         exit(1)
 
     main(day_num)

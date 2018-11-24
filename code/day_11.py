@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/11
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 from collections import defaultdict
 
 # these totally cancel each other out

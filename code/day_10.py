@@ -1,8 +1,9 @@
 # prompt: https://adventofcode.com/2017/day/10
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 from itertools import islice, cycle
 from operator import xor
+from functools import reduce
 
 
 class Solution(BaseSolution):
@@ -29,8 +30,8 @@ class Solution(BaseSolution):
     def knot(self, num_rounds, input_):
         i = 0
         skip = 0
-        arr = range(256)
-        for j in xrange(num_rounds):
+        arr = list(range(256))
+        for j in range(num_rounds):
             for length in input_:
                 # put my sequence first
                 t = self.rotate(arr, i)

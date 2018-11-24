@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/7
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 
 
 class Answer(BaseException):
@@ -30,7 +30,7 @@ class Solution(BaseSolution):
 
     def invert_tree(self, tree):
         res = {}
-        for k, v in tree.iteritems():
+        for k, v in tree.items():
             if not v["children"]:
                 continue
 
@@ -71,7 +71,7 @@ class Solution(BaseSolution):
     def part_1(self):
         tree = self.build_tree(self.input)
         parents = self.invert_tree(tree)
-        k = parents.keys()[0]  # start anywhere, the root is there eventually
+        k = list(parents.keys())[0]  # start anywhere, the root is there eventually
         while True:
             if k in parents:
                 k = parents[k]

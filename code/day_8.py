@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/8
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 from collections import defaultdict
 from operator import gt, lt, ge, le, eq, ne, add, sub
 

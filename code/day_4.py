@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/4
 
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 from itertools import permutations
 
 

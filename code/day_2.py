@@ -3,7 +3,7 @@
 import csv
 import os
 from itertools import permutations
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
@@ -26,5 +26,5 @@ class Solution(BaseSolution):
         pairs = permutations(arr, r=2)
         for pair in pairs:
             if max(pair) % min(pair) == 0:
-                return max(pair) / min(pair)
+                return max(pair) // min(pair)
 

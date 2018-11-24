@@ -1,4 +1,4 @@
-from base import BaseSolution, InputTypes
+from .base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
