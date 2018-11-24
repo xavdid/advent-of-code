@@ -7,18 +7,14 @@ class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.ARRAY
 
-    def part_1(self):
-        self.tree = self.build_map(self.input)
-        self.connected_to_0 = set()
-
-        self.recurse_connections(0)
-        return len(self.connected_to_0)
-
-    def recurse_connections(self, i):
-        if i not in self.connected_to_0:
-            self.connected_to_0.add(i)
+    def recurse_connections(self, i, res=None):
+        if res is None:
+            res = set()
+        if i not in res:
+            res.add(i)
             for n in self.tree[i]:
-                self.add_to_set(n)
+                self.recurse_connections(n, res)
+        return res
 
     def build_map(self, input_):
         res = []
@@ -27,8 +23,17 @@ class Solution(BaseSolution):
             res.append((int(nodes[0]), set([int(i) for i in nodes[1].split(", ")])))
         return dict(res)
 
-    def part_2(self):
-        pass
+    def solve(self):
+        self.tree = self.build_map(self.input)
 
-    def solve(self, f):
-        pass
+        groups = [self.recurse_connections(0)]
+
+        already_seen = set(groups[0])
+
+        for i in xrange(len(self.tree)):
+            if i not in already_seen:
+                groups.append(self.recurse_connections(i))
+                already_seen.update(groups[-1])
+                already_seen.add(i)
+
+        return (len(groups[0]), len(groups))

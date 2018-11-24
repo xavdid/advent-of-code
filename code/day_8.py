@@ -31,4 +31,4 @@ class Solution(BaseSolution):
                 res[var] = next_val
                 biggest = max(biggest, next_val)
 
-        return max(res.values()), biggest
+        return (max(res.values()), biggest)

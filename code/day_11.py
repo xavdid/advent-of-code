@@ -29,7 +29,7 @@ class Solution(BaseSolution):
             self.cancel()
             max_dist = max(self.distance(), max_dist)
 
-        return self.distance(), max_dist
+        return (self.distance(), max_dist)
 
     def distance(self):
         return sum(self.counts.values())

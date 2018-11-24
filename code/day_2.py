@@ -11,12 +11,12 @@ class Solution(BaseSolution):
         return InputTypes.TSV
 
     def part_1(self):
-        return self.solve(self.diff)
+        return self._solve(self.diff)
 
     def part_2(self):
-        return self.solve(self.find_evenly_divisible_values)
+        return self._solve(self.find_evenly_divisible_values)
 
-    def solve(self, f):
+    def _solve(self, f):
         return sum([f(a) for a in self.input])
 
     def diff(self, arr):

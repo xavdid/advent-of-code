@@ -1,5 +1,6 @@
 from base import BaseSolution, InputTypes
 
+
 class Solution(BaseSolution):
     def part_1(self):
         pass
@@ -7,5 +8,5 @@ class Solution(BaseSolution):
     def part_2(self):
         pass
 
-    def solve(self, f):
+    def solve(self):
         pass

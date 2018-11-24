@@ -12,7 +12,7 @@ class Solution(BaseSolution):
         def unique(pw):
             return len(pw) == len(set(pw))
 
-        return self.solve(unique)
+        return self._solve(unique)
 
     def part_2(self):
         def sans(arr, i):
@@ -29,9 +29,9 @@ class Solution(BaseSolution):
                     return False
             return True
 
-        return self.solve(anagram)
+        return self._solve(anagram)
 
-    def solve(self, f):
+    def _solve(self, f):
         total = 0
         for pw in self.input:
             pw = pw.split(" ")

@@ -34,4 +34,4 @@ class Solution(BaseSolution):
 
             i += 1
 
-        return res, garbage_count
+        return (res, garbage_count)

@@ -5,12 +5,12 @@ from base import BaseSolution
 
 class Solution(BaseSolution):
     def part_1(self):
-        return self.solve(1)
+        return self._solve(1)
 
     def part_2(self):
-        return self.solve(len(self.input) / 2)
+        return self._solve(len(self.input) / 2)
 
-    def solve(self, jump):
+    def _solve(self, jump):
         total = 0
 
         for i, val in enumerate(self.input):

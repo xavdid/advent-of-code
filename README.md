@@ -26,6 +26,6 @@ differently. See `BaseSolution.InputTypes` for the options.
 
 ### Same function, two ansewrs
 
-If the answer ends up being a single method that returns a tuple for parts 1 and
-2, put the whole thing in `solve()` and you can delete the placeholders for
-parts 1 and 2. See days 6, 8, and 9 for exmples.
+It's easier to get two answers out of a single function call; for this, we use `solve()`. See days 6, 8, and 9 for exmples.
+
+If the solutions are different enough, `part_1()` and `part_2()` can return individual ansswers. For example, days 1 and 2.

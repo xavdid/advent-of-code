@@ -11,7 +11,7 @@ class Solution(BaseSolution):
         def inc(j):
             return 1
 
-        return self.solve(inc)
+        return self._solve(inc)
 
     def part_2(self):
         def maybe_inc(j):
@@ -20,9 +20,9 @@ class Solution(BaseSolution):
             else:
                 return 1
 
-        return self.solve(maybe_inc)
+        return self._solve(maybe_inc)
 
-    def solve(self, f):
+    def _solve(self, f):
         total = 0
         i = 0
         arr = self.input[:]  # don't mutate input

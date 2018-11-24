@@ -12,17 +12,25 @@ class BaseSolution(object):
     def input_type(self):
         return InputTypes.TEXT
 
+    def solve(self):
+        """
+        Returns a 2-tuple with each answer
+        """
+        pass
+
     def part_1(self):
-        if hasattr(self, 'solve'):
-            res = self.solve()
-            if len(res) == 2:
-                return res[0]
+        """
+        Returns the answer for part 1 of the puzzle.
+            Only needed if there's not a unified solve method.
+        """
+        pass
 
     def part_2(self):
-        if hasattr(self, 'solve'):
-            res = self.solve()
-            if len(res) == 2:
-                return res[1]
+        """
+        Returns the answer for part 1 of the puzzle.
+            Only needed if there's not a unified solve method.
+        """
+        pass
 
     def read_input(self, input_type):
         with open(os.path.join(os.path.dirname(__file__), '../inputs/{}.txt'.format(self.number))) as file:
@@ -60,11 +68,17 @@ class BaseSolution(object):
 
     def print_solutions(self):
         print '= Solutions for Day {}'.format(self.number)
-        for i in [1, 2, 3]:  # might be more than 2 parts?
-            if hasattr(self, 'part_{}'.format(i)):
-                solve_func = getattr(self, 'part_{}'.format(i))
-                res = solve_func()
-                # have to double check now that there's defaults for the methods
-                if res:
-                    print '\n== Part {}'.format(i)
-                    print '=== {}'.format(res)
+        res = self.solve()
+        if res:
+            for i, ans in enumerate(res):
+                self.print_answer(i + 1, ans)
+        else:
+            for i in [1, 2]:
+                solve_func = getattr(self, 'part_{}'.format(i), None)
+                if solve_func:
+                    self.print_answer(i, solve_func())
+
+    def print_answer(self, i, ans):
+        if ans:
+            print '\n== Part {}'.format(i)
+            print '=== {}'.format(ans)
