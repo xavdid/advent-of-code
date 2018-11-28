@@ -6,26 +6,9 @@ from operator import xor
 from functools import reduce
 
 
-class Solution(BaseSolution):
+class Hahser:
     def rotate(self, l, n):
         return l[n:] + l[:n]
-
-    def part_1(self):
-        input_ = [int(i) for i in self.input.split(",")]
-
-        res = self.knot(1, input_)
-
-        return res[0] * res[1]
-
-    def part_2(self):
-        EXTRA = [17, 31, 73, 47, 23]
-        # strip is important for the trailing newline
-        input_ = [ord(i) for i in self.input.strip()] + EXTRA
-        sparse = self.knot(64, input_)
-
-        dense = self.densify(sparse)
-
-        return "".join(dense)
 
     def knot(self, num_rounds, input_):
         i = 0
@@ -62,3 +45,25 @@ class Solution(BaseSolution):
             dense.append(res)
 
         return dense
+
+    def knot_hash(self, s):
+        EXTRA = [17, 31, 73, 47, 23]
+        # strip is important for the trailing newline
+        input_ = [ord(i) for i in s] + EXTRA
+        sparse = self.knot(64, input_)
+
+        dense = self.densify(sparse)
+
+        return "".join(dense)
+
+
+class Solution(BaseSolution, Hahser):
+    def part_1(self):
+        input_ = [int(i) for i in self.input.split(",")]
+
+        res = self.knot(1, input_)
+
+        return res[0] * res[1]
+
+    def part_2(self):
+        return self.knot_hash(self.input.strip())
