@@ -5,6 +5,8 @@ from .day_10 import Hahser
 
 
 class Solution(BaseSolution, Hahser):
+    year = 2017
+
     def string_to_bin(self, i):
         return bin(int(i, 16))[2:]
 

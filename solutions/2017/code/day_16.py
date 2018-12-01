@@ -4,6 +4,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
+    year = 2017
+
     def part_1(self):
         pass
 
