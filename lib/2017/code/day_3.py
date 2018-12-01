@@ -1,12 +1,12 @@
 # prompt: https://adventofcode.com/2017/day/3
 
 import math
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.INTEGER
+    year = 2017
+    input_type = InputTypes.INTEGER
 
     def part_1(self):
         side = math.ceil(

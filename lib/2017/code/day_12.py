@@ -1,11 +1,11 @@
 # prompt: https://adventofcode.com/2017/day/12
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.ARRAY
+    year = 2017
+    input_type = InputTypes.ARRAY
 
     def recurse_connections(self, i, res=None):
         if res is None:

@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/11
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 from collections import defaultdict
 
 # these totally cancel each other out
@@ -18,8 +18,8 @@ OPPOSITES = [
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.STRSPLIT
+    year = 2017
+    input_type = InputTypes.STRSPLIT
 
     def solve(self):
         self.counts = defaultdict(int)

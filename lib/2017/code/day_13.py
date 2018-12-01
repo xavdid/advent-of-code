@@ -1,15 +1,15 @@
 # prompt: https://adventofcode.com/2017/day/13
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
+    year = 2017
+    input_type = InputTypes.ARRAY
+
     def __init__(self, number):
         super().__init__(number)
         self.tree = self.build_map(self.input)
-
-    def input_type(self):
-        return InputTypes.ARRAY
 
     def build_map(self, input_):
         res = {}

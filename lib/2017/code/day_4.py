@@ -1,12 +1,12 @@
 # prompt: https://adventofcode.com/2017/day/4
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 from itertools import permutations
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.ARRAY
+    year = 2017
+    input_type = InputTypes.ARRAY
 
     def part_1(self):
         def unique(pw):

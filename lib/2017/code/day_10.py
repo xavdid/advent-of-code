@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/10
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 from itertools import islice, cycle
 from operator import xor
 from functools import reduce
@@ -58,6 +58,8 @@ class Hahser:
 
 
 class Solution(BaseSolution, Hahser):
+    year = 2017
+
     def part_1(self):
         input_ = [int(i) for i in self.input.split(",")]
 

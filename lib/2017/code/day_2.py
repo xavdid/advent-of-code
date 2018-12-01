@@ -3,12 +3,12 @@
 import csv
 import os
 from itertools import permutations
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.TSV
+    year = 2017
+    input_type = InputTypes.TSV
 
     def part_1(self):
         return self._solve(self.diff)

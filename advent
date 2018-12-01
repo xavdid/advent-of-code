@@ -2,29 +2,30 @@
 
 import sys
 
-USAGE = "usage: advent <day>"
+USAGE = "usage: advent <day> [year]"
 
 
-def main(day):
-    try:
-        solver = __import__("code.day_{}".format(day), fromlist=["Solution"]).Solution
-    except ImportError:
-        print("solution not found for day {}".format(day))
-        sys.exit(1)
+def main(day, year=2018):
+    # try:
+    solver = __import__(f"lib.{year}.code.day_{day}", fromlist=["Solution"]).Solution
+    # except ImportError:
+    #     print("solution not found for day {}".format(day))
+    #     sys.exit(1)
 
     s = solver(day)
     s.print_solutions()
 
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2 or len(sys.argv) > 3:
     print(USAGE)
     exit(1)
 else:
     try:
         day_num = int(sys.argv[1])
+        year = sys.argv[2]
     except ValueError:
         print("ERR: day must be a number")
         print(USAGE)
         exit(1)
 
-    main(day_num)
+    main(day_num, year)

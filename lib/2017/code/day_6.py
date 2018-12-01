@@ -1,11 +1,11 @@
 # prompt: https://adventofcode.com/2017/day/6
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.TSV
+    year = 2017
+    input_type = InputTypes.TSV
 
     def redistribute(self, arr):
         biggest = max(arr)

@@ -1,9 +1,12 @@
 # prompt: https://adventofcode.com/2017/day/1
 
-from .base import BaseSolution
+# from ...base import BaseSolution
+from ...base import BaseSolution
 
 
 class Solution(BaseSolution):
+    year = 2017
+
     def part_1(self):
         return self._solve(1)
 

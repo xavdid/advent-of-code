@@ -1,11 +1,11 @@
 # prompt: https://adventofcode.com/2017/day/5
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.INTARRAY
+    year = 2017
+    input_type = InputTypes.INTARRAY
 
     def part_1(self):
         def inc(j):

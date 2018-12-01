@@ -1,13 +1,13 @@
 # prompt: https://adventofcode.com/2017/day/8
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 from collections import defaultdict
 from operator import gt, lt, ge, le, eq, ne, add, sub
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.ARRAY
+    year = 2017
+    input_type = InputTypes.ARRAY
 
     def solve(self):
         ops = {

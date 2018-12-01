@@ -1,9 +1,14 @@
 #!/bin/bash
-
-DESCRIPTION="# prompt: https://adventofcode.com/2017/day"
 NUM=$1
+YEAR=${2-2018}
+DESCRIPTION="# prompt: https://adventofcode.com/${YEAR}/day"
 
-echo -e "$DESCRIPTION/$1\n\n$(cat example_solution.py)" > "code/day_$1.py"
-touch "inputs/$1.txt"
+if [[ -z "$NUM" ]]; then
+  echo "USAGE: ./start number [year]"
+  exit 1
+fi
 
-echo "Created Files for Day $1"
+echo -e "$DESCRIPTION/$1\n\n$(cat example_solution.py)" > "lib/${YEAR}/code/day_$1.py"
+touch "lib/${YEAR}/inputs/$1.txt"
+
+echo "Created Files for Day $1 (${YEAR})"

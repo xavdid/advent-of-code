@@ -21,7 +21,7 @@ with blank methods to implement and a placeholder input file.
 ### Reading input
 
 That got repetitive fast. Each solution reads its corresponding input .txt file
-and depending on the value of `self.input_type()`, it'll parse the file
+and depending on the value of `self.input_type`, it'll parse the file
 differently. See `BaseSolution.InputTypes` for the options.
 
 ### Same function, two ansewrs

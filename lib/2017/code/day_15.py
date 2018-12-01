@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/15
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Generator:
@@ -21,8 +21,8 @@ class Generator:
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.ARRAY
+    year = 2017
+    input_type = InputTypes.ARRAY
 
     def setup(self):
         starters = [int(s.split(" ")[-1]) for s in self.input]

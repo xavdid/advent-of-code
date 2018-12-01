@@ -7,13 +7,12 @@ class InputTypes(object):
 
 
 class BaseSolution(object):
+    input_type = InputTypes.TEXT
+
     def __init__(self, number, load_input=True):
         self.number = number
         if load_input:
-            self.input = self.read_input(self.input_type())
-
-    def input_type(self):
-        return InputTypes.TEXT
+            self.input = self.read_input(self.input_type)
 
     def solve(self):
         """
@@ -38,7 +37,8 @@ class BaseSolution(object):
     def read_input(self, input_type):
         with open(
             os.path.join(
-                os.path.dirname(__file__), "../inputs/{}.txt".format(self.number)
+                os.path.dirname(__file__),
+                "{}/inputs/{}.txt".format(self.year, self.number),
             )
         ) as file:
             if input_type == InputTypes.TEXT:

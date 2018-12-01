@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/7
 
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Answer(BaseException):
@@ -8,8 +8,8 @@ class Answer(BaseException):
 
 
 class Solution(BaseSolution):
-    def input_type(self):
-        return InputTypes.ARRAY
+    year = 2017
+    input_type = InputTypes.ARRAY
 
     def build_tree(self, input_):
         res = {}

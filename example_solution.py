@@ -1,7 +1,10 @@
-from .base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
+    year = 2018
+    # input_type = InputTypes.TEXT
+
     def part_1(self):
         pass
 
