@@ -1,7 +1,6 @@
 # Advent of Code
 
-These are my results in the [Advent of Code](https://adventofcode.com/).
-Hopefully I'll do it every day in December. Maybe not.
+These are my results in the [Advent of Code](https://adventofcode.com/). Hopefully I'll do it every day in December. Maybe not.
 
 ## Usage
 
@@ -13,15 +12,13 @@ To see solution(s) for a day (and maybe a specified year), run the following:
 
 ## New Solutions
 
-To solve a new day, run `./start <day> [year]` which will set you up with some files with blank methods to implement and a placeholder input file. It defaults to the most current year, but you can generate new files for past years too. Careful, as written it'll overwite existing files. Version control is strongly recommended!
+To solve a new day, run `./start <day> [year]` which will set you up with some files with blank methods to implement and a placeholder input file. It defaults to the recent year, but you can generate new files for past years too.
 
 ## Shortcuts
 
 ### Reading input
 
-That got repetitive fast. Each solution reads its corresponding input .txt file
-and depending on the value of `self.input_type`, it'll parse the file
-differently. See `BaseSolution.InputTypes` for the options.
+That got repetitive fast. Each solution reads its corresponding input .txt file and depending on the value of `self.input_type`, it'll parse the file differently. See `BaseSolution.InputTypes` for the options.
 
 ### Same function, two ansewrs
 

@@ -8,7 +8,11 @@ if [[ -z "$NUM" ]]; then
   exit 1
 fi
 
-echo -e "$DESCRIPTION/$1\n\n$(cat example_solution.py)" > "lib/${YEAR}/code/day_$1.py"
-touch "lib/${YEAR}/inputs/$1.txt"
+touch "solutions/${YEAR}/inputs/$1.txt" # this is safe either way
 
-echo "Created Files for Day $1 (${YEAR})"
+if [[ -e "solutions/${YEAR}/code/day_$1.py" ]];then
+  echo 'skipping solution creation, file already exists'
+else
+  echo -e "$DESCRIPTION/$1\n\n$(cat example_solution.py)" > "solutions/${YEAR}/code/day_$1.py"
+  echo "Created Files for Day $1 (${YEAR})"
+fi
