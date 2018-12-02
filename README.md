@@ -1,20 +1,19 @@
-# Advent of Code 2017
+# Advent of Code
 
 These are my results in the [Advent of Code](https://adventofcode.com/).
 Hopefully I'll do it every day in December. Maybe not.
 
 ## Usage
 
-To see solution(s) for a day, run the following:
+To see solution(s) for a day (and maybe a specified year), run the following:
 
-```
-./advent <day>
+```sh
+./advent <day> [year]
 ```
 
 ## New Solutions
 
-To solve a new day, run `./start <day>` which will set you up with some files
-with blank methods to implement and a placeholder input file.
+To solve a new day, run `./start <day> [year]` which will set you up with some files with blank methods to implement and a placeholder input file. It defaults to the most current year, but you can generate new files for past years too. Careful, as written it'll overwite existing files. Version control is strongly recommended!
 
 ## Shortcuts
 
