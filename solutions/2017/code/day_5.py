@@ -4,8 +4,13 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.INTARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.INTARRAY
 
     def part_1(self):
         def inc(j):

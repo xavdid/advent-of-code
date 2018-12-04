@@ -18,8 +18,13 @@ OPPOSITES = [
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.STRSPLIT
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.STRSPLIT
 
     def solve(self):
         self.counts = defaultdict(int)

@@ -5,7 +5,9 @@ from ...base import BaseSolution
 
 
 class Solution(BaseSolution):
-    year = 2017
+    @property
+    def year(self):
+        return 2017
 
     def part_1(self):
         return self._solve(1)

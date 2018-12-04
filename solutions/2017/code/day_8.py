@@ -6,8 +6,13 @@ from operator import gt, lt, ge, le, eq, ne, add, sub
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        returnInputTypes.ARRAY
 
     def solve(self):
         ops = {

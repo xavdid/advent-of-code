@@ -5,8 +5,13 @@ from collections import deque
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.STRSPLIT
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.STRSPLIT
 
     def part_1(self):
         return self._solve(1)

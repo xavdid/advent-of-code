@@ -5,8 +5,13 @@ from itertools import permutations
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.ARRAY
 
     def part_1(self):
         def unique(pw):

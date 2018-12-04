@@ -2,8 +2,13 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2018
-    # input_type = InputTypes.TEXT
+    @property
+    def year(self):
+        return 2018
+
+    # @property
+    # def input_type(self):
+    #     return InputTypes.TEXT
 
     def part_1(self):
         pass

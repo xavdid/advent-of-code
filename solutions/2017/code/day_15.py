@@ -21,8 +21,13 @@ class Generator:
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.ARRAY
 
     def setup(self):
         starters = [int(s.split(" ")[-1]) for s in self.input]

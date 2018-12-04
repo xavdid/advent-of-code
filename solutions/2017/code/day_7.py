@@ -8,8 +8,13 @@ class Answer(BaseException):
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.ARRAY
 
     def build_tree(self, input_):
         res = {}

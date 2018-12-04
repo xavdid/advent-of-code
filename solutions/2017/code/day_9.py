@@ -4,7 +4,9 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
+    @property
+    def year(self):
+        return 2017
 
     def solve(self):
         res = 0

@@ -58,7 +58,9 @@ class Hahser:
 
 
 class Solution(BaseSolution, Hahser):
-    year = 2017
+    @property
+    def year(self):
+        return 2017
 
     def part_1(self):
         input_ = [int(i) for i in self.input.split(",")]

@@ -4,8 +4,13 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.ARRAY
 
     def recurse_connections(self, i, res=None):
         if res is None:

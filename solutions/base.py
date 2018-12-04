@@ -7,12 +7,18 @@ class InputTypes(object):
 
 
 class BaseSolution(object):
-    input_type = InputTypes.TEXT
-
     def __init__(self, number, load_input=True):
         self.number = number
         if load_input:
             self.input = self.read_input(self.input_type)
+
+    @property
+    def input_type(self):
+        return InputTypes.TEXT
+
+    @property
+    def year(self):
+        raise NotImplementedError("explicitly define year")
 
     def solve(self):
         """

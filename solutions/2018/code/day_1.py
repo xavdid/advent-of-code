@@ -5,8 +5,13 @@ from itertools import cycle
 
 
 class Solution(BaseSolution):
-    year = 2018
-    input_type = InputTypes.INTARRAY
+    @property
+    def year(self):
+        return 2018
+
+    @property
+    def input_type(self):
+        return InputTypes.INTARRAY
 
     def part_1(self):
         return sum(self.input)

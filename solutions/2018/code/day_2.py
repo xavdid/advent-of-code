@@ -5,8 +5,13 @@ from itertools import combinations
 
 
 class Solution(BaseSolution):
-    year = 2018
-    input_type = InputTypes.ARRAY
+    @property
+    def year(self):
+        return 2018
+
+    @property
+    def input_type(self):
+        return InputTypes.ARRAY
 
     def part_1(self):
         doubles = 0

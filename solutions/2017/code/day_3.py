@@ -5,8 +5,13 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    input_type = InputTypes.INTEGER
+    @property
+    def year(self):
+        return 2017
+
+    @property
+    def input_type(self):
+        return InputTypes.INTEGER
 
     def part_1(self):
         side = math.ceil(
