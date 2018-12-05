@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/5
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 
 
 class Solution(BaseSolution):
@@ -22,6 +22,7 @@ class Solution(BaseSolution):
 
         return self._solve(inc)
 
+    @slow
     def part_2(self):
         def maybe_inc(j):
             if j >= 3:

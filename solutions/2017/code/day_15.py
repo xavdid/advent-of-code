@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/15
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 
 
 class Generator:
@@ -39,9 +39,11 @@ class Solution(BaseSolution):
         self.gen_a = Generator(start=starters[0], factor=16807, multiple=4)
         self.gen_b = Generator(start=starters[1], factor=48271, multiple=8)
 
+    @slow
     def part_1(self):
         return self._solve(40_000_000, False)
 
+    @slow
     def part_2(self):
         return self._solve(5_000_000, True)
 

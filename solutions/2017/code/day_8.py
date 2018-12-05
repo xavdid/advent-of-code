@@ -16,7 +16,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        returnInputTypes.ARRAY
+        return InputTypes.ARRAY
 
     def solve(self):
         ops = {

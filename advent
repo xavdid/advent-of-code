@@ -10,7 +10,7 @@ def main(day, year, slow):
             f"solutions.{year}.code.day_{day}", fromlist=["Solution"]
         ).Solution
     except ImportError as e:
-        print(f"solution not found for day {day} ({year})\n\t--{e}")
+        print(f"solution not found for day {day} ({year})")
         sys.exit(1)
 
     s = solver(slow)

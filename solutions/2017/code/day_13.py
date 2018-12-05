@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/13
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 
 
 class Solution(BaseSolution):
@@ -49,9 +49,10 @@ class Solution(BaseSolution):
     def part_1(self):
         return sum([j * self.tree[j] for j in self.run_maze()])
 
+    @slow
     def part_2(self):
         while True:
-            for start in range(3000000, 4000000):
+            for start in range(5000000):
                 caught = self.run_maze(start, exit_early=True)
                 if not caught:
                     return start

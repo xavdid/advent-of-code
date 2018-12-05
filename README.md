@@ -4,17 +4,21 @@ These are my results in the [Advent of Code](https://adventofcode.com/). Hopeful
 
 ## Usage
 
-To see solution(s) for a day (and maybe a specified year), run the following:
+> see more info by running ./advent -h
 
-```sh
-./advent <day> [year]
+To see solution(s) for a day, run the following:
+
 ```
+./advent <day>
+```
+
+There's also an option to run solutions from a certain year (the `--year` flag) and to run solutions that have been marked slow.
 
 ## New Solutions
 
 To solve a new day, run `./start <day> [year]` which will set you up with some files with blank methods to implement and a placeholder input file. It defaults to the recent year, but you can generate new files for past years too.
 
-## Shortcuts
+## Conveniences
 
 ### Reading input
 

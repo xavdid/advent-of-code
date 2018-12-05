@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/17
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 
 
 class Solution(BaseSolution):
@@ -19,6 +19,7 @@ class Solution(BaseSolution):
     def part_1(self):
         return self._solve(2017, 2017)
 
+    @slow
     def part_2(self):
         # too slow!
         # return self._solve(50000000, 0)

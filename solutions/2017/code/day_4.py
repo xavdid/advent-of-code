@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/4
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 from itertools import permutations
 
 
@@ -23,6 +23,7 @@ class Solution(BaseSolution):
 
         return self._solve(unique)
 
+    @slow
     def part_2(self):
         def sans(arr, i):
             # return an array missing a single element

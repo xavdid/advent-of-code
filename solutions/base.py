@@ -11,13 +11,15 @@ def slow(f):
         if self.slow:
             return f(self)
         else:
-            print(f'Refusing to run slow function, run again with the "--slow" flag')
+            print(
+                f'\nRefusing to run slow function ({f.__name__}), run again with the "--slow" flag'
+            )
 
     return wrapper
 
 
 class BaseSolution(object):
-    def __init__(self, number, slow=False):
+    def __init__(self, slow=False):
         self.input = self.read_input(self.input_type)
         self.slow = slow  # should run slow functions?
 
@@ -94,7 +96,7 @@ class BaseSolution(object):
                 return arr
 
     def print_solutions(self):
-        print("= Solutions for Day {}".format(self.number))
+        print("\n= Solutions for Day {}".format(self.number))
         res = self.solve()
         if res:
             for i, ans in enumerate(res):
@@ -104,6 +106,7 @@ class BaseSolution(object):
                 solve_func = getattr(self, "part_{}".format(i), None)
                 if solve_func:
                     self.print_answer(i, solve_func())
+        print()
 
     def print_answer(self, i, ans):
         if ans:

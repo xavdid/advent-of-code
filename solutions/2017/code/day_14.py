@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/14
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, slow
 from .day_10 import Hahser
 
 
@@ -20,6 +20,7 @@ class Solution(BaseSolution, Hahser):
         row, col = point
         return [(row, col + 1), (row, col - 1), (row + 1, col), (row - 1, col)]
 
+    @slow
     def solve(self):
         input_ = self.input.strip()
         used = []
