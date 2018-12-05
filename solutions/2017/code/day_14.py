@@ -9,6 +9,10 @@ class Solution(BaseSolution, Hahser):
     def year(self):
         return 2017
 
+    @property
+    def number(self):
+        return 14
+
     def string_to_bin(self, i):
         return bin(int(i, 16))[2:]
 

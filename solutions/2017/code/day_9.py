@@ -8,6 +8,10 @@ class Solution(BaseSolution):
     def year(self):
         return 2017
 
+    @property
+    def number(self):
+        return 9
+
     def solve(self):
         res = 0
         garbage = False

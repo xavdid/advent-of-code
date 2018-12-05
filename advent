@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
+import argparse
 import sys
 
-USAGE = "usage: advent <day> [year]"
 
-
-def main(day, year):
+def main(day, year, slow):
     try:
         solver = __import__(
             f"solutions.{year}.code.day_{day}", fromlist=["Solution"]
@@ -14,20 +13,17 @@ def main(day, year):
         print(f"solution not found for day {day} ({year})\n\t--{e}")
         sys.exit(1)
 
-    s = solver(day)
+    s = solver(slow)
     s.print_solutions()
 
 
-if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print(USAGE)
-    exit(1)
-else:
-    try:
-        day_num = int(sys.argv[1])
-    except ValueError:
-        print("ERR: day must be a number")
-        print(USAGE)
-        exit(1)
+parser = argparse.ArgumentParser(
+    description="Run a day of Advent of Code", prog="advent"
+)
 
-    year = sys.argv[2] if len(sys.argv) == 3 else 2018
-    main(day_num, year)
+parser.add_argument("day", type=int)
+parser.add_argument("--year", default=2018, type=int)
+parser.add_argument("--slow", action="store_true")
+
+args = parser.parse_args()
+main(args.day, args.year, args.slow)

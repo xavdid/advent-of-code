@@ -1,13 +1,16 @@
 # prompt: https://adventofcode.com/2017/day/1
 
-# from ...base import BaseSolution
-from ...base import BaseSolution
+from ...base import BaseSolution, slow
 
 
 class Solution(BaseSolution):
     @property
     def year(self):
         return 2017
+
+    @property
+    def number(self):
+        return 1
 
     def part_1(self):
         return self._solve(1)

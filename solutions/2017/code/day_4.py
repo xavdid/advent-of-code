@@ -10,6 +10,10 @@ class Solution(BaseSolution):
         return 2017
 
     @property
+    def number(self):
+        return 4
+
+    @property
     def input_type(self):
         return InputTypes.ARRAY
 

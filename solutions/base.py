@@ -6,11 +6,20 @@ class InputTypes(object):
     TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT = list(range(6))
 
 
+def slow(f):
+    def wrapper(self):
+        if self.slow:
+            return f(self)
+        else:
+            print(f'Refusing to run slow function, run again with the "--slow" flag')
+
+    return wrapper
+
+
 class BaseSolution(object):
-    def __init__(self, number, load_input=True):
-        self.number = number
-        if load_input:
-            self.input = self.read_input(self.input_type)
+    def __init__(self, number, slow=False):
+        self.input = self.read_input(self.input_type)
+        self.slow = slow  # should run slow functions?
 
     @property
     def input_type(self):
@@ -20,9 +29,13 @@ class BaseSolution(object):
     def year(self):
         raise NotImplementedError("explicitly define year")
 
+    @property
+    def number(self):
+        raise NotImplementedError("explicitly define number")
+
     def solve(self):
         """
-        Returns a 2-tuple with each answer
+        Returns a 2-tuple with the answers
         """
         pass
 

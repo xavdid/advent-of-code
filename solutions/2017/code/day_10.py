@@ -62,6 +62,10 @@ class Solution(BaseSolution, Hahser):
     def year(self):
         return 2017
 
+    @property
+    def number(self):
+        return 10
+
     def part_1(self):
         input_ = [int(i) for i in self.input.split(",")]
 
