@@ -3,7 +3,7 @@ import os
 
 
 class InputTypes(object):
-    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT = list(range(6))
+    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INT_SPLIT = list(range(7))
 
 
 def slow(f):
@@ -94,6 +94,12 @@ class BaseSolution(object):
                 f = file.read()
                 arr = f.strip().split(",")
                 return arr
+
+            elif input_type == InputTypes.INT_SPLIT:
+                # a space-separated list of ints
+                f = file.read()
+                arr = f.strip().split(" ")
+                return [int(i) for i in arr]
 
     def print_solutions(self):
         print("\n= Solutions for Day {}".format(self.number))
