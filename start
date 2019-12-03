@@ -1,12 +1,16 @@
-#!/bin/bash
+#!/bin/bash -e
 
 NUM=$1
-YEAR=${2-2018}
+YEAR=${2-2019} # CURRENT YEAR
 
 if [[ -z "$NUM" ]]; then
   echo "USAGE: ./start number [year]"
   exit 1
 fi
+
+# these are relevant once a year
+mkdir -p "solutions/$YEAR/inputs"
+mkdir -p "solutions/$YEAR/code"
 
 touch "solutions/$YEAR/inputs/$NUM.txt" # this is safe either way
 

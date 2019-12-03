@@ -17,8 +17,9 @@ class Solution(BaseSolution):
     def input_type(self):
         return InputTypes.ARRAY
 
-    def __init__(self, slow=False):
-        super().__init__(slow)
+    def __init__(self, run_slow=False):
+        super().__init__(run_slow)
+        # don't remember why I needed to subclass this. mayb eso it only happened once?
         self.build_grid()
 
     # takes two points, (x, y)
@@ -89,6 +90,3 @@ class Solution(BaseSolution):
                 close_enough.add(p)
 
         return len(close_enough)
-
-    def solve(self):
-        pass
