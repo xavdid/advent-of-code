@@ -3,7 +3,7 @@ import csv
 import os
 
 
-class InputTypes:
+class InputTypes:  # pylint: disable=too-few-public-methods
     TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INT_SPLIT = list(range(7))
 
 
@@ -20,7 +20,13 @@ def slow(func):
     return wrapper
 
 
-class BaseSolution(object):
+def print_answer(i, ans):
+    if ans:
+        print("\n== Part {}".format(i))
+        print("=== {}".format(ans))
+
+
+class BaseSolution:
     def __init__(self, run_slow=False):
         self.input = self.read_input(self.input_type)
         self.slow = run_slow  # should run slow functions?
@@ -54,7 +60,8 @@ class BaseSolution(object):
             Only needed if there's not a unified solve method.
         """
 
-    def read_input(self, input_type):
+    def read_input(self, input_type):  # pylint: disable=too-many-return-statements
+        # pylint: disable=bad-continuation
         with open(
             os.path.join(
                 os.path.dirname(__file__),
@@ -98,20 +105,17 @@ class BaseSolution(object):
                 arr = file_.strip().split(" ")
                 return [int(i) for i in arr]
 
+            raise ValueError("Unrecognized input type")
+
     def print_solutions(self):
         print("\n= Solutions for Day {}".format(self.number))
         res = self.solve()  # pylint: disable=assignment-from-no-return
         if res:
             for i, ans in enumerate(res):
-                self.print_answer(i + 1, ans)
+                print_answer(i + 1, ans)
         else:
             for i in [1, 2]:
                 solve_func = getattr(self, "part_{}".format(i), None)
                 if solve_func:
-                    self.print_answer(i, solve_func())  # pylint: disable=not-callable
+                    print_answer(i, solve_func())  # pylint: disable=not-callable
         print()
-
-    def print_answer(self, i, ans):
-        if ans:
-            print("\n== Part {}".format(i))
-            print("=== {}".format(ans))
