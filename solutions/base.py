@@ -4,7 +4,12 @@ import os
 
 
 class InputTypes:  # pylint: disable=too-few-public-methods
-    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INT_SPLIT = list(range(7))
+    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INTSPLIT = list(range(7))
+
+
+ARRAY_TYPES = set(
+    [InputTypes.ARRAY, InputTypes.INTARRAY, InputTypes.STRSPLIT, InputTypes.INTSPLIT]
+)
 
 
 def slow(func):
@@ -42,6 +47,10 @@ class BaseSolution:
     @property
     def number(self):
         raise NotImplementedError("explicitly define number")
+
+    @property
+    def separator(self):
+        raise NotImplementedError("explicitly define separator to use an XSPLIT method")
 
     def solve(self):
         """
@@ -84,26 +93,17 @@ class BaseSolution:
                     input_.append([int(i) for i in row])
                 return input_
 
-            if input_type == InputTypes.ARRAY:
-                # an array, where each line is a new item
-                file_ = file.read()
-                return file_.strip().split("\n")
+            if input_type in ARRAY_TYPES:
+                file_ = file.read().strip()
+                if input_type in [InputTypes.ARRAY, InputTypes.INTARRAY]:
+                    separator = "\n"
+                else:
+                    separator = self.separator
 
-            if input_type == InputTypes.INTARRAY:
-                file_ = file.read()
-                arr = file_.strip().split("\n")
-                return [int(i) for i in arr]
-
-            if input_type == InputTypes.STRSPLIT:
-                file_ = file.read()
-                arr = file_.strip().split(",")
-                return arr
-
-            if input_type == InputTypes.INT_SPLIT:
-                # a space-separated list of ints
-                file_ = file.read()
-                arr = file_.strip().split(" ")
-                return [int(i) for i in arr]
+                parts = file_.split(separator)
+                if input_type in [InputTypes.INTARRAY, InputTypes.INTSPLIT]:
+                    return [int(i) for i in parts]
+                return parts
 
             raise ValueError("Unrecognized input type")
 

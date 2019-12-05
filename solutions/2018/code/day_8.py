@@ -20,7 +20,11 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.INT_SPLIT
+        return InputTypes.INTSPLIT
+
+    @property
+    def separator(self):
+        return " "
 
     def solve(self):
         def parse(data):

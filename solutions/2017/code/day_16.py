@@ -14,6 +14,10 @@ class Solution(BaseSolution):
         return 16
 
     @property
+    def separator(self):
+        return "\n"
+
+    @property
     def input_type(self):
         return InputTypes.STRSPLIT
 
