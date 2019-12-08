@@ -18,17 +18,22 @@ class IntcodeComputer:
         self.program = program.copy()  # start fresh every time
         self.output = []
         self.pointer = 0
-        self.valid_opcodes = set([0, 1, 2, 3, 4, 99])
+        self.valid_opcodes = set([0, 1, 2, 3, 4, 5, 6, 7, 8, 99])
+        self.interactive = not inputs
         self.inputs = iter(inputs or [])
 
     def get_input(self):
+        if self.interactive:
+            return int(input("--> "))
         return self.inputs.__next__()
 
     def num_parameters(self, opcode: int):
-        if opcode in [1, 2]:
-            return 3
         if opcode == 99:
             return 0
+        if opcode in [1, 2, 7, 8]:
+            return 3
+        if opcode in [5, 6]:
+            return 2
         if opcode in [3, 4]:
             return 1
 
@@ -47,24 +52,44 @@ class IntcodeComputer:
             return instruction.parameter
         raise ValueError("Invalid param mode")
 
-    def execute_opcode(self, opcode: int, params: List[Instruction]):
+    def execute_opcode(self, opcode: int, params: List[Instruction]) -> bool:
+        # we validate elsewhere, so we know we're good if we're here
+        # addition
         if opcode == 1:
-            # not getting value for this index could be wrong
-            # though i think it's special since it's a write instruction
             self.program[params[2].parameter] = self.get_value(
                 params[0]
             ) + self.get_value(params[1])
+        # multiplication
         elif opcode == 2:
-            # not getting value for this index could be wrong
-            # though i think it's special since it's a write instruction
             self.program[params[2].parameter] = self.get_value(
                 params[0]
             ) * self.get_value(params[1])
+        # input
         elif opcode == 3:
-            # is this right?
             self.program[params[0].parameter] = self.get_input()
+        # output
         elif opcode == 4:
             self.output.append(self.get_value(params[0]))
+        # TJMP
+        elif opcode == 5:
+            if self.get_value(params[0]) != 0:
+                self.pointer = self.get_value(params[1])
+                return False
+        # FJMP
+        elif opcode == 6:
+            if self.get_value(params[0]) == 0:
+                self.pointer = self.get_value(params[1])
+                return False
+        # LT
+        elif opcode == 7:
+            res = 1 if self.get_value(params[0]) < self.get_value(params[1]) else 0
+            self.program[params[2].parameter] = res
+        # EQ
+        elif opcode == 8:
+            res = 1 if self.get_value(params[0]) == self.get_value(params[1]) else 0
+            self.program[params[2].parameter] = res
+
+        return True  # increment pointer
 
     def run(self):
         while True:
@@ -83,9 +108,15 @@ class IntcodeComputer:
                 )
             ]
 
-            self.execute_opcode(opcode, params)
+            should_increment_pointer = self.execute_opcode(opcode, params)
 
-            self.pointer += num_params + 1
+            if should_increment_pointer:
+                self.pointer += num_params + 1
+
+    def diagnostic(self):
+        if not all([x == 0 for x in self.output[:-1]]):
+            raise RuntimeError("bad diagnostic code", self.output[:-1])
+        return self.output[-1]
 
     def __str__(self):
         return str(self.program)

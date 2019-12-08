@@ -24,10 +24,12 @@ class Solution(BaseSolution):
     def part_1(self):
         computer = IntcodeComputer(self.input, inputs=[1])
         computer.run()
-        return computer.output
+        return computer.diagnostic()
 
     def part_2(self):
-        pass
+        computer = IntcodeComputer(self.input, inputs=[5])
+        computer.run()
+        return computer.diagnostic()
 
     def solve(self):
         pass
