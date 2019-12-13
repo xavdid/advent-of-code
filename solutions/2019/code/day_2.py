@@ -14,7 +14,7 @@ class Instruction:
 
 
 class IntcodeComputer:
-    def __init__(self, program, inputs=None):
+    def __init__(self, program, inputs: List[int] = None):
         self.program = program.copy()  # start fresh every time
         self.output = []
         self.pointer = 0
@@ -26,6 +26,10 @@ class IntcodeComputer:
         if self.interactive:
             return int(input("--> "))
         return self.inputs.__next__()
+
+    def add_input(self, val):
+        # adds whatever we had before, no data lost
+        self.inputs = iter([*list(self.inputs), val])
 
     def num_parameters(self, opcode: int):
         if opcode == 99:
@@ -91,13 +95,14 @@ class IntcodeComputer:
 
         return True  # increment pointer
 
-    def run(self):
+    def run(self, single_output=False):
+        num_outputs = len(self.output)
         while True:
             [opcode, *modes] = self.parse_opcode(self.program[self.pointer])
             if not opcode in self.valid_opcodes:
                 raise ValueError(f"{opcode} is an invalid opcode")
             if opcode == 99:
-                break
+                return True  # halted!
 
             num_params = self.num_parameters(opcode)
 
@@ -113,13 +118,16 @@ class IntcodeComputer:
             if should_increment_pointer:
                 self.pointer += num_params + 1
 
+            if single_output and num_outputs != len(self.output):
+                return False  # not yet halted
+
     def diagnostic(self):
         if not all([x == 0 for x in self.output[:-1]]):
             raise RuntimeError("bad diagnostic code", self.output[:-1])
         return self.output[-1]
 
     def __str__(self):
-        return str(self.program)
+        return f"=======\n\nprogram: {self.program}\n\n=======\n"
 
 
 class Solution(BaseSolution):
