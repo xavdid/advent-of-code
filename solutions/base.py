@@ -79,7 +79,7 @@ class BaseSolution:
         ) as file:
             if input_type == InputTypes.TEXT:
                 # one solid block of text
-                return file.read()
+                return file.read().strip()
 
             if input_type == InputTypes.INTEGER:
                 # a single int
