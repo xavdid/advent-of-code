@@ -1,5 +1,6 @@
 # prompt: https://adventofcode.com/2019/day/2
 
+from collections import defaultdict
 from dataclasses import dataclass
 from itertools import product
 from typing import List
@@ -14,13 +15,19 @@ class Instruction:
 
 
 class IntcodeComputer:
+    # pylint: disable=too-many-instance-attributes,no-self-use
     def __init__(self, program, inputs: List[int] = None):
-        self.program = program.copy()  # start fresh every time
+        self.program = defaultdict(int)
+        # used to be a list, now it's default dict so I can read from anywhere
+        for index, i in enumerate(program):
+            self.program[index] = i
         self.output = []
         self.pointer = 0
-        self.valid_opcodes = set([0, 1, 2, 3, 4, 5, 6, 7, 8, 99])
+        self.valid_opcodes = set([1, 2, 3, 4, 5, 6, 7, 8, 9, 99])
         self.interactive = not inputs
         self.inputs = iter(inputs or [])
+        self.relative_base = 0
+        self.debug = False
 
     def get_input(self):
         if self.interactive:
@@ -38,8 +45,9 @@ class IntcodeComputer:
             return 3
         if opcode in [5, 6]:
             return 2
-        if opcode in [3, 4]:
+        if opcode in [3, 4, 9]:
             return 1
+        raise ValueError("invalid opcode:", opcode)
 
     def parse_opcode(self, opcode: int):
         """
@@ -49,28 +57,49 @@ class IntcodeComputer:
         padded = str(opcode).zfill(5)
         return (int(padded[3:]), int(padded[2]), int(padded[1]), int(padded[0]))
 
+    def slice_program(self, slice_range: range):
+        return [self.program[x] for x in slice_range]
+
     def get_value(self, instruction: Instruction) -> int:
-        if instruction.mode == 0:
+        """
+        Dereferences an index based on mode
+        """
+        if instruction.mode == 0:  # position
             return self.program[instruction.parameter]
-        if instruction.mode == 1:
+        if instruction.mode == 1:  # immediate
             return instruction.parameter
-        raise ValueError("Invalid param mode")
+        if instruction.mode == 2:  # relative
+            return self.program[self.relative_base + instruction.parameter]
+        raise ValueError("invalid mode:", instruction)
+
+    def get_write_value(self, instruction: Instruction) -> int:
+        """
+        Like `get_value`, but accounts for write instructions never uing immediate mode
+        """
+        if instruction.mode == 2:  # relative
+            return instruction.parameter + self.relative_base
+        # default is position
+        return instruction.parameter
 
     def execute_opcode(self, opcode: int, params: List[Instruction]) -> bool:
         # we validate elsewhere, so we know we're good if we're here
+
+        if self.debug:
+            print("executing", opcode, params)
+
         # addition
         if opcode == 1:
-            self.program[params[2].parameter] = self.get_value(
+            self.program[self.get_write_value(params[2])] = self.get_value(
                 params[0]
             ) + self.get_value(params[1])
         # multiplication
         elif opcode == 2:
-            self.program[params[2].parameter] = self.get_value(
+            self.program[self.get_write_value(params[2])] = self.get_value(
                 params[0]
             ) * self.get_value(params[1])
         # input
         elif opcode == 3:
-            self.program[params[0].parameter] = self.get_input()
+            self.program[self.get_write_value(params[0])] = self.get_input()
         # output
         elif opcode == 4:
             self.output.append(self.get_value(params[0]))
@@ -87,11 +116,14 @@ class IntcodeComputer:
         # LT
         elif opcode == 7:
             res = 1 if self.get_value(params[0]) < self.get_value(params[1]) else 0
-            self.program[params[2].parameter] = res
+            self.program[self.get_write_value(params[2])] = res
         # EQ
         elif opcode == 8:
             res = 1 if self.get_value(params[0]) == self.get_value(params[1]) else 0
-            self.program[params[2].parameter] = res
+            self.program[self.get_write_value(params[2])] = res
+        # mofify relative base
+        elif opcode == 9:
+            self.relative_base += self.get_value(params[0])
 
         return True  # increment pointer
 
@@ -109,9 +141,14 @@ class IntcodeComputer:
             params = [
                 Instruction(param, modes[index])
                 for index, param in enumerate(
-                    self.program[self.pointer + 1 : self.pointer + 1 + num_params]
+                    self.slice_program(
+                        range(self.pointer + 1, self.pointer + 1 + num_params)
+                    )
                 )
             ]
+
+            if self.debug:
+                print(self)
 
             should_increment_pointer = self.execute_opcode(opcode, params)
 
@@ -127,7 +164,9 @@ class IntcodeComputer:
         return self.output[-1]
 
     def __str__(self):
-        return f"=======\n\nprogram: {self.program}\n\n=======\n"
+        # pylint: disable=line-too-long
+        max_index = max(self.program)  # so empty items in the middle are accounted for
+        return f"=======\nprogram: {[self.program[x] for x in range(max_index + 1)]}\npointer: {self.pointer}\nrelative_base: {self.relative_base}\noutput: {self.output}\n"
 
 
 class Solution(BaseSolution):
@@ -166,4 +205,4 @@ class Solution(BaseSolution):
             if result == target:
                 return 100 * noun + verb
 
-        print("oh no")
+        raise RuntimeError("oh no")
