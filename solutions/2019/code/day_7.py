@@ -47,7 +47,7 @@ class Solution(BaseSolution):
 
             for computer in cycle(cpu):
                 computer.add_input(last_output)
-                finished = computer.run(single_output=True)
+                finished = computer.run(num_outputs=1)
                 last_output = computer.output[-1]
                 if finished:
                     # make sure to take the output of amplifier E
