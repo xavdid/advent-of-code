@@ -127,7 +127,7 @@ class IntcodeComputer:
 
         return True  # increment pointer
 
-    def run(self, num_outputs=-1):
+    def run(self, num_outputs=-1, single_input=False):
         limit_outputs = num_outputs != -1
         original_num_outputs = len(self.output)  # track how many we've gotten
         while True:
@@ -156,6 +156,9 @@ class IntcodeComputer:
             if should_increment_pointer:
                 self.pointer += num_params + 1
 
+            if single_input and opcode == 3:
+                return False
+
             if limit_outputs and len(self.output) - original_num_outputs == num_outputs:
                 return False  # not yet halted
 
@@ -170,15 +173,7 @@ class IntcodeComputer:
         return f"=======\nprogram: {[self.program[x] for x in range(max_index + 1)]}\npointer: {self.pointer}\nrelative_base: {self.relative_base}\noutput: {self.output}\n"
 
 
-class Solution(BaseSolution):
-    @property
-    def year(self):
-        return 2019
-
-    @property
-    def number(self):
-        return 2
-
+class IntcodeSolution(BaseSolution):
     @property
     def input_type(self):
         return InputTypes.INTSPLIT
@@ -186,6 +181,16 @@ class Solution(BaseSolution):
     @property
     def separator(self):
         return ","
+
+
+class Solution(IntcodeSolution):
+    @property
+    def year(self):
+        return 2019
+
+    @property
+    def number(self):
+        return 2
 
     def part_1(self):
         computer = IntcodeComputer(self.input)

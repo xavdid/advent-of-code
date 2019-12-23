@@ -77,7 +77,7 @@ class Robot:
                 if Point(x, y) in self.white_panels:
                     print("#", end="")
                 else:
-                    print(".", end="")
+                    print(" ", end="")
             print()
 
     def _rotate(self, direction):
