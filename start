@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 NUM=$1
-YEAR=${2-2019} # CURRENT YEAR
+YEAR=${2-2019} # Most recent puzzle year
 
 if [[ -z "$NUM" ]]; then
   echo "USAGE: ./start number [year]"
@@ -17,6 +17,7 @@ touch "solutions/$YEAR/inputs/$NUM.txt" # this is safe either way
 if [[ -e "solutions/$YEAR/code/day_$NUM.py" ]];then
   echo 'skipping solution creation, file already exists'
 else
+  # replace placeholders in template file
   sed -e "s/<YEAR>/$YEAR/" -e "s/<DAY>/$NUM/" example_solution.py.tmpl > "solutions/$YEAR/code/day_$NUM.py"
-  echo "Created Files for Day $1 ($YEAR)"
+  echo "Created Files for Day $NUM ($YEAR)"
 fi

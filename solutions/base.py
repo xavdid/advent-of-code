@@ -1,15 +1,19 @@
 # Base class for other solutions
 import csv
 import os
+from pprint import pprint
 
 
 class InputTypes:  # pylint: disable=too-few-public-methods
     TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INTSPLIT = list(range(7))
 
 
-ARRAY_TYPES = set(
-    [InputTypes.ARRAY, InputTypes.INTARRAY, InputTypes.STRSPLIT, InputTypes.INTSPLIT]
-)
+ARRAY_TYPES = {
+    InputTypes.ARRAY,
+    InputTypes.INTARRAY,
+    InputTypes.STRSPLIT,
+    InputTypes.INTSPLIT,
+}
 
 
 def slow(func):
@@ -32,13 +36,12 @@ def print_answer(i, ans):
 
 
 class BaseSolution:
-    def __init__(self, run_slow=False):
+    input_type = InputTypes.TEXT
+
+    def __init__(self, run_slow=False, debug=False):
         self.input = self.read_input(self.input_type)
         self.slow = run_slow  # should run slow functions?
-
-    @property
-    def input_type(self):
-        return InputTypes.TEXT
+        self.debug = debug
 
     @property
     def year(self):
@@ -54,7 +57,8 @@ class BaseSolution:
 
     def solve(self):
         """
-        Returns a 2-tuple with the answers
+        Returns a 2-tuple with the answers.
+            Used instead of `part_1/2` if one set of calculations yields both answers.
         """
 
     def part_1(self):
@@ -65,12 +69,11 @@ class BaseSolution:
 
     def part_2(self):
         """
-        Returns the answer for part 1 of the puzzle.
+        Returns the answer for part 2 of the puzzle.
             Only needed if there's not a unified solve method.
         """
 
     def read_input(self, input_type):  # pylint: disable=too-many-return-statements
-        # pylint: disable=bad-continuation
         with open(
             os.path.join(
                 os.path.dirname(__file__),
@@ -78,7 +81,7 @@ class BaseSolution:
             )
         ) as file:
             if input_type == InputTypes.TEXT:
-                # one solid block of text
+                # one solid block of text; the default
                 return file.read().strip()
 
             if input_type == InputTypes.INTEGER:
@@ -94,6 +97,7 @@ class BaseSolution:
                 return input_
 
             if input_type in ARRAY_TYPES:
+                # probably separated by newlines
                 file_ = file.read().strip()
                 if input_type in [InputTypes.ARRAY, InputTypes.INTARRAY]:
                     separator = "\n"
@@ -119,3 +123,15 @@ class BaseSolution:
                 if solve_func:
                     print_answer(i, solve_func())  # pylint: disable=not-callable
         print()
+
+    # pylint: disable=invalid-name,no-self-use
+    def pp(self, *obj, newline=False):
+        if self.debug:
+            for o in obj:
+                pprint(o)
+            if newline:
+                print()
+
+    def newline(self):
+        if self.debug:
+            print()

@@ -4,7 +4,7 @@ import argparse
 import sys
 
 
-def main(day, year, slow):
+def main(day, year, slow, debug):
     try:
         solver = __import__(
             f"solutions.{year}.code.day_{day}", fromlist=["Solution"]
@@ -13,7 +13,7 @@ def main(day, year, slow):
         print(f"solution not found for day {day} ({year})")
         sys.exit(1)
 
-    solver(slow).print_solutions()
+    solver(run_slow=slow, debug=debug).print_solutions()
 
 
 PARSER = argparse.ArgumentParser(
@@ -23,6 +23,7 @@ PARSER = argparse.ArgumentParser(
 PARSER.add_argument("day", type=int)
 PARSER.add_argument("--year", default=2019, type=int)
 PARSER.add_argument("--slow", action="store_true")
+PARSER.add_argument("--debug", action="store_true")
 
 ARGS = PARSER.parse_args()
-main(ARGS.day, ARGS.year, ARGS.slow)
+main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)
