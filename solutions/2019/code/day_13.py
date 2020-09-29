@@ -45,8 +45,11 @@ class Solution(IntcodeSolution):
         computer = IntcodeComputer(self.input)
         computer.program[0] = 2
         score = 0
+        computer.run(
+            num_outputs=24 * 36 * 3
+        )  # screen dimensions x 3, to seed the initial outputs
         while True:
-            halted = computer.run(single_input=True)
+            halted = computer.run(num_outputs=3)
             screen = {}
             chunk_size = 3
             # only really have to check new frames here, not the whole thing every time

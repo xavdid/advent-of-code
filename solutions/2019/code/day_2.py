@@ -16,18 +16,20 @@ class Instruction:
 
 class IntcodeComputer:
     # pylint: disable=too-many-instance-attributes,no-self-use
-    def __init__(self, program, inputs: List[int] = None, force_uninteractive=False):
+    def __init__(
+        self, program, inputs: List[int] = None, force_uninteractive=False, debug=False
+    ):
         self.program = defaultdict(int)
         # used to be a list, now it's default dict so I can read from anywhere
         for index, i in enumerate(program):
             self.program[index] = i
         self.output = []
         self.pointer = 0
-        self.valid_opcodes = set([1, 2, 3, 4, 5, 6, 7, 8, 9, 99])
+        self.valid_opcodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 99}
         self.interactive = not inputs and not force_uninteractive
         self.inputs = iter(inputs or [])
         self.relative_base = 0
-        self.debug = False
+        self.debug = debug
 
     def get_input(self):
         if self.interactive:
@@ -127,8 +129,8 @@ class IntcodeComputer:
 
         return True  # increment pointer
 
-    def run(self, num_outputs=-1, single_input=False):
-        limit_outputs = num_outputs != -1
+    def run(self, num_outputs=None):
+        limit_outputs = bool(num_outputs)
         original_num_outputs = len(self.output)  # track how many we've gotten
         while True:
             [opcode, *modes] = self.parse_opcode(self.program[self.pointer])
@@ -155,9 +157,6 @@ class IntcodeComputer:
 
             if should_increment_pointer:
                 self.pointer += num_params + 1
-
-            if single_input and opcode == 3:
-                return False
 
             if limit_outputs and len(self.output) - original_num_outputs == num_outputs:
                 return False  # not yet halted
