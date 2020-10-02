@@ -31,6 +31,18 @@ class IntcodeComputer:
         self.relative_base = 0
         self.debug = debug
 
+    def copy(self):
+        res = IntcodeComputer([])
+        res.program = self.program.copy()
+        res.inputs = iter([*list(self.inputs)])
+        res.output = self.output.copy()
+        res.pointer = self.pointer
+        res.relative_base = self.relative_base
+        res.debug = self.debug
+        res.interactive = self.interactive
+
+        return res
+
     def get_input(self):
         if self.interactive:
             return int(input("--> "))

@@ -128,7 +128,12 @@ class BaseSolution:
     def pp(self, *obj, newline=False):
         if self.debug:
             for o in obj:
-                pprint(o)
+                if hasattr(o, "pretty"):
+                    print(o.pretty())
+                elif isinstance(o, str):
+                    print(o)
+                else:
+                    pprint(o)
             if newline:
                 print()
 
