@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import cProfile
 import sys
 
 
@@ -26,6 +27,11 @@ PARSER.add_argument("day", type=int)
 PARSER.add_argument("--year", default=2019, type=int)
 PARSER.add_argument("--slow", action="store_true")
 PARSER.add_argument("--debug", action="store_true")
+PARSER.add_argument("--profile", action="store_true")
 
 ARGS = PARSER.parse_args()
-main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)
+
+if ARGS.profile:
+    cProfile.run("main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)", sort="tottime")
+else:
+    main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)

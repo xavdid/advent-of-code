@@ -1,11 +1,18 @@
 # Base class for other solutions
 import csv
 import os
+from enum import Enum, auto
 from pprint import pprint
 
 
-class InputTypes:  # pylint: disable=too-few-public-methods
-    TEXT, INTEGER, TSV, ARRAY, INTARRAY, STRSPLIT, INTSPLIT = list(range(7))
+class InputTypes(Enum):  # pylint: disable=too-few-public-methods
+    TEXT = auto()
+    INTEGER = auto()
+    TSV = auto()
+    ARRAY = auto()
+    INTARRAY = auto()
+    STRSPLIT = auto()
+    INTSPLIT = auto()
 
 
 ARRAY_TYPES = {
@@ -53,7 +60,9 @@ class BaseSolution:
 
     @property
     def separator(self):
-        raise NotImplementedError("explicitly define separator to use an XSPLIT method")
+        raise NotImplementedError(
+            "explicitly define separator to use an X-SPLIT method"
+        )
 
     def solve(self):
         """

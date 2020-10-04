@@ -119,7 +119,7 @@ class Maze:
                 row.append(self.char(self.maze.get(Point(x, y), "default")))
             rows.append(row)
 
-        return "\n".join(["".join([char for char in row]) for row in rows])
+        return "\n".join(["".join(row) for row in rows])
 
 
 class Solution(IntcodeSolution):
