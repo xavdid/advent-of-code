@@ -32,6 +32,9 @@ class Point:
 
         raise ValueError("not a direction")
 
+    def adjacent_points(self) -> List["Point"]:
+        return [self.point_in_direction(d) for d in Direction]
+
 
 HOME = Point(0, 0)
 
@@ -41,13 +44,6 @@ class Exa:
     EXAPUNKS
     """
 
-    visited = {
-        HOME,
-        HOME.point_in_direction(Direction.NORTH),
-        HOME.point_in_direction(Direction.EAST),
-        HOME.point_in_direction(Direction.SOUTH),
-        HOME.point_in_direction(Direction.WEST),
-    }
     next_id = 1
 
     def __init__(
@@ -93,15 +89,21 @@ class Exa:
 
 class Maze:
     def __init__(self) -> None:
-        self.maze: Dict[Point, str] = {HOME: "H"}
+        self.maze: Dict[Point, int] = {HOME: 3}
 
     def add_point(self, point: Point, value: int):
         if point in self.maze:
             raise ValueError("repeat maze point")
         self.maze[point] = value
 
+    def point_is_path(self, point: Point) -> bool:
+        return self.maze[point] > 0
+
+    def has_visited(self, point: Point):
+        return point in self.maze
+
     def char(self, c):
-        return {0: "x", 1: ".", 2: "W", "H": "H"}.get(c, " ")
+        return {0: "x", 1: ".", 2: "O", 3: "H"}.get(c, " ")
 
     def __str__(self) -> str:
         rows = []
@@ -124,7 +126,7 @@ class Solution(IntcodeSolution):
     year = 2019
     number = 15
 
-    def part_1(self):
+    def solve(self):
         # 4 initial directions
         to_check: List[Exa] = [
             Exa(self.input, Direction.NORTH, [HOME]),
@@ -132,8 +134,18 @@ class Solution(IntcodeSolution):
             Exa(self.input, Direction.SOUTH, [HOME]),
             Exa(self.input, Direction.WEST, [HOME]),
         ]
+        visited = {
+            HOME,
+            HOME.point_in_direction(Direction.NORTH),
+            HOME.point_in_direction(Direction.EAST),
+            HOME.point_in_direction(Direction.SOUTH),
+            HOME.point_in_direction(Direction.WEST),
+        }
         maze = Maze()
 
+        # part 1
+        oxygen_location = None
+        part_1_answer = 0
         while to_check:
             exa = to_check.pop(0)
             self.pp(f"checking: {exa}")
@@ -147,20 +159,35 @@ class Solution(IntcodeSolution):
             if result == 1:
                 for direction in Direction:
                     next_point = exa.last_position.point_in_direction(direction)
-                    if next_point not in Exa.visited:
-                        Exa.visited.add(next_point)
+                    if next_point not in visited:
+                        visited.add(next_point)
                         new_exa = exa.fork(direction)
                         to_check.append(new_exa)
                         self.pp(f"queueing {new_exa}")
                 self.pp(f"there are {len(to_check)} EXAs remaining", newline=True)
             if result == 2:
-                self.pp(str(maze))
-                return len(exa.trail) - 1  # don't count starting position
+                # self.pp(str(maze))
+                # don't return, because we need the full maze
+                # store the answer though; don't count starting position
+                part_1_answer = len(exa.trail) - 1
+                oxygen_location = exa.last_position
 
-        raise Exception("Unable to find the exit")  # should return before we get here
+        # part 2
+        oxygenated = {oxygen_location}
+        steps = [[oxygen_location]]
+        while True:
+            next_step = set({})
+            for point in steps[-1]:
+                for adjancent_point in point.adjacent_points():
+                    if adjancent_point not in oxygenated and maze.point_is_path(
+                        adjancent_point
+                    ):
+                        next_step.add(adjancent_point)
 
-    def part_2(self):
-        pass
+            if next_step:
+                steps.append(next_step)
+                oxygenated.update(next_step)
+            else:
+                break
 
-    def solve(self):
-        pass
+        return (part_1_answer, len(steps) - 1)
