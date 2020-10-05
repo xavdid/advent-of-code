@@ -1,32 +1,28 @@
 # prompt: https://adventofcode.com/2019/day/16
 
 from itertools import cycle
-from typing import Iterator, List
+from typing import Iterator
 
-from ...base import BaseSolution
+from ...base import BaseSolution, slow
 
 BASE_PATTERN = [0, 1, 0, -1]
 
 
-def flatten(unflat_list: List[List[int]]):
-    return [item for sublist in unflat_list for item in sublist]
-
-
 def pattern_for_step(loop: int) -> Iterator[int]:
-    res = cycle(flatten([list([i] * (loop + 1)) for i in BASE_PATTERN]))
+    pattern = []
+    for i in BASE_PATTERN:
+        pattern += list([i] * (loop + 1))
+    res = cycle(pattern)
     # always skip the first item
     next(res)
     return res
-
-
-def digit_place(i: int):
-    return int(str(i)[-1])
 
 
 class Solution(BaseSolution):
     year = 2019
     number = 16
 
+    @slow
     def part_1(self):
         num_loops = 100
         result = self.input
@@ -36,16 +32,26 @@ class Solution(BaseSolution):
             next_result = []
             for index in range(len(result)):
                 pattern = pattern_for_step(index)
-                next_result.append(
-                    digit_place(sum([int(digit) * next(pattern) for digit in result]))
-                )
+                total = 0
+                for digit in result:
+                    total += int(digit) * next(pattern)
+                next_result.append(total % 10)
             result = next_result
-            self.pp(f"after {loop} phase: {result}")
+            self.pp(f"after phase {loop}: {result}")
 
         return "".join([str(i) for i in result][:8])
 
     def part_2(self):
-        pass
+        # copied this: https://github.com/mebeim/aoc/blob/master/2019/README.md#day-16---flawed-frequency-transmission
 
-    def solve(self):
-        pass
+        to_skip = int(self.input[:7])
+        digits = list((self.input * 10000)[to_skip:])
+        length = len(digits)
+
+        for _ in range(100):
+            total = 0
+            for i in range(length - 1, -1, -1):
+                total += int(digits[i])
+                digits[i] = total % 10
+
+        return "".join([str(i) for i in digits[:8]])
