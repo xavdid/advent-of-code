@@ -2,26 +2,12 @@
 
 from itertools import cycle, permutations
 
-from ...base import BaseSolution, InputTypes
-from .day_2 import IntcodeComputer
+from .intcode import IntcodeComputer, IntcodeSolution
 
 
-class Solution(BaseSolution):
-    @property
-    def year(self):
-        return 2019
-
-    @property
-    def number(self):
-        return 7
-
-    @property
-    def input_type(self):
-        return InputTypes.INTSPLIT
-
-    @property
-    def separator(self):
-        return ","
+class Solution(IntcodeSolution):
+    year = 2019
+    number = 7
 
     def part_1(self):
         max_signal = -9999

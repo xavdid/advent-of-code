@@ -4,8 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Set
 
-from ...base import BaseSolution, InputTypes
-from .day_2 import IntcodeComputer
+from .intcode import IntcodeComputer, IntcodeSolution
 
 
 class Direction(Enum):
@@ -93,22 +92,9 @@ class Robot:
         self.location = Point(self.location.x + x, self.location.y + y)
 
 
-class Solution(BaseSolution):
-    @property
-    def year(self):
-        return 2019
-
-    @property
-    def number(self):
-        return 11
-
-    @property
-    def input_type(self):
-        return InputTypes.INTSPLIT
-
-    @property
-    def separator(self):
-        return ","
+class Solution(IntcodeSolution):
+    year = 2019
+    number = 11
 
     def part_1(self):
         robbie = Robot(self.input)

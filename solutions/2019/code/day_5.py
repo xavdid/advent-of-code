@@ -1,25 +1,11 @@
 # prompt: https://adventofcode.com/2019/day/5
 
-from ...base import BaseSolution, InputTypes
-from .day_2 import IntcodeComputer
+from .intcode import IntcodeComputer, IntcodeSolution
 
 
-class Solution(BaseSolution):
-    @property
-    def year(self):
-        return 2019
-
-    @property
-    def number(self):
-        return 5
-
-    @property
-    def input_type(self):
-        return InputTypes.INTSPLIT
-
-    @property
-    def separator(self):
-        return ","
+class Solution(IntcodeSolution):
+    year = 2019
+    number = 5
 
     def part_1(self):
         computer = IntcodeComputer(self.input, inputs=[1])
