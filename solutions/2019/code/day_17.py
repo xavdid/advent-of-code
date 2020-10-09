@@ -68,10 +68,34 @@ class Solution(IntcodeSolution):
         for ascii_code in computer.output:
             diag.add_point(ascii_code)
 
+        # print the maze with the --debug flag
+        # helpful for visualizing the path in part 2
+        self.pp(diag)
         return sum([x * y for x, y in diag.get_intersections()])
 
     def part_2(self):
-        pass
+        # solved the maze by hand
 
-    def solve(self):
-        pass
+        # BCBCABABAC
+
+        # A = L,8,L,4,R,12,L,6,L,4
+        # B = R,12,L,8,L,4,L,4
+        # C = L,8,R,6,L,6
+
+        def ascii_input(line: str):
+            return [*map(ord, line), ord("\n")]
+
+        inputs = [
+            *ascii_input("B,C,B,C,A,B,A,B,A,C"),
+            *ascii_input("L,8,L,4,R,12,L,6,L,4"),
+            *ascii_input("R,12,L,8,L,4,L,4"),
+            *ascii_input("L,8,R,6,L,6"),
+            *ascii_input("n"),
+        ]
+
+        computer = IntcodeComputer(self.input, inputs=inputs)
+        computer.program[0] = 2
+
+        computer.run()
+
+        return computer.output[-1]

@@ -43,11 +43,17 @@ class IntcodeComputer:
     def get_input(self):
         if self.interactive:
             return int(input("--> "))
-        return self.inputs.__next__()
+        return next(self.inputs)
 
     def add_input(self, val):
+        if isinstance(val, list):
+            for i in val:
+                self.add_input(i)
+        elif isinstance(val, int):
+            self.inputs = iter([*list(self.inputs), val])
+        else:
+            raise TypeError("Provide an int or an array of int")
         # adds whatever we had before, no data lost
-        self.inputs = iter([*list(self.inputs), val])
 
     def num_parameters(self, opcode: int):
         if opcode == 99:
