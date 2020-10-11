@@ -46,6 +46,7 @@ class IntcodeComputer:
         return next(self.inputs)
 
     def add_input(self, val):
+        self.interactive = False
         if isinstance(val, list):
             for i in val:
                 self.add_input(i)
