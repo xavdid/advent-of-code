@@ -9,8 +9,8 @@ class InputTypes(Enum):  # pylint: disable=too-few-public-methods
     TEXT = auto()
     INTEGER = auto()
     TSV = auto()
-    ARRAY = auto()
-    INTARRAY = auto()
+    ARRAY = auto()  # default separated by newlines
+    INTARRAY = auto()  # default separated by newlines
     STRSPLIT = auto()
     INTSPLIT = auto()
 
