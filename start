@@ -1,23 +1,32 @@
-#!/bin/bash -e
+#!/usr/bin/env python3
 
-NUM=$1
-YEAR=${2-2019} # Most recent puzzle year
+import argparse
+from pathlib import Path
 
-if [[ -z "$NUM" ]]; then
-  echo "USAGE: ./start number [year]"
-  exit 1
-fi
+from _date_utils import current_puzzle_year
+
+PARSER = argparse.ArgumentParser(
+    prog="./start", description="Start a new Advent of Code solution"
+)
+PARSER.add_argument("day", type=int, help="Which puzzle day to start, between [1,25]")
+PARSER.add_argument("--year", default=current_puzzle_year(), help="Puzzle year")
+ARGS = PARSER.parse_args()
+
+if ARGS.day < 1 or ARGS.day > 25:
+    PARSER.error("day must be in [1,25]")
 
 # these are relevant once a year
-mkdir -p "solutions/$YEAR/inputs"
-mkdir -p "solutions/$YEAR/code"
+Path(f"solutions/{ARGS.year}/inputs").mkdir(parents=True, exist_ok=True)
+Path(f"solutions/{ARGS.year}/code").mkdir(parents=True, exist_ok=True)
 
-touch "solutions/$YEAR/inputs/$NUM.txt" # this is safe either way
+Path(f"solutions/{ARGS.year}/inputs/{ARGS.day}.txt").touch()
 
-if [[ -e "solutions/$YEAR/code/day_$NUM.py" ]];then
-  echo 'skipping solution creation, file already exists'
-else
-  # replace placeholders in template file
-  sed -e "s/<YEAR>/$YEAR/" -e "s/<DAY>/$NUM/" example_solution.py.tmpl > "solutions/$YEAR/code/day_$NUM.py"
-  echo "Created Files for Day $NUM ($YEAR)"
-fi
+solution_path = f"solutions/{ARGS.year}/code/day_{ARGS.day}.py"
+if Path(solution_path).exists():
+    print("skipping solution creation, file already exists")
+else:
+    template = Path("example_solution.py.tmpl").read_text()
+    replaced_template = template.replace("<YEAR>", ARGS.year).replace(
+        "<DAY>", str(ARGS.day)
+    )
+    Path(solution_path).write_text(replaced_template)

@@ -4,8 +4,10 @@ import argparse
 import cProfile
 import sys
 
+from _date_utils import current_puzzle_year
 
-def main(day, year, slow, debug):
+
+def main(day: str, year: str, slow: bool, debug: bool):
     try:
         solver = __import__(
             f"solutions.{year}.code.day_{day}", fromlist=["Solution"]
@@ -23,11 +25,19 @@ PARSER = argparse.ArgumentParser(
     description="Run a day of Advent of Code", prog="advent"
 )
 
-PARSER.add_argument("day", type=int)
-PARSER.add_argument("--year", default=2019, type=int)
-PARSER.add_argument("--slow", action="store_true")
-PARSER.add_argument("--debug", action="store_true")
-PARSER.add_argument("--profile", action="store_true")
+PARSER.add_argument("day")
+PARSER.add_argument("--year", default=current_puzzle_year())
+PARSER.add_argument(
+    "--slow",
+    action="store_true",
+    help="specify that long-running solutions (or those requiring manual input) should be run",
+)
+PARSER.add_argument(
+    "--debug", action="store_true", help="prints normally-hidden debugging statements"
+)
+PARSER.add_argument(
+    "--profile", action="store_true", help="run solution through a performance profiler"
+)
 
 ARGS = PARSER.parse_args()
 
