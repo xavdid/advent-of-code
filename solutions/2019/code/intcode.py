@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from enum import IntEnum
-from typing import List, Optional, Tuple
+from enum import Enum, IntEnum, auto
+from typing import List, Optional, Tuple, Union
 
 from ...base import BaseSolution, InputTypes
 
@@ -17,6 +17,12 @@ class OPCODES(IntEnum):
     EQ = 8
     RELATIVE_BASE = 9
     HALT = 99
+
+
+class STOP_REASON(Enum):
+    HALTED = auto()
+    NUM_OUTPUT = auto()
+    NUM_INPUT = auto()
 
 
 @dataclass
@@ -36,12 +42,18 @@ class IntcodeComputer:
             self.program[index] = i
         self.output = []
         self.pointer = 0
-        self.interactive = not inputs
-        self.inputs = iter(inputs or [])
         self.relative_base = 0
-        self.debug = debug
+
+        self.interactive = not inputs
+        self.num_queued_inputs = 0
+        self.inputs = iter([])
+        self.add_input(inputs or [])
         # the default value when there's no input and we try to read
         self.default_input = default_input
+
+        self.debug = debug
+
+        self.idle = False
 
     def copy(self):
         res = IntcodeComputer([])
@@ -59,22 +71,30 @@ class IntcodeComputer:
         if self.interactive:
             return int(input("--> "))
 
-        if self.default_input is not None:
-            return next(self.inputs, self.default_input)
+        if self.num_queued_inputs == 0:
+            self.idle = True
+            if self.default_input is not None:
+                return self.default_input
+            next(self.inputs)  # throws an error for compatibility reasons
 
-        # will error if there are no inputs in the queue
+        self.num_queued_inputs -= 1
+        self.idle = False
         return next(self.inputs)
 
-    def add_input(self, val):
-        self.interactive = False
-        if isinstance(val, list):
+    def add_input(self, val: Union[int, List[int], Tuple[int, ...]]):
+        self.idle = False
+        if isinstance(val, (list, tuple)):
             for i in val:
+                # down here so that add_input([]) doesn't make it non-interactive
+                self.interactive = False
                 self.add_input(i)
         elif isinstance(val, int):
+            self.interactive = False
+            self.num_queued_inputs += 1
+            # adds whatever we had before, no data lost
             self.inputs = iter([*list(self.inputs), val])
         else:
-            raise TypeError("Provide an int or an array of int")
-        # adds whatever we had before, no data lost
+            raise TypeError("Provide an int, an array of int, or a tuple of int")
 
     def num_parameters(self, opcode: int):
         if opcode == OPCODES.HALT:
@@ -160,7 +180,7 @@ class IntcodeComputer:
 
         return True  # increment pointer
 
-    def run(self, num_outputs=None, num_inputs=None):
+    def run(self, num_outputs=None, num_inputs=None) -> STOP_REASON:
         """
         * num_output pauses execution after a certain number of outputs has been generated
         * num_inputs pauses after a certain number of input instructions has happened
@@ -175,7 +195,7 @@ class IntcodeComputer:
             [opcode, *modes] = self.parse_opcode(self.program[self.pointer])
             OPCODES(opcode)  # throws for invalid opcodes
             if opcode == OPCODES.HALT:
-                return True  # halted!
+                return STOP_REASON.HALTED
 
             num_params = self.num_parameters(opcode)
 
@@ -197,11 +217,11 @@ class IntcodeComputer:
                 self.pointer += num_params + 1
 
             if limit_outputs and len(self.output) - original_num_outputs == num_outputs:
-                return False  # not yet halted
+                return STOP_REASON.NUM_OUTPUT  # not yet halted
             if opcode == OPCODES.INPUT and limit_inputs:
                 inputs_count += 1
                 if inputs_count == num_outputs:
-                    return False
+                    return STOP_REASON.NUM_INPUT
 
     def diagnostic(self):
         if not all([x == 0 for x in self.output[:-1]]):
