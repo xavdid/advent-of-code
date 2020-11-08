@@ -1,8 +1,22 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List
+from enum import IntEnum
+from typing import List, Optional, Tuple
 
 from ...base import BaseSolution, InputTypes
+
+
+class OPCODES(IntEnum):
+    ADDITION = 1
+    MULTIPLICATION = 2
+    INPUT = 3
+    OUTPUT = 4
+    TJMP = 5
+    FJMP = 6
+    LT = 7
+    EQ = 8
+    RELATIVE_BASE = 9
+    HALT = 99
 
 
 @dataclass
@@ -14,7 +28,7 @@ class Instruction:
 class IntcodeComputer:
     # pylint: disable=too-many-instance-attributes,no-self-use
     def __init__(
-        self, program, inputs: List[int] = None, force_uninteractive=False, debug=False
+        self, program, inputs: List[int] = None, debug=False, default_input=None
     ):
         self.program = defaultdict(int)
         # used to be a list, now it's default dict so I can read from anywhere
@@ -22,11 +36,12 @@ class IntcodeComputer:
             self.program[index] = i
         self.output = []
         self.pointer = 0
-        self.valid_opcodes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 99}
-        self.interactive = not inputs and not force_uninteractive
+        self.interactive = not inputs
         self.inputs = iter(inputs or [])
         self.relative_base = 0
         self.debug = debug
+        # the default value when there's no input and we try to read
+        self.default_input = default_input
 
     def copy(self):
         res = IntcodeComputer([])
@@ -43,6 +58,11 @@ class IntcodeComputer:
     def get_input(self):
         if self.interactive:
             return int(input("--> "))
+
+        if self.default_input is not None:
+            return next(self.inputs, self.default_input)
+
+        # will error if there are no inputs in the queue
         return next(self.inputs)
 
     def add_input(self, val):
@@ -57,20 +77,20 @@ class IntcodeComputer:
         # adds whatever we had before, no data lost
 
     def num_parameters(self, opcode: int):
-        if opcode == 99:
+        if opcode == OPCODES.HALT:
             return 0
-        if opcode in [1, 2, 7, 8]:
+        if opcode in [OPCODES.ADDITION, OPCODES.MULTIPLICATION, OPCODES.LT, OPCODES.EQ]:
             return 3
-        if opcode in [5, 6]:
+        if opcode in [OPCODES.TJMP, OPCODES.FJMP]:
             return 2
-        if opcode in [3, 4, 9]:
+        if opcode in [OPCODES.INPUT, OPCODES.OUTPUT, OPCODES.RELATIVE_BASE]:
             return 1
         raise ValueError("invalid opcode:", opcode)
 
-    def parse_opcode(self, opcode: int):
+    def parse_opcode(self, opcode: int) -> Tuple[int, int, int, int]:
         """
         Parse the 5-digit code
-        Returns (opcode, mode, mode, mode), where everthing is an int
+        Returns (opcode, mode, mode, mode)
         """
         padded = str(opcode).zfill(5)
         return (int(padded[3:]), int(padded[2]), int(padded[1]), int(padded[0]))
@@ -99,60 +119,62 @@ class IntcodeComputer:
         # default is position
         return instruction.parameter
 
-    def execute_opcode(self, opcode: int, params: List[Instruction]) -> bool:
+    def execute_opcode(self, opcode: int, params: List[Instruction]) -> Optional[bool]:
+        """
+        returns a boolean communicating whether the pointer should be incremented
+        (not all instructions increment the pointer)
+        """
         # we validate elsewhere, so we know we're good if we're here
 
         if self.debug:
             print("executing", opcode, params)
 
-        # addition
-        if opcode == 1:
+        if opcode == OPCODES.ADDITION:
             self.program[self.get_write_value(params[2])] = self.get_value(
                 params[0]
             ) + self.get_value(params[1])
-        # multiplication
-        elif opcode == 2:
+        elif opcode == OPCODES.MULTIPLICATION:
             self.program[self.get_write_value(params[2])] = self.get_value(
                 params[0]
             ) * self.get_value(params[1])
-        # input
-        elif opcode == 3:
+        elif opcode == OPCODES.INPUT:
             self.program[self.get_write_value(params[0])] = self.get_input()
-        # output
-        elif opcode == 4:
+        elif opcode == OPCODES.OUTPUT:
             self.output.append(self.get_value(params[0]))
-        # TJMP
-        elif opcode == 5:
+        elif opcode == OPCODES.TJMP:
             if self.get_value(params[0]) != 0:
                 self.pointer = self.get_value(params[1])
                 return False
-        # FJMP
-        elif opcode == 6:
+        elif opcode == OPCODES.FJMP:
             if self.get_value(params[0]) == 0:
                 self.pointer = self.get_value(params[1])
                 return False
-        # LT
-        elif opcode == 7:
+        elif opcode == OPCODES.LT:
             res = 1 if self.get_value(params[0]) < self.get_value(params[1]) else 0
             self.program[self.get_write_value(params[2])] = res
-        # EQ
-        elif opcode == 8:
+        elif opcode == OPCODES.EQ:
             res = 1 if self.get_value(params[0]) == self.get_value(params[1]) else 0
             self.program[self.get_write_value(params[2])] = res
-        # mofify relative base
-        elif opcode == 9:
+        elif opcode == OPCODES.RELATIVE_BASE:
             self.relative_base += self.get_value(params[0])
 
         return True  # increment pointer
 
-    def run(self, num_outputs=None):
+    def run(self, num_outputs=None, num_inputs=None):
+        """
+        * num_output pauses execution after a certain number of outputs has been generated
+        * num_inputs pauses after a certain number of input instructions has happened
+            helpful for syncinc up many vms
+        """
         limit_outputs = bool(num_outputs)
         original_num_outputs = len(self.output)  # track how many we've gotten
+
+        limit_inputs = bool(num_inputs)
+        inputs_count = 0
         while True:
             [opcode, *modes] = self.parse_opcode(self.program[self.pointer])
-            if not opcode in self.valid_opcodes:
-                raise ValueError(f"{opcode} is an invalid opcode")
-            if opcode == 99:
+            OPCODES(opcode)  # throws for invalid opcodes
+            if opcode == OPCODES.HALT:
                 return True  # halted!
 
             num_params = self.num_parameters(opcode)
@@ -176,6 +198,10 @@ class IntcodeComputer:
 
             if limit_outputs and len(self.output) - original_num_outputs == num_outputs:
                 return False  # not yet halted
+            if opcode == OPCODES.INPUT and limit_inputs:
+                inputs_count += 1
+                if inputs_count == num_outputs:
+                    return False
 
     def diagnostic(self):
         if not all([x == 0 for x in self.output[:-1]]):
