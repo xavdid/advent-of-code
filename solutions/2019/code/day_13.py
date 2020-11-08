@@ -4,7 +4,7 @@
 from dataclasses import dataclass
 
 from ...base import slow
-from .day_2 import IntcodeComputer, IntcodeSolution
+from .intcode import STOP_REASON, IntcodeComputer, IntcodeSolution
 
 CHARS = [" ", "X", "B", "_", "o"]
 
@@ -49,7 +49,7 @@ class Solution(IntcodeSolution):
             num_outputs=24 * 36 * 3
         )  # screen dimensions x 3, to seed the initial outputs
         while True:
-            halted = computer.run(num_outputs=3)
+            halted = computer.run(num_outputs=3) == STOP_REASON.HALTED
             screen = {}
             chunk_size = 3
             # only really have to check new frames here, not the whole thing every time

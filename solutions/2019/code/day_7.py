@@ -2,7 +2,7 @@
 
 from itertools import cycle, permutations
 
-from .intcode import IntcodeComputer, IntcodeSolution
+from .intcode import STOP_REASON, IntcodeComputer, IntcodeSolution
 
 
 class Solution(IntcodeSolution):
@@ -33,7 +33,7 @@ class Solution(IntcodeSolution):
 
             for computer in cycle(cpu):
                 computer.add_input(last_output)
-                finished = computer.run(num_outputs=1)
+                finished = computer.run(num_outputs=1) == STOP_REASON.HALTED
                 last_output = computer.output[-1]
                 if finished:
                     # make sure to take the output of amplifier E

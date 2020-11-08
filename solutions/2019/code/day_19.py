@@ -8,8 +8,7 @@ class Solution(IntcodeSolution):
     number = 19
 
     def is_in_tractor(self, x: int, y: int) -> int:
-        computer = IntcodeComputer(self.input, force_uninteractive=True)
-        computer.add_input([x, y])
+        computer = IntcodeComputer(self.input, inputs=[x, y])
         computer.run()
         return computer.output[-1]
 

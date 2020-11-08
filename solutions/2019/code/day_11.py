@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Set
 
-from .intcode import IntcodeComputer, IntcodeSolution
+from .intcode import STOP_REASON, IntcodeComputer, IntcodeSolution
 
 
 class Direction(Enum):
@@ -32,9 +32,7 @@ class Point:
 
 class Robot:
     def __init__(self, program, start_white=False):
-        self.brain = IntcodeComputer(
-            program, force_uninteractive=True
-        )  # starts on black
+        self.brain = IntcodeComputer(program)  # starts on black
         self.location = Point(0, 0)
         self.painted_panels: Set[Point] = set()
         self.white_panels: Set[Point] = set()
@@ -49,7 +47,7 @@ class Robot:
 
     def step(self):
         self.brain.add_input(1 if self.location in self.white_panels else 0)
-        halted = self.brain.run(num_outputs=2)
+        halted = self.brain.run(num_outputs=2) == STOP_REASON.HALTED
         [paint_color, direction] = self.brain.output[-2:]
 
         if paint_color == 1:
