@@ -1,7 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
-from os import read
 from typing import List, Optional, Tuple, Union
 
 from ...base import BaseSolution, InputTypes
@@ -74,6 +73,7 @@ class IntcodeComputer:
     def get_input(self):
         if self.num_queued_inputs == 0:
             if self.default_input is None:
+                input_ = None
                 try:
                     input_ = input("--> ")
                     return int(input_)
