@@ -1,6 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
+from os import read
 from typing import List, Optional, Tuple, Union
 
 from ...base import BaseSolution, InputTypes
@@ -44,12 +45,14 @@ class IntcodeComputer:
         self.pointer = 0
         self.relative_base = 0
 
-        self.interactive = not inputs
         self.num_queued_inputs = 0
         self.inputs = iter([])
+
         self.add_input(inputs or [])
         # the default value when there's no input and we try to read
         self.default_input = default_input
+
+        self.last_output = 0
 
         self.debug = debug
 
@@ -63,36 +66,42 @@ class IntcodeComputer:
         res.pointer = self.pointer
         res.relative_base = self.relative_base
         res.debug = self.debug
-        res.interactive = self.interactive
+
+        # missing some copy properties that weren't relevant at the time
 
         return res
 
     def get_input(self):
-        if self.interactive:
-            return int(input("--> "))
-
         if self.num_queued_inputs == 0:
-            self.idle = True
-            if self.default_input is not None:
+            if self.default_input is None:
+                try:
+                    input_ = input("--> ")
+                    return int(input_)
+                except ValueError:
+                    # got ascii string input
+                    if input_ == "SELF_DUMP":
+                        print(self.pointer, self.relative_base)
+                    self.add_input([ord(c) for c in f"{input_}\n"])
+                    return self.get_input()
+            else:
+                self.idle = True
                 return self.default_input
-            next(self.inputs)  # throws an error for compatibility reasons
 
         self.num_queued_inputs -= 1
         self.idle = False
         return next(self.inputs)
 
-    def add_input(self, val: Union[int, List[int], Tuple[int, ...]]):
+    def add_input(self, val: Union[int, List[int], Tuple[int, ...], str]):
         self.idle = False
         if isinstance(val, (list, tuple)):
             for i in val:
-                # down here so that add_input([]) doesn't make it non-interactive
-                self.interactive = False
                 self.add_input(i)
         elif isinstance(val, int):
-            self.interactive = False
             self.num_queued_inputs += 1
             # adds whatever we had before, no data lost
             self.inputs = iter([*list(self.inputs), val])
+        elif isinstance(val, str):
+            self.add_input([ord(c) for c in f"{val}\n"])
         else:
             raise TypeError("Provide an int, an array of int, or a tuple of int")
 
@@ -139,10 +148,13 @@ class IntcodeComputer:
         # default is position
         return instruction.parameter
 
-    def execute_opcode(self, opcode: int, params: List[Instruction]) -> Optional[bool]:
+    def execute_opcode(
+        self, opcode: int, params: List[Instruction], flush=None
+    ) -> Optional[bool]:
         """
         returns a boolean communicating whether the pointer should be incremented
         (not all instructions increment the pointer)
+        flush prints all new output before each input
         """
         # we validate elsewhere, so we know we're good if we're here
 
@@ -158,6 +170,8 @@ class IntcodeComputer:
                 params[0]
             ) * self.get_value(params[1])
         elif opcode == OPCODES.INPUT:
+            if flush:
+                self.flush_output()
             self.program[self.get_write_value(params[0])] = self.get_input()
         elif opcode == OPCODES.OUTPUT:
             self.output.append(self.get_value(params[0]))
@@ -180,7 +194,7 @@ class IntcodeComputer:
 
         return True  # increment pointer
 
-    def run(self, num_outputs=None, num_inputs=None) -> STOP_REASON:
+    def run(self, num_outputs=None, num_inputs=None, flush=False) -> STOP_REASON:
         """
         * num_output pauses execution after a certain number of outputs has been generated
         * num_inputs pauses after a certain number of input instructions has happened
@@ -191,10 +205,13 @@ class IntcodeComputer:
 
         limit_inputs = bool(num_inputs)
         inputs_count = 0
+
         while True:
             [opcode, *modes] = self.parse_opcode(self.program[self.pointer])
             OPCODES(opcode)  # throws for invalid opcodes
             if opcode == OPCODES.HALT:
+                if flush:
+                    self.flush_output()
                 return STOP_REASON.HALTED
 
             num_params = self.num_parameters(opcode)
@@ -211,17 +228,28 @@ class IntcodeComputer:
             if self.debug:
                 print(self)
 
-            should_increment_pointer = self.execute_opcode(opcode, params)
+            if opcode == OPCODES.INPUT and limit_inputs:
+                if inputs_count == num_inputs:
+                    return STOP_REASON.NUM_INPUT
+                inputs_count += 1
+
+            should_increment_pointer = self.execute_opcode(opcode, params, flush=flush)
 
             if should_increment_pointer:
                 self.pointer += num_params + 1
 
             if limit_outputs and len(self.output) - original_num_outputs == num_outputs:
                 return STOP_REASON.NUM_OUTPUT  # not yet halted
-            if opcode == OPCODES.INPUT and limit_inputs:
-                inputs_count += 1
-                if inputs_count == num_outputs:
-                    return STOP_REASON.NUM_INPUT
+
+    def last_output_str(self):
+        return "".join([chr(x) for x in self.output[self.last_output :]])
+
+    def flush_output(self):
+        """
+        prints all output (in ascii format) since last flush
+        """
+        print(self.last_output_str())
+        self.last_output = len(self.output)
 
     def diagnostic(self):
         if not all([x == 0 for x in self.output[:-1]]):
