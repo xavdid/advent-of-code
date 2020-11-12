@@ -20,7 +20,13 @@ day_dir = Path(f"solutions/{ARGS.year}/day_{ARGS.day}")
 day_dir.mkdir(parents=True, exist_ok=True)
 Path(day_dir, "__init__.py").touch()
 Path(day_dir, "input.txt").touch()
-Path(day_dir, "README.md").touch()
+
+
+notes_path = Path(day_dir, "README.md")
+if not notes_path.exists():
+    notes_path.write_text(
+        f"# Day {ARGS.day} ({ARGS.year})\n\n## Part 1\n\n## Part 2\n\n"
+    )
 
 solution_path = Path(day_dir, "solution.py")
 if solution_path.exists():
