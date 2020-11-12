@@ -85,8 +85,7 @@ class BaseSolution:
     def read_input(self, input_type):  # pylint: disable=too-many-return-statements
         with open(
             os.path.join(
-                os.path.dirname(__file__),
-                "{}/inputs/{}.txt".format(self.year, self.number),
+                os.path.dirname(__file__), f"{self.year}/day_{self.number}/input.txt"
             )
         ) as file:
             if input_type == InputTypes.TEXT:

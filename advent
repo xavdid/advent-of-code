@@ -10,7 +10,7 @@ from _date_utils import current_puzzle_year
 def main(day: str, year: str, slow: bool, debug: bool):
     try:
         solver = __import__(
-            f"solutions.{year}.code.day_{day}", fromlist=["Solution"]
+            f"solutions.{year}.day_{day}.solution", fromlist=["Solution"]
         ).Solution
     except ImportError:
         print(

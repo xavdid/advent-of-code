@@ -15,18 +15,19 @@ ARGS = PARSER.parse_args()
 if ARGS.day < 1 or ARGS.day > 25:
     PARSER.error("day must be in [1,25]")
 
-# these are relevant once a year
-Path(f"solutions/{ARGS.year}/inputs").mkdir(parents=True, exist_ok=True)
-Path(f"solutions/{ARGS.year}/code").mkdir(parents=True, exist_ok=True)
+day_dir = Path(f"solutions/{ARGS.year}/day_{ARGS.day}")
 
-Path(f"solutions/{ARGS.year}/inputs/{ARGS.day}.txt").touch()
+day_dir.mkdir(parents=True, exist_ok=True)
+Path(day_dir, "__init__.py").touch()
+Path(day_dir, "input.txt").touch()
+Path(day_dir, "README.md").touch()
 
-solution_path = f"solutions/{ARGS.year}/code/day_{ARGS.day}.py"
-if Path(solution_path).exists():
-    print("skipping solution creation, file already exists")
+solution_path = Path(day_dir, "solution.py")
+if solution_path.exists():
+    print("skipping solution creation, files already exists")
 else:
     template = Path("example_solution.py.tmpl").read_text()
     replaced_template = template.replace("<YEAR>", ARGS.year).replace(
         "<DAY>", str(ARGS.day)
     )
-    Path(solution_path).write_text(replaced_template)
+    solution_path.write_text(replaced_template)
