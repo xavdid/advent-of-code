@@ -22,14 +22,18 @@ PARSER.add_argument("--year", default=current_puzzle_year(), help="Puzzle year")
 ARGS = PARSER.parse_args()
 
 year_dir = Path(f"solutions/{ARGS.year}")
+year_dir.mkdir(parents=True, exist_ok=True)
 
 if ARGS.day is None:
     day = (
         max(
             [
-                int(x.parts[-1].split("_")[-1])
-                for x in year_dir.iterdir()
-                if x.is_dir() and re.search(r"day_\d+$", str(x))
+                0,  # included so that new years don't break without anything in them
+                *[
+                    int(x.parts[-1].split("_")[-1])
+                    for x in year_dir.iterdir()
+                    if x.is_dir() and re.search(r"day_\d+$", str(x))
+                ],
             ]
         )
         + 1
@@ -49,7 +53,10 @@ Path(day_dir, "input.txt").touch()
 
 notes_path = Path(day_dir, "README.md")
 if not notes_path.exists():
-    notes_path.write_text(f"# Day {day} ({ARGS.year})\n\n## Part 1\n\n## Part 2\n\n")
+    # pylint: disable=line-too-long
+    notes_path.write_text(
+        f"# Day {day} ({ARGS.year})\n\n[Prompt](https://adventofcode.com/{ARGS.year}/day/{day})\n\n## Part 1\n\n## Part 2\n\n"
+    )
 
 solution_path = Path(day_dir, "solution.py")
 if solution_path.exists():
