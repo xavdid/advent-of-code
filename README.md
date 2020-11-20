@@ -1,6 +1,6 @@
 # Advent of Code
 
-These are my results in the [Advent of Code](https://adventofcode.com/). Hopefully I'll do it every day in December. Maybe not.
+These are my results in the [Advent of Code](https://adventofcode.com/). Hopefully I'll do it every day in December. I usually don't.
 
 ## Usage
 

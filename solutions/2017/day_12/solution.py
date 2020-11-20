@@ -9,7 +9,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def recurse_connections(self, i, res=None):
         if res is None:

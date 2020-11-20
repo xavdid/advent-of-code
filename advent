@@ -3,16 +3,16 @@
 import argparse
 import cProfile
 import sys
+from importlib import import_module
 
-from _date_utils import current_puzzle_year
+from housekeeping.date_utils import current_puzzle_year
 
 
 def main(day: str, year: str, slow: bool, debug: bool):
     try:
-        solver = __import__(
-            f"solutions.{year}.day_{day}.solution", fromlist=["Solution"]
-        ).Solution
-    except ImportError:
+        # class needs to have this name
+        solver = import_module(f"solutions.{year}.day_{day}.solution").Solution
+    except ModuleNotFoundError:
         print(
             f"solution not found for day {day} ({year}) (or there's an ImportError in your code)"
         )

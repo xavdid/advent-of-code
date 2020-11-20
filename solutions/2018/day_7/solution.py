@@ -14,7 +14,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def num_seconds(self, letter):
         return DURATION + 1 * (ord(letter) - 64)

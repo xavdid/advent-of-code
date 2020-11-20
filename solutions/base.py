@@ -6,21 +6,13 @@ from pprint import pprint
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
-    TEXT = auto()
-    INTEGER = auto()
-    TSV = auto()
-    ARRAY = auto()  # default separated by newlines
-    INTARRAY = auto()  # default separated by newlines
-    STRSPLIT = auto()
-    INTSPLIT = auto()
-
-
-ARRAY_TYPES = {
-    InputTypes.ARRAY,
-    InputTypes.INTARRAY,
-    InputTypes.STRSPLIT,
-    InputTypes.INTSPLIT,
-}
+    TEXT = auto()  # one solid block of text; the default
+    INTEGER = auto()  # a single int
+    TSV = auto()  # tab-separated values.
+    STRSPLIT = auto()  # str[], split by a specified separator (default newline)
+    INTSPLIT = (
+        auto()
+    )  # int[], split by a split by a specified separator (default newline)
 
 
 def slow(func):
@@ -44,6 +36,7 @@ def print_answer(i, ans):
 
 class BaseSolution:
     input_type = InputTypes.TEXT
+    separator = "\n"
 
     def __init__(self, run_slow=False, debug=False):
         self.input = self.read_input(self.input_type)
@@ -57,12 +50,6 @@ class BaseSolution:
     @property
     def number(self):
         raise NotImplementedError("explicitly define number")
-
-    @property
-    def separator(self):
-        raise NotImplementedError(
-            "explicitly define separator to use an X-SPLIT method"
-        )
 
     def solve(self):
         """
@@ -89,11 +76,9 @@ class BaseSolution:
             )
         ) as file:
             if input_type == InputTypes.TEXT:
-                # one solid block of text; the default
                 return file.read().strip()
 
             if input_type == InputTypes.INTEGER:
-                # a single int
                 num = file.read()
                 return int(num.strip())
 
@@ -104,17 +89,14 @@ class BaseSolution:
                     input_.append([int(i) for i in row])
                 return input_
 
-            if input_type in ARRAY_TYPES:
-                # probably separated by newlines
+            if input_type in {InputTypes.STRSPLIT, InputTypes.INTSPLIT}:
                 file_ = file.read().strip()
-                if input_type in [InputTypes.ARRAY, InputTypes.INTARRAY]:
-                    separator = "\n"
-                else:
-                    separator = self.separator
+                # default to newlines
+                parts = file_.split(self.separator)
 
-                parts = file_.split(separator)
-                if input_type in [InputTypes.INTARRAY, InputTypes.INTSPLIT]:
+                if input_type == InputTypes.INTSPLIT:
                     return [int(i) for i in parts]
+
                 return parts
 
             raise ValueError("Unrecognized input type")
@@ -123,16 +105,15 @@ class BaseSolution:
         print("\n= Solutions for Day {}".format(self.number))
         res = self.solve()  # pylint: disable=assignment-from-no-return
         if res:
-            for i, ans in enumerate(res):
-                print_answer(i + 1, ans)
+            for index, ans in enumerate(res):
+                print_answer(index + 1, ans)
         else:
-            for i in [1, 2]:
-                solve_func = getattr(self, "part_{}".format(i), None)
+            for index in [1, 2]:
+                solve_func = getattr(self, f"part_{index}", None)
                 if solve_func:
-                    print_answer(i, solve_func())  # pylint: disable=not-callable
+                    print_answer(index, solve_func())  # pylint: disable=not-callable
         print()
 
-    # pylint: disable=invalid-name,no-self-use
     def pp(self, *obj, newline=False):
         if self.debug:
             for o in obj:

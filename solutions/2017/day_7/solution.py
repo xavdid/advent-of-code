@@ -13,7 +13,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def build_tree(self, input_):
         res = {}

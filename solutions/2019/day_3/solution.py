@@ -54,7 +54,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def solve(self):
         wire_a = get_points_for_wire(self.input[0])

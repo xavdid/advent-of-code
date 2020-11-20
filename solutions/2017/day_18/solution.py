@@ -117,7 +117,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def part_1(self):
         c = TIS100(self.input, 1)

@@ -10,7 +10,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def __init__(self, run_slow=False):
         super().__init__(run_slow)
