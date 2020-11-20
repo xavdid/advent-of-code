@@ -6,14 +6,11 @@ from ...base import BaseSolution, InputTypes, slow
 class Solution(BaseSolution):
     year = 2017
     number = 13
+    tree = None
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
-
-    def __init__(self, number):
-        super().__init__(number)
-        self.tree = self.build_map(self.input)
+        return InputTypes.STRSPLIT
 
     def build_map(self, input_):
         res = {}
@@ -42,10 +39,12 @@ class Solution(BaseSolution):
         return caught
 
     def part_1(self):
+        self.tree = self.build_map(self.input)
         return sum([j * self.tree[j] for j in self.run_maze()])
 
     @slow
     def part_2(self):
+        self.tree = self.build_map(self.input)
         while True:
             for start in range(5000000):
                 caught = self.run_maze(start, exit_early=True)

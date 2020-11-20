@@ -1,7 +1,9 @@
 # prompt: https://adventofcode.com/2018/day/1
 
-from ...base import BaseSolution, InputTypes
 from itertools import cycle
+
+from itertools import cycle
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
@@ -10,7 +12,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.INTARRAY
+        return InputTypes.INTSPLIT
 
     def part_1(self):
         return sum(self.input)

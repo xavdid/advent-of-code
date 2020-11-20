@@ -103,7 +103,7 @@ class Planet:
 class Solution(BaseSolution):
     year = 2019
     number = 24
-    input_type = InputTypes.ARRAY
+    input_type = InputTypes.STRSPLIT
 
     def part_1(self):
         planet = Planet(self.input)

@@ -51,7 +51,7 @@ class Reaction:
 class Solution(BaseSolution):
     year = 2019
     number = 14
-    input_type = InputTypes.ARRAY
+    input_type = InputTypes.STRSPLIT
     reactions: Dict[str, Reaction] = {}
 
     def ore_cost_for_n_fuel(self, num_fuel):

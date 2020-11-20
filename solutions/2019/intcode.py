@@ -263,10 +263,8 @@ class IntcodeComputer:
 
 
 class IntcodeSolution(BaseSolution):
+    separator = ","
+
     @property
     def input_type(self):
         return InputTypes.INTSPLIT
-
-    @property
-    def separator(self):
-        return ","

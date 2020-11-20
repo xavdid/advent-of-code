@@ -26,7 +26,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def setup(self):
         starters = [int(s.split(" ")[-1]) for s in self.input]

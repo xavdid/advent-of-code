@@ -9,7 +9,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.INTARRAY
+        return InputTypes.INTSPLIT
 
     def part_1(self):
         def inc(j):

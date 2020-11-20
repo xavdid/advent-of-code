@@ -10,7 +10,7 @@ class Solution(BaseSolution):
 
     @property
     def input_type(self):
-        return InputTypes.ARRAY
+        return InputTypes.STRSPLIT
 
     def parse_line(self, line):
         bits = line.split(" ")

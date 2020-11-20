@@ -1,21 +1,46 @@
 #!/usr/bin/env python3
 
 import argparse
+import re
 from pathlib import Path
 
-from _date_utils import current_puzzle_year
+from housekeeping.date_utils import current_puzzle_year
 
 PARSER = argparse.ArgumentParser(
     prog="./start", description="Start a new Advent of Code solution"
 )
-PARSER.add_argument("day", type=int, help="Which puzzle day to start, between [1,25]")
+PARSER.add_argument(
+    "day",
+    type=int,
+    help=(
+        "Which puzzle day to start, between [1,25]."
+        " Defaults to the next day without a folder (matching `day_N`) in that year."
+    ),
+    nargs="?",
+)
 PARSER.add_argument("--year", default=current_puzzle_year(), help="Puzzle year")
 ARGS = PARSER.parse_args()
 
-if ARGS.day < 1 or ARGS.day > 25:
-    PARSER.error("day must be in [1,25]")
+year_dir = Path(f"solutions/{ARGS.year}")
 
-day_dir = Path(f"solutions/{ARGS.year}/day_{ARGS.day}")
+if ARGS.day is None:
+    day = (
+        max(
+            [
+                int(x.parts[-1].split("_")[-1])
+                for x in year_dir.iterdir()
+                if x.is_dir() and re.search(r"day_\d+$", str(x))
+            ]
+        )
+        + 1
+    )
+else:
+    day = ARGS.day
+
+if day < 1 or day > 25:
+    PARSER.error(f"day {day} is not in range [1,25]")
+
+day_dir = Path(year_dir, f"day_{day}")
 
 day_dir.mkdir(parents=True, exist_ok=True)
 Path(day_dir, "__init__.py").touch()
@@ -24,16 +49,12 @@ Path(day_dir, "input.txt").touch()
 
 notes_path = Path(day_dir, "README.md")
 if not notes_path.exists():
-    notes_path.write_text(
-        f"# Day {ARGS.day} ({ARGS.year})\n\n## Part 1\n\n## Part 2\n\n"
-    )
+    notes_path.write_text(f"# Day {day} ({ARGS.year})\n\n## Part 1\n\n## Part 2\n\n")
 
 solution_path = Path(day_dir, "solution.py")
 if solution_path.exists():
     print("skipping solution creation, files already exists")
 else:
-    template = Path("example_solution.py.tmpl").read_text()
-    replaced_template = template.replace("<YEAR>", ARGS.year).replace(
-        "<DAY>", str(ARGS.day)
-    )
+    template = Path("housekeeping/example_solution.py.tmpl").read_text()
+    replaced_template = template.replace("<YEAR>", ARGS.year).replace("<DAY>", str(day))
     solution_path.write_text(replaced_template)
