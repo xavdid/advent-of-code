@@ -47,9 +47,7 @@ if day < 1 or day > 25:
 day_dir = Path(year_dir, f"day_{day}")
 
 day_dir.mkdir(parents=True, exist_ok=True)
-Path(day_dir, "__init__.py").touch()
 Path(day_dir, "input.txt").touch()
-
 
 notes_path = Path(day_dir, "README.md")
 if not notes_path.exists():
