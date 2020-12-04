@@ -53,7 +53,7 @@ notes_path = Path(day_dir, "README.md")
 if not notes_path.exists():
     # pylint: disable=line-too-long
     notes_path.write_text(
-        f"# Day {day} ({ARGS.year})\n\n[Prompt](https://adventofcode.com/{ARGS.year}/day/{day})\n\n## Part 1\n\n## Part 2\n\n"
+        f"# Day {day} ({ARGS.year})\n\n`TITLE` ([Prompt](https://adventofcode.com/{ARGS.year}/day/{day}))\n\n## Part 1\n\n## Part 2\n\n"
     )
 
 solution_path = Path(day_dir, "solution.py")
