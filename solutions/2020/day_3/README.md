@@ -1,6 +1,6 @@
 # Day 3 (2020)
 
-Toboggan Trajectory ([Prompt](https://adventofcode.com/2020/day/3))
+`Toboggan Trajectory` ([prompt](https://adventofcode.com/2020/day/3))
 
 ## Part 1
 
