@@ -97,7 +97,7 @@ Traceback (most recent call last):
 TypeError: unhashable type: 'set'
 ```
 
-Python doesn't like us passing a `list` to `.intersection` (because `list`s are mutable and therefore can't go into a set. So we need to turn our `list` into a bunch of arguments.
+Python doesn't like us passing a `list` to `.intersection` (because `list`s are mutable and therefore can't go into a set). So we need to turn our `list` into a bunch of arguments.
 
 Enter Python's `*` operator (sometimes called "splat" or "unpacking" operator). Used with a `list` or `set`, it provides them individually to a function:
 
