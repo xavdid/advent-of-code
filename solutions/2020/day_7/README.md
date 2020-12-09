@@ -84,6 +84,8 @@ return [self.can_hold_gold(bag) for bag in self.mapping].count(True)
 
 All together, my solution ran in 0.363 seconds. Not too shabby!
 
+## Part 1: Extra Credit
+
 But, we can do better with the magic of ✨Dynamic Programming✨. If that doesn't tickle your fancy, feel free to jump ahead to [Part 2](#part-2). Otherwise, read on.
 
 Let's take a closer look at the first two lines of the example:
@@ -118,4 +120,59 @@ Now my soultion runs in 0.016 seconds, a 22.7x improvement.
 
 Breaking complex problems into small problems and caching the results is a technique called [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#Computer_programming). It can lead to huge gains in the speed of recursive algorithms. A valuable tool to have in your toolbelt!
 
+The complete part 1 solution is [here](https://github.com/xavdid/advent-of-code/blob/7ed9dcbeb0240a3d60f42ee572946c61a4f92f3d/solutions/2020/day_7/solution.py). We change it in part 2, so use that link to see it before changes.
+
 ## Part 2
+
+Now that we have to start paying attention to the _number_ of bags, we need a little more organization. To store that, we'll use Python's `dataclass`es, which allow for convenient storage of data:
+
+```py
+from dataclasses import dataclass, field
+
+@dataclass
+class HoldInfo:
+    color: str
+    num: int
+
+
+@dataclass
+class BagInfo:
+    color: str
+    # shortcuts
+    can_hold_gold: Optional[bool] = None
+    num_bags_held: Optional[int] = None
+    # which bags this holds. made obsolete by num_bags_held, once calculated
+    held_bags: List[HoldInfo] = field(default_factory=list)
+```
+
+We can tweak our code from part 1 to use this new class without much effort:
+
+```py
+bag_info = BagInfo('dark blue')
+
+# empty bag
+bag_info.can_hold_gold = False
+bag_info.num_bags_held = 0
+
+# full bag
+bag_info.held_bags = [HoldInfo('dark blue', 3), ...]
+```
+
+Just like before, if `bag_info.can_hold_gold` is `None`, we need to calculate and store the result. Then, either way, we can return that value. We'll take a similar approach with `num_bags_held`.
+
+By default, the value of an empty bag is `1` (the bag itself). We add to that the value of each bag it holds `*` the quantity of that bag.
+
+Concisely, that's caclculated as:
+
+```py
+bag_info.num_bags_held = 1 + sum(
+    [
+        hold_info.num * self.num_bags_held(hold_info.color)
+        for hold_info in bag_info.held_bags
+    ]
+)
+```
+
+In our root method, we can call `self.value_of_bag('shiny gold')` for our answer... almost.
+
+This function returns the value of a bag relative to the one holding it. A `sky blue` bag holding a `shiny gold` one would be worth `value(shiny gold) + 1`. So if we want the value of the `shiny gold` bag by itself, we have to return `self.value_of_bag("shiny gold") - 1`. I was stuck on that bug for _quite a while_. But, we got there in the end.
