@@ -4,13 +4,17 @@ import argparse
 import cProfile
 import sys
 from importlib import import_module
+from pathlib import Path
 
-from housekeeping.date_utils import current_puzzle_year
+from housekeeping.date_utils import current_puzzle_year, next_day
 
 
 def main(day: str, year: str, slow: bool, debug: bool):
     try:
         # class needs to have this name
+        if ARGS.day is None:
+            year_dir = Path(f"solutions/{year}")
+            day = next_day(year_dir)
         solver = import_module(f"solutions.{year}.day_{day}.solution").Solution
     except ModuleNotFoundError:
         print(
@@ -25,7 +29,14 @@ PARSER = argparse.ArgumentParser(
     description="Run a day of Advent of Code", prog="advent"
 )
 
-PARSER.add_argument("day")
+PARSER.add_argument(
+    "day",
+    nargs="?",
+    help=(
+        "Which puzzle day to run, between [1,25]."
+        " Defaults to the latest day in the specified year (matching `day_N`)."
+    ),
+)
 PARSER.add_argument("--year", default=current_puzzle_year())
 PARSER.add_argument(
     "--slow",

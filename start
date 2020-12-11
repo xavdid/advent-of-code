@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-import re
 from pathlib import Path
 
-from housekeeping.date_utils import current_puzzle_year
+from housekeeping.date_utils import current_puzzle_year, next_day
 
 PARSER = argparse.ArgumentParser(
     prog="./start", description="Start a new Advent of Code solution"
@@ -25,19 +24,7 @@ year_dir = Path(f"solutions/{ARGS.year}")
 year_dir.mkdir(parents=True, exist_ok=True)
 
 if ARGS.day is None:
-    day = (
-        max(
-            [
-                0,  # included so that new years don't break without anything in them
-                *[
-                    int(x.parts[-1].split("_")[-1])
-                    for x in year_dir.iterdir()
-                    if x.is_dir() and re.search(r"day_\d+$", str(x))
-                ],
-            ]
-        )
-        + 1
-    )
+    day = next_day(year_dir) + 1
 else:
     day = ARGS.day
 

@@ -102,7 +102,7 @@ class BaseSolution:
             raise ValueError("Unrecognized input type")
 
     def print_solutions(self):
-        print("\n= Solutions for Day {}".format(self.number))
+        print(f"\n= Solutions for {self.year} Day {self.number}")
         res = self.solve()  # pylint: disable=assignment-from-no-return
         if res:
             for index, ans in enumerate(res):
