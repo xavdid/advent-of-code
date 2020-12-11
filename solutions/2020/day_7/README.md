@@ -84,7 +84,7 @@ return [self.can_hold_gold(bag) for bag in self.mapping].count(True)
 
 All together, my solution ran in 0.363 seconds. Not too shabby!
 
-## Part 1: Extra Credit
+### Part 1: Extra Credit
 
 But, we can do better with the magic of ✨Dynamic Programming✨. If that doesn't tickle your fancy, feel free to jump ahead to [Part 2](#part-2). Otherwise, read on.
 
