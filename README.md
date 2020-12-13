@@ -43,11 +43,11 @@ Start a new Advent of Code solution
 
 Run a day of Advent of Code
 
-positional arguments:
+**positional arguments**:
 
-- `day` (required): Which puzzle day to run
+- `day` (optional): Which puzzle day to start, between [1,25]. Defaults to the latest day with a folder (matching `day_N`) in that year.
 
-optional arguments:
+**optional arguments**:
 
 - `-h, --help` (optional): show this help message and exit
 - `--year YEAR` (optional): Puzzle year. Defaults to current year if December has begun, otherwise previous year
