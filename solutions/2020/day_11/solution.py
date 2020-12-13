@@ -1,21 +1,33 @@
 # prompt: https://adventofcode.com/2020/day/11
 
 from collections import Counter
-from enum import Enum
 from functools import cache  # pylint: disable=no-name-in-module
-from typing import Generator, List
+from typing import List, Tuple
 
 from ...base import BaseSolution, InputTypes
 
-# inherit from str so it prints nicely
-# class Tile(str, Enum):
-#     FLOOR = "."
-#     EMPTY_SEAT = "L"
-#     OCCUPIED_SEAT = "#"
+SEATS = {"L", "#"}
+# clockwise from 12
+ADJACENT_POINTS = ("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+
+
+def point_from_heading(heading: str, y: int, x: int) -> Tuple[int, int]:
+    if "N" in heading:
+        y -= 1
+    if "S" in heading:
+        y += 1
+    if "W" in heading:
+        x -= 1
+    if "E" in heading:
+        x += 1
+
+    return y, x
 
 
 class Grid:
-    def __init__(self, grid: List[str], change_threshold: int) -> None:
+    def __init__(
+        self, grid: List[str], change_threshold: int, ranged_adjacency=False
+    ) -> None:
         self.grid = grid
         self.next_grid = []
 
@@ -23,28 +35,30 @@ class Grid:
         self.max_y = len(self.grid)
 
         self.change_threshold = change_threshold
+        self.ranged_adjacency = ranged_adjacency
 
     @cache
-    def tile_at(self, y, x) -> str:
+    def tile_at(self, y, x, heading=None) -> str:
         if y < 0 or x < 0 or x == self.max_x or y == self.max_y:
             return "."
-        return self.grid[y][x]
+
+        tile = self.grid[y][x]
+
+        if tile in SEATS:
+            return tile
+
+        if heading:
+            return self.tile_at(*point_from_heading(heading, y, x), heading=heading)
+
+        return tile
 
     def adjacent_tiles(self, y, x):
-        # clockwise from 12
-        directions = [
-            (y - 1, x),
-            (y - 1, x + 1),
-            (y, x + 1),
-            (y + 1, x + 1),
-            (y + 1, x),
-            (y + 1, x - 1),
-            (y, x - 1),
-            (y - 1, x - 1),
-        ]
-
-        for direction in directions:
-            yield self.tile_at(*direction)
+        for heading in ADJACENT_POINTS:
+            point = point_from_heading(heading, y, x)
+            if self.ranged_adjacency:
+                yield self.tile_at(*point, heading=heading)
+            else:
+                yield self.tile_at(*point)
 
     def next_tile(self, y, x) -> str:
         tile = self.grid[y][x]
@@ -110,7 +124,9 @@ class Solution(BaseSolution):
         return grid.count_tiles()["#"]
 
     def part_2(self) -> int:
-        pass
+        grid = Grid(self.input, 5, ranged_adjacency=True)
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        while grid.step():
+            pass
+
+        return grid.count_tiles()["#"]

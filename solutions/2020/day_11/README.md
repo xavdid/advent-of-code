@@ -175,13 +175,12 @@ def count_tiles(self):
 Finally, our actual solution:
 
 ```py
-def part_1(self) -> int:
-    grid = Grid(self.input)
+grid = Grid(self.input)
 
-    while grid.step():
-        pass
+while grid.step():
+    pass
 
-    return grid.count_tiles()[Tile.OCCUPIED_SEAT]
+return grid.count_tiles()[Tile.OCCUPIED_SEAT]
 ```
 
 Though this ends up being a lot of code, none of it is particularly complex. You could do it in far fewer lines if you used strings instead of `Enum` and kept everything in one big loop. But brevity shouldn't come at the expense of maintainability (even for puzzle code).
@@ -198,7 +197,27 @@ The "worst" case is that we have to look at all 8 tiles to verify that either th
 
 Secondly, we can ditch the enums. It hurts readability a little and can be a source of bugs (comparing a string to an invalid `string`, like `tile == ','`), but there does end up being a performance impact.
 
-Here's the final next tile loop:
+To do that, we need to be able to get adjacent tiles one at a time. Sounds like a job for a generator!
+
+```py
+def adjacent_tiles(self, y, x):
+    # clockwise from 12
+    adjacent_points = [
+        (y - 1, x),
+        (y - 1, x + 1),
+        (y, x + 1),
+        (y + 1, x + 1),
+        (y + 1, x),
+        (y + 1, x - 1),
+        (y, x - 1),
+        (y - 1, x - 1),
+    ]
+
+    for point in adjacent_points:
+        yield self.tile_at(*point)
+```
+
+Generators (functions with `yield` in the body) are iterables where the function is called one at a time. So in the case of `adjacent_tiles`, it only calls `tile_at` when needed. Let's see how we use it:
 
 ```py
 def next_tile(self, y, x) -> str:
@@ -223,6 +242,72 @@ def next_tile(self, y, x) -> str:
     return "#"
 ```
 
-A more efficient loop runs my solution in `3.84s` and using `string` instead of `Enum` drops it to `2.54s`. Not relevant for the purposes of AoC, but thinking through ways to speed up loops in core code is a valuable practice.
+The more efficient loop runs my solution in `3.84s` and using `string` instead of `Enum` drops it to `2.54s`. Not relevant for the purposes of AoC, but thinking through ways to speed up loops in core code is a valuable practice.
 
 ## Part 2
+
+We'll be able to reuse basically all of our code, but we need to make two of our functions a little more configurable.
+
+The main changes are in `tile_at`. Similar to the recursive solution to [day 10](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_10#part-2-recursive-solution), we need to keep looking in a direction until we hit a chair. To know how to move from a tile, we need a heading. The logic here is simple:
+
+```py
+# clockwise from 12
+ADJACENT_POINTS = ("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+
+
+def point_from_heading(heading: str, y: int, x: int) -> Tuple[int, int]:
+    if "N" in heading:
+        y -= 1
+    if "S" in heading:
+        y += 1
+    if "W" in heading:
+        x -= 1
+    if "E" in heading:
+        x += 1
+
+    return y, x
+```
+
+We use this to recurse from from `tile_at` if we have a heading and didn't find a chair (or hit the edge of the grid):
+
+```py
+SEATS = {"L", "#"}
+
+@cache
+def tile_at(self, y, x, heading=None) -> str:
+    if y < 0 or x < 0 or x == self.max_x or y == self.max_y:
+        return "."
+
+    tile = self.grid[y][x]
+
+    if tile in SEATS:
+        return tile
+
+    if heading:
+        return self.tile_at(*point_from_heading(heading, y, x), heading=heading)
+
+    return tile
+```
+
+This also lets us simplify our `adjacent_tiles` function:
+
+```py
+def adjacent_tiles(self, y, x):
+    for heading in ADJACENT_POINTS:
+        point = point_from_heading(heading, y, x)
+        if self.ranged_adjacency:
+            yield self.tile_at(*point, heading=heading)
+        else:
+            yield self.tile_at(*point)
+```
+
+Now our grid can handle both types of adjacency, plus a dynamic change threshold (4 for part 1, 5 for part 2):
+
+```py
+grid = Grid(self.input, 5, ranged_adjacency=True)
+
+while grid.step():
+    pass
+
+return grid.count_tiles()["#"]
+```
