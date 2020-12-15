@@ -1,5 +1,6 @@
 # prompt: https://adventofcode.com/2020/day/13
 
+from itertools import count
 from math import ceil
 
 from ...base import BaseSolution, InputTypes
@@ -22,7 +23,19 @@ class Solution(BaseSolution):
         return (departure_time - min_leave_time) * best_bus
 
     def part_2(self) -> int:
-        pass
+        buses = [
+            (offset, int(bus_id))
+            for offset, bus_id in enumerate(self.input[1].split(","))
+            if bus_id != "x"
+        ]
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        # https://www.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfsc2gg/
+
+        step = 1
+        timestamp = 0
+        for offset, bus_id in buses:
+            timestamp = next(
+                ts for ts in count(timestamp, step) if (ts + offset) % bus_id == 0
+            )
+            step *= bus_id
+        return timestamp
