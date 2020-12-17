@@ -29,7 +29,7 @@ def slow(func):
 
 
 def print_answer(i, ans):
-    if ans:
+    if ans is not None:
         print("\n== Part {}".format(i))
         print("=== {}".format(ans))
 
