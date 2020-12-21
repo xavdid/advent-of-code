@@ -1,39 +1,33 @@
 # prompt: https://adventofcode.com/2020/day/18
 
+import ast
 from operator import __add__, __mul__
-from typing import List, Tuple
+from typing import Tuple
 
 from ...base import BaseSolution, InputTypes
 
-# from typing import Tuple
+# part 1
 
 OPERATORS = {"+": __add__, "*": __mul__}
 
 
 def solve(equation: str) -> Tuple[int, int]:
-
-    # print("\ncalling with", equation)
-
     number = None
     operator = None
     pointer = 0
 
     while pointer < len(equation):
         head = equation[pointer]
-        # print(f'{pointer=} ("{head=}")')
         if head in OPERATORS:
             operator = OPERATORS[head]
         else:
             if head == ")":
-                # print(f"returning {number[0]} {pointer=}", "\n")
                 return number, pointer
 
             if head == "(":
-                # strip off the first paren and recurse the rest
                 head, offset = solve(equation[pointer + 1 :])
-                # print(pointer, offset)
+                # extra 1 because the sub-function offset started at 0
                 pointer += offset + 1
-                # print(f'now looking at "{equation[pointer]}"')
 
             if operator:
                 # pylint: disable=not-callable
@@ -42,17 +36,22 @@ def solve(equation: str) -> Tuple[int, int]:
             else:
                 number = int(head)
 
-            # if should_return and subequation:
-            #     print("returning", number[0], "\n")
-            #     return number.pop()
         pointer += 1
-        # print(
-        #     f"{number=} {pointer=} (next is \"{equation[pointer] if pointer < len(equation) else 'done'}\") {operator=}"
-        # )
 
-    # print("final return", number[0], "\n")
     # pointer doesn't matter for final return
     return number, 0
+
+
+# part 2
+
+
+class SwapPrecedence(ast.NodeTransformer):
+    # pylint: disable=no-self-use,unused-argument
+    def visit_Sub(self, node):
+        return ast.Mult()
+
+    def visit_Div(self, node):
+        return ast.Add()
 
 
 class Solution(BaseSolution):
@@ -64,7 +63,11 @@ class Solution(BaseSolution):
         return sum([solve(line.replace(" ", ""))[0] for line in self.input])
 
     def part_2(self) -> int:
-        pass
+        total = 0
+        for line in self.input:
+            tree = ast.parse(line.replace("+", "/").replace("*", "-"), mode="eval")
+            new_tree = SwapPrecedence().visit(tree)
+            # pylint: disable=eval-used
+            total += eval(compile(new_tree, filename="", mode="eval"))
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        return total

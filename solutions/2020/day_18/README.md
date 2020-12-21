@@ -93,8 +93,165 @@ else:
         pointer += offset + 1
 
     ...
+
+# outside the while loop
+# pointer doesn't matter for final return, but
+# it's good to keep a consistent return signature
+return number, 0
 ```
 
-I'm happy with how this turned out, but I spent a long time messing with a worse (and increasingly convoluted) solution. If you like reading messy code, you can check that out [here](https://gist.github.com/xavdid/238c8504994d887a2951224a07b32336).
+Our actual solution is straightforward:
+
+```py
+return sum([solve(line.replace(" ", ""))[0] for line in self.input])
+```
+
+I'm happy with how this turned out, but I spent a long time messing with a worse (and increasingly convoluted) solution. If you like reading messy, disfunctional code, you can check that out [here](https://gist.github.com/xavdid/238c8504994d887a2951224a07b32336).
 
 ## Part 2
+
+For part 2, I wanted to go a different direction. Partly because I couldn't think of a good way to adapt my part 1 solution, partly because this one sounded fun.
+
+Python is already very good at parsing code; we just need to trick it into parsing code differently. I mentioned in the lengthy intro above that a parser creates an Abstract Syntax Tree. An AST precisely describes the program using a set of nested structures. The following program:
+
+```py
+a = 1 + 2
+print(a * 3)
+```
+
+Might look like this (pseudocode):
+
+```json
+{
+  "type": "program",
+  "statements": [
+    {
+      "type": "assignment",
+      "destination": {
+        "type": "identifier",
+        "value": "a"
+      },
+      "expression": {
+        "type": "binary_operation",
+        "operation": "add",
+        "left": {
+          "type": "number",
+          "value": 1
+        },
+        "right": {
+          "type": "number",
+          "value": 2
+        }
+      }
+    },
+    {
+      "type": "function",
+      "name": "print",
+      "arguments": [
+        {
+          "type": "binary_operation",
+          "operation": "mul",
+          "left": {
+            "type": "identifier",
+            "value": "a"
+          },
+          "right": {
+            "type": "number",
+            "value": 3
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+It's verbose, but you can see how the structure of the program is represented. As you can imagine, Python parses operator precedence correctly. `1 + 2 * 3` gives (something like):
+
+```json
+{
+  "statements": [
+    {
+      "type": "binary_operation",
+      "left": {
+        "type": "number",
+        "value": 1
+      },
+      "right": {
+        "type": "binary_operation",
+        "left": {
+          "type": "number",
+          "value": 2
+        },
+        "right": {
+          "type": "number",
+          "value": 3
+        }
+      }
+    }
+  ]
+}
+```
+
+Note that the parser correctly groups `2 * 3`, something we want to take advantage of. Python actaully exposes its AST tools in code itself:
+
+```py
+import ast
+
+print(ast.dump(ast.format('1 + 2 * 3', mode='eval')))
+
+# I formatted this manually to make it clearer
+Expression(
+    body=BinOp(
+        left=Constant(value=1),
+        op=Add(),
+        right=BinOp(
+            left=Constant(value=2),
+            op=Mult(),
+            right=Constant(value=3)
+        )
+    )
+)
+```
+
+If we replace the `+` with `/` and `*` with `-` in the input string so that Python parses them the opposite way, then they'll be grouped correctly for the purposes of this puzzle:
+
+```py
+Expression(
+    body=BinOp(
+        left=BinOp(
+            left=Constant(value=1),
+            op=Div(),
+            right=Constant(value=2)),
+        op=Sub(),
+        right=Constant(value=3)
+    )
+)
+```
+
+All that remains is to edit the AST so that `Div()` becomes `Add()` and `Sub()` is reverted to `Mult()`. Lukcily, Python has [a class for this](https://docs.python.org/3/library/ast.html#ast.NodeTransformer)): `ast.NodeTransformer`:
+
+```py
+import ast
+
+class SwapPrecedence(ast.NodeTransformer):
+    def visit_Sub(self, node):
+        return ast.Mult()
+
+    def visit_Div(self, node):
+        return ast.Add()
+```
+
+This class handled all the hard parts about visiting nodes, so all we do is define some methods to be called for all instances of certain node types. There's not a built-in way to render the new AST back to code, but you can imagine it as something like `(1 + 2) * 3`. Python already knows how to execute that correctly, so we can run it straight through `eval` (something you should only use in very controlled environments. Let's wrap up:
+
+```py
+total = 0
+for line in self.input:
+    tree = ast.parse(line.replace("+", "/").replace("*", "-"), mode="eval")
+    new_tree = SwapPrecedence().visit(tree)
+    total += eval(compile(new_tree, filename="", mode="eval"))
+
+return total
+```
+
+Don't worry about the `mode` kwargs there - it just makes everything play nicely together. We could have used this for part 1 as well if we swapped `*` to `-`, parsed it, and swapped it back. I like our part 1 answer though, so I'll leave it as is.
