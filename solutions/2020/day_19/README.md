@@ -63,4 +63,34 @@ return len(
 
 ## Part 2
 
-Part 2 will come soonish! I'm taking these slow now that I'm on break. Thanks for your patience. :grin:
+Part of what we could rely on in part 1 was that `0` would always eventually resolve into a finite regex. That protection has been taken away in part 2. If we update the rules and run our part 1 solution without modifications, we get `RecursionError: maximum recursion depth exceeded in comparison`.
+
+Turns out the Python regex engine doesn't handle recursion (though some other languages engines' do; each language has its own regex implementation). We need to modify our `resolve_rules` function to break the infinite recursion. Can we do this and still get the right answer? It turns out, yes! We don't need to recurse infinitely - just far enough that our final `rule_0` matches messages correctly.
+
+Let's say we've got the rule `8: "a" | "a" 8`. As a regex, that would be `(a|a(a|a(a|a(...)))))` and so on. This gets very messy with the capture groups, but as long as the recursion level is deep enough, strings of a certain length will match it consistently. I'm not sure what exactly the math is here, but I did a bit of trial and error to prove my hunch. After 6 levels of recursion, the puzzle answer stopped changing, so that was the number I stuck with.
+
+To implement this, special care is taken to track how many times we've recursed on our loop keys. A simple counter will do:
+
+```py
+num_loops = {"8": 0, "11": 0}  # detects loops
+
+def resolve_rules(self, key):
+    if key in self.num_loops:
+        if self.num_loops[key] == 6:
+            return ""
+        self.num_loops[key] += 1
+```
+
+Once we've recursed 6 times, we can break and return `''`, which is a no-op when added to a string. Truth be told, that's the only serious change needed here! Note that we dropped the `@cache` because we _do_ need the answer to change the second time around. And like I said, no measurable performance benifet, so drop we did. After our rules are parsed as part of part 1, we just add this:
+
+```py
+self.rules["8"] = "42 | 42 8"
+self.rules["11"] = "42 31 | 42 11 31"
+
+rule_0 = self.resolve_rules("0")
+part_2 = len(
+    [message for message in messages if re.match(f"^{rule_0}$", message)]
+)
+```
+
+As for the trial and error, the hardcoded 6 started as a 10. That was the correct answer on the site. Then, I tried each lower number until my code put out a different number (5 levels of recursion) and then stuck with that + 1 (6).

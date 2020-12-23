@@ -1,7 +1,7 @@
 # prompt: https://adventofcode.com/2020/day/19
 
 import re
-from functools import cache  # pylint: disable=no-name-in-module
+from typing import Tuple
 
 from ...base import BaseSolution
 
@@ -10,9 +10,15 @@ class Solution(BaseSolution):
     year = 2020
     number = 19
     rules = {}
+    num_loops = {"8": 0, "11": 0}  # detects loops
 
-    @cache
     def resolve_rules(self, key):
+        if key in self.num_loops:
+            # after 6 levels, the answers stop changing
+            if self.num_loops[key] == 6:
+                return ""
+            self.num_loops[key] += 1
+
         if self.rules[key] in ("a", "b"):
             return self.rules[key]
 
@@ -26,7 +32,7 @@ class Solution(BaseSolution):
 
         return result
 
-    def part_1(self) -> int:
+    def solve(self) -> Tuple[int, int]:
         for line in self.input.split("\n\n")[0].split("\n"):
             key, rule = line.split(": ")
             if '"' in rule:
@@ -35,18 +41,19 @@ class Solution(BaseSolution):
 
             self.rules[key] = rule
 
-        rule_0 = self.resolve_rules("0")
+        messages = self.input.split("\n\n")[1].split("\n")
 
-        return len(
-            [
-                message
-                for message in self.input.split("\n\n")[1].split("\n")
-                if re.match(f"^{rule_0}$", message)
-            ]
+        rule_0 = self.resolve_rules("0")
+        part_1 = len(
+            [message for message in messages if re.match(f"^{rule_0}$", message)]
         )
 
-    def part_2(self) -> int:
-        pass
+        self.rules["8"] = "42 | 42 8"
+        self.rules["11"] = "42 31 | 42 11 31"
 
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        rule_0 = self.resolve_rules("0")
+        part_2 = len(
+            [message for message in messages if re.match(f"^{rule_0}$", message)]
+        )
+
+        return part_1, part_2
