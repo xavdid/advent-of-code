@@ -1,6 +1,6 @@
 # Day 6 (2020)
 
-`Custom Customs` ([Prompt](https://adventofcode.com/2020/day/6))
+`Custom Customs` ([prompt](https://adventofcode.com/2020/day/6))
 
 ## Part 1
 

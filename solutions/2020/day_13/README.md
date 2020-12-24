@@ -1,6 +1,6 @@
 # Day 13 (2020)
 
-`Shuttle Search` ([Prompt](https://adventofcode.com/2020/day/13))
+`Shuttle Search` ([prompt](https://adventofcode.com/2020/day/13))
 
 ## Part 1
 

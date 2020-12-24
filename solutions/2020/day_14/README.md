@@ -1,6 +1,6 @@
 # Day 14 (2020)
 
-`Docking Data` ([Prompt](https://adventofcode.com/2020/day/14))
+`Docking Data` ([prompt](https://adventofcode.com/2020/day/14))
 
 ## Part 1
 

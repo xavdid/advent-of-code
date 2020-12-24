@@ -1,6 +1,6 @@
 # Day 17 (2020)
 
-`Conway Cubes` ([Prompt](https://adventofcode.com/2020/day/17))
+`Conway Cubes` ([prompt](https://adventofcode.com/2020/day/17))
 
 ## Part 1
 

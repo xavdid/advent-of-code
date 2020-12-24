@@ -1,6 +1,6 @@
 # Day 8 (2020)
 
-`Handheld Halting` ([Prompt](https://adventofcode.com/2020/day/8))
+`Handheld Halting` ([prompt](https://adventofcode.com/2020/day/8))
 
 ## Part 1
 
