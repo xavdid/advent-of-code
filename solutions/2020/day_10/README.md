@@ -1,6 +1,6 @@
 # Day 10 (2020)
 
-`Adapter Array` ([Prompt](https://adventofcode.com/2020/day/10))
+`Adapter Array` ([prompt](https://adventofcode.com/2020/day/10))
 
 ## Part 1
 

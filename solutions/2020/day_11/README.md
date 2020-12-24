@@ -1,6 +1,6 @@
 # Day 11 (2020)
 
-`Seating System` ([Prompt](https://adventofcode.com/2020/day/11))
+`Seating System` ([prompt](https://adventofcode.com/2020/day/11))
 
 ## Part 1
 

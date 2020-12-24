@@ -1,6 +1,6 @@
 # Day 16 (2020)
 
-`Ticket Translation` ([Prompt](https://adventofcode.com/2020/day/16))
+`Ticket Translation` ([prompt](https://adventofcode.com/2020/day/16))
 
 ## Part 1
 

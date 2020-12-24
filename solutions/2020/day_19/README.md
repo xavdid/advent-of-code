@@ -1,6 +1,6 @@
 # Day 19 (2020)
 
-`Monster Messages` ([Prompt](https://adventofcode.com/2020/day/19))
+`Monster Messages` ([prompt](https://adventofcode.com/2020/day/19))
 
 ## Part 1
 

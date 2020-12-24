@@ -1,6 +1,6 @@
 # Day 7 (2020)
 
-`Handy Haversacks` ([Prompt](https://adventofcode.com/2020/day/7))
+`Handy Haversacks` ([prompt](https://adventofcode.com/2020/day/7))
 
 ## Part 1
 

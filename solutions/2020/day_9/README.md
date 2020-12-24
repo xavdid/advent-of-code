@@ -1,6 +1,6 @@
 # Day 9 (2020)
 
-`Encoding Error` ([Prompt](https://adventofcode.com/2020/day/9))
+`Encoding Error` ([prompt](https://adventofcode.com/2020/day/9))
 
 ## Part 1
 
