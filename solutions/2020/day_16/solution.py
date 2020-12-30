@@ -47,7 +47,6 @@ class Solution(BaseSolution):
     ) -> bool:
         return all([any(v in validator for validator in validators) for v in value_set])
 
-    # pylint: disable=too-many-locals
     def solve(self) -> Tuple[int, int]:
         self.parse_requirements()
 

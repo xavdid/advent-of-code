@@ -213,7 +213,6 @@ class Solution(BaseSolution):
         ):
             tile.rotate()
 
-    # pylint: disable=too-many-locals
     def solve(self) -> Tuple[int, int]:
         # parse input
         self.tiles = set(Tile(x) for x in self.input.split("\n\n"))
