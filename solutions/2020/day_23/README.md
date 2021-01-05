@@ -68,10 +68,63 @@ return "".join(map(str, cups))[1:]
 
 ## Part 2
 
-This is a classic AoC move - part 1 can be solved by stepping through the puzzle instructions, but part 2 blows the numbers up so large that another, more technical approach is required. I couldn't come up with one off the top of my head, so let's adapt a Reddit solution, specifically [this one](https://www.reddit.com/r/adventofcode/comments/kimluc/2020_day_23_solutions/ggrtcop/).
+This is a classic AoC move - part 1 can be solved by stepping through the puzzle instructions but part 2 uses way bigger numbers. A more technical approach is required. I couldn't come up with one off the top of my head, so let's adapt a Reddit solution, specifically [this one](https://www.reddit.com/r/adventofcode/comments/kimluc/2020_day_23_solutions/ggrtcop/).
 
-We're going to use a design pattern common in academia called a [linked list](https://en.wikipedia.org/wiki/Linked_list).
+Before, we stored a (very long) `deque` that we'd have to rotate many times per loop. Though that's a fast operation, we did it a lot. To store an ordered collection, Python introduces some overhead to track the order. As it turns out, we don't actually care which number is first in the list; just that the correct thing always comes next. There's a data structure that comes up in academia a lot that's perfect for this: the [linked list](https://en.wikipedia.org/wiki/Linked_list). A linked list consists of some number of `Node`s. Each has a value and a pointer to the `next` one. Traditionally, your program keeps a pointer to the start of the list so you don't lose track of it.
 
-Instead of storing a (very long) `deque` that we'll have to rotate many times per loop, we can use a structure with fast lookups (a `dict`) that point to `Node`s. We need to know the order of items though, so each value in the `dict` will have a pointer to the next `Node` in the sequence. You might think that this would take a lot of space, but it's quite efficient. Python variables are memory pointers, so all of the `Node`s are stored once and each just holds a little sign pointing to another. There's hardly any memory overhead at all.
+Linked lists in Python are great because variables are pointers to memory addresses. If variables `a` and `b` both point to the same value, and that value is updated, `a` and `b` will stay up to date:
+
+```py
+a = {'v': 1}
+b = a
+a['v'] = 2
+
+>>> a
+{'v': 2}
+
+>>> b
+{'v': 2}
+```
+
+That's because `b` points to the memory address that `a` points to. This can get you into trouble where functions can update variables when you don't expect them to, but it's great for us. We'll be able to update parts of our `Node` chain and have them all show current data.
+
+Now for our code. We'll want to be able to quickly look up a given number, so we'll mostly work in a `dict`. The key will be the number and the value will be a little `Node` class:
+
+```py
+from dataclasses import dataclass
+
+@dataclass
+class Node:
+    val: int
+    # always defined, but not when the node is created
+    next: "Node" = None
+```
+
+Our sequence is much larger than before (it's the input, plus every number from 10 to 1mil), but that's easy enough. Let's get a ton of `int`s and put them all in a big `list`:
+
+```py
+list_size = 1_000_000
+num_loops = 10_000_000
+
+sequence: List[int] = [*map(int, self.input), *range(10, list_size + 1)]
+cups: Dict[int, Node] = {}
+assert list_size == len(sequence)
+
+for i in sequence:
+    cups[i] = Node(i)
+```
+
+Now we can quickly find the `Node` for any number. But we lack any pointers. Let's fix that. For each item in the sequence, we lookup that `Node` and set its `next` equal to the `Node` for the next value in the sequence:
+
+```py
+for index, value in enumerate(sequence):
+    cups[value].next = cups[sequence[(index + 1) % list_size]]
+```
+
+Now we're ready to solve! The actual algorithm looks a lot like the one from part 1 (and truth be told, we could do part 1 with the same code and some parameters). We start with the `current` cup:
+
+```py
+current = cups[sequence[0]]
+```
 
 ... To be continued
