@@ -121,10 +121,57 @@ for index, value in enumerate(sequence):
     cups[value].next = cups[sequence[(index + 1) % list_size]]
 ```
 
-Now we're ready to solve! The actual algorithm looks a lot like the one from part 1 (and truth be told, we could do part 1 with the same code and some parameters). We start with the `current` cup:
+Now we're ready to solve! The actual algorithm looks a lot like the one from part 1. Truth be told, we could do part 1 with the part 2 code we're about to write. Anyway, let's step through it.
+
+We start with the `current` cup, which points to the head of the array:
+
+![](./images/start.png)
 
 ```py
-current = cups[sequence[0]]
+for _ in range(num_loops):
+    current = cups[sequence[0]]
 ```
 
-... To be continued
+Now we loop. In each loop, we make a pointer to the first item after the current (`current.next`). Then we update `current.next` to point to the 4th item in the chain (where it will point once the next 3 items are removed):
+
+![](./images/pickup.png)
+
+```py
+    ...
+    pickup_head = current.next
+    # "remove" 3 elements
+    current.next = current.next.next.next.next
+```
+
+This is where our `Node` class shines. We could have a dict where the value is the keys "next", but then the bottom line above would be `cups[current] = cups[cups[cups[cups[current]]]]`, which is worse.
+
+Next, we find the target cup, which is `current - 1` (a process we repeat while that value is a cup we just picked up):
+
+```py
+    ...
+    val = current.val
+    while val in [
+        current.val,
+        pickup_head.val,
+        pickup_head.next.val,
+        pickup_head.next.next.val,
+    ]:
+        val = list_size if val == 1 else val - 1
+```
+
+Now we do the swap:
+
+![](./images/finish.png)
+
+```py
+    ...
+    target = cups[val]
+    pickup_head.next.next.next = target.next
+    target.next = pickup_head
+```
+
+If you follow each line of the code below the images, you should see each new arrow that's created. If we keep that up, we can reposition items in the loop quickly and efficiently. We do that a bunch of times and once the loop's done, we return the answer:
+
+```py
+cups[1].next.val * cups[1].next.next.val
+```

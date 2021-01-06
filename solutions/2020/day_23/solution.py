@@ -67,7 +67,7 @@ class Solution(BaseSolution):
 
         current = cups[sequence[0]]
 
-        for i in range(num_loops):
+        for _ in range(num_loops):
             pickup_head = current.next
             # "remove" 3 elements
             current.next = current.next.next.next.next
