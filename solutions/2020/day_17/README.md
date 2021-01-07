@@ -158,7 +158,7 @@ Seems like we're falling victim of the [curse of dimensionality](https://en.wiki
 
 > It means that when we get to 3D and 4D, our world will become vanishingly sparse. In my own input, only about 4% of the 3D space ended up being active, and 2% of my 4D space ends up being active. This means that holding a dense vector of all possible active points (which will be `(6+8+6)^n`) is up to 98% wasteful. And because of the way this process works, we have to completely copy our entire space at every iteration.
 
-We're storing (and looping over) a ton of extra, empty space. Conway's Game of Life is pretty well-trod, so let's find a cleaner solution. I really like [this solution](https://www.reddit.com/r/adventofcode/comments/keqsfa/2020_day_17_solutions/gg648nj/), from `/u/ssnoyes`.
+We're storing (and looping over) a ton of extra, empty space. Conway's Game of Life is pretty well-trod, so let's find a cleaner solution. I really like [this approach](https://www.reddit.com/r/adventofcode/comments/keqsfa/2020_day_17_solutions/gg648nj/), from `/u/ssnoyes`.
 
 They start with a dumb function that's the rough equivalent of our `neighbors` above:
 
