@@ -52,13 +52,13 @@ if len(cleaned) == 8 or (len(cleaned) == 7 and "cid" not in cleaned):
     num_valid += 1
 ```
 
-This approach doesn't check that the 8 keys are the _correct_ ones, but that doesn't seem to be an isseue. Looks like we can safely assume that if a key is present, it'll be one of the approved ones.
+This approach doesn't check that the 8 keys are the _correct_ ones, but that doesn't seem to be an issue. Looks like we can safely assume that if a key is present, it'll be one of the approved ones.
 
 ## Part 2
 
 Ah yep, there's values validation!
 
-Luckily, all the validation functions are pretty bytesize. We can make a single little validator dict with python `lambda` functions. They're just like regular functions, but less syntax and restricted to a single expression:
+Luckily, all the validation functions are pretty byte-sized. We can make a single little validator dict with python `lambda` functions. They're just like regular functions, but less syntax and restricted to a single expression:
 
 ```py
 VALIDATORS = {

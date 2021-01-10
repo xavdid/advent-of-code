@@ -11,9 +11,9 @@ min_leave_time = int(self.input[0])
 bus_ids = [int(x) for x in self.input[1].split(",") if x != "x"]
 ```
 
-For each `bus_id`, we need to find the first one that occurs after our `min_leave_time`. In the example, we can leave at `939` and the correct bus is `59`. If we compute `939 / 59`, we get `15.91`. So the first bus departue is that, rounded up times the `bus_id`: `16 * 59`, which is `944`. Hey, that's the answer for our example!
+For each `bus_id`, we need to find the first one that occurs after our `min_leave_time`. In the example, we can leave at `939` and the correct bus is `59`. If we compute `939 / 59`, we get `15.91`. So the first bus departure is that, rounded up times the `bus_id`: `16 * 59`, which is `944`. Hey, that's the answer for our example!
 
-So for each bus, we need to get its earliest departure time. Then we follow the rest of the instrunctions for the answer:
+So for each bus, we need to get its earliest departure time. Then we follow the rest of the instructions for the answer:
 
 ```py
 departure_time, best_bus = sorted(
@@ -27,7 +27,7 @@ It's a little concise, but clear. For the example, the sorted list is `[(944, 59
 
 ## Part 2
 
-For this part, I wanted to start with a way to validate an answer. For a given loop iteration (a timestamp where the first bus can depart), we should be able to quicky calculate whether this timestamp is correct.
+For this part, I wanted to start with a way to validate an answer. For a given loop iteration (a timestamp where the first bus can depart), we should be able to quickly calculate whether this timestamp is correct.
 
 First, we have to tweak our input parsing a little to store both the bus id and the number of steps offset from root:
 

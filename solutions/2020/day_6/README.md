@@ -79,7 +79,7 @@ So our setup will be mostly the same as before:
 answers = [set(x) for x in group.split("\n")]
 ```
 
-Now, a quandry. To use the `.intersection` method, we need a set object to call it on. But if we make a fresh one, then our result will always be empty:
+Now, a quandary. To use the `.intersection` method, we need a set object to call it on. But if we make a fresh one, then our result will always be empty:
 
 ```py
 set().intersection({1}, {1})
@@ -127,4 +127,4 @@ for group in groups:
 return total
 ```
 
-Python's `*` and `**` (not covered here, but it's got similar behavior, but for `dict`s) are powerful tools for programatically calling functions. Definitely worth [reading more about them](https://stackoverflow.com/a/36908/1825390).
+Python's `*` and `**` (not covered here, but it's got similar behavior, but for `dict`s) are powerful tools for programmatically calling functions. Definitely worth [reading more about them](https://stackoverflow.com/a/36908/1825390).

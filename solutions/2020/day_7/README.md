@@ -116,7 +116,7 @@ def can_hold_gold(self, bag) -> bool:
 
 The first time a function is called for a bag, it does the full calculation for every bag in its tree. The next time any of those bags are checked (as part of any other bag), the response will be instant.
 
-Now my soultion runs in 0.016 seconds, a 22.7x improvement.
+Now my solution runs in 0.016 seconds, a 22.7x improvement.
 
 Breaking complex problems into small problems and caching the results is a technique called [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#Computer_programming). It can lead to huge gains in the speed of recursive algorithms. A valuable tool to have in your toolbelt!
 
@@ -162,7 +162,7 @@ Just like before, if `bag_info.can_hold_gold` is `None`, we need to calculate an
 
 By default, the value of an empty bag is `1` (the bag itself). We add to that the value of each bag it holds `*` the quantity of that bag.
 
-Concisely, that's caclculated as:
+Concisely, that's calculated as:
 
 ```py
 bag_info.num_bags_held = 1 + sum(

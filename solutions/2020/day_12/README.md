@@ -63,7 +63,7 @@ def execute(self, instructions: List[str]):
             self.rotate(move_type, value)
 ```
 
-Caclulating the distance from 0 is easy with Python's `abs` (aboslute value) function:
+Calculating the distance from 0 is easy with Python's `abs` (absolute value) function:
 
 ```py
 def distance(self) -> int:

@@ -4,15 +4,15 @@
 
 ## Part 1
 
-The only real curveball today is the hex grid. Though we [know it to be the best shape](https://www.youtube.com/watch?v=thOifuHs6eY), a lot of folks (myself incldued) don't have a lot of experience working with them programatically. If today's puzzle used a standard cartesian grid, it would be a walk in the park. Luckily, hexes aren't too different.
+The only real curveball today is the hex grid. Though we [know it to be the best shape](https://www.youtube.com/watch?v=thOifuHs6eY), a lot of folks (myself included) don't have a lot of experience working with them programmatically. If today's puzzle used a standard Cartesian grid, it would be a walk in the park. Luckily, hexes aren't too different.
 
-Like I mentioned, this was my first time using hexes in a program. We can define the points however we want as long as we're consistent about it. I turned to an expert on the subject, Amit Patel, and his blog, Red Blob Games. It's a great resource for algorthms in videogames (and a great place to learn, even if you're not writing a game). He's written the veritable bible on hex grids. The whole thing is great, but [this is the pertinent bit](https://www.redblobgames.com/grids/hexagons/#coordinates-cube). He describes a system where each point is expressed as `(x, y, z)` and for any point, `x + y + z == 0`. He's included a helpful diagram:
+Like I mentioned, this was my first time using hexes in a program. We can define the points however we want as long as we're consistent about it. I turned to an expert on the subject, Amit Patel, and his blog, Red Blob Games. It's a great resource for algorithms in videogames (and a great place to learn, even if you're not writing a game). He's written the veritable bible on hex grids. The whole thing is great, but [this is the pertinent bit](https://www.redblobgames.com/grids/hexagons/#coordinates-cube). He describes a system where each point is expressed as `(x, y, z)` and for any point, `x + y + z == 0`. He's included a helpful diagram:
 
 [![](https://cdn.zappy.app/cf7adabc866493c42ddd7ac9ef221ee9.png)](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
 
 You can click through to his site, as the diagram itself is interactive. It's a great way to visualize the grid we're about to write.
 
-If our start point is `(0, 0, 0)`, we can assign offsets for each of the 6 directions pictured above (and used in our propt). Immediately to the left (`W`) of the start is `(-1, 1, 0)`, `NW` is `(0, 1, -1)`, and so forth. Whenenver we parse that string out of input, we want to get offset in that direction:
+If our start point is `(0, 0, 0)`, we can assign offsets for each of the 6 directions pictured above (and used in our propt). Immediately to the left (`W`) of the start is `(-1, 1, 0)`, `NW` is `(0, 1, -1)`, and so forth. Whenever we parse that string out of input, we want to get offset in that direction:
 
 ```py
 offsets = {

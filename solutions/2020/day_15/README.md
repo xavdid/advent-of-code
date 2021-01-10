@@ -4,7 +4,7 @@
 
 ## Part 1
 
-On first read, it seems like we'll want to track all of the numbers we say in a big list. That's not bad, but we're going to be doing a lot of lookups. That lends itself better to some sort of `dict`. We're going to be tracking data for each number, so let's use a `defaultdict(list)` so we can freely `.append` values. The key will be the number and the value will be a list of turns on which the number was said. Note that while the examples are 1-indexed (starting on turn 1), we're going to 0-index to write more natural Python code. The subtractions will be the same, so it's all good ( that is, turn 4 - turn 1 is the same as 3 - 0).
+On first read, it seems like we'll want to track all of the numbers we say in a big list. That's not bad, but we're going to be doing a lot of lookups. That lends itself better to some sort of `dict`. We're going to be tracking data for each number, so let's use a `defaultdict(list)` so we can freely `.append` values. The key will be the number and the value will be a list of turns on which the number was said. Note that while the examples are 1-indexed (starting on turn 1), we're going to 0-index to write more natural Python code. The subtractions will be the same, so it's all good (that is, `turn 4 - turn 1` is the same as `3 - 0`).
 
 Before we get to the meat of our loop, we need to ingest the input. For each, we store the number we speak and the turn (aka `index`) during which it was spoken.
 
@@ -55,7 +55,7 @@ Let's run it:
 
 ![](https://cdn.zappy.app/a18ce7e7aeaecb181736cb8e9440668b.gif)
 
-We're making pretty consistnt progress! It's not an infinite loop or anything, it's just that 30M loops is a lot. It's interesting that printing certain numbers takes longer. That shows that we're not running in constant time. Something in our program gets slower the more loops it does. Let's profile it and check out what that might be.
+We're making pretty consistent progress! It's not an infinite loop or anything, it's just that 30M loops is a lot. It's interesting that printing certain numbers takes longer. That shows that we're not running in constant time. Something in our program gets slower the more loops it does. Let's profile it and check out what that might be.
 
 Python supplies the [`cProfile` module](https://docs.python.org/3/library/profile.html), which allows us to benchmark our code. After importing, you use it by passing it a string to be `eval`ed:
 
