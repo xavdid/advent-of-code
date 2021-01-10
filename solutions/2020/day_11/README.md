@@ -112,7 +112,7 @@ def num_occupied_adjacent(self, y, x) -> int:
 A couple of tricks to note here:
 
 - `tile_at(*direction)` is a shorthand for `tile_at(y, x)` when `direction == (y, x)`
-- Python's `Counter` class, which takes an iterable, counts occurances of each items, and provides dictionary-like lookup.
+- Python's `Counter` class, which takes an iterable, counts occurrences of each items, and provides dictionary-like lookup.
 
 Now that we've got our util functions in place, we can get to the meat of the loop. Given a tile, we should calculate what it'll change to:
 
@@ -185,7 +185,7 @@ return grid.count_tiles()[Tile.OCCUPIED_SEAT]
 
 Though this ends up being a lot of code, none of it is particularly complex. You could do it in far fewer lines if you used strings instead of `Enum` and kept everything in one big loop. But brevity shouldn't come at the expense of maintainability (even for puzzle code).
 
-This day is also notable for being the slowest running so far. While most programs finish almost instantly, this takes ~ `5.5` seconds on my machine. Totally within acceptible limits, but interesting nonetheless.
+This day is also notable for being the slowest running so far. While most programs finish almost instantly, this takes ~ `5.5` seconds on my machine. Totally within acceptable limits, but interesting nonetheless.
 
 ### Speed Optimizations
 
@@ -193,7 +193,7 @@ We can always go faster (though you [probably don't need to](https://blog.coding
 
 Firstly, we can improve `next_tile` by bailing as soon as possible. If a tile is `empty` and we find a single adjacent tile, we can bail early. Similarly, as soon as an occupied tile sees 4 other occupied ones, we can exit early.
 
-The "worst" case is that we have to look at all 8 tiles to verify that either there are 0 tiles (empty -> occupied) or there aren't enough to meet the treshold.
+The "worst" case is that we have to look at all 8 tiles to verify that either there are 0 tiles (empty -> occupied) or there aren't enough to meet the threshold.
 
 Secondly, we can ditch the enums. It hurts readability a little and can be a source of bugs (comparing a string to an invalid `string`, like `tile == ','`), but there does end up being a performance impact.
 
@@ -233,7 +233,7 @@ def next_tile(self, y, x) -> str:
                 return "L"
 
             num_occupied_adjacent += 1
-            # stop as soon as we hit the treshold
+            # stop as soon as we hit the threshold
             if num_occupied_adjacent == 4 and tile == "#":
                 return "L"
 

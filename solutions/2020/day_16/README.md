@@ -6,10 +6,10 @@
 
 The oddest part of this prompt is the unusual input structure. After that, it's pretty straightforward.
 
-First, we look at the requirements block. Each row follows the format `NAME: A-B or C-D`. Givne it's rigid structure, we'll be relying on `stirng.split` to parse data for storage. What exactly are we storing though? Later we'll need to be able to quickly tell whether or not a value is between those two numbers. Off the top of my head, I had two ideas:
+First, we look at the requirements block. Each row follows the format `NAME: A-B or C-D`. Given it's rigid structure, we'll be relying on `string.split` to parse data for storage. What exactly are we storing though? Later we'll need to be able to quickly tell whether or not a value is between those two numbers. Off the top of my head, I had two ideas:
 
 - a nameless lambda function once we've parsed out both `int`s, we could return `lambda v: a <= v <= b`
-- a 2-tuple of the low and high values. I could check that values are betwen those with a similar approach to the function
+- a 2-tuple of the low and high values. I could check that values are between those with a similar approach to the function
 
 Both of those would work, but there's an even better option: Python's `range`. The range object can check if a number is in its bounds, and it does so [very quickly](https://stackoverflow.com/a/30081318/1825390). Sounds like a great way to store this info:
 

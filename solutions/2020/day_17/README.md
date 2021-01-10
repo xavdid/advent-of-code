@@ -15,7 +15,7 @@ The slightly tricky thing is that we have to consider all the cubes in an infini
 
 Our grid is infinite in all directions, but we only need to worry about items next to our cubes. Anything outside that bubble will never become active (because it's always surrounded by only inactive cubes and lacks any active neighbors).
 
-Honestly, my approach is here mostly utility functions. We start with a class that handes our input:
+Honestly, my approach is here mostly utility functions. We start with a class that handles our input:
 
 ```py
 class ConwayCube:
@@ -76,7 +76,7 @@ def all_cube_coords(self):
                 yield (x, y, z)
 ```
 
-That's perfectly correct, but a little ugly because of the extreme nesting. Luckly, Python's `itertools` has just the function for us:
+That's perfectly correct, but a little ugly because of the extreme nesting. Luckily, Python's `itertools` has just the function for us:
 
 ```py
 from itertools import product
@@ -172,7 +172,7 @@ def get_neighbors(cell: Tuple[int, ...]):
     return neighbors
 ```
 
-From the main loop, we use that to build `neighbors`, a `Counter` which tracks how many time each neighbor is looked at. The key is the cell-tuple and the value is the number of occurances:
+From the main loop, we use that to build `neighbors`, a `Counter` which tracks how many time each neighbor is looked at. The key is the cell-tuple and the value is the number of occurrences:
 
 ```py
 neighbors = Counter(
@@ -189,7 +189,7 @@ for cell in living:
 neighbors = Counter(neighbors)
 ```
 
-I like this approach a lot because it's the inverse of mine - intead of calculating the number of active neighbors for a given square, we count the number of times each coordinate is mentioned as the neighbor of an active cell. This took me a couple of passes to wrap my head around, so here's a quick diagram. If we had this 2D setup:
+I like this approach a lot because it's the inverse of mine - instead of calculating the number of active neighbors for a given square, we count the number of times each coordinate is mentioned as the neighbor of an active cell. This took me a couple of passes to wrap my head around, so here's a quick diagram. If we had this 2D setup:
 
 ```
 .#.

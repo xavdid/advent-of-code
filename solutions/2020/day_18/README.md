@@ -6,9 +6,9 @@
 
 Have you ever been curious how Python turns text into code?
 
-It's done via a process called **lexing** - the code is broken up and retuned as a list of **tokens**. A token is fundamental building block of code - all punctuation falls into this, as do strings, numbers, and keywords (`return`, `def`, etc). If there are syntax errors, they're caught during this step - the lexer will falter.
+It's done via a process called **lexing** - the code is broken up and returned as a list of **tokens**. A token is fundamental building block of code - all punctuation falls into this, as do strings, numbers, and keywords (`return`, `def`, etc). If there are syntax errors, they're caught during this step - the lexer will falter.
 
-Next, a **parser** walks through the tokens and groups them into objects based on **precedence**. The parser is what knows the rules that dictate that `*` takes precedence over `*`. Those objects are stored in an **Abstract Syntax Tree**, which describes, unambiguously, the shape and structure of a program.
+Next, a **parser** walks through the tokens and groups them into objects based on **precedence**. The parser is what knows the rules that dictate that `*` takes precedence over `+`. Those objects are stored in an **Abstract Syntax Tree**, which describes, unambiguously, the shape and structure of a program.
 
 Then, the AST is evaluated, which takes AST nodes and translates them into something native to the language that's doing this work. In Python's case, that's C. It then does the computation and substitutes the results (`1 + 2` becomes `3`). Eventually, some sort of output happens.
 
@@ -23,7 +23,7 @@ The input has two important features:
 1. all the numbers are single digit. There's never a `+ 10` or anything
 1. It always follows the pattern `number`, `operator`, `number`, `operator`, ...
 
-Part 1 is helpful for tokenizing the input - each character is a token! We don't have to worry about figuring out that `10` is actually a single token in disguise. We don't care about the spaces (just the actual charaters), so we can remove them:
+Part 1 is helpful for tokenizing the input - each character is a token! We don't have to worry about figuring out that `10` is actually a single token in disguise. We don't care about the spaces (just the actual characters), so we can remove them:
 
 ```py
 for line in self.input:
@@ -65,7 +65,7 @@ Assuming our input is valid and the above patterns hold, this will walk through 
 
 Next up is handling the parentheses. We have to totally resolve anything in the parens before we do the outside. If you treat the inside of the parens as its own little sub-equation then we can re-use our existing `solve` method. Sounds like recursion to me!
 
-`solve(1 + (2 * 3) * 4)` is the same as `solve(1 + solve(2 * 3) * 4)`. We know that we need to do such resursion when we hit an `(` and need to pass in everything in front of the `(`. We also know that when we find our first `)`, we should immediately return.
+`solve(1 + (2 * 3) * 4)` is the same as `solve(1 + solve(2 * 3) * 4)`. We know that we need to do such recursion when we hit an `(` and need to pass in everything in front of the `(`. We also know that when we find our first `)`, we should immediately return.
 
 ```py
 ... # operator code
@@ -106,7 +106,7 @@ Our actual solution is straightforward:
 return sum([solve(line.replace(" ", ""))[0] for line in self.input])
 ```
 
-I'm happy with how this turned out, but I spent a long time messing with a worse (and increasingly convoluted) solution. If you like reading messy, disfunctional code, you can check that out [here](https://gist.github.com/xavdid/238c8504994d887a2951224a07b32336).
+I'm happy with how this turned out, but I spent a long time messing with a worse (and increasingly convoluted) solution. If you like reading messy, dysfunctional code, you can check that out [here](https://gist.github.com/xavdid/238c8504994d887a2951224a07b32336).
 
 ## Part 2
 
@@ -193,7 +193,7 @@ It's verbose, but you can see how the structure of the program is represented. A
 }
 ```
 
-Note that the parser correctly groups `2 * 3`, something we want to take advantage of. Python actaully exposes its AST tools in code itself:
+Note that the parser correctly groups `2 * 3`, something we want to take advantage of. Python actually exposes its AST tools in code itself:
 
 ```py
 import ast
@@ -229,7 +229,7 @@ Expression(
 )
 ```
 
-All that remains is to edit the AST so that `Div()` becomes `Add()` and `Sub()` is reverted to `Mult()`. Lukcily, Python has [a class for this](https://docs.python.org/3/library/ast.html#ast.NodeTransformer)): `ast.NodeTransformer`:
+All that remains is to edit the AST so that `Div()` becomes `Add()` and `Sub()` is reverted to `Mult()`. Luckily, Python has [a class for this](https://docs.python.org/3/library/ast.html#ast.NodeTransformer)): `ast.NodeTransformer`:
 
 ```py
 import ast

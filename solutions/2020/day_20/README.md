@@ -6,11 +6,11 @@
 
 For part one, we're identifying corner tiles. How do we tell a corner from any other type of piece?
 
-The prompt tells us that each interior edge has a twin. So if we count the occurances for each edge, we'll know which ones only show up once. Those must be our exterior edges! And any tiles that have two such edges? Corners.
+The prompt tells us that each interior edge has a twin. So if we count the occurrences for each edge, we'll know which ones only show up once. Those must be our exterior edges! And any tiles that have two such edges? Corners.
 
 Let's parse some input.
 
-Given that we'll be working closesly with these tiles, I thought it worthwhile to put them into a class. It'll take a `list` of `string`s (each newline-separated block describing a tile) and will store both the unique `id` and the actual points:
+Given that we'll be working closely with these tiles, I thought it worthwhile to put them into a class. It'll take a `list` of `string`s (each newline-separated block describing a tile) and will store both the unique `id` and the actual points:
 
 ```py
 class Tile:
@@ -390,7 +390,7 @@ class Image:
                 continue
 ```
 
-Next, we walk over each line with an `int`. Using an `int` directly instead of `for x in line` lets us jump manually, which will become very important. If the character we're looking at isn't `#`, we can skip it (can't be the start of a tail). Then we `re.match` for the `MONSTER_MIDDLE`. If that's found, we call `is_monster` for that `row_num` and index (named `i`). If _that's_ true, then we incremet `i` by `20`, the total width of a monster. Sound reasonable?
+Next, we walk over each line with an `int`. Using an `int` directly instead of `for x in line` lets us jump manually, which will become very important. If the character we're looking at isn't `#`, we can skip it (can't be the start of a tail). Then we `re.match` for the `MONSTER_MIDDLE`. If that's found, we call `is_monster` for that `row_num` and index (named `i`). If _that's_ true, then we increment `i` by `20`, the total width of a monster. Sound reasonable?
 
 ```py
 def count_monsters(self):

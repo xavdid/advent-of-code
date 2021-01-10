@@ -75,7 +75,7 @@ Let's say our adapter list is `[(0), 1, 2, 4, 5, 6, (9)]`.
   - no `3` adapter (0)
   - all the paths to get to `4` (3)
 - The number of paths from `0 -> 6` is **8**:
-  - `1` and `2` are excluded because we can't jump straight from them to `6`. Same with the non-existant `3` (0)
+  - `1` and `2` are excluded because we can't jump straight from them to `6`. Same with the non-existent `3` (0)
   - all the paths to get to `4` (3)
   - all the paths to get to `5` (5)
 

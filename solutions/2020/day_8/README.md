@@ -38,7 +38,7 @@ class InfiniteLoopException(Exception):
     pass
 ```
 
-That's some grade-A groundwork! Our little [VM](https://en.wikipedia.org/wiki/Virtual_machine) (a computer that exists entirely in software) has a pointer, accumulator, and a list of instrunctions:
+That's some grade-A groundwork! Our little [VM](https://en.wikipedia.org/wiki/Virtual_machine) (a computer that exists entirely in software) has a pointer, accumulator, and a list of instructions:
 
 ```py
 class VM:

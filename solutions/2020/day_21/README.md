@@ -48,7 +48,7 @@ We might have used a `defaultdict` here for `translation`, but `set() & {1,2}` i
 }
 ```
 
-The prompt asks about the number of occurances of the ingredients that _aren't_ in those sets. While we walk the list, we'll create a set (`safe_ingredients`) that has _all_ the ingredients and pull from it after that first pass:
+The prompt asks about the number of occurrences of the ingredients that _aren't_ in those sets. While we walk the list, we'll create a set (`safe_ingredients`) that has _all_ the ingredients and pull from it after that first pass:
 
 ```py
 for line in self.input:
@@ -68,7 +68,7 @@ return sum(
 
 ## Part 2
 
-Now we actually have to figure out which allergens map to which ingredients. This'll play out a lot like [DAY 16](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_16#part-2). We start with any allergens that map to a single ingredient (like `A` in the cleaned example above), then remove that one from all other places it's a potential. We keep doing that until all the potential values are empty.
+Now we actually have to figure out which allergens map to which ingredients. This'll play out a lot like [day 16](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_16#part-2). We start with any allergens that map to a single ingredient (like `A` in the cleaned example above), then remove that one from all other places it's a potential. We keep doing that until all the potential values are empty.
 
 The only tricky thing here is that we have to take care to not modify the size of the dict as we're iterating through it. Instead, we consume the generator before iterating through it, which looks a little unusual:
 

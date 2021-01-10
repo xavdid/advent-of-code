@@ -4,7 +4,7 @@
 
 ## Part 1
 
-In case you weren't clued in from the puzzle's title, today is a twist on a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm). Given a sorted list, you cut in in half, test where your target element is (higher or lower than the midpoint), and throw out the other set. Do this enough times and you quickly find the index of the element you're searching for. A binary search is efficient becdause you only need to check a few elements to find the target (as compared to a "linear" search, where you check every element until the target is found). The AoC twist is that we don't _have_ a target value. Instead, we use `char`s to decide which half of the results to keep.
+In case you weren't clued in from the puzzle's title, today is a twist on a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm). Given a sorted list, you cut in in half, test where your target element is (higher or lower than the midpoint), and throw out the other set. Do this enough times and you quickly find the index of the element you're searching for. A binary search is efficient because you only need to check a few elements to find the target (as compared to a "linear" search, where you check every element until the target is found). The AoC twist is that we don't _have_ a target value. Instead, we use `char`s to decide which half of the results to keep.
 
 Off the bat, we know we'll be doing a loop a fixed number of times (7 characters). The function that takes that length-7 string will return a row number, so we can start there:
 
@@ -72,7 +72,7 @@ return max([calulate_score(assignment) for assignment in self.input])
 
 From my read of this question, it sounds like the seat IDs will be a continuous run of numbers, but not one that starts at 0. We need to find the number that's missing from the range.
 
-Our answer from part 1 is the high end of the number range (using `max`). If we pair that with the `min`, we'll know both bounds of our range. If we have the full range and the range-without-a-number, we can substrack the two as sets and only the missing number will be left.
+Our answer from part 1 is the high end of the number range (using `max`). If we pair that with the `min`, we'll know both bounds of our range. If we have the full range and the range-without-a-number, we can subtract the two as sets and only the missing number will be left.
 
 > Note that this function uses the Python quickhand for creating sets, which looks creating a dict, but without keys.
 
