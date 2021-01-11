@@ -50,4 +50,4 @@ def count_trees(self, right: int, down: int) -> int:
     return trees
 ```
 
-This gives us a nice generic function that we can fulfil both parts of the puzzle with!
+This gives us a nice generic function that we can fulfill both parts of the puzzle with!

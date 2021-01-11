@@ -4,7 +4,7 @@
 
 ## Part 1
 
-The best season is finally upon us! It's Advent of Code time. Lucikly, we start on a straightforward note.
+The best season is finally upon us! It's Advent of Code time. Luckily, we start on a straightforward note.
 
 We're looking for a sum of 2020, so for each item in the list, we know exactly what our matching number will be. So, we can iterate through the list and return the result when we find the match:
 
