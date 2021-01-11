@@ -8,9 +8,9 @@ Our first goal today, like most days, is extracting the important information ou
 
 <!-- prettier-ignore -->
 1. We start with `'1-3 a: abcde'`
-2. Splitting on `: ` gives `['1-3 a', 'abcde']`. Our actual passowrd is free!
+2. Splitting on `: ` gives `['1-3 a', 'abcde']`. Our actual password is free!
 3. Splitting the first result from (2) on `' '` gives `['1-3', 'a']` - the char is now available.
-3. Splitting the frist result from (3) on `'-'` gets us the string version of our two numbers: `['1', '3']`.
+3. Splitting the first result from (3) on `'-'` gets us the string version of our two numbers: `['1', '3']`.
 
 Now that we've got each part separated, we can wrap this logic in a function. The last thing we need is to make sure to return `int`s instead of strings for the count:
 
