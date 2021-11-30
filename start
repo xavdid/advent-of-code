@@ -18,35 +18,39 @@ PARSER.add_argument(
     nargs="?",
 )
 PARSER.add_argument("--year", default=current_puzzle_year(), help="Puzzle year")
-ARGS = PARSER.parse_args()
 
-year_dir = Path(f"solutions/{ARGS.year}")
-year_dir.mkdir(parents=True, exist_ok=True)
+if __name__ == "__main__":
+    ARGS = PARSER.parse_args()
 
-if ARGS.day is None:
-    day = next_day(year_dir) + 1
-else:
-    day = ARGS.day
+    year_dir = Path(f"solutions/{ARGS.year}")
+    year_dir.mkdir(parents=True, exist_ok=True)
 
-if day < 1 or day > 25:
-    PARSER.error(f"day {day} is not in range [1,25]")
+    if ARGS.day is None:
+        day = next_day(year_dir) + 1
+    else:
+        day = ARGS.day
 
-day_dir = Path(year_dir, f"day_{day}")
+    if not 1 < day < 25:
+        PARSER.error(f"day {day} is not in range [1,25]")
 
-day_dir.mkdir(parents=True, exist_ok=True)
-Path(day_dir, "input.txt").touch()
+    day_dir = Path(year_dir, f"day_{day}")
 
-notes_path = Path(day_dir, "README.md")
-if not notes_path.exists():
-    # pylint: disable=line-too-long
-    notes_path.write_text(
-        f"# Day {day} ({ARGS.year})\n\n`TITLE` ([prompt](https://adventofcode.com/{ARGS.year}/day/{day}))\n\n## Part 1\n\n## Part 2\n\n"
-    )
+    day_dir.mkdir(parents=True, exist_ok=True)
+    Path(day_dir, "input.txt").touch()
 
-solution_path = Path(day_dir, "solution.py")
-if solution_path.exists():
-    print("skipping solution creation, files already exists")
-else:
-    template = Path("housekeeping/example_solution.py.tmpl").read_text()
-    replaced_template = template.replace("<YEAR>", ARGS.year).replace("<DAY>", str(day))
-    solution_path.write_text(replaced_template)
+    notes_path = Path(day_dir, "README.md")
+    if not notes_path.exists():
+        # pylint: disable=line-too-long
+        notes_path.write_text(
+            f"# Day {day} ({ARGS.year})\n\n`TITLE` ([prompt](https://adventofcode.com/{ARGS.year}/day/{day}))\n\n## Part 1\n\n## Part 2\n\n"
+        )
+
+    solution_path = Path(day_dir, "solution.py")
+    if solution_path.exists():
+        print("skipping solution creation, files already exists")
+    else:
+        template = Path("housekeeping/example_solution.py.tmpl").read_text()
+        replaced_template = template.replace("<YEAR>", ARGS.year).replace(
+            "<DAY>", str(day)
+        )
+        solution_path.write_text(replaced_template)

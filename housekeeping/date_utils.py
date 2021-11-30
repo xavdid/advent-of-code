@@ -3,7 +3,7 @@ from datetime import date
 from pathlib import Path
 
 
-def current_puzzle_year() -> int:
+def current_puzzle_year() -> str:
     # if it's on or after dec 1, use this year. Otherwise, use last year
     now = date.today()
     if now.month == 12:

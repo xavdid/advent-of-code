@@ -73,6 +73,9 @@ solutions/
     │   ├── solution.py
     │   ├── input.txt
     │   └── README.md
+    ├── day_2/
+    │   ├── solution.py
+    │   ├── ...
     └── ...
 ```
 
@@ -99,13 +102,13 @@ It's also got some convenience methods for print-based debugging: `self.pp` (pre
 
 AoC input takes a number of forms, so there are a number of simple modes in which input can be read. Pick a mode by setting `Solution.input_type` to one of the following `Enum` values:
 
-| InputTypes.X | description                                             | input for this mode   |
-| ------------ | ------------------------------------------------------- | --------------------- |
-| TEXT         | one solid block of text; the default                    | `abcde`               |
-| INTEGER      | one number                                              | `12345`               |
-| TSV          | tab-separated values                                    | `a b c`<br>`d e f`    |
-| STRSPLIT     | str[], split by a specified separator (default newline) | a<br>b<br>c<br>d<br>e |
-| INTSPLIT     | int[], split by a specified separator (default newline) | 1<br>2<br>3<br>4<br>5 |
+| InputTypes.X | description                                               | input for this mode   |
+| ------------ | --------------------------------------------------------- | --------------------- |
+| TEXT         | one solid block of text; the default                      | `abcde`               |
+| INTEGER      | one number                                                | `12345`               |
+| TSV          | tab-separated values                                      | `a b c`<br>`d e f`    |
+| STRSPLIT     | `str[]`, split by a specified separator (default newline) | a<br>b<br>c<br>d<br>e |
+| INTSPLIT     | `int[]`, split by a specified separator (default newline) | 1<br>2<br>3<br>4<br>5 |
 
 Specify `Solution.separator` to control how the SPLIT methods separate their input.
 
@@ -115,4 +118,4 @@ Each AoC puzzle has two parts, so there are two functions you need to write: `pa
 
 Sometimes, it's easier to calculate both parts in a single function (such as if the answer is asking about two parts of a single computation). In that case, there's also a `solve()` method, which should return a two-tuple with your answers (like `(5, 7)`).
 
-`solve` takes precent if present. Feel free to delete any unused functions from this section.
+`solve` takes percent if present. Feel free to delete any unused functions from this section.

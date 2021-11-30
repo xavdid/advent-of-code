@@ -6,13 +6,16 @@ from pprint import pprint
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
-    TEXT = auto()  # one solid block of text; the default
-    INTEGER = auto()  # a single int
-    TSV = auto()  # tab-separated values.
-    STRSPLIT = auto()  # str[], split by a specified separator (default newline)
-    INTSPLIT = (
-        auto()
-    )  # int[], split by a split by a specified separator (default newline)
+    # one solid block of text; the default
+    TEXT = auto()
+    # a single int
+    INTEGER = auto()
+    # tab-separated values.
+    TSV = auto()
+    # str[], split by a specified separator (default newline)
+    STRSPLIT = auto()
+    # int[], split by a split by a specified separator (default newline)
+    INTSPLIT = auto()
 
 
 def slow(func):

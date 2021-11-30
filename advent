@@ -9,13 +9,14 @@ from pathlib import Path
 from housekeeping.date_utils import current_puzzle_year, next_day
 
 
-def main(day: str, year: str, slow: bool, debug: bool):
+def main(day: int, year: str, slow: bool, debug: bool):
     try:
         # class needs to have this name
         if ARGS.day is None:
             year_dir = Path(f"solutions/{year}")
             day = next_day(year_dir)
-        solver = import_module(f"solutions.{year}.day_{day}.solution").Solution
+
+        solver = import_module(f"solutions.{year}.day_{day}.solution").Solution  # type: ignore
     except ModuleNotFoundError:
         print(
             f"solution not found for day {day} ({year}) (or there's an ImportError in your code)"
@@ -50,9 +51,10 @@ PARSER.add_argument(
     "--profile", action="store_true", help="run solution through a performance profiler"
 )
 
-ARGS = PARSER.parse_args()
+if __name__ == "__main__":
+    ARGS = PARSER.parse_args()
 
-if ARGS.profile:
-    cProfile.run("main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)", sort="tottime")
-else:
-    main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)
+    if ARGS.profile:
+        cProfile.run("main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)", sort="tottime")
+    else:
+        main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)
