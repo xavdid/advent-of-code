@@ -30,7 +30,7 @@ if __name__ == "__main__":
     else:
         day = ARGS.day
 
-    if not 1 < day < 25:
+    if not 1 <= day <= 25:
         PARSER.error(f"day {day} is not in range [1,25]")
 
     day_dir = Path(year_dir, f"day_{day}")
