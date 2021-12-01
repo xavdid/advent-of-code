@@ -42,8 +42,8 @@ def resolve_floaters(mask: str) -> int:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 14
+    _year = 2020
+    _number = 14
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

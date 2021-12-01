@@ -10,8 +10,8 @@ I worked on this for longer than any I had done before and then got tired of it;
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 8
+    _year = 2018
+    _number = 8
 
     @property
     def input_type(self):

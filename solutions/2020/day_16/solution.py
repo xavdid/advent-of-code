@@ -7,8 +7,8 @@ from ...base import BaseSolution
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 16
+    _year = 2020
+    _number = 16
     validators = {}
 
     def parse_requirements(self) -> None:

@@ -18,8 +18,8 @@ OPPOSITES = [
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 11
+    _year = 2017
+    _number = 11
 
     @property
     def separator(self):

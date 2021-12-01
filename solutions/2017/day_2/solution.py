@@ -7,8 +7,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 2
+    _year = 2017
+    _number = 2
 
     @property
     def input_type(self):
@@ -31,4 +31,3 @@ class Solution(BaseSolution):
         for pair in pairs:
             if max(pair) % min(pair) == 0:
                 return max(pair) // min(pair)
-

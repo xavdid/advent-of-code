@@ -7,8 +7,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 1
+    _year = 2018
+    _number = 1
 
     @property
     def input_type(self):
@@ -26,4 +26,3 @@ class Solution(BaseSolution):
                 return c
             else:
                 s.add(c)
-

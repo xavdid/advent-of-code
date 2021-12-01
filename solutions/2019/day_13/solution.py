@@ -18,8 +18,8 @@ class Point:
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 13
+    _year = 2019
+    _number = 13
 
     def part_1(self):
         computer = IntcodeComputer(self.input)

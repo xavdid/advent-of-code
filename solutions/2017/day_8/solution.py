@@ -6,8 +6,8 @@ from operator import gt, lt, ge, le, eq, ne, add, sub
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 8
+    _year = 2017
+    _number = 8
 
     @property
     def input_type(self):

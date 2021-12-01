@@ -5,8 +5,8 @@ from collections import deque
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 16
+    _year = 2017
+    _number = 16
 
     @property
     def separator(self):
@@ -65,4 +65,3 @@ class Solution(BaseSolution):
             # seen[old] = programs
 
         return "".join(programs)
-

@@ -4,8 +4,8 @@ from ..intcode import IntcodeComputer, IntcodeSolution
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 19
+    _year = 2019
+    _number = 19
 
     def is_in_tractor(self, x: int, y: int) -> int:
         computer = IntcodeComputer(self.input, inputs=[x, y])

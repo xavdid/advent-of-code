@@ -9,8 +9,8 @@ Point = Tuple[int, int, int]
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 24
+    _year = 2020
+    _number = 24
     input_type = InputTypes.STRSPLIT
 
     def solve(self) -> Tuple[int, int]:

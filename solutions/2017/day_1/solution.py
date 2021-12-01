@@ -4,8 +4,8 @@ from ...base import BaseSolution, slow
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 1
+    _year = 2017
+    _number = 1
 
     def part_1(self):
         return self._solve(1)
@@ -21,4 +21,3 @@ class Solution(BaseSolution):
                 total += int(val)
 
         return total
-

@@ -82,8 +82,8 @@ class Ship:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 12
+    _year = 2020
+    _number = 12
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:
@@ -95,4 +95,3 @@ class Solution(BaseSolution):
         ship = Ship(waypoint=True)
         ship.execute(self.input)
         return ship.distance()
-

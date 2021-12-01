@@ -9,8 +9,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 10
+    _year = 2020
+    _number = 10
     input_type = InputTypes.INTSPLIT
 
     def part_1(self) -> int:

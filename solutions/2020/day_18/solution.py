@@ -55,8 +55,8 @@ class SwapPrecedence(ast.NodeTransformer):
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 18
+    _year = 2020
+    _number = 18
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

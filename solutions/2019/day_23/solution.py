@@ -6,8 +6,8 @@ from ..intcode import STOP_REASON, IntcodeComputer, IntcodeSolution
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 23
+    _year = 2019
+    _number = 23
 
     def part_1(self):
         vms = [

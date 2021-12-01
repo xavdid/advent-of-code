@@ -5,8 +5,8 @@ import itertools
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 3
+    _year = 2018
+    _number = 3
 
     @property
     def input_type(self):

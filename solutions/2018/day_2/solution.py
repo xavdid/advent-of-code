@@ -5,8 +5,8 @@ from itertools import combinations
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 2
+    _year = 2018
+    _number = 2
 
     @property
     def input_type(self):
@@ -47,4 +47,3 @@ class Solution(BaseSolution):
                 for idx, (i, j) in enumerate(zip(*pair)):
                     if i != j:
                         return pair[0][:idx] + pair[0][idx + 1 :]
-

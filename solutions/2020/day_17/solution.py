@@ -104,8 +104,8 @@ class ConwayCube:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 17
+    _year = 2020
+    _number = 17
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

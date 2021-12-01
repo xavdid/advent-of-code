@@ -7,8 +7,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 3
+    _year = 2020
+    _number = 3
     input_type = InputTypes.STRSPLIT
 
     def count_trees(self, right: int, down: int) -> int:

@@ -49,8 +49,8 @@ class Deck:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 22
+    _year = 2020
+    _number = 22
     next_game_num = 1
 
     def play_game(

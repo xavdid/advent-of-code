@@ -16,8 +16,8 @@ def prominent_color(stack):
 
 
 class Solution(BaseSolution):
-    year = 2019
-    number = 8
+    _year = 2019
+    _number = 8
 
     def solve(self):
         width = 25

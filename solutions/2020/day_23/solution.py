@@ -8,8 +8,8 @@ from ...base import BaseSolution, slow
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 23
+    _year = 2020
+    _number = 23
 
     def part_1(self) -> int:
         cups: Deque[int] = deque(map(int, self.input))

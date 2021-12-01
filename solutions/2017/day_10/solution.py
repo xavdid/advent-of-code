@@ -58,8 +58,8 @@ class Hahser:
 
 
 class Solution(BaseSolution, Hahser):
-    year = 2017
-    number = 10
+    _year = 2017
+    _number = 10
 
     def part_1(self):
         input_ = [int(i) for i in self.input.split(",")]

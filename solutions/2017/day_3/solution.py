@@ -5,8 +5,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 3
+    _year = 2017
+    _number = 3
 
     @property
     def input_type(self):
