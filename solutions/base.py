@@ -3,6 +3,7 @@ import csv
 import os
 from enum import Enum, auto
 from pprint import pprint
+from typing import Generic, List, TypeVar, Union, cast
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
@@ -33,26 +34,39 @@ def slow(func):
 
 def print_answer(i, ans):
     if ans is not None:
-        print("\n== Part {}".format(i))
-        print("=== {}".format(ans))
+        print(f"\n== Part {i}")
+        print(f"=== {ans}")
 
 
-class BaseSolution:
-    input_type = InputTypes.TEXT
+InputType = Union[str, int, List[int], List[str]]
+I = TypeVar("I", bound=InputType)
+
+
+class BaseSolution(Generic[I]):
     separator = "\n"
 
+    # SolutionSubclasses define these
+    input_type: InputTypes = InputTypes.TEXT
+    _year: int
+    _number: int
+    # input: I
+
     def __init__(self, run_slow=False, debug=False):
-        self.input = self.read_input(self.input_type)
+        self.input = cast(I, self.read_input())
         self.slow = run_slow  # should run slow functions?
         self.debug = debug
 
     @property
     def year(self):
-        raise NotImplementedError("explicitly define year")
+        if not hasattr(self, "_year"):
+            raise NotImplementedError("explicitly define year")
+        return self._year
 
     @property
     def number(self):
-        raise NotImplementedError("explicitly define number")
+        if not hasattr(self, "_number"):
+            raise NotImplementedError("explicitly define number")
+        return self._number
 
     def solve(self):
         """
@@ -72,37 +86,41 @@ class BaseSolution:
             Only needed if there's not a unified solve method.
         """
 
-    def read_input(self, input_type):  # pylint: disable=too-many-return-statements
+    def read_input(self) -> InputType:
         with open(
             os.path.join(
                 os.path.dirname(__file__), f"{self.year}/day_{self.number}/input.txt"
-            )
+            ),
+            encoding="utf-8",
         ) as file:
-            if input_type == InputTypes.TEXT:
+            if self.input_type is InputTypes.TEXT:
                 return file.read().strip()
 
-            if input_type == InputTypes.INTEGER:
+            if self.input_type is InputTypes.INTEGER:
                 num = file.read()
                 return int(num.strip())
 
-            if input_type == InputTypes.TSV:
+            if self.input_type is InputTypes.TSV:
                 reader = csv.reader(file, delimiter="\t")
                 input_ = []
                 for row in reader:
                     input_.append([int(i) for i in row])
                 return input_
 
-            if input_type in {InputTypes.STRSPLIT, InputTypes.INTSPLIT}:
+            if (
+                self.input_type is InputTypes.STRSPLIT
+                or self.input_type is InputTypes.INTSPLIT
+            ):
                 file_ = file.read().strip()
                 # default to newlines
                 parts = file_.split(self.separator)
 
-                if input_type == InputTypes.INTSPLIT:
+                if self.input_type == InputTypes.INTSPLIT:
                     return [int(i) for i in parts]
 
                 return parts
 
-            raise ValueError("Unrecognized input type")
+            raise ValueError(f"Unrecognized input_type: {self.input_type}")
 
     def print_solutions(self):
         print(f"\n= Solutions for {self.year} Day {self.number}")
@@ -132,3 +150,19 @@ class BaseSolution:
     def newline(self):
         if self.debug:
             print()
+
+
+class TextSolution(BaseSolution[str]):
+    input_type = InputTypes.TEXT
+
+
+class IntSolution(BaseSolution[int]):
+    input_type = InputTypes.INTEGER
+
+
+class StrSplitSolution(BaseSolution[List[str]]):
+    input_type = InputTypes.STRSPLIT
+
+
+class IntSplitSolution(BaseSolution[List[int]]):
+    input_type = InputTypes.INTSPLIT

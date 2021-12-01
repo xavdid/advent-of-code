@@ -4,7 +4,12 @@ from pathlib import Path
 
 
 def current_puzzle_year() -> str:
-    # if it's on or after dec 1, use this year. Otherwise, use last year
+    """
+    if it's on or after dec 1, use this year. Otherwise, use last year.
+
+    Returns a string because math is never done on the result
+    """
+
     now = date.today()
     if now.month == 12:
         return str(now.year)
@@ -12,6 +17,11 @@ def current_puzzle_year() -> str:
 
 
 def next_day(year_dir: Path) -> int:
+    """
+    Finds the day of the last completed puzzle in a given folder.
+
+    Returns 0 by default. Uses int because we add 1 later.
+    """
     return max(
         [
             0,  # included so that new years don't break without anything in them
