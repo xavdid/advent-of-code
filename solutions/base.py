@@ -45,11 +45,11 @@ I = TypeVar("I", bound=InputType)
 class BaseSolution(Generic[I]):
     separator = "\n"
 
-    # SolutionSubclasses define these
+    # Solution Subclasses define these
+    # this uses `TEXT` as a default for backwards compatibility
     input_type: InputTypes = InputTypes.TEXT
     _year: int
     _number: int
-    # input: I
 
     def __init__(self, run_slow=False, debug=False):
         self.input = cast(I, self.read_input())
@@ -91,7 +91,6 @@ class BaseSolution(Generic[I]):
             os.path.join(
                 os.path.dirname(__file__), f"{self.year}/day_{self.number}/input.txt"
             ),
-            encoding="utf-8",
         ) as file:
             if self.input_type is InputTypes.TEXT:
                 return file.read().strip()
