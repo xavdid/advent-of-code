@@ -91,8 +91,8 @@ class Robot:
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 11
+    _year = 2019
+    _number = 11
 
     def part_1(self):
         robbie = Robot(self.input)

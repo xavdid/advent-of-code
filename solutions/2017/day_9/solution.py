@@ -4,8 +4,8 @@ from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 9
+    _year = 2017
+    _number = 9
 
     def solve(self):
         res = 0

@@ -4,8 +4,8 @@ from ...base import BaseSolution, InputTypes, slow
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 15
+    _year = 2020
+    _number = 15
     input_type = InputTypes.INTSPLIT
     separator = ","
 

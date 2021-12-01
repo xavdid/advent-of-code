@@ -8,8 +8,8 @@ from operator import itemgetter
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 4
+    _year = 2018
+    _number = 4
 
     @property
     def input_type(self):
@@ -78,4 +78,3 @@ class Solution(BaseSolution):
             self.guard_score(sleepiest_guard_report),
             self.guard_score(reliable_guard_report),
         )
-

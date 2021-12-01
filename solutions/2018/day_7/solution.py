@@ -9,8 +9,8 @@ DURATION = 60
 
 
 class Solution(BaseSolution):
-    year = 2018
-    number = 7
+    _year = 2018
+    _number = 7
 
     @property
     def input_type(self):

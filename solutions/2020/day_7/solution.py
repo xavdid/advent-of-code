@@ -24,8 +24,8 @@ class BagInfo:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 7
+    _year = 2020
+    _number = 7
     input_type = InputTypes.STRSPLIT
     mapping: Dict[str, BagInfo] = {}
 

@@ -35,8 +35,8 @@ class Deck:
 
 
 class Solution(BaseSolution):
-    year = 2019
-    number = 22
+    _year = 2019
+    _number = 22
     input_type = InputTypes.STRSPLIT
 
     def part_1(self):

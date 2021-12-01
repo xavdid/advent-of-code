@@ -123,8 +123,8 @@ class Maze:
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 15
+    _year = 2019
+    _number = 15
 
     def solve(self):
         # 4 initial directions

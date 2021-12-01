@@ -24,8 +24,8 @@ FAIL_STR = "ejected"  # if this is in the latest output, we didn't pass
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 25
+    _year = 2019
+    _number = 25
 
     def reset_computer(self):
         def fresh_state():

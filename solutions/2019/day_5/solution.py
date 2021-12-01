@@ -4,8 +4,8 @@ from ..intcode import IntcodeComputer, IntcodeSolution
 
 
 class Solution(IntcodeSolution):
-    year = 2019
-    number = 5
+    _year = 2019
+    _number = 5
 
     def part_1(self):
         computer = IntcodeComputer(self.input, inputs=[1])

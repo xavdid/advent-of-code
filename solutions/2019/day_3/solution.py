@@ -49,8 +49,8 @@ def get_points_for_wire(points: str):
 
 
 class Solution(BaseSolution):
-    year = 2019
-    number = 3
+    _year = 2019
+    _number = 3
 
     @property
     def input_type(self):

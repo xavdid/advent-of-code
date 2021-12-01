@@ -8,8 +8,8 @@ class Answer(BaseException):
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 7
+    _year = 2017
+    _number = 7
 
     @property
     def input_type(self):

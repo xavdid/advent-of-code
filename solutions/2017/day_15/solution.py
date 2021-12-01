@@ -21,8 +21,8 @@ class Generator:
 
 
 class Solution(BaseSolution):
-    year = 2017
-    number = 15
+    _year = 2017
+    _number = 15
 
     @property
     def input_type(self):

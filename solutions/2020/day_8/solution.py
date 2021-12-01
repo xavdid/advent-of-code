@@ -68,8 +68,8 @@ class VM:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 8
+    _year = 2020
+    _number = 8
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

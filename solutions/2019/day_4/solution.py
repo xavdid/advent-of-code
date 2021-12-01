@@ -37,8 +37,8 @@ def is_revised_valid_password(num: int):
 
 
 class Solution(BaseSolution):
-    year = 2019
-    number = 4
+    _year = 2019
+    _number = 4
 
     def part_1(self):
         return self._solve(is_valid_password)

@@ -53,8 +53,8 @@ def passport_has_valid_values(passport: Dict[str, str]) -> bool:
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 4
+    _year = 2020
+    _number = 4
 
     def solve(self) -> Tuple[int, int]:
         num_with_correct_key_count = 0  # part 1

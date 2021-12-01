@@ -4,8 +4,8 @@ from ...base import BaseSolution
 
 
 class Solution(BaseSolution):
-    year = 2020
-    number = 6
+    _year = 2020
+    _number = 6
 
     def part_1(self) -> int:
         groups = self.input.split("\n\n")
