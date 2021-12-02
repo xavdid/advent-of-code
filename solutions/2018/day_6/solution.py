@@ -6,7 +6,7 @@ from collections import defaultdict
 
 class Solution(BaseSolution):
     _year = 2018
-    _number = 6
+    _day = 6
 
     @property
     def input_type(self):

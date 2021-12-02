@@ -5,7 +5,7 @@ from ...base import BaseSolution, slow
 
 class Solution(BaseSolution):
     _year = 2017
-    _number = 1
+    _day = 1
 
     def part_1(self):
         return self._solve(1)

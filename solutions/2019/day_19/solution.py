@@ -5,7 +5,7 @@ from ..intcode import IntcodeComputer, IntcodeSolution
 
 class Solution(IntcodeSolution):
     _year = 2019
-    _number = 19
+    _day = 19
 
     def is_in_tractor(self, x: int, y: int) -> int:
         computer = IntcodeComputer(self.input, inputs=[x, y])

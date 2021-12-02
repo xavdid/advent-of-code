@@ -9,7 +9,7 @@ DIVISOR = 20201227
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 25
+    _day = 25
     input_type = InputTypes.INTSPLIT
 
     def part_1(self) -> int:

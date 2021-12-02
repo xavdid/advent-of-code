@@ -6,7 +6,7 @@ from .day_10 import Hahser
 
 class Solution(BaseSolution, Hahser):
     _year = 2017
-    _number = 14
+    _day = 14
 
     def string_to_bin(self, i):
         return bin(int(i, 16))[2:]

@@ -7,7 +7,7 @@ from ..intcode import STOP_REASON, IntcodeComputer, IntcodeSolution
 
 class Solution(IntcodeSolution):
     _year = 2019
-    _number = 7
+    _day = 7
 
     def part_1(self):
         max_signal = -9999

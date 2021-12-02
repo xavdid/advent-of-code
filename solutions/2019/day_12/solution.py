@@ -80,7 +80,7 @@ class Moon:
 
 class Solution(BaseSolution):
     _year = 2019
-    _number = 12
+    _day = 12
 
     @property
     def input_type(self):

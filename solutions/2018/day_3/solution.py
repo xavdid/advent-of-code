@@ -6,7 +6,7 @@ import itertools
 
 class Solution(BaseSolution):
     _year = 2018
-    _number = 3
+    _day = 3
 
     @property
     def input_type(self):

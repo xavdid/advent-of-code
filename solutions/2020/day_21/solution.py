@@ -7,7 +7,7 @@ from ...base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 21
+    _day = 21
     input_type = InputTypes.STRSPLIT
 
     def solve(self) -> Tuple[int, str]:

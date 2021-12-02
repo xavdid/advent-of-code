@@ -8,7 +8,7 @@ from ...base import BaseSolution
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 19
+    _day = 19
     rules = {}
     num_loops = {"8": 0, "11": 0}  # detects loops
 

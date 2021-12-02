@@ -5,7 +5,7 @@ from ...base import BaseSolution, InputTypes, slow
 
 class Solution(BaseSolution):
     _year = 2017
-    _number = 13
+    _day = 13
     tree = None
 
     @property

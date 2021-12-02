@@ -10,7 +10,7 @@ from ...base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 13
+    _day = 13
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

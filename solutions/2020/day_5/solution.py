@@ -33,7 +33,7 @@ def calulate_score(assignment: str) -> int:
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 5
+    _day = 5
     input_type = InputTypes.STRSPLIT
 
     def solve(self) -> Tuple[int, int]:

@@ -11,7 +11,7 @@ def calc_mass(mass: int):
 
 class Solution(BaseSolution):
     _year = 2019
-    _number = 1
+    _day = 1
 
     @property
     def input_type(self):

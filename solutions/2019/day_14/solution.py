@@ -50,7 +50,7 @@ class Reaction:
 
 class Solution(BaseSolution):
     _year = 2019
-    _number = 14
+    _day = 14
     input_type = InputTypes.STRSPLIT
     reactions: Dict[str, Reaction] = {}
 

@@ -92,7 +92,7 @@ class Robot:
 
 class Solution(IntcodeSolution):
     _year = 2019
-    _number = 11
+    _day = 11
 
     def part_1(self):
         robbie = Robot(self.input)

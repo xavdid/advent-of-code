@@ -5,7 +5,7 @@ from ...base import BaseSolution, InputTypes, slow
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 15
+    _day = 15
     input_type = InputTypes.INTSPLIT
     separator = ","
 

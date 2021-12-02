@@ -9,7 +9,7 @@ from ...base import BaseSolution, slow
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 23
+    _day = 23
 
     def part_1(self) -> int:
         cups: Deque[int] = deque(map(int, self.input))

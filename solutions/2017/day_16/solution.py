@@ -6,7 +6,7 @@ from collections import deque
 
 class Solution(BaseSolution):
     _year = 2017
-    _number = 16
+    _day = 16
 
     @property
     def separator(self):

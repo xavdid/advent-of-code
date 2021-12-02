@@ -113,7 +113,7 @@ class TIS100:
 
 class Solution(BaseSolution):
     _year = 2017
-    _number = 18
+    _day = 18
 
     @property
     def input_type(self):
