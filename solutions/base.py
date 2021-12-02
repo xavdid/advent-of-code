@@ -160,6 +160,10 @@ class IntSolution(BaseSolution[int]):
     input_type = InputTypes.INTEGER
 
 
+class TSVSolution(BaseSolution[List[int]]):
+    input_type = InputTypes.TSV
+
+
 class StrSplitSolution(BaseSolution[List[str]]):
     input_type = InputTypes.STRSPLIT
 
