@@ -1,5 +1,6 @@
 # Base class for other solutions
 import csv
+from functools import wraps
 import os
 from enum import Enum, auto
 from pprint import pprint
@@ -49,7 +50,7 @@ class BaseSolution(Generic[I]):
     # this uses `TEXT` as a default for backwards compatibility
     input_type: InputTypes = InputTypes.TEXT
     _year: int
-    _number: int
+    _day: int
 
     def __init__(self, run_slow=False, debug=False):
         self.input = cast(I, self.read_input())
@@ -63,10 +64,10 @@ class BaseSolution(Generic[I]):
         return self._year
 
     @property
-    def number(self):
-        if not hasattr(self, "_number"):
+    def day(self):
+        if not hasattr(self, "_day"):
             raise NotImplementedError("explicitly define number")
-        return self._number
+        return self._day
 
     def solve(self):
         """
@@ -89,7 +90,7 @@ class BaseSolution(Generic[I]):
     def read_input(self) -> InputType:
         with open(
             os.path.join(
-                os.path.dirname(__file__), f"{self.year}/day_{self.number}/input.txt"
+                os.path.dirname(__file__), f"{self.year}/day_{self.day}/input.txt"
             ),
         ) as file:
             if self.input_type is InputTypes.TEXT:
@@ -122,7 +123,7 @@ class BaseSolution(Generic[I]):
             raise ValueError(f"Unrecognized input_type: {self.input_type}")
 
     def print_solutions(self):
-        print(f"\n= Solutions for {self.year} Day {self.number}")
+        print(f"\n= Solutions for {self.year} Day {self.day}")
         res = self.solve()  # pylint: disable=assignment-from-no-return
         if res:
             for index, ans in enumerate(res):
@@ -165,3 +166,30 @@ class StrSplitSolution(BaseSolution[List[str]]):
 
 class IntSplitSolution(BaseSolution[List[int]]):
     input_type = InputTypes.INTSPLIT
+
+
+def answer(ans):
+    """
+    Decorator to assert the result of the function is a certain thing.
+
+    Usage:
+    ```py
+    @answer(3)
+    def f(i):
+        return i
+
+    f(1) # throws
+    f(3) # returns 3 like normal
+    ```
+    """
+
+    def deco(func):
+        @wraps(func)
+        def wrapper(self):
+            result = func(self)
+            assert result == ans, f"expected {result=} to equal {ans=}"
+            return result
+
+        return wrapper
+
+    return deco
