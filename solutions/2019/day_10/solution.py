@@ -21,7 +21,7 @@ class Point:
 
 class Solution(BaseSolution):
     _year = 2019
-    _number = 10
+    _day = 10
 
     @property
     def input_type(self):

@@ -6,7 +6,7 @@ from itertools import combinations
 
 class Solution(BaseSolution):
     _year = 2018
-    _number = 2
+    _day = 2
 
     @property
     def input_type(self):

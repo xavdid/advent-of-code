@@ -83,7 +83,7 @@ class Ship:
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 12
+    _day = 12
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

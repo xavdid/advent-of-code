@@ -191,7 +191,7 @@ class Image(Tile):
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 20
+    _day = 20
     edge_counts = Counter()
     tiles: Set[Tile] = set()
 

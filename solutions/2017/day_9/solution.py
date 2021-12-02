@@ -5,7 +5,7 @@ from ...base import BaseSolution, InputTypes
 
 class Solution(BaseSolution):
     _year = 2017
-    _number = 9
+    _day = 9
 
     def solve(self):
         res = 0

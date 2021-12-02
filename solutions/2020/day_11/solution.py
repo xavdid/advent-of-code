@@ -112,7 +112,7 @@ class Grid:
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 11
+    _day = 11
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

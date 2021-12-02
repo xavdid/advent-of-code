@@ -16,7 +16,7 @@ def parse_policy(line: str) -> Tuple[int, int, str, str]:
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 2
+    _day = 2
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:

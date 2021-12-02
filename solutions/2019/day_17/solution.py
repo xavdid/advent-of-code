@@ -59,7 +59,7 @@ class Diagram:
 
 class Solution(IntcodeSolution):
     _year = 2019
-    _number = 17
+    _day = 17
 
     def part_1(self):
         computer = IntcodeComputer(self.input)

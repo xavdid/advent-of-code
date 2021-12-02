@@ -6,7 +6,7 @@ from string import ascii_lowercase
 
 class Solution(BaseSolution):
     _year = 2018
-    _number = 5
+    _day = 5
 
     def is_reactive(self, a, b):
         return a.islower() != b.islower() and a.lower() == b.lower()

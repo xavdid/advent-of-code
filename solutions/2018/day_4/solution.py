@@ -9,7 +9,7 @@ from operator import itemgetter
 
 class Solution(BaseSolution):
     _year = 2018
-    _number = 4
+    _day = 4
 
     @property
     def input_type(self):

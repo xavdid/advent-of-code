@@ -20,7 +20,7 @@ def pattern_for_step(loop: int) -> Iterator[int]:
 
 class Solution(BaseSolution):
     _year = 2019
-    _number = 16
+    _day = 16
 
     @slow
     def part_1(self):

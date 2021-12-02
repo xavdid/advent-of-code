@@ -10,7 +10,7 @@ PREAMBLE_SIZE = 25
 
 class Solution(BaseSolution):
     _year = 2020
-    _number = 9
+    _day = 9
     input_type = InputTypes.INTSPLIT
 
     def solve(self) -> Tuple[int, int]:
