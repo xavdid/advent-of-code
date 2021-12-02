@@ -27,7 +27,7 @@ Start a new Advent of Code solution
 
 **positional arguments**:
 
-- `day` (optional): Which puzzle day to start, between `[1,25]`. Defaults to the next day without a folder (matching `day_N`) in that year.
+- `day` (optional): Which puzzle day to start, between `[1,25]`. Defaults to the next day _without_ a folder (matching `day_N`) in the specified year.
 
 **optional arguments**:
 
@@ -36,6 +36,7 @@ Start a new Advent of Code solution
 
 #### Examples
 
+- `./start`
 - `./start 1`
 - `./start 3 --year 2019`
 
@@ -49,7 +50,7 @@ Run a day of Advent of Code
 
 **positional arguments**:
 
-- `day` (optional): Which puzzle day to start, between [1,25]. Defaults to the latest day with a folder (matching `day_N`) in that year.
+- `day` (optional): Which puzzle day to start, between [1,25]. Defaults to the latest day _with_ a folder (matching `day_N`) in the specified year.
 
 **optional arguments**:
 
