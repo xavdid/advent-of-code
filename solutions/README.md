@@ -11,7 +11,7 @@ These posts should be accessible to programmers of any skill level, but they're 
 - common Python data structures (`list`, `dict`, `set`, etc)
 - loops & list comprehensions
 
-Posts assume readers have read all the previous ones from that year, so I won't re-explain something I've already covered. I'll typically explain more complex Python patterns, useful stdlib functions, and other ways to approach the puzzle.
+Posts assume readers have read all the previous ones from that year, so I won't re-explain something I've already covered (though I may link back to it). I'll typically explain more complex Python patterns, useful stdlib functions, and other ways to approach the puzzle.
 
 ## Methodology
 
