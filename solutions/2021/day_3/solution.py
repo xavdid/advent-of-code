@@ -4,8 +4,6 @@ from collections import Counter
 from typing import Literal, Union
 from ...base import StrSplitSolution, answer
 
-# from typing import Tuple
-
 one_or_zero = Union[Literal["0"], Literal["1"]]
 
 
