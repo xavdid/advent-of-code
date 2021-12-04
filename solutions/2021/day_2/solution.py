@@ -2,8 +2,6 @@
 
 from ...base import StrSplitSolution, answer
 
-# from typing import Tuple
-
 
 class Solution(StrSplitSolution):
     _year = 2021
