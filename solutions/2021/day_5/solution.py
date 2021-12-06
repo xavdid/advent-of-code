@@ -71,18 +71,16 @@ class Solution(StrSplitSolution):
 
     @answer((5145, 16518))
     def solve(self) -> Tuple[int, int]:
-        segments: List[Segment] = []
+        part_1 = Counter()
+        part_2 = Counter()
+
         for line in self.input:
             start, stop = line.split(" -> ")
             s = Segment(Point.from_input(start), Point.from_input(stop))
-            if s.is_flat or s.is_diagonal:
-                segments.append(s)
-
-        part_1 = Counter()
-        part_2 = Counter()
-        for segment in segments:
-            part_2.update(segment.points)
-            if segment.is_flat:
-                part_1.update(segment.points)
+            if s.is_flat:
+                part_1.update(s.points)
+                part_2.update(s.points)
+            if s.is_diagonal:
+                part_2.update(s.points)
 
         return num_repeated(part_1), num_repeated(part_2)

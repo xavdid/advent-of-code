@@ -188,3 +188,25 @@ return num_repeated(part_1), num_repeated(part_2)
 Part 2 counts every segment, while part 1 only counts the flat ones. That should do it!
 
 Fun trivia - this is the first day where running my solution isn't instant on my computer (there's a very short but perceptible pause). I don't imagine this'll be the last time that happens.
+
+---
+
+Upon further reflection, this solution is more memory-heavy than it needs to be. Rather than store all the objects and then count all the objects, we can count as we go. The final loop could be changed to be:
+
+```py
+part_1 = Counter()
+part_2 = Counter()
+
+for line in self.input:
+    start, stop = line.split(" -> ")
+    s = Segment(Point.from_input(start), Point.from_input(stop))
+    if s.is_flat:
+        part_1.update(s.points)
+        part_2.update(s.points)
+    if s.is_diagonal:
+        part_2.update(s.points)
+
+return num_repeated(part_1), num_repeated(part_2)
+```
+
+I tested it and it ran... at the exact same speed. But it certainly used less memory. Doesn't seem like it's super easy to tell exactly [how much less](https://stackoverflow.com/questions/938733/total-memory-used-by-python-process), but we can feel a little better about ourselves.
