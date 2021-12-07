@@ -51,17 +51,17 @@ That's our answer, so we can stop here for the day. There's also a little bonus 
 
 ---
 
-On my machine, running both parts as written took ~ `.4` seconds (`time ./advent 7`). Out of curiosity, I stuck an `lru_cache` on `range_sum` and it got it down to `.3` seconds. A 25% improvement!
+On my machine, running both parts as written took ~ `.4` seconds (`time ./advent 7`). Out of curiosity, I stuck a `cache` on `range_sum` and it got it down to `.3` seconds. A 25% improvement!
 
 ```py
-from functools import lru_cache
+from functools import cache # python 3.9+
 
-@lru_cache(maxsize=None)
+@cache
 def range_sum(i: int) -> int:
     return i * (i + 1) // 2
 ```
 
-`lru_cache` is some very simple magic. It's a function decorator that keeps track of how the function is called and what the result was. If we've seen a value before, we skip the calculation and just return the same result as before. Since we're likely to have a lot of repeated ranges across all loops above, this saves us a decent amount of computation (even if that computation is otherwise fast; the fastest code is the code that doesn't run at all).
+`cache` is some very simple magic. It's a function decorator that keeps track of how the function is called and what the result was. If we've seen a value before, we skip the calculation and just return the same result as before. Since we're likely to have a lot of repeated ranges across all loops above, this saves us a decent amount of computation (even if that computation is otherwise fast; the fastest code is the code that doesn't run at all).
 
 A simple implementation of a cache in a function decorator is as follows:
 

@@ -1,10 +1,10 @@
 # prompt: https://adventofcode.com/2021/day/7
 
-from functools import lru_cache
+from functools import cache
 from ...base import IntSplitSolution, answer
 
 
-@lru_cache(maxsize=None)
+@cache
 def range_sum(i: int) -> int:
     return i * (i + 1) // 2
 
