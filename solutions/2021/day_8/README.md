@@ -86,7 +86,9 @@ Now, there are 6 numbers remaining. They fall into two groups: 5 segments (`2`, 
 We can write that in Python code just like we did before:
 
 ```py
+for line in self.input:
     ...
+
     result[6] = validate(
         [x for x in digits if len(x) == 6 and not set(result[1]) < set(x)]
     )
@@ -98,7 +100,9 @@ We can write that in Python code just like we did before:
 Now we can clear out used numbers:
 
 ```py
+for line in self.input:
     ...
+
     found = set(result.values())
     digits = [x for x in digits if x not in found]
 ```
@@ -106,7 +110,9 @@ Now we can clear out used numbers:
 There are two groups left, each with two items. We can identify `9` within its group because it's a strict superset of `4` (that is, it contains everything in `4`); the same cannot be said of `0`. So we can spot `9` and `0` is the other one with the same length:
 
 ```py
+for line in self.input:
     ...
+
     result[9] = validate(
         [x for x in digits if len(x) == 6 and set(result[4]) < set(x)]
     )
@@ -116,7 +122,9 @@ There are two groups left, each with two items. We can identify `9` within its g
 One more clear out to make our last couple of lines simpler.
 
 ```py
+for line in self.input:
     ...
+
     found = set(result.values())
     digits = [x for x in digits if x not in found]
 ```
@@ -133,7 +141,9 @@ For this last part, I solved for a segment. We know that `8` and `9` share nearl
 That's all our numbers! Now we have to reverse our `result` so we can plug the input back into it:
 
 ```py
+for line in self.input:
     ...
+
     decoded = {frozenset(v): str(k) for k, v in result.items()}
 ```
 
@@ -142,7 +152,9 @@ Here we use a _dict_ comprehension (instead of the `list`) one we've been doing 
 Last, we add to our total:
 
 ```py
+for line in self.input:
     ...
+
     total += int("".join([decoded[frozenset(x)] for x in number.split()]))
 
 return total

@@ -1,6 +1,7 @@
 # prompt: https://adventofcode.com/2021/day/7
 
 from functools import cache
+
 from ...base import IntSplitSolution, answer
 
 

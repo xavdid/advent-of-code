@@ -1,8 +1,8 @@
 # prompt: https://adventofcode.com/2021/day/9
 
-from ...base import StrSplitSolution, answer
-
 from typing import List, Set, Tuple
+
+from ...base import StrSplitSolution, answer
 
 Point = Tuple[int, int]
 
@@ -28,8 +28,7 @@ class Solution(StrSplitSolution):
     def value_at(self, row: int, col: int) -> int:
         return int(self.input[row][col])
 
-    answer((548, 786048))
-
+    @answer((548, 786048))
     def solve(self) -> Tuple[int, int]:
         total = 0
         basins: List[Set[Point]] = []

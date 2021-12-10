@@ -2,7 +2,7 @@
 
 from collections import Counter
 from dataclasses import dataclass
-from typing import List, Set, Tuple
+from typing import List, Tuple
 
 from ...base import StrSplitSolution, answer
 
