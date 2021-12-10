@@ -1,6 +1,7 @@
 # prompt: https://adventofcode.com/2021/day/4
 
 from typing import List, Set, Tuple
+
 from ...base import StrSplitSolution, answer
 
 
@@ -64,6 +65,3 @@ class Solution(StrSplitSolution):
                             return total * pull
 
         raise ValueError("no solution found")
-
-    # def solve(self) -> Tuple[int, int]:
-    #     pass

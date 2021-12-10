@@ -1,6 +1,7 @@
 # prompt: https://adventofcode.com/2021/day/8
 
 from typing import Dict, List
+
 from ...base import StrSplitSolution, answer
 
 

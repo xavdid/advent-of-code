@@ -25,7 +25,8 @@ for row, line in enumerate(self.input):
 Once we've found the neighbors, we can check our spot against it and total it up if it's the smallest one:
 
 ```py
-    ...
+for row, line in enumerate(self.input):
+    for col, spot in enumerate(line):
         ...
 
         spot = int(spot)
@@ -87,7 +88,10 @@ for row in range(len(self.input)):
 This loop will spend a lot of time skipping. It's here to get us to our next (or first) basin. Once we found one, we explore it!
 
 ```py
+for row in range(len(self.input)):
+    for col in range(len(self.input[0])):
         ...
+
         # explore this basin
         to_explore = [loc]
         basin: Set[Point] = set()
@@ -108,7 +112,10 @@ The second felt much cleaner. The function could have also been written to take 
 Anyway, when that `while` loop finishes, we should have a `basin` made of points. We'll add the `min` for part 1, then add it to our list of basins and its points to our `all_points` so it's ignored when looking for our next basin:
 
 ```py
+for row in range(len(self.input)):
+    for col in range(len(self.input[0])):
         ...
+
         total += min(self.value_at(*p) for p in basin) + 1
         all_points.update(basin)
         basins.append(basin)

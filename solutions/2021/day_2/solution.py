@@ -46,6 +46,3 @@ class Solution(StrSplitSolution):
                 raise ValueError(f'Unrecognized direction: "{direction}"')
 
         return depth * horiz
-
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
