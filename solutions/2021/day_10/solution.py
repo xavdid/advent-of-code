@@ -36,7 +36,7 @@ class Solution(StrSplitSolution):
     _year = 2021
     _day = 10
 
-    # answer((464991, 3662008566))
+    @answer((464991, 3662008566))
     def solve(self) -> Tuple[int, int]:
         invalid_score = 0
         valid_line_scores: List[int] = []
