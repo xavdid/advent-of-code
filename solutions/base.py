@@ -138,10 +138,11 @@ class BaseSolution(Generic[I]):
     def pp(self, *obj, newline=False):
         if self.debug:
             for o in obj:
+                # custom printing for objects
                 if hasattr(o, "pretty"):
                     print(o.pretty())
                 elif isinstance(o, str):
-                    print(o)
+                    print(o, end=" " if len(obj) > 1 else None)
                 else:
                     pprint(o)
             if newline:
