@@ -128,4 +128,8 @@ def _solve(self, can_repeat_little_cave: bool) -> int:
 
 Because the logic is so similar, we really only need to branch on the duplicate small cave handling.
 
-I think this is my slowest solution part os far- part 2 takes just over a 1 on my M1 Pro (though still no fans). `./advent --profile` doesn't have a smoking gun, either. We're doing a lot of object initialization and copying of tuples, but I'm pretty sure we need at least some of that to keep each path fresh in memory. It's to be expected, I think, as we get later in the month. Hopefully it doesn't become a pattern!
+I think this is my slowest solution part os far- part 2 takes just .75s on my M1 Pro (though still no fans). I think it's the first day there's a noticeable delay when the solver runs.
+
+`./advent --profile` doesn't have a smoking gun, either. We're doing a lot of object initialization and copying of tuples, but I'm pretty sure we need at least some of that to keep each path fresh in memory. It's to be expected, I think, as we get later in the month. Hopefully it doesn't become a pattern!
+
+I briefly tried using `set`s to keep down on the amount of data we were storing, but turns out copying those was more expensive than the tuples, so it all got slower! That's how it goes sometime.
