@@ -60,9 +60,7 @@ def fold_grid(dots: Grid, horiz: bool, val: int) -> Grid:
         updated_point[same_index] = p[same_index]
 
         # the other half changes based on its distance to the line
-        updated_point[modified_index] = p[modified_index] - (
-            2 * (p[modified_index] - val)
-        )
+        updated_point[modified_index] = 2 * val - p[modified_index]
 
         result.add(cast(Point, tuple(updated_point)))
 
