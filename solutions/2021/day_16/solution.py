@@ -1,9 +1,10 @@
 # prompt: https://adventofcode.com/2021/day/16
 
-from typing import List
-from ...base import TextSolution, answer
+from functools import reduce
+from operator import eq, gt, lt, mul
+from typing import Callable, Dict, Iterable, List, Tuple
 
-# from typing import Tuple
+from ...base import TextSolution, answer
 
 
 def bin_to_int(b: str) -> int:
@@ -20,6 +21,24 @@ def hex_to_bits(h: str) -> str:
     For each hex letter, returns a padded 4-bit binary string
     """
     return "".join([f"{int(x, 16):0>4b}" for x in h])
+
+
+def product(seq: Iterable[int]) -> int:
+    return reduce(mul, seq, 1)
+
+
+OPERATOR_FUNCS: Dict[int, Callable[[Iterable[int]], int]] = {
+    0: sum,
+    1: product,
+    2: min,
+    3: max,
+}
+
+OPERATOR_COMPARISONS: Dict[int, Callable[[int, int], bool]] = {
+    5: gt,
+    6: lt,
+    7: eq,
+}
 
 
 class Packet:
@@ -42,16 +61,19 @@ class Packet:
 
             self.value = bin_to_int("".join(value_bits))
 
-        elif self.pop_bits(1) == "0":
-            bits_read = 0
-            num_bits_to_read = bin_to_int(self.pop_bits(15))
-
-            while bits_read < num_bits_to_read:
-                bits_read += self.parse_subpacket()
         else:
-            num_sub_packets = bin_to_int(self.pop_bits(11))
-            for _ in range(num_sub_packets):
-                self.parse_subpacket()
+            if self.pop_bits(1) == "0":
+                bits_read = 0
+                num_bits_to_read = bin_to_int(self.pop_bits(15))
+
+                while bits_read < num_bits_to_read:
+                    bits_read += self.parse_subpacket()
+            else:
+                num_sub_packets = bin_to_int(self.pop_bits(11))
+                for _ in range(num_sub_packets):
+                    self.parse_subpacket()
+
+            self.value = self.calculate_operator_value()
 
     def pop_bits(self, num_bits: int) -> str:
         result = self.raw_packet[:num_bits]
@@ -70,24 +92,29 @@ class Packet:
         return self.type == 4
 
     def summed_versions(self):
-        """
-        Used for part 1
-        """
         return self.version + sum([p.summed_versions() for p in self.sub_packets])
+
+    def calculate_operator_value(self) -> int:
+        op = self.type
+
+        if op in OPERATOR_FUNCS:
+            return OPERATOR_FUNCS[op](p.value for p in self.sub_packets)
+
+        assert len(self.sub_packets) == 2
+        assert op in OPERATOR_COMPARISONS, f'Unknown operator: "{op}"'
+
+        # pylint: disable=unbalanced-tuple-unpacking
+        l, r = self.sub_packets
+        # `int` isn't actually required here since bool is a subclass of int
+        # and can be mathed like normal, but it's more correct looking
+        return int(OPERATOR_COMPARISONS[op](l.value, r.value))
 
 
 class Solution(TextSolution):
     _year = 2021
     _day = 16
 
-    @answer(913)
-    def part_1(self) -> int:
-        return Packet(hex_to_bits(self.input)).summed_versions()
-
-    # @answer(1234)
-    def part_2(self) -> int:
-        pass
-
-    # @answer((1234, 4567))
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+    @answer((913, 1510977819698))
+    def solve(self) -> Tuple[int, int]:
+        p = Packet(hex_to_bits(self.input))
+        return p.summed_versions(), p.value
