@@ -6,120 +6,83 @@ from ...base import TextSolution, answer
 # from typing import Tuple
 
 
-class Packet:
-    def __init__(self, packet: str, subpacket_depth=0) -> None:
-        self.subpacket_depth = subpacket_depth  # for debugging
-        print()
-        self.leveled_log(f"parsing {packet}")
-        self.version = from_bin(packet[:3])
-        self.type_ = from_bin(packet[3:6])
-        self.leveled_log(f"{self.version=} {self.type_=}")
-        self.sub_packets: List["Packet"] = []
-        self.value = 0  # only used for literals
-        rest = packet[6:]
-        self.leveled_log(f"rest is now {rest}")
-        self.packet_size = 0
-
-        if self.is_literal:
-            offset = 0
-            bits = []
-            while True:
-                last_marker, *segment = rest[offset : offset + 5]
-                bits += segment
-                offset += 5
-                if last_marker == "0":
-                    # maybe trash bits are left in the `rest`?
-                    # not sure if I need to track that
-                    break
-
-            self.value = from_bin("".join(bits))
-            self.leveled_log(f"literal {self.value=}")
-            # add the header; this might be wrong if i'm supposed to account for extra bits
-            self.packet_size = 6 + offset
-
-        else:
-            sub_packets_by_length = rest[0] == "0"
-            rest = rest[1:]
-
-            if sub_packets_by_length:
-                num_sub_packet_bits = from_bin(rest[:15])
-                rest = rest[15:]
-                self.leveled_log(f"operator w/ {num_sub_packet_bits} sub-packet bits")
-                self.leveled_log(f"rest is now {rest}")
-                read_bits = 0
-
-                while read_bits < num_sub_packet_bits:
-                    self.leveled_log("parsing subpacket")
-                    sub_packet = Packet(rest, subpacket_depth=self.subpacket_depth + 1)
-                    self.sub_packets.append(sub_packet)
-                    read_bits += sub_packet.packet_size
-                    self.leveled_log(
-                        f"read {sub_packet.packet_size}, total is now {read_bits}/{num_sub_packet_bits}"
-                    )
-                    rest = rest[sub_packet.packet_size :]
-                    self.leveled_log(f"rest is now {rest}")
-                self.packet_size = 6 + 1 + 15 + num_sub_packet_bits
-            else:
-                num_sub_packets = from_bin(rest[:11])
-                rest = rest[11:]
-                self.leveled_log(f"operator w/ {num_sub_packets} sub-packets")
-                self.leveled_log(f"rest is now {rest}")
-                for _ in range(num_sub_packets):
-                    self.leveled_log("parsing subpacket")
-                    sub_packet = Packet(rest, subpacket_depth=self.subpacket_depth + 1)
-                    self.sub_packets.append(sub_packet)
-                    self.leveled_log("done!")
-                    rest = rest[sub_packet.packet_size :]
-                    self.leveled_log(f"rest is now {rest}")
-                self.packet_size = (
-                    6 + 1 + 11 + sum([p.packet_size for p in self.sub_packets])
-                )
-            self.leveled_log(f"setting packet_size to {self.packet_size}")
-        self.leveled_log(f"finished parsing, final packet is {self.packet_size}")
-
-    @property
-    def is_literal(self) -> bool:
-        return self.type_ == 4
-
-    def pretty(self) -> str:
-        result = f"{' ' * self.subpacket_depth}<Pkt({'L' if self.is_literal else 'O'}) vers={self.version}"  # pl={self.packet_size}
-        if self.is_literal:
-            result += f" val={self.value}"
-        if self.sub_packets:
-            result += " sub=["
-            result += "".join(
-                [f"\n{' '*p.subpacket_depth}{p.pretty()}" for p in self.sub_packets]
-            )
-            result += f'\n{" " * self.subpacket_depth}]'
-
-        return result + ">"
-
-    def summed_versions(self):
-        return self.version + sum([p.summed_versions() for p in self.sub_packets])
-
-    def leveled_log(self, m: str):
-        return
-        print(f'{" " * self.subpacket_depth}', end="")
-        print(m)
-
-
-def from_bin(b: str) -> int:
+def bin_to_int(b: str) -> int:
+    """
+    '1101' -> 13
+    """
     return int(b, 2)
 
 
 def hex_to_bits(h: str) -> str:
-    return "".join([f"{int(x, 16):04b}" for x in h])
+    """
+    'D2FE28' -> '110100101111111000101000'
+
+    For each hex letter, returns a padded 4-bit binary string
+    """
+    return "".join([f"{int(x, 16):0>4b}" for x in h])
+
+
+class Packet:
+    def __init__(self, raw_packet: str) -> None:
+        self.length = 0  # the number of bits in this packet
+        self.value = 0  # only used for literals
+        self.sub_packets: List["Packet"] = []
+        self.raw_packet = raw_packet
+
+        self.version = bin_to_int(self.pop_bits(3))
+        self.type = bin_to_int(self.pop_bits(3))
+
+        if self.is_literal:
+            value_bits = []
+            while True:
+                last_marker, *segment = self.pop_bits(5)
+                value_bits += segment
+                if last_marker == "0":
+                    break
+
+            self.value = bin_to_int("".join(value_bits))
+
+        elif self.pop_bits(1) == "0":
+            bits_read = 0
+            num_bits_to_read = bin_to_int(self.pop_bits(15))
+
+            while bits_read < num_bits_to_read:
+                bits_read += self.parse_subpacket()
+        else:
+            num_sub_packets = bin_to_int(self.pop_bits(11))
+            for _ in range(num_sub_packets):
+                self.parse_subpacket()
+
+    def pop_bits(self, num_bits: int) -> str:
+        result = self.raw_packet[:num_bits]
+        self.raw_packet = self.raw_packet[num_bits:]
+        self.length += num_bits
+        return result
+
+    def parse_subpacket(self) -> int:
+        sub_packet = Packet(self.raw_packet)
+        self.sub_packets.append(sub_packet)
+        self.pop_bits(sub_packet.length)
+        return sub_packet.length
+
+    @property
+    def is_literal(self) -> bool:
+        return self.type == 4
+
+    def summed_versions(self):
+        """
+        Used for part 1
+        """
+        return self.version + sum([p.summed_versions() for p in self.sub_packets])
 
 
 class Solution(TextSolution):
     _year = 2021
     _day = 16
 
-    # @answer(1234)
+    @answer(913)
     def part_1(self) -> int:
-        p = Packet(hex_to_bits(self.input))
-        self.pp(p)
-        return p.summed_versions()
+        return Packet(hex_to_bits(self.input)).summed_versions()
 
     # @answer(1234)
     def part_2(self) -> int:
