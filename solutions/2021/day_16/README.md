@@ -63,7 +63,7 @@ Let's put together a `Packet` class to store this info:
 class Packet:
     def __init__(self, raw_packet: str) -> None:
         self.length = 0  # the number of bits in this packet
-        self.value = 0  # only used for literals
+        self.value = 0  # only used for literals, for now
         self.sub_packets: List["Packet"] = []
         self.raw_packet = raw_packet
 ```
@@ -174,13 +174,120 @@ Before we move on, let me pull back the curtain a second. My first draft of work
 
 ## Part 2
 
-### Tests
+As we might have guessed, it's now time to actually put those `type`s to use. Our code doesn't have to change much- we'll mostly be adding a new method. Once all of our parsing is done on a given packet (regardless of where it was in the tree), we'll be able to calculate its value. Let's tweak `__init__` a little bit:
 
-- basic literal `D2FE28`
-- operator w/ num_packets `EE00D40C823060`
-- operator w/ packet length `38006F45291200`
-- nested `8A004A801A8002F478`
+```py
+class Packet:
+    def __init__(self, raw_packet: str) -> None:
+        ...
 
+        if self.is_literal:
+            ...
+            self.value = bin_to_int("".join(value_bits)) # not new
+        else:
+            # moved all this under an else block
+            if self.pop_bits(1) == "0":
+                ...
+            else:
+                ...
+
+            self.value = self.calculate_operator_value() # need to define this
+
+    def calculate_operator_value(self) -> int:
+        # TODO
+        ...
+
+        return 0
 ```
 
+This is the part of building an interpreter (because that's what we're doing!) where the rubber meets the road. Now we translate compiled "machine code" into actual values that can be operated on. We'll use built-in Python functions to add/multiply/etc the `.value` of nested subpackets. Here's a first pass:
+
+```py
+from functools import reduce
+from operator import mul
+
+class Packet:
+    ...
+
+    def calculate_operator_value(self) -> int:
+        subpacket_values = [p.value for p in self.sub_packets]
+
+        op = self.type
+        if op == 0:
+            return sum(subpacket_values)
+        if op == 1:
+            # there's no `product` function, but this is how it would be defined if there was
+            return reduce(mul, subpacket_values, 1)
+        if op == 2:
+            return min(subpacket_values)
+        if op == 3:
+            return max(subpacket_values)
+
+        assert len(self.sub_packets) == 2
+        l, r = self.sub_packets
+
+        if op == 5:
+            return int(l.value > r.value)
+        if op == 6:
+            return int(l.value < r.value)
+        if op == 7:
+            return int(l.value == r.value)
+
+        raise NotImplementedError(f'Unknown operator: "{op}"')
 ```
+
+Looks pretty ok! It certainly works, and we have our answer. We can clean it up though. Ultimately, this function has two parts
+
+1. If it's `type` 0-3, call a function that takes 1+ items and returns a result
+2. Otherwise it's `type` 5-7 and we call a function that takes exactly 2 numbers and returns a boolean
+
+What if we declared all those functions separately and then called whichever one was appropriate. Here's how that looks:
+
+```py
+from functools import reduce
+from operator import eq, gt, lt, mul
+from typing import Callable, Dict, Iterable, List, Tuple
+
+def product(seq: Iterable[int]) -> int:
+    return reduce(mul, seq, 1)
+
+
+OPERATOR_FUNCS: Dict[int, Callable[[Iterable[int]], int]] = {
+    0: sum,
+    1: product,
+    2: min,
+    3: max,
+}
+
+OPERATOR_COMPARISONS: Dict[int, Callable[[int, int], bool]] = {
+    5: gt,
+    6: lt,
+    7: eq,
+}
+```
+
+This approach uses the `operator` package (sounds relevant, right?), which holds the functions that power normal math operations. `1 < 2` is the same as `lt(1, 2)`. Being able to reference those operations explicitly allows us to build code where we don't know which function we're calling ahead of time. Now our calculation can be shrunk way down:
+
+```py
+class Packet:
+    ...
+
+    def calculate_operator_value(self) -> int:
+        op = self.type
+
+        if op in OPERATOR_FUNCS:
+            return OPERATOR_FUNCS[op](p.value for p in self.sub_packets)
+
+        assert len(self.sub_packets) == 2
+        # throw a custom error if the assertion fails
+        assert op in OPERATOR_COMPARISONS, f'Unknown operator: "{op}"'
+
+        l, r = self.sub_packets
+        return int(OPERATOR_COMPARISONS[op](l.value, r.value))
+```
+
+Boom! Much cleaner, but still easy to reason about.
+
+One last bit of fun trivia before we go- the `int()` call on the last line isn't actually needed. In Python, `bool` is a subclass of `int`, so bools can be used in place of ints. For instance, `True + True` is `2`. But, it's a little more correct looking to return an actual `int`, so I did a final conversion.
+
+If you enjoyed this sort of puzzle (interpreting opaque strings into actual programs), I recommend going through Advent of Code 2019, starting on [Day 2](https://adventofcode.com/2019/day/2). About half of the puzzles from that year involve creating an increasingly more complex version of today's puzzle. There's also [Writing an Interpreter in Go](https://interpreterbook.com/) if you want to explore some of the nuts and bolts.
