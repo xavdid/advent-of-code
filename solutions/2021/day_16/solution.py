@@ -44,7 +44,7 @@ OPERATOR_COMPARISONS: Dict[int, Callable[[int, int], bool]] = {
 class Packet:
     def __init__(self, raw_packet: str) -> None:
         self.length = 0  # the number of bits in this packet
-        self.value = 0  # only used for literals
+        self.value = 0
         self.sub_packets: List["Packet"] = []
         self.raw_packet = raw_packet
 
@@ -106,7 +106,8 @@ class Packet:
         # pylint: disable=unbalanced-tuple-unpacking
         l, r = self.sub_packets
         # `int` isn't actually required here since bool is a subclass of int
-        # and can be mathed like normal, but it's more correct looking
+        # and can be included in math operations like an int.
+        # But, it's more correct looking to be explicit
         return int(OPERATOR_COMPARISONS[op](l.value, r.value))
 
 
