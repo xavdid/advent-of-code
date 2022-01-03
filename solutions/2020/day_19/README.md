@@ -81,7 +81,7 @@ def resolve_rules(self, key):
         self.num_loops[key] += 1
 ```
 
-Once we've recursed 6 times, we can break and return `''`, which is a no-op when added to a string. Truth be told, that's the only serious change needed here! Note that we dropped the `@cache` because we _do_ need the answer to change the second time around. And like I said, no measurable performance benifet, so drop we did. After our rules are parsed as part of part 1, we just add this:
+Once we've recursed 6 times, we can break and return `''`, which is a no-op when added to a string. Truth be told, that's the only serious change needed here! Note that we dropped the `@cache` because we _do_ need the answer to change the second time around. And like I said, no measurable performance benefit, so drop we did. After our rules are parsed as part of part 1, we just add this:
 
 ```py
 self.rules["8"] = "42 | 42 8"
