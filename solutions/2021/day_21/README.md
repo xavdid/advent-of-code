@@ -179,7 +179,7 @@ for roll in product([1, 2, 3], repeat=3):
         ...
 ```
 
-I touched on `product` [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_20); it gives us a nested loop so we can get every combination of the 3 rolls. For each game the active player has won, count the win otherwise, we'll recurse. To do that, we play a round where the active and inactive players have swapped. After all, it's the other person's turn.
+I touched on `itertools.product` [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_20); it gives us a nested loop so we can get every combination of the 3 rolls. For each game the active player has won, count the win otherwise, we'll recurse. To do that, we play a round where the active and inactive players have swapped. After all, it's the other person's turn.
 
 ```py
 ...
@@ -194,7 +194,7 @@ else:
 
 Note that the variables come out backwards too- in this function, the current inactive player was the sub-games active player. Add those up, and we can return `ap_wins, ip_wins`.
 
-Lastly, we slap on the magic `functools.cache`, which the runtime of our solution from "infinite time" to "instant". Not bad, not bad at all. That lets us use our logic from Fibonaci where as soon as we call the function with a state we've seen before, we skip all the calculation and just return the answer.
+Lastly, we slap on the magic `functools.cache`, which the runtime of our solution from "infinite time" to "instant". Not bad, not bad at all. That lets us use our logic from Fibonacci where as soon as we call the function with a state we've seen before, we skip all the calculation and just return the answer.
 
 Here's the whole solution:
 
