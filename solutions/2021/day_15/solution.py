@@ -31,7 +31,6 @@ class Solution(StrSplitSolution):
 
         return grid, max_x * grid_mult - 1, max_y * grid_mult - 1
 
-    # @answer(581)
     def _solve(self, grid_mult: int) -> int:
         grid, max_x, max_y = self.parse_grid(grid_mult)
 
