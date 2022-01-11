@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from pprint import pprint, pformat
 from typing import Dict, List, Optional, Set, Tuple, Union, cast, Literal
+from operator import add, sub
 import re
 
 
@@ -90,14 +91,12 @@ class State:
     def next_states(self) -> List[Tuple[int, "State"]]:
         results: List[Tuple[int, "State"]] = []
 
-        for (horiz, vert), a in self.populated.items():
-            print(f"Checking {a} at {horiz, vert}")
+        for (horiz, vert), amph in self.populated.items():
+            print(f"Checking {amph} at {horiz, vert}")
             if not self.can_move(horiz, vert):
                 continue
 
             loc = self.loc_at(horiz, vert)
-            # if loc.is_locked:
-            #     continue
 
             if loc.is_home:
                 if vert == 1:
@@ -108,75 +107,115 @@ class State:
                 else:
                     # am down and home, can stay
                     continue
-                # if self.loc_at(horiz, 2).is_home:
-                #     continue
 
             # they can only move to a hallway spot, so check each direction until we hit a wall
-            while horiz >= 1:
-                horiz -= 1
-                if horiz in HALLWAYS and HOME_HORIZ[a] != horiz:
-                    continue
-                if HOME_HORIZ[a] == horiz:
-                    if (horiz, 2) not in self.populated:
-                        results.append(
-                            (
-                                cost_between_points(loc, Location(horiz, 2)),
-                                self.new_state_with_swap(
-                                    (loc.horiz, loc.vert), (horiz, 2)
-                                ),
+            # this only runs if they're in a hallway that's not theirs
+            if vert:
+                while horiz >= 1:
+                    horiz -= 1
+                    if horiz in HALLWAYS and HOME_HORIZ[amph] != horiz:
+                        continue
+                    if HOME_HORIZ[amph] == horiz:
+                        if (horiz, 2) not in self.populated:
+                            results.append(
+                                (
+                                    cost_between_points(loc, Location(horiz, 2)),
+                                    self.new_state_with_swap(
+                                        (loc.horiz, loc.vert), (horiz, 2)
+                                    ),
+                                )
                             )
-                        )
 
-                    elif (horiz, 1) not in self.populated:
-                        results.append(
-                            (
-                                cost_between_points(loc, Location(horiz, 1)),
-                                self.new_state_with_swap(
-                                    (loc.horiz, loc.vert), (horiz, 1)
-                                ),
+                        elif (horiz, 1) not in self.populated and self.loc_at(
+                            horiz, 2
+                        ).is_locked:
+                            results.append(
+                                (
+                                    cost_between_points(loc, Location(horiz, 1)),
+                                    self.new_state_with_swap(
+                                        (loc.horiz, loc.vert), (horiz, 1)
+                                    ),
+                                )
                             )
+                        continue
+                    if (horiz, 0) in self.populated:
+                        break
+                    results.append(
+                        (
+                            cost_between_points(loc, Location(horiz, 0)),
+                            self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
                         )
-                    continue
-                if (horiz, 0) in self.populated:
-                    break
-                results.append(
-                    (
-                        cost_between_points(loc, Location(horiz, 0)),
-                        self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
                     )
-                )
 
-            horiz = loc.horiz
-            while horiz <= 9:
-                horiz += 1
-                if horiz in HALLWAYS and HOME_HORIZ[a] != horiz:
-                    continue
-                if HOME_HORIZ[a] == horiz:
-                    if (horiz, 2) not in self.populated:
-                        results.append(
-                            (
-                                cost_between_points(loc, Location(horiz, 2)),
-                                self.new_state_with_swap(
-                                    (loc.horiz, loc.vert), (horiz, 2)
-                                ),
+                horiz = loc.horiz
+                while horiz <= 9:
+                    horiz += 1
+                    if horiz in HALLWAYS and HOME_HORIZ[amph] != horiz:
+                        continue
+                    if HOME_HORIZ[amph] == horiz:
+                        if (horiz, 2) not in self.populated:
+                            results.append(
+                                (
+                                    cost_between_points(loc, Location(horiz, 2)),
+                                    self.new_state_with_swap(
+                                        (loc.horiz, loc.vert), (horiz, 2)
+                                    ),
+                                )
                             )
-                        )
-                    elif (horiz, 1) not in self.populated:
-                        results.append(
-                            (
-                                cost_between_points(loc, Location(horiz, 1)),
-                                self.new_state_with_swap(
-                                    (loc.horiz, loc.vert), (horiz, 1)
-                                ),
+                        elif (horiz, 1) not in self.populated and self.loc_at(
+                            horiz, 2
+                        ).is_locked:
+                            results.append(
+                                (
+                                    cost_between_points(loc, Location(horiz, 1)),
+                                    self.new_state_with_swap(
+                                        (loc.horiz, loc.vert), (horiz, 1)
+                                    ),
+                                )
                             )
+                        continue
+                    if (horiz, 0) in self.populated:
+                        break
+                    results.append(
+                        (
+                            cost_between_points(loc, Location(horiz, 0)),
+                            self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
                         )
+                    )
+            else:
+                # they're already in the hallway, so their only valid move is to go home
+                # to go home, they have to be:
+                # * unblocked to get there
+                # * if there is someone in the home, it has to be locked in
+                targ_horiz = HOME_HORIZ[amph]
+                if (targ_horiz, 2) in self.populated and not self.loc_at(
+                    targ_horiz, 2
+                ).is_locked:
+                    # can't enter a non-empty hallway that a non-resident is in
                     continue
-                if (horiz, 0) in self.populated:
-                    break
+                if (targ_horiz, 1) in self.populated:
+                    # someone is blocking the entrance
+                    continue
+
+                op = add if targ_horiz > horiz else sub
+                is_blocked = False
+                while horiz != targ_horiz:
+                    horiz = op(horiz, 1)
+                    if (horiz, 0) in self.populated:
+                        is_blocked = True
+                        break
+
+                if is_blocked:
+                    continue
+
+                # otherwise, it's valid to move the spot in the open to their hallway
+                targ_vert = 1 if (targ_horiz, 2) in self.populated else 2
                 results.append(
                     (
-                        cost_between_points(loc, Location(horiz, 0)),
-                        self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
+                        cost_between_points(loc, Location(targ_horiz, targ_vert)),
+                        self.new_state_with_swap(
+                            (loc.horiz, loc.vert), (targ_horiz, targ_vert)
+                        ),
                     )
                 )
 
@@ -217,10 +256,16 @@ class Solution(TextSolution):
         # self.pp(world)
         assert not world.did_win
         next_states = world.next_states()
-        self.pp(next_states)
-        assert len(next_states) == 28, f"got {len(next_states)}"
+        # self.pp(list(enumerate(next_states)))
+        assert len(next_states) == 28, f"got {len(next_states)}, wanted 28"
         print("-----------")
-        self.pp(next_states[2][1].next_states())
+        r2 = next_states[16][1].next_states()
+        self.pp(list(enumerate(r2)))
+        print("-----------")
+        r3 = next_states[12][1].next_states()
+        self.pp(list(enumerate(r3)))
+        # print("-----------")
+        # self.pp(next_states[2][1].next_states())
 
     # @answer(1234)
     def part_2(self) -> int:
