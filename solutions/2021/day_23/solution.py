@@ -256,16 +256,14 @@ class Solution(TextSolution):
         # self.pp(world)
         assert not world.did_win
         next_states = world.next_states()
-        # self.pp(list(enumerate(next_states)))
-        assert len(next_states) == 28, f"got {len(next_states)}, wanted 28"
-        print("-----------")
-        r2 = next_states[16][1].next_states()
-        self.pp(list(enumerate(r2)))
-        print("-----------")
-        r3 = next_states[12][1].next_states()
-        self.pp(list(enumerate(r3)))
-        # print("-----------")
-        # self.pp(next_states[2][1].next_states())
+        self.pp(list(enumerate(next_states)))
+        for pick in [15, 3, 6, 5, 4, 4, 3, 0, 0, 0]:
+            print("-----------")
+            world = next_states[pick][1]
+            next_states = world.next_states()
+            self.pp(list(enumerate(next_states)))
+
+        assert world.did_win
 
     # @answer(1234)
     def part_2(self) -> int:
