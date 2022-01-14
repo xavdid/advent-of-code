@@ -1,8 +1,13 @@
 # prompt: https://adventofcode.com/2021/day/23
 
+
+from collections import defaultdict
 from dataclasses import dataclass
+from functools import cached_property
+from heapq import heappop, heappush
+from math import inf
 from pprint import pprint, pformat
-from typing import Dict, List, Optional, Set, Tuple, Union, cast, Literal
+from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union, cast, Literal
 from operator import add, sub
 import re
 
@@ -56,6 +61,9 @@ class Location:
 def cost_between_points(a: Location, b: Location) -> int:
     assert bool(a.value) ^ bool(b.value)  # exactly one point has a value
     step_cost = COST[cast(Amphipod, a.value or b.value)]
+
+    return (a.vert + b.vert + abs(a.horiz - b.horiz)) * step_cost
+
     return abs(a.index - b.index) * step_cost
 
 
@@ -92,7 +100,7 @@ class State:
         results: List[Tuple[int, "State"]] = []
 
         for (horiz, vert), amph in self.populated.items():
-            print(f"Checking {amph} at {horiz, vert}")
+            # print(f"Checking {amph} at {horiz, vert}")
             if not self.can_move(horiz, vert):
                 continue
 
@@ -230,11 +238,21 @@ class State:
         return True
 
     def new_state_with_swap(self, old: GridPoint, new: GridPoint) -> "State":
-        print(f"swapping {old} to {new}")
+        # print(f"swapping {old} to {new}")
         new_pop = self.populated.copy()
         del new_pop[old]
         new_pop[new] = self.populated[old]
         return State(new_pop)
+
+    @cached_property
+    def frozen(self) -> str:
+        """
+        Used to serialize this state into a set
+        """
+        return "|".join(f"{k}:{v}" for k, v in sorted(self.populated.items()))
+
+    def __lt__(self, o):
+        return False
 
 
 class Solution(TextSolution):
@@ -252,18 +270,51 @@ class Solution(TextSolution):
                 i += 1
 
         # assert len(locations) == 8
-        world = State(locations)
+        start = State(locations)
         # self.pp(world)
-        assert not world.did_win
-        next_states = world.next_states()
-        self.pp(list(enumerate(next_states)))
-        for pick in [15, 3, 6, 5, 4, 4, 3, 0, 0, 0]:
-            print("-----------")
-            world = next_states[pick][1]
-            next_states = world.next_states()
-            self.pp(list(enumerate(next_states)))
+        # assert not world.did_win
+        queue: List[Tuple[int, State]] = [(0, start)]
+        visited: Set[str] = set()
+        distances: DefaultDict[str, float] = defaultdict(lambda: inf, {start.frozen: 0})
 
-        assert world.did_win
+        while queue:
+            cost, current = heappop(queue)
+
+            if current.frozen in visited:
+                continue
+
+            if current.did_win:
+                return cost
+
+            visited.add(current.frozen)
+
+            for next_move_cost, next_state in current.next_states():
+                # self.pp(next_state)
+                assert (
+                    next_move_cost
+                ), f"moving to {next_state} was free, shouldn't have been"
+                if next_state.frozen in visited:
+                    continue
+
+                total_cost = cost + next_move_cost
+
+                if total_cost < distances[next_state.frozen]:
+                    distances[next_state.frozen] = total_cost
+                    heappush(queue, (total_cost, next_state))
+
+            # self.pp(queue)
+            # break
+
+        raise RuntimeError("No solution found")
+
+        # self.pp(list(enumerate(next_states)))
+        # for pick in [15, 3, 6, 5, 4, 4, 3, 0, 0, 0]:
+        #     print("-----------")
+        #     world = next_states[pick][1]
+        #     next_states = world.next_states()
+        #     self.pp(list(enumerate(next_states)))
+
+        # assert world.did_win
 
     # @answer(1234)
     def part_2(self) -> int:
