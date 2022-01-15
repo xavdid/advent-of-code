@@ -1,26 +1,32 @@
 # prompt: https://adventofcode.com/2021/day/23
 
-
+import re
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import cached_property
 from heapq import heappop, heappush
-from math import inf
-from pprint import pprint, pformat
-from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union, cast, Literal
+from math import inf  # pylint: disable=no-name-in-module
 from operator import add, sub
-import re
+from typing import (
+    Callable,
+    DefaultDict,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    Set,
+    Tuple,
+    Union,
+    cast,
+)
 
-
-from ...base import TextSolution, answer, GridPoint
-
-# from typing import Tuple
+from ...base import GridPoint, TextSolution, answer
 
 Amphipod = Union[Literal["A"], Literal["B"], Literal["C"], Literal["D"]]
 
 COST: Dict[Amphipod, int] = {"A": 1, "B": 10, "C": 100, "D": 1000}
 HOME_HORIZ: Dict[Amphipod, int] = {"A": 2, "B": 4, "C": 6, "D": 8}
-HALLWAYS = {2, 4, 6, 8}
+HOMES = {2, 4, 6, 8}
 
 
 @dataclass
@@ -29,65 +35,29 @@ class Location:
     vert: int = 0
     value: Optional[Amphipod] = None
 
-    def __post_init__(self):
-        if self.vert:
-            assert self.horiz in HALLWAYS, f"{self} is invalid"
-
-        if self.horiz in HALLWAYS:
-            assert self.vert, f"{self} is invalid"
-
-    @property
-    def index(self) -> int:
-        return self.horiz + self.vert
-
     @property
     def is_home(self) -> bool:
+        """
+        The location is an amph and is in its home column (either position)
+        """
         if not self.value:
             return False
         return self.vert > 0 and self.horiz == HOME_HORIZ[self.value]
 
-    @property
-    def is_locked(self) -> bool:
-        return self.vert == 2 and self.is_home
-
-    def is_valid_for(self, a: Amphipod) -> bool:
-        if self.value:
-            return False
-        if self.vert == 0:
-            return True
-        return self.horiz == HOME_HORIZ[a]
-
 
 def cost_between_points(a: Location, b: Location) -> int:
-    assert bool(a.value) ^ bool(b.value)  # exactly one point has a value
+    # assert bool(a.value) ^ bool(b.value)  # exactly one point has a value
     step_cost = COST[cast(Amphipod, a.value or b.value)]
-
     return (a.vert + b.vert + abs(a.horiz - b.horiz)) * step_cost
-
-    return abs(a.index - b.index) * step_cost
-
-
-SlimLocation = Tuple[int, int, Amphipod]
 
 
 @dataclass
 class State:
     populated: Dict[GridPoint, Amphipod]
+    max_hallway_depth: int
 
-    def loc_at(self, horiz: int, vert: int = 0) -> Location:
-        if (horiz, vert) in self.populated:
-            return Location(horiz, vert, self.populated[(horiz, vert)])
-        if not 0 <= horiz <= 10:
-            raise ValueError(f"{horiz=} out of bounds")
-        if vert and not vert in {1, 2}:
-            raise ValueError(f"{vert=} out of bounds")
-        if not vert and horiz in {2, 4, 6, 8}:
-            raise ValueError(f"{horiz=},{vert=} invalid")
-
-        return Location(horiz, vert)
-
-    def pretty(self):
-        return pformat(self.populated)
+    def loc_at(self, horiz: int, vert: int) -> Location:
+        return Location(horiz, vert, self.populated.get((horiz, vert)))
 
     @property
     def did_win(self) -> bool:
@@ -96,136 +66,124 @@ class State:
     def __eq__(self, o: "State") -> bool:
         return self.populated == o.populated
 
+    def _new_state(self, loc: Location, to: GridPoint) -> Tuple[int, "State"]:
+        dest = Location(*to)
+        return (
+            cost_between_points(loc, dest),
+            self.new_state_with_swap(loc, to),
+        )
+
+    def _check_horizontals(
+        self, loc: Location, op: Callable[[int, int], int]
+    ) -> Tuple[bool, List[Tuple[int, "State"]]]:
+        """
+        returns a 2-tuple of:
+            *  whether or not the bath to home is unblocked (but nothing about the home itself)
+            * the next possible states
+        """
+        results: List[Tuple[int, "State"]] = []
+        horiz = loc.horiz
+        home = HOME_HORIZ[cast(Amphipod, loc.value)]
+        home_unblocked: bool = False
+        while 1 <= horiz <= 9:
+            horiz = op(horiz, 1)
+
+            if horiz == home:
+                home_unblocked = True
+                continue
+
+            if horiz in HOMES:
+                # already found home, this isn't it
+                continue
+
+            if (horiz, 0) in self.populated:
+                break
+            results.append(self._new_state(loc, (horiz, 0)))
+
+        return home_unblocked, results
+
+    def _check_vertical(
+        self, loc: Location, targ_horiz: int
+    ) -> Optional[Tuple[int, "State"]]:
+        # there is a clear path from loc to the opening of home
+        # to enter home:
+        # * all current residents must also be home
+        # * there must be an empty spot
+
+        targ_vert = None
+        for vert_possibility in range(self.max_hallway_depth, 0, -1):
+            if (targ_horiz, vert_possibility) in self.populated:
+                if self.loc_at(targ_horiz, vert_possibility).is_home:
+                    # can't go here, but we're not busted yet
+                    continue
+                # non-neighbor here!
+                break
+
+            # found an empty spot!
+            targ_vert = vert_possibility
+            break
+
+        if targ_vert is None:
+            # couldn't find a spot
+            return None
+
+        # otherwise, it's valid to move the spot in the open to their hallway
+        return self._new_state(loc, (targ_horiz, targ_vert))
+
+    def _is_horiz_clear_to_home(self, horiz: int, targ_horiz: int) -> bool:
+        # haven't checked, try it
+        op = add if targ_horiz > horiz else sub
+        can_reach_home = True
+        while horiz != targ_horiz:
+            horiz = op(horiz, 1)
+            if (horiz, 0) in self.populated:
+                can_reach_home = False
+                break
+        return can_reach_home
+
     def next_states(self) -> List[Tuple[int, "State"]]:
         results: List[Tuple[int, "State"]] = []
 
         for (horiz, vert), amph in self.populated.items():
-            # print(f"Checking {amph} at {horiz, vert}")
             if not self.can_move(horiz, vert):
                 continue
 
             loc = self.loc_at(horiz, vert)
+            can_reach_home: Optional[bool] = None
 
-            if loc.is_home:
-                if vert == 1:
-                    if self.loc_at(horiz, 2).is_home:
-                        # this column is done
-                        continue
-                    # below is blocked, must move
-                else:
-                    # am down and home, can stay
-                    continue
+            if loc.is_home and all(
+                self.loc_at(horiz, i).is_home
+                for i in range(vert + 1, self.max_hallway_depth + 1)
+            ):
+                # me and everyone below me are home, am all good
+                continue
 
-            # they can only move to a hallway spot, so check each direction until we hit a wall
-            # this only runs if they're in a hallway that's not theirs
+            # if they're in a house (and thus have vert), they can only move to a hallway spot,
+            # so check each direction until we hit a wall
+            # this only runs if they're in a house that's not theirs
             if vert:
-                while horiz >= 1:
-                    horiz -= 1
-                    if horiz in HALLWAYS and HOME_HORIZ[amph] != horiz:
-                        continue
-                    if HOME_HORIZ[amph] == horiz:
-                        if (horiz, 2) not in self.populated:
-                            results.append(
-                                (
-                                    cost_between_points(loc, Location(horiz, 2)),
-                                    self.new_state_with_swap(
-                                        (loc.horiz, loc.vert), (horiz, 2)
-                                    ),
-                                )
-                            )
+                for direction in [sub, add]:
+                    found_home, new_states = self._check_horizontals(loc, direction)
+                    can_reach_home = can_reach_home or found_home
+                    # print(f"just {found_home=}, now {can_reach_home=}")
+                    results += new_states
+                    # print(f"  added {len(new_states)} new states from horiz")
 
-                        elif (horiz, 1) not in self.populated and self.loc_at(
-                            horiz, 2
-                        ).is_locked:
-                            results.append(
-                                (
-                                    cost_between_points(loc, Location(horiz, 1)),
-                                    self.new_state_with_swap(
-                                        (loc.horiz, loc.vert), (horiz, 1)
-                                    ),
-                                )
-                            )
-                        continue
-                    if (horiz, 0) in self.populated:
-                        break
-                    results.append(
-                        (
-                            cost_between_points(loc, Location(horiz, 0)),
-                            self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
-                        )
-                    )
+            # they're already in the hallway, so their only valid move is to go home
+            # to go home, they have to be:
+            # * unblocked to get there
+            # * if there is someone in the home, it has to also be a resident
 
-                horiz = loc.horiz
-                while horiz <= 9:
-                    horiz += 1
-                    if horiz in HALLWAYS and HOME_HORIZ[amph] != horiz:
-                        continue
-                    if HOME_HORIZ[amph] == horiz:
-                        if (horiz, 2) not in self.populated:
-                            results.append(
-                                (
-                                    cost_between_points(loc, Location(horiz, 2)),
-                                    self.new_state_with_swap(
-                                        (loc.horiz, loc.vert), (horiz, 2)
-                                    ),
-                                )
-                            )
-                        elif (horiz, 1) not in self.populated and self.loc_at(
-                            horiz, 2
-                        ).is_locked:
-                            results.append(
-                                (
-                                    cost_between_points(loc, Location(horiz, 1)),
-                                    self.new_state_with_swap(
-                                        (loc.horiz, loc.vert), (horiz, 1)
-                                    ),
-                                )
-                            )
-                        continue
-                    if (horiz, 0) in self.populated:
-                        break
-                    results.append(
-                        (
-                            cost_between_points(loc, Location(horiz, 0)),
-                            self.new_state_with_swap((loc.horiz, loc.vert), (horiz, 0)),
-                        )
-                    )
-            else:
-                # they're already in the hallway, so their only valid move is to go home
-                # to go home, they have to be:
-                # * unblocked to get there
-                # * if there is someone in the home, it has to be locked in
-                targ_horiz = HOME_HORIZ[amph]
-                if (targ_horiz, 2) in self.populated and not self.loc_at(
-                    targ_horiz, 2
-                ).is_locked:
-                    # can't enter a non-empty hallway that a non-resident is in
-                    continue
-                if (targ_horiz, 1) in self.populated:
-                    # someone is blocking the entrance
-                    continue
+            targ_horiz = HOME_HORIZ[amph]
 
-                op = add if targ_horiz > horiz else sub
-                is_blocked = False
-                while horiz != targ_horiz:
-                    horiz = op(horiz, 1)
-                    if (horiz, 0) in self.populated:
-                        is_blocked = True
-                        break
+            if can_reach_home is None:
+                can_reach_home = self._is_horiz_clear_to_home(horiz, targ_horiz)
 
-                if is_blocked:
-                    continue
+            if not can_reach_home:
+                continue
 
-                # otherwise, it's valid to move the spot in the open to their hallway
-                targ_vert = 1 if (targ_horiz, 2) in self.populated else 2
-                results.append(
-                    (
-                        cost_between_points(loc, Location(targ_horiz, targ_vert)),
-                        self.new_state_with_swap(
-                            (loc.horiz, loc.vert), (targ_horiz, targ_vert)
-                        ),
-                    )
-                )
+            if home_state := self._check_vertical(loc, targ_horiz):
+                results.append(home_state)
 
         return results
 
@@ -233,16 +191,17 @@ class State:
         """
         Returns `False` if the amph is under another, `True` otherwise
         """
-        if vert == 2:
-            return not self.loc_at(horiz, 1).value
-        return True
+        if vert < 2:
+            return True
 
-    def new_state_with_swap(self, old: GridPoint, new: GridPoint) -> "State":
+        return all(self.loc_at(horiz, i).value is None for i in range(1, vert))
+
+    def new_state_with_swap(self, old: Location, new: GridPoint) -> "State":
         # print(f"swapping {old} to {new}")
         new_pop = self.populated.copy()
-        del new_pop[old]
-        new_pop[new] = self.populated[old]
-        return State(new_pop)
+        del new_pop[(old.horiz, old.vert)]
+        new_pop[new] = self.populated[(old.horiz, old.vert)]
+        return State(new_pop, self.max_hallway_depth)
 
     @cached_property
     def frozen(self) -> str:
@@ -252,6 +211,7 @@ class State:
         return "|".join(f"{k}:{v}" for k, v in sorted(self.populated.items()))
 
     def __lt__(self, o):
+        # needed so States can be in sortable tuples; we don't actually care about order
         return False
 
 
@@ -259,20 +219,35 @@ class Solution(TextSolution):
     _year = 2021
     _day = 23
 
-    # @answer(1234)
-    def part_1(self) -> int:
+    def _parse_input(self, extra: bool) -> Dict[GridPoint, Amphipod]:
         start_order: List[Amphipod] = re.findall(r"[ABCD]", self.input)
         locations = {}
         i = 0
-        for vert in [1, 2]:
+        for vert in [1, 4 if extra else 2]:
             for horiz in [2, 4, 6, 8]:
                 locations[(horiz, vert)] = start_order[i]
                 i += 1
+        if extra:
+            # D#C#B#A #
+            # D#B#A#C #
+            locations.update(
+                {
+                    (2, 2): "D",
+                    (2, 3): "D",
+                    (4, 2): "C",
+                    (4, 3): "B",
+                    (6, 2): "B",
+                    (6, 3): "A",
+                    (8, 2): "A",
+                    (8, 3): "C",
+                }
+            )
+        return locations
 
-        # assert len(locations) == 8
-        start = State(locations)
-        # self.pp(world)
-        # assert not world.did_win
+    def _dijkstra(self, max_hallway_depth: int) -> int:
+        locations = self._parse_input(max_hallway_depth != 2)
+
+        start = State(locations, max_hallway_depth)
         queue: List[Tuple[int, State]] = [(0, start)]
         visited: Set[str] = set()
         distances: DefaultDict[str, float] = defaultdict(lambda: inf, {start.frozen: 0})
@@ -289,10 +264,6 @@ class Solution(TextSolution):
             visited.add(current.frozen)
 
             for next_move_cost, next_state in current.next_states():
-                # self.pp(next_state)
-                assert (
-                    next_move_cost
-                ), f"moving to {next_state} was free, shouldn't have been"
                 if next_state.frozen in visited:
                     continue
 
@@ -302,24 +273,12 @@ class Solution(TextSolution):
                     distances[next_state.frozen] = total_cost
                     heappush(queue, (total_cost, next_state))
 
-            # self.pp(queue)
-            # break
-
         raise RuntimeError("No solution found")
 
-        # self.pp(list(enumerate(next_states)))
-        # for pick in [15, 3, 6, 5, 4, 4, 3, 0, 0, 0]:
-        #     print("-----------")
-        #     world = next_states[pick][1]
-        #     next_states = world.next_states()
-        #     self.pp(list(enumerate(next_states)))
+    @answer(12240)
+    def part_1(self) -> int:
+        return self._dijkstra(2)
 
-        # assert world.did_win
-
-    # @answer(1234)
+    @answer(44618)
     def part_2(self) -> int:
-        pass
-
-    # @answer((1234, 4567))
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+        return self._dijkstra(4)
