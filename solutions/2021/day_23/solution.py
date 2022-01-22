@@ -34,28 +34,44 @@ class State:
     populated: Dict[GridPoint, Amphipod]
     max_room_size: int
 
-    def cost_between_points(self, a: GridPoint, b: GridPoint) -> int:
-        # assert bool(a.value) ^ bool(b.value)  # exactly one point has a value
-        step_cost = COST[cast(Amphipod, self.populated.get(a) or self.populated.get(b))]
-        return (a[1] + b[1] + abs(a[0] - b[0])) * step_cost
+    def loc_is_home(self, loc: GridPoint) -> bool:
+        """
+        Is the amphipod at the given point home?
+        """
 
-    def loc_is_home(self, horiz: int, vert: int) -> bool:
-        if (horiz, vert) not in self.populated:
+        if loc not in self.populated:
             return False
-        return vert > 0 and horiz == HOME_HORIZ[self.populated[(horiz, vert)]]
+
+        return loc[1] > 0 and loc[0] == HOME_HORIZ[self.populated[loc]]
 
     @property
     def did_win(self) -> bool:
-        return all(self.loc_is_home(*p) for p in self.populated.keys())
+        return all(self.loc_is_home(p) for p in self.populated.keys())
 
-    def __eq__(self, o: "State") -> bool:
-        return self.populated == o.populated
+    def new_state_with_swap(self, old: GridPoint, new: GridPoint) -> "State":
+        new_pop = self.populated.copy()
+        del new_pop[old]
+        new_pop[new] = self.populated[old]
+        return State(new_pop, self.max_room_size)
+
+    def cost_between_points(self, a: GridPoint, b: GridPoint) -> int:
+        step_cost = COST[cast(Amphipod, self.populated.get(a) or self.populated.get(b))]
+        return (a[1] + b[1] + abs(a[0] - b[0])) * step_cost
 
     def _new_state(self, loc: GridPoint, to: GridPoint) -> Tuple[int, "State"]:
         return (
             self.cost_between_points(loc, to),
             self.new_state_with_swap(loc, to),
         )
+
+    def can_move(self, horiz: int, vert: int) -> bool:
+        """
+        Returns `False` if the amph is under another, `True` otherwise
+        """
+        if vert < 2:
+            return True
+
+        return all(self.populated.get((horiz, i)) is None for i in range(1, vert))
 
     def _check_horizontals(
         self, loc: GridPoint, direction: Callable[[int, int], int]
@@ -67,12 +83,11 @@ class State:
         """
         results: List[Tuple[int, "State"]] = []
         horiz = loc[0]
-        home = HOME_HORIZ[self.populated[loc]]
         home_unblocked: bool = False
         while 1 <= horiz <= 9:
             horiz = direction(horiz, 1)
 
-            if horiz == home:
+            if horiz == HOME_HORIZ[self.populated[loc]]:
                 home_unblocked = True
                 continue
 
@@ -86,6 +101,20 @@ class State:
 
         return home_unblocked, results
 
+    def _is_horiz_clear_to_home(self, horiz: int, targ_horiz: int) -> bool:
+        """
+        Checks the path between two horizontal points and returns whether or not it's unblocked.
+        Only used when we didn't already glean this info from `_check_horizontals`
+        """
+        op = add if targ_horiz > horiz else sub
+        can_reach_home = True
+        while horiz != targ_horiz:
+            horiz = op(horiz, 1)
+            if (horiz, 0) in self.populated:
+                can_reach_home = False
+                break
+        return can_reach_home
+
     def _check_vertical(
         self, loc: GridPoint, targ_horiz: int
     ) -> Optional[Tuple[int, "State"]]:
@@ -96,8 +125,9 @@ class State:
 
         targ_vert = None
         for vert_possibility in range(self.max_room_size, 0, -1):
-            if (targ_horiz, vert_possibility) in self.populated:
-                if self.loc_is_home(targ_horiz, vert_possibility):
+            p = (targ_horiz, vert_possibility)
+            if p in self.populated:
+                if self.loc_is_home(p):
                     # can't go here, but we're not busted yet
                     continue
                 # non-neighbor here!
@@ -114,35 +144,26 @@ class State:
         # otherwise, we have found home
         return self._new_state(loc, (targ_horiz, targ_vert))
 
-    def _is_horiz_clear_to_home(self, horiz: int, targ_horiz: int) -> bool:
-        # haven't checked, try it
-        op = add if targ_horiz > horiz else sub
-        can_reach_home = True
-        while horiz != targ_horiz:
-            horiz = op(horiz, 1)
-            if (horiz, 0) in self.populated:
-                can_reach_home = False
-                break
-        return can_reach_home
-
     def next_states(self) -> List[Tuple[int, "State"]]:
-        results: List[Tuple[int, "State"]] = []
+        results: List[Tuple[int, State]] = []
 
-        for (horiz, vert), amph in self.populated.items():
-            # so we only store the next states if we didn't find home
-            sub_results = []
+        for loc, amph in self.populated.items():
+            horiz, vert = loc
             if not self.can_move(horiz, vert):
                 continue
 
-            loc = (horiz, vert)
-            can_reach_home: Optional[bool] = None
-
-            if self.loc_is_home(horiz, vert) and all(
-                self.loc_is_home(horiz, i)
+            if self.loc_is_home(loc) and all(
+                self.loc_is_home((horiz, i))
                 for i in range(vert + 1, self.max_room_size + 1)
             ):
                 # me and everyone below me are home, am all good
                 continue
+
+            # if it's None, then we didn't check the hallway at all
+            can_reach_home: Optional[bool] = None
+
+            # so we only store the next states if we didn't go straight home
+            amph_results: List[State] = []
 
             # if they're in a house (and thus have vert), they can only move to a hallway spot,
             # so check each direction until we hit a wall
@@ -151,12 +172,12 @@ class State:
                 for direction in [sub, add]:
                     found_home, new_states = self._check_horizontals(loc, direction)
                     can_reach_home = can_reach_home or found_home
-                    sub_results += new_states
+                    amph_results += new_states
 
             # they're already in the hallway, so their only valid move is to go home
             # to go home, they have to be:
             # * unblocked to get there
-            # * if there is someone in the home, it has to also be a resident
+            # * if there are other amphs there, they must all be residents
 
             targ_horiz = HOME_HORIZ[amph]
 
@@ -164,30 +185,15 @@ class State:
                 can_reach_home = self._is_horiz_clear_to_home(horiz, targ_horiz)
 
             if not can_reach_home:
-                results += sub_results
+                results += amph_results
                 continue
 
             if home_state := self._check_vertical(loc, targ_horiz):
                 results.append(home_state)
             else:
-                results += sub_results
+                results += amph_results
 
         return results
-
-    def can_move(self, horiz: int, vert: int) -> bool:
-        """
-        Returns `False` if the amph is under another, `True` otherwise
-        """
-        if vert < 2:
-            return True
-
-        return all(self.populated.get((horiz, i)) is None for i in range(1, vert))
-
-    def new_state_with_swap(self, old: GridPoint, new: GridPoint) -> "State":
-        new_pop = self.populated.copy()
-        del new_pop[old]
-        new_pop[new] = self.populated[old]
-        return State(new_pop, self.max_room_size)
 
     @cached_property
     def frozen(self) -> str:
