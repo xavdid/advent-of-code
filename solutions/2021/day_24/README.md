@@ -1,9 +1,241 @@
 # Day 24 (2021)
 
-`TITLE` ([prompt](https://adventofcode.com/2021/day/24))
+`Arithmetic Logic Unit` ([prompt](https://adventofcode.com/2021/day/24))
 
 ## Part 1
 
-First attempt: https://gist.github.com/xavdid/bb3b304f614e048d138d54b2d3578cdf
+I started this so confidently. It seemed so straightforward! I whipped up a You can check it out [here](https://gist.github.com/xavdid/bb3b304f614e048d138d54b2d3578cdf) of the ALU operations. I got to use [structural pattern matching](https://www.python.org/dev/peps/pep-0636/). It would try every 14-digit number until it hit. Only problem- it was way too slow. That's the problem with 14-digit numbers: there are a lot of them.
+
+Most days, there's a more efficient ways to write our code that's too slow. Sometimes, we can do something clever with how we store our data, or take shortcuts during calculations. Today, we're going a different direction: we're going to reverse engineer our input.
+
+Usually we treat the puzzle input as sort of a black box. We typically write a solution that works on the example, our input, and _any_ valid puzzle input. Today, we'll build a solution for our _specific_ input. As such, our code isn't not a general-purpose ALU implementation; given another valid ALU program, the solution won't produce the right output. But, it solves today's puzzle, and that's all that matters.
+
+Before you read ahead, take 2 minutes and read over your puzzle input. Jot down everything interesting you notice. How many lines are there? Are there patterns in the input? What's consistent in that pattern, what isn't? For the numbers, try to add some constraints to them. Do they fall in a certain range, or set?
+
+Do this for a minute or two, then read on to find what I found most helpful.
+
+---
+
+Digging in, we see that the input program follows a pattern. There are 14 nearly-identical 18-line blocks of instructions. We'll "call" them each in order. The blocks are identical except for 3 specific lines, which have a different number on each. These are lines `5`, `6`, and `16`. In my input, they follow a few simple rules:
+
+1. `L5` is only ever `1` or `26`. There's exactly 7 of each in the 14 blocks
+2. `L6` is always between `10` and `15` when `L5` is `1`. It's always negative when `L5` is `26` (my negative values were `<= -8`, but there's likely some variation)
+3. `L16` is always a positive number (mine ranged from `1-16`, but there's probably range here too)
+
+Let's walk through the first block of my input (translated into Python) and break down what we know. Your input will be similar, but will have different numbers on the `VAR` lines. Here's each step using `7` as the input digit:
+
+```py
+w, x, y, z = 0, 0, 0, 0
+
+w = 7           # 1. read from input; can only be a single digit. Using 7 for example's sake
+
+# top section
+x *= 0          # 2. RESET X
+x += z          # 3. X = Z = 0 (initially); Z will have a value in later blocks
+x %= 26         # 4. 0 % 26 == 0; no-op
+z //= 1         # 5. VAR; no-op when value is 1
+x += 15         # 6. VAR; X = 15 + Z = 15
+x = int(x == w) # 7. X == W? Always false, see below; X = 0
+x = int(x == 0) # 8. X = !X; Always true, see below; X = 1
+
+# middle section
+y *= 0          # 9. RESET Y
+y += 25         # 10. Y = 25
+y *= x          # 11. Y = 25 * 1; no-op
+y += 1          # 12. Y = 26
+z *= y          # 13. Whatever Z was when we started (hasn't changed yet) * 26 = 0
+
+# bottom section
+y *= 0          # 14. RESET Y
+y += w          # 15. Y = W = 7
+y += 13         # 16. VAR; Y = 20
+y *= x          # 17. Y = 20 * 1; no-op
+z += y          # 18. Z = 20
+```
+
+As we step through it, we realize we can pull a lot of lines out
+
+1. On `L4`, if Z was `> 26`, X is any value `0`-`25`. Otherwise, it's a no-op
+2. Upon reaching `L6`, `X` is equal to the variable on that line + `Z % 26`
+3. When we're in "`1`" mode, `L7` is always false because `X` + `< something greater than 10 >` will never equal the single digit we got as input
+4. So, `L8` must always be true
+5. `L11` is always a no-op when `L5` is `1`, because we established that `X` is always `1`
+6. On `L18`, we set `Z` equal to the digit input (`7`) + the variable on `L16`. That's what get carried into the next block; everything else is reset
+
+Given all those no-ops, we can simplify these mode-`1` blocks into the following Python function:
+
+```py
+def block_mode_1(digit, line_16_var, z=0):
+    # top section - ignored
+    # it sets X to 1 and then we multiply and divide by that result later
+    # so we skip the whole thing
+
+    # middle section
+    z *= 26
+
+    # bottom section
+    return z + digit + line_16_var
+```
+
+That's a lot more approachable, right? In cases where `L6` is `1`, we multiply `Z` by `26` and add `digit` (which you choose) and whatever's in your puzzle input. Unfortunately, our ALU code needs to finish with `0` in the `Z` register- that'll never happen in a `1`-block (we only add and multiply). Let's take a peek at a `26`-block:
+
+```py
+w, x, y, z = 0, 0, 0, 20 # using the output of the last example
+
+w = 7           # 1. read from input; can only be a single digit. Using 7 for example's sake
+
+# top section
+x *= 0          # 2. RESET X
+x += z          # 3. X = Z = 20 (result of last 1-block
+x %= 26         # 4. 20 % 26 == 0; no-op
+z //= 26        # 5. VAR; Z = 0
+x += -11        # 6. VAR; X = -11 + 20 = 9
+x = int(x == w) # 7. X == W? No; X = 0
+x = int(x == 0) # 8. X = !X; X = 1
+
+# middle section
+y *= 0          # 9. RESET Y
+y += 25         # 10. Y = 25
+y *= x          # 11. Y = 25 * 1; no-op
+y += 1          # 12. Y = 26
+z *= y          # 13. Whatever Z was when we started (20) * 26 = 9200
+
+# bottom section
+y *= 0          # 14. RESET Y
+y += w          # 15. Y = W = 7
+y += 6          # 16. VAR; Y = 13
+y *= x          # 17. Y = 13 * 1; no-op
+z += y          # 18. Z = 9213
+```
+
+Looks fairly similar, with an important difference: the variable on `L6` is negative. That means, depending on the value of `Z`, it's now possible that `L7` evaluates to `1`, meaning `L8` is `0`. That causes a big change in the rest of the block!
+
+We can see that with `Z = 20` and `W` (our chosen input digit) equal to `7`, we were 2 short of our match on `L6`. But good news- we get to pick that value! Let's pick `9` instead. Here's how that plays out:
+
+```py
+w, x, y, z = 0, 0, 0, 20 # using the output of the block-1 example
+
+w = 9           # 1. read from input; can only be a single digit.
+
+# top section
+x *= 0          # 2. RESET X
+x += z          # 3. X = Z = 20 (result of last 1-block
+x %= 26         # 4. 20 % 26 == 0; no-op
+z //= 26        # 5. VAR; Z = 0
+x += -11        # 6. VAR; X = -11 + 20 = 9
+x = int(x == w) # 7. X == W? Yes! X = 1
+x = int(x == 0) # 8. X = !X; X = 0; <--- big change!
+
+# middle section
+y *= 0          # 9. RESET Y
+y += 25         # 10. Y = 25
+y *= x          # 11. Y = 0
+y += 1          # 12. Y = 1
+z *= y          # 13. Z = 0 * 1 = 0
+
+# bottom section
+y *= 0          # 14. RESET Y
+y += w          # 15. Y = W = 9
+y += 6          # 16. VAR; Y = 15
+y *= x          # 17. Y = 13 * 0 = 0
+z += y          # 18. Z = 0 + 0 = 0!
+```
+
+That's more like it! This 26-block does the opposite of the 1-block. If X is made to match Z, everything gets reduced (or, if Z was small enough, zeroed out!).
+
+So, we can re-write the 26-blocks as the following Python:
+
+```py
+def block_mode_26(digit, line_6_var, line_16_var, z):
+    # top section
+    x = z % 26 + line_6_var
+
+    if x == digit:
+        # if x is equal, the rest of the script is a no-op
+        return z // 26
+
+    # middle section
+    z *= 26 # oh no
+
+    # bottom section
+    return z + digit + line_16_var
+```
+
+These blocks are the only chance we have to make Z smaller. Eventually, `Z` needs to be `0`. Since the `1`-blocks can only ever make Z bigger, it's important that _every_ one of these `26`-blocks returns early. How do we guarantee that though?
+
+Well, whenever we enter one of these blocks, we get to pick `digit`. So, we need to do so strategically to ensure a match. Let's put everything we have together and simplify it for some clarity:
+
+```py
+line_6_var = -11 # copied from my puzzle input
+line_16_var = 15
+def block_mode_1(digit_1, z=0):
+    return z * 26 + digit_1 + line_16_var
+
+def block_mode_26(digit_2, z):
+    # top section
+    x = z % 26 + line_6_var
+
+    if x == digit_2:
+        # if x is equal, the rest of the script is a no-op
+        return z // 26
+
+    return -1 # no match!
+```
+
+The `26`s cancel out (because of the mod division in the 2nd function)! That's awfully convenient. For the second function to return `0`, `digit_1 + line_16_var + line_6_var` must equal `digit_2`. Make sense? We can even verify this real quick:
+
+```py
+for x in range(1,10):
+    for y in range(1,10):
+        z = block_mode_1(x)
+        res = block_mode_26(y, z)
+        if res == 0:
+            print(x,y)
+```
+
+yields:
+
+```
+1 5
+2 6
+3 7
+4 8
+5 9
+```
+
+Boom! That lines up exactly with what we're seeing. `1 + 15 - 11` equals `5`, so the function is successful! Of course, there's more to it- there's a few `1`-blocks in a row, so values of `Z` will be pretty big before we get to the first `26`-block. Luckily, that's where that math in the middle with the `26`s works out.
+
+Because of the way we multiply by 26 and then add an offset, we can roll back those operations later. Check it out:
+
+```py
+z = 0
+
+# add 5, 9, then 3 during a few 1-block loops
+z *= 26 # 0
+z += 5 # 5
+# ---
+z *= 26 # 130
+z += 9 # 139
+# ---
+z *= 26 # 3614
+z += 3 # 3617
+
+
+# now, unroll:
+x = z % 26 # 3, the last number we added
+z //= 26 # 139
+# ---
+x = z % 26 # 9, the second number we added
+z //= 26 # 5
+# ---
+x = z % 26 # 5, the first number we added
+z //= 26 # 0, tada!
+```
+
+So, using only basic math, we've got a system to that can add and remove values in a last-in-first-out pattern. Sounds a lot like a [stack](<https://en.wikipedia.org/wiki/Stack_(abstract_data_type)>)!
+
+Our `1`-blocks "push" a number to the stack and our `26`-blocks (hopefully) "pop" them off! When done correctly, the stack is empty when the program finishes. We already have our little equation for the math to get a pair of operations to cancel out. All that remains is to line everything up correctly.
+
+Now, finally, we can write some code!
 
 ## Part 2
