@@ -166,12 +166,10 @@ These blocks are the only chance we have to make Z smaller. Eventually, `Z` need
 Well, whenever we enter one of these blocks, we get to pick `digit`. So, we need to do so strategically to ensure a match. Let's put everything we have together and simplify it for some clarity:
 
 ```py
-line_6_var = -11 # copied from my puzzle input
-line_16_var = 15
-def block_mode_1(digit_1, z=0):
+def block_mode_1(digit_1,  line_16_var, z=0):
     return z * 26 + digit_1 + line_16_var
 
-def block_mode_26(digit_2, z):
+def block_mode_26(digit_2, line_6_var,  z):
     # top section
     x = z % 26 + line_6_var
 
@@ -185,15 +183,18 @@ def block_mode_26(digit_2, z):
 The `26`s cancel out (because of the mod division in the 2nd function)! That's awfully convenient. For the second function to return `0`, `digit_1 + line_16_var + line_6_var` must equal `digit_2`. Make sense? We can even verify this real quick:
 
 ```py
+line_16_var = 15
+line_6_var = -11 # copied from my puzzle input
+
 for x in range(1,10):
     for y in range(1,10):
-        z = block_mode_1(x)
-        res = block_mode_26(y, z)
+        z = block_mode_1(x, line_16_var)
+        res = block_mode_26(y, line_6_var, z)
         if res == 0:
             print(x,y)
 ```
 
-yields:
+gives us:
 
 ```
 1 5
@@ -203,7 +204,7 @@ yields:
 5 9
 ```
 
-Boom! That lines up exactly with what we're seeing. `1 + 15 - 11` equals `5`, so the function is successful! Of course, there's more to it- there's a few `1`-blocks in a row, so values of `Z` will be pretty big before we get to the first `26`-block. Luckily, that's where that math in the middle with the `26`s works out.
+Boom! That lines up exactly with what we're seeing. `1 + 15 - 11` equals `5`, so the second function is successful! Of course, there's more to it- there's a few `1`-blocks in a row, so values of `Z` will be pretty big before we get to the first `26`-block. Luckily, that's where that math in the middle with the `26`s works out.
 
 Because of the way we multiply by 26 and then add an offset, we can roll back those operations later. Check it out:
 
@@ -238,4 +239,115 @@ Our `1`-blocks "push" a number to the stack and our `26`-blocks (hopefully) "pop
 
 Now, finally, we can write some code!
 
+---
+
+As always, first we need to process our input. Looking at the simplified functions above, we only ever need two of the 3 variables: the operation (push or pop) and one of the other variables (push uses the `L16` variable while pop only needs the `L6`). We can walk through the input and store what we need:
+
+```py
+from dataclasses import dataclass
+from typing import Iterable, List
+
+# https://stackoverflow.com/a/312464/1825390
+def blocks(l: List[str]) -> Iterable[List[str]]:
+    """
+    Yield each block of the program - 18 lines at a time
+    """
+    n = 18
+    for i in range(0, len(l), n):
+        yield l[i : i + n]
+
+def get_int_from_line(line: str) -> int:
+    """
+    Get the integer we need from a given line
+    """
+    return int(line.split(" ")[-1])
+
+PUSH_OP = 1
+
+
+@dataclass
+class Frame:
+    # which place this frame represents in the final number
+    digit: int
+    # push or pop
+    operation: int
+    # the relevant variable for this operation
+    var: int
+
+
+stack: List[Frame] = []
+result: List[str] = [""] * 14
+
+for idx, block in enumerate(blocks(self.input)):
+    op = get_int_from_line(block[4]) # either 1 or 26
+    var = get_int_from_line(block[15 if op == PUSH_OP else 5])
+
+    curr = Frame(idx, op, var)
+
+    if curr.operation == PUSH_OP:
+        stack.append(curr)
+        continue
+```
+
+Pretty straightforward- we find our relevant lines and add them into the stack as a stack `Frame`. We keep pushing things onto the stack until we get a pop:
+
+```py
+for idx, block in enumerate(blocks(self.input)):
+    ...
+
+    # the higher-power number
+    prev = stack.pop()
+
+    # the pair of numbers must differ by this much
+    diff = prev.var + curr.var
+```
+
+One last thing to figure out. What's the highest digit we can store? We know what the _difference_ between the two digits needs to be. So, to maximize our resulting number, one of the two digits should be `9` and the other one will be `9 - diff`. But, there's a catch- sometimes, the `diff` is negative! In that case, the earlier number should be `9` and the later number is `9 + diff` (which will make it a lower number. Here's that in action:
+
+```py
+result: List[str] = [""] * 14
+...
+
+for idx, block in enumerate(blocks(self.input)):
+    ...
+    if diff > 0:
+        result[prev.digit] = str(9 - diff)
+        result[curr.digit] = str(9)
+    else:
+        result[prev.digit] = str(9)
+        result[curr.digit] = str(9 + diff)
+
+assert all(result)
+assert len(result) == 14
+out = "".join(result)
+assert len(out) == 14
+
+return int(out)
+```
+
+We wrap it up with a _bunch_ of assertions that helped me catch some bugs, and we're all set!
+
 ## Part 2
+
+Now, we need to find the lowest number instead of the highest. Luckily, all this takes is a tweak to our final logic. Instead of `9`s, we'll be using `1`s wherever we can. We can wrap the logic with a boolean to control the behavior:
+
+```py
+def _solve(self, find_high: bool) -> int:
+    ...
+    for idx, block in enumerate(blocks(self.input)):
+        ...
+        if find_high:
+            ...
+            # part 1
+        else:
+            if diff > 0:
+                result[prev.digit] = str(1)
+                result[curr.digit] = str(1 + diff)
+            else:
+                result[prev.digit] = str(1 - diff)
+                result[curr.digit] = str(1)
+```
+
+Same basic idea, but inverted at each step. There's probably a cleaner way to do this, but this covered all my cases well and was clearer than any other ideas we had.
+
+Great job today! It was tough to get started, but once we had a handle on what was going on, we breezed right through. Home stretch!
