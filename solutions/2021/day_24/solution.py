@@ -1,116 +1,87 @@
 # prompt: https://adventofcode.com/2021/day/24
 
 
-from functools import partial
-from typing import Iterable, List, Literal, Optional, Union
+from dataclasses import dataclass
+from typing import Iterable, List
+
 from ...base import StrSplitSolution, answer
 
-from dataclasses import dataclass
+
+# https://stackoverflow.com/a/312464/1825390
+def blocks(l: List[str]) -> Iterable[List[str]]:
+    n = 18
+    for i in range(0, len(l), n):
+        yield l[i : i + n]
 
 
-def chunks(lst: List[str], n: int) -> Iterable[List[str]]:
-    """Yield successive n-sized chunks from lst."""
-    for i in range(0, len(lst), n):
-        yield lst[i : i + n]
-
-
-def get_val(line: str) -> int:
-    return int(line.split()[-1])
+def get_int_from_line(line: str) -> int:
+    return int(line.split(" ")[-1])
 
 
 @dataclass
-class Item:
-    # which place in the final number
+class Frame:
+    # which place this frame represents in the final number
     digit: int
     # push or pop
     operation: int
-    # the value we'll contribute to the equation
-    value: int
+    # the relevant variable for this operation
+    var: int
 
-    @property
-    def is_push(self) -> bool:
-        return self.operation == 1
+
+PUSH_OP = 1
 
 
 class Solution(StrSplitSolution):
     _year = 2021
     _day = 24
 
-    # @answer(1234)
-    def part_1(self) -> int:
-        def sub_prog(a, b, c, i, z):
-            w, x, y = 0, 0, 0
-
-            w = i  # INPUT
-            x *= 0  # RESET X
-            x += z  # X = Z (ans from previous section)
-            x %= 26  # X shift to letter?
-            z //= a  # VAR; 1 or 26 forms a pair where 26 is used instead
-            x += b  # VAR; OFFSET
-            x = int(x == w)  # X == W?
-            x = int(x == 0)  # X = !X; true if X != W
-            y *= 0  # RESET Y
-            y += 25  # Y = 25
-            y *= x  # if X was equal to W, then Y is 0; otherwise 25
-            y += 1  # Y is 1 or 26
-            z *= y  #
-            y *= 0  # RESET Y
-            y += w  # Y = W
-            y += c  # VAR
-            y *= x
-            z += y
-
-            return z
-
-        stack: List[Item] = []
+    def _solve(self, find_high: bool) -> int:
+        stack: List[Frame] = []
         result: List[str] = [""] * 14
 
-        for idx, block in enumerate(chunks(self.input, 18)):
-            assert idx <= 13
-            op = get_val(block[4])
+        for idx, block in enumerate(blocks(self.input)):
+            op = get_int_from_line(block[4])
 
-            val = get_val(block[15 if op == 1 else 5])
+            var = get_int_from_line(block[15 if op == PUSH_OP else 5])
 
-            i = Item(idx, op, val)
+            curr = Frame(idx, op, var)
 
-            if i.is_push:
-                stack.append(i)
+            if curr.operation == PUSH_OP:
+                stack.append(curr)
                 continue
 
             # the higher-power number
             prev = stack.pop()
 
             # the pair of numbers must differ by this much
-            diff = prev.value + i.value
-            assert diff <= 8
-            # print(diff)
-            # go high or low?
-            if False:
+            diff = prev.var + curr.var
+
+            if find_high:
                 if diff > 0:
                     result[prev.digit] = str(9 - diff)
-                    result[i.digit] = str(9)
+                    result[curr.digit] = str(9)
                 else:
                     result[prev.digit] = str(9)
-                    result[i.digit] = str(9 + diff)
+                    result[curr.digit] = str(9 + diff)
             else:
                 if diff > 0:
                     result[prev.digit] = str(1)
-                    result[i.digit] = str(1 + diff)
+                    result[curr.digit] = str(1 + diff)
                 else:
                     result[prev.digit] = str(1 - diff)
-                    result[i.digit] = str(1)
+                    result[curr.digit] = str(1)
 
         assert all(result)
         assert len(result) == 14
-        # print(result)
         out = "".join(result)
         assert len(out) == 14
+
         return int(out)
 
-    # @answer(1234)
-    def part_2(self) -> int:
-        pass
+    @answer(53999995829399)
+    def part_1(self):
+        return self._solve(True)
 
-    # @answer((1234, 4567))
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
+    @answer(11721151118175)
+    def part_2(self) -> int:
+        return self._solve(False)
