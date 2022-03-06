@@ -6,7 +6,7 @@
 
 This is one I [avoided as long as I could](https://github.com/xavdid/advent-of-code/blob/4a5f321100735e80e0fd1183148da08eccb249c6/solutions/2021/day_19/README.md). It wasn't one I had any idea how to approach. After spinning my wheels on it, I caved and checked out the [solution thread](https://www.reddit.com/r/adventofcode/comments/rjpf7f/2021_day_19_solutions/). Turns out that the "easy" solution was to know [linear algebra](https://simple.wikipedia.org/wiki/Linear_algebra), which is something I've got absolutely no experience with. The `tl;dr` is that it's a branch of mathematics that uses matrices to solve for `x` and `y` in sets of linear functions. For a reason I don't quite grok, it't super applicable to other engineering fields. Luckily, it didn't end up being _required_ today, just helpful. Let's walk through [this solution](https://www.reddit.com/r/adventofcode/comments/rjpf7f/2021_day_19_solutions/hp78lpo/) by `/u/p88h` to see how it's solvable with good, old-fashioned programming.
 
-Input parsing! Not too bad today, just a little verbose. For each block (separated by `\n\n`), we need to split the line by a comma and turn each element into `int`s. Here's my function with a big docstring and some concise parsing:
+First, input parsing! Not too bad today, just a little verbose. For each block (separated by `\n\n`), we need to split the line by a comma and turn each element into `int`s. Here's my function with a big docstring and some concise parsing:
 
 ```py
 Point3D = Tuple[int, int, int]
@@ -231,18 +231,166 @@ This tells us that, accounting for rotation, `T` is still `4` from `S`. Comparin
 
 Astute readers will notice we've gone _quite_ a while without actually writing any code; let's remedy that! Now that we sort of know what we need to do, I'm going to swap over to the actual example (where `scanner 0` starts with `404,-588,-901`) instead of my little one. We should be developing against our actual input to make sure our solution will solve the puzzle, not my contrived example.
 
-We'll now write a function that'll take a pair of scanner reports (`List[Point3D]`) and returns both:
+We'll now write a function that'll take a pair of scanners (`List[Point3D]`) and returns both:
 
-- the points of the second report, oriented in terms of the first, and
+- the points of the second scanner, oriented in terms of the first
 - the location of the second scanner relative to the first
 
-And we do that only if we find at least 12 overlapping points (per the prompt). We'll need to compare each column of our source scanner with each column (including the inverses) of our potential overlap to search for our common offsets. Because we're calculating each column independently, we'll store them that way too (and collect the results at the bottom).
+And we do that only if we find at least 12 overlapping points (per the prompt). We'll need to compare each column of our source scanner with each column (including the inverses) of our potential overlap to search for our common offsets. Because we're calculating each column independently, we'll store them that way too (and collect the results at the bottom). Let's step through it.
 
 ```py
-def try_align(
-    source_scanner: List[Point3D], possible_overlapping_scanner: List[Point3D]
-) -> Tuple[List[Point3D], Point3D]:
+def align_scanner_reports(
+    source_scanner: List[Point3D], target_scanner: List[Point3D]
+) -> Tuple[List[Point3D], Optional[Point3D]]:
+    # if it's a match, we'll build 3 lists of adjusted values
+    aligned_target_values: List[List[int]] = []
+    # the offset between the source and possible match, if matched
+    target_coordinates: List[int] = []
+    # once we've matched a destination column, skip it
+    found_dims: Set[int] = set()
 
+    # check each of x, y, z values independently
+    for source_dim in range(3):
+        # pre-assign anything we'll set in the loops below
+        target_dim_values: List[int] = []
+        num_shared_beacons = -1
+        difference = target_dim = None
+
+        source_dim_values = [b[source_dim] for b in source_scanner]
+        for (signed_int, target_dim) in product((1, -1), range(3)):
+            # bail early if we have already seen a successful match in this dimension
+            if target_dim in found_dims:
+                continue
+
+            target_dim_values = [b[target_dim] * signed_int for b in target_scanner]
+            differences = [
+                source_val - target_val
+                for source_val, target_val in product(
+                    source_dim_values, target_dim_values
+                )
+            ]
+
+            difference, num_shared_beacons = Counter(differences).most_common(1)[0]
+            if num_shared_beacons >= 12:
+                # found a valid match, stop checking other transforms
+                break
 ```
 
+There are a lot of variables there, but by-and-large, we're doing just as we discussed. We start with the list of `x` values from the source scanner (`[404, 528, -838, ...]`), then compare that list to each column (both positive and negative) for the target scanner. If there are more than 12 overlaps, we've found a match! We `break` and continue processing. This block makes extensive use of the `itertools.product` function, which is a shorthand for a nested `for` loop. Let's continue:
+
+```py
+def align_scanner_reports(...):
+    ...
+
+    # check each of x, y, z values independently
+    for source_dim in range(3):
+        ...
+
+        # failed to find sufficient overlap between these scanners
+        if num_shared_beacons < 12:
+            return [], tuple()
+
+        # these all hold their last value from the loop when we break
+        # they need to have been set to non-initial values
+        assert target_dim_values
+        assert difference is not None
+        assert target_dim is not None
+
+        found_dims.add(target_dim)
+        aligned_target_values.append(
+            [target_val + difference for target_val in target_dim_values]
+        )
+        target_coordinates.append(difference)
+```
+
+Once we've exited the `for source_dim...` loop, we check if `num_shared_beacons` is greater than the threshold (because we might reach this code after exhausting every option, not breaking early). If so, we can safely calculate the actual value for each beacon if this dimension. Ultimately, it ends up being some simple math:
+
+When making guesses, we store `source - target` as `difference` (`D = S - T`). Once we know the difference is the correct one, we can reverse that to get the true location of every target value- it's the difference plus the target (`S = D + T`).
+
+Once we've done that 3 times, we can do our actual return:
+
+```py
+def align_scanner_reports(...):
+    ...
+
+    # check each of x, y, z values independently
+    for source_dim in range(3):
+        ...
+
+    # after finding matches in all 3 dimensions, we have a new set of aligned points
+    assert len(aligned_target_values) == 3
+    assert len(target_coordinates) == 3
+
+    points = cast(List[Point3D], list(zip(*aligned_target_values)))
+    return points, tuple(target_coordinates)
+```
+
+We line up our list of `x` values with our list of `y` and `z` and `zip` them into actual `Point3D`s. Nice job!
+
+All that remains is to write the function that actually manages the scanner lists. Here's how we set that up:
+
+```py
+scanners = self.parse_input()
+beacons: Set[Point3D] = set()
+
+# scanner 0 is always aligned
+aligned_scanner_reports = [scanners[0]]
+unaligned_scanners = scanners[1:]
+scanner_locations: List[Point3D] = [(0, 0, 0)]
+```
+
+The overall flow is:
+
+1. for each aligned scanner, try to align every other un-aligned scanner to it
+2. If it's a hit, great! Now you have another aligned scanner
+3. Otherwise, drop the failed match into a "circle back to this" bucket
+4. Once you've checked all un-aligned scanners, add your `source`'s beacons to the `set` of all beacons (using a set handles de-duplication for us)
+
+To start, only scanner `0` is aligned (because it is the basis by which all other scanners find alignment). Here's that code:
+
+```py
+while aligned_scanner_reports:
+    source = aligned_scanner_reports.pop()
+    needs_recheck = []
+    for target in unaligned_scanners:
+        # 1.
+        aligned_target, scanner_location = align_scanner_reports(source, target)
+
+        if not (aligned_target and scanner_location):
+           # 3.
+            needs_recheck.append(target)
+            continue
+
+        scanner_locations.append(scanner_location)
+        # 2.
+        aligned_scanner_reports.append(aligned_target)
+
+    unaligned_scanners = needs_recheck
+    # 4.
+    beacons.update(source)
+```
+
+So, each scanner is used as `source` exactly once. We check it against any unaligned scanners (with the assumption that each scanner has at least 1 overlap).
+
+Finally, `return len(beacons)` gets us our answer!
+
 ## Part 2
+
+Mercifully, our previous work to find scanner locations gives us a fairly easy time in part 2. The manhattan distance between a point (`Ax, Ay, Az`) and another (`Bx, By, Bz`) is the sum of their differences in each dimension. So:
+
+```py
+abs(Ax - Bx) + abs(Ay - By) + abs(Az - Bz)
+```
+
+That's the total distance to get from each of those points to another. To find the greatest such value between any two points, we have to run _every_ pair of points through that equation and take the biggest. Sounds like a job for `product`! Luckily, we have a full list of the `scanner_locations` already, so it comes down to a little nested list comprehension:
+
+```py
+farthest_scanner = max(
+   sum(abs(a_dim - b_dim) for a_dim, b_dim in zip(A, B))
+   for A, B in product(scanner_locations, repeat=2)
+)
+```
+
+And that should do it!
+
+Big kudos for making it all the way down here today. Looking back, I'm pretty sure this was the single hardest day (for me). I feel like I learned a lot about how to visualize 3D space though!

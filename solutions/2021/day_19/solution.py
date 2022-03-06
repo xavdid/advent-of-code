@@ -4,94 +4,83 @@
 from collections import Counter
 from itertools import product
 from typing import Optional, Set, Tuple, List, cast
-from pprint import pprint
 
 from ...base import TextSolution, answer
 
 Point3D = Tuple[int, int, int]
 
 
-def try_align(
-    source_scanner: List[Point3D], possible_overlapping_scanner: List[Point3D]
-) -> Tuple[List[Point3D], Point3D]:
-    aligned_dim_values: List[List[int]] = []
-    # the offset betwee the source and possible match, if matched
-    offsets: List[int] = []
-    # once we've matched a destination column, skip it
-    found_dimensions: Set[int] = set()
-    for source_dim in range(3):
-        # does 1 column at a time
-        source_dim_values = [b[source_dim] for b in source_scanner]
-        aligned_dim_offset = dest_dim = None  # the output of the counter
-        candidate_dim_values: List[int] = []
-        num_shared_beacons = 0
-        for (dest_dim, signed_int) in [
-            (0, 1),
-            (1, 1),
-            (2, 1),
-            (0, -1),
-            (1, -1),
-            (2, -1),
-        ]:
-            # bail early if we have already seen a successful find in this dimension
-            if dest_dim in found_dimensions:
-                continue
-            print(
-                f"  comparing {source_dim=} with {dest_dim=}{' (I)' if signed_int == -1 else ''}"
-            )
+def align_scanner_reports(
+    source_scanner: List[Point3D], target_scanner: List[Point3D]
+) -> Tuple[List[Point3D], Optional[Point3D]]:
+    """
+    Given a pair of scanner reports, attempt to orient the second in terms of the first.
 
-            candidate_dim_values = [
-                b[dest_dim] * signed_int for b in possible_overlapping_scanner
-            ]
-            # A - B = C
+    We'll do each dimension independently.
+
+    Only works if there are at least 12 beacons that show up in both reports.
+
+    Returns the adjusted target points, plus their offset (from source -> target)
+    """
+    # if it's a match, we'll build 3 lists of adjusted values
+    aligned_target_values: List[List[int]] = []
+    # the offset between the source and possible match, if matched
+    target_coordinates: List[int] = []
+    # once we've matched a destination column, skip it
+    found_dims: Set[int] = set()
+
+    # check each of x, y, z values independently
+    for source_dim in range(3):
+        # pre-assign anything we'll set in the loops below
+        target_dim_values: List[int] = []
+        num_shared_beacons = -1
+        difference = target_dim = None
+
+        source_dim_values = [b[source_dim] for b in source_scanner]
+        for (signed_int, target_dim) in product((1, -1), range(3)):
+            # bail early if we have already seen a successful match in this dimension
+            if target_dim in found_dims:
+                continue
+
+            target_dim_values = [b[target_dim] * signed_int for b in target_scanner]
+            # S - T = D
             # -686 - (-618) == -68 (offset)
             differences = [
-                source_val - candidate_val
-                for source_val, candidate_val in product(
-                    source_dim_values, candidate_dim_values
+                source_val - target_val
+                for source_val, target_val in product(
+                    source_dim_values, target_dim_values
                 )
             ]
-            # pprint(
-            #     list(zip(product(source_dim_values, candidate_dim_values), differences))
-            # )
-            c = Counter(differences)
-            # pprint(c)
-            assert c
-            aligned_dim_offset, num_shared_beacons = c.most_common(1)[0]
-            print(
-                f"    got {num_shared_beacons} beacons at offset {aligned_dim_offset}"
-            )
-            # TODO: maybe remove common_offset check
+
+            difference, num_shared_beacons = Counter(differences).most_common(1)[0]
             if num_shared_beacons >= 12:
-                print("    found enough!")
-                # found a valid match, quit early
+                # found a valid match, stop checking other transforms
                 break
 
+        # failed to find sufficient overlap between these scanners
         if num_shared_beacons < 12:
-            print("  no overlap")
-            # failed to find sufficient overlap between these scanners
-            return [], tuple()  # pyright bug, should be a type error
+            return [], tuple()
 
         # these all hold their last value from the loop when we break
         # they need to have been set to non-initial values
-        assert aligned_dim_offset is not None
-        assert num_shared_beacons
-        assert dest_dim is not None
-        assert candidate_dim_values
+        assert target_dim_values
+        assert difference is not None
+        assert target_dim is not None
 
-        found_dimensions.add(dest_dim)
-        # B + C = A
+        found_dims.add(target_dim)
+        # T + D = S
         # -686 + 68 = -618
-        aligned_dim_values.append(
-            [v + aligned_dim_offset for v in candidate_dim_values]
+        aligned_target_values.append(
+            [target_val + difference for target_val in target_dim_values]
         )
-        # found_point_values.append([candidate_val - (candidate_val - source_val) for v in candidate_dim_values])
-        offsets.append(aligned_dim_offset)
+        target_coordinates.append(difference)
 
-    assert len(aligned_dim_values) == 3
-    assert len(offsets) == 3
-    points = cast(List[Point3D], list(zip(*aligned_dim_values)))
-    return points, tuple(offsets)
+    # after finding matches in all 3 dimensions, we have a new set of aligned points
+    assert len(aligned_target_values) == 3
+    assert len(target_coordinates) == 3
+
+    points = cast(List[Point3D], list(zip(*aligned_target_values)))
+    return points, tuple(target_coordinates)
 
 
 class Solution(TextSolution):
@@ -136,59 +125,37 @@ class Solution(TextSolution):
             for block in self.input.split("\n\n")
         ]
 
-    @answer((79, 3621))
-    # @answer((496, 14478))
+    @answer((496, 14478))
     def solve(self) -> Tuple[int, int]:
-        # self.pp(
-        #     "\ngot",
-        #     try_align(
-        #         [(0, 2, 0), (1, 1, 0), (2, 0, 0), (3, -1, 0)],
-        #         [(-4, 3, 0), (-3, 2, 0), (-2, 1, 0), (-1, 0, 0)],
-        #         matches_needed=4,
-        #     ),
-        # )
-        # self.pp(
-        #     "\ngot",
-        #     try_align(
-        #         [(0, 2, 0), (1, 1, 0), (2, 0, 0), (3, -1, 0)],
-        #         [(0, 1, 0), (1, 2, 0), (2, 3, 0), (3, 4, 0)],
-        #         matches_needed=4,
-        #     ),
-        # )
-        # return
-
         scanners = self.parse_input()
 
-        beacons = set()
+        beacons: Set[Point3D] = set()
         # scanner 0 is always aligned
         aligned_scanner_reports = [scanners[0]]
-        unmatched_scanners = scanners[1:]
+        unaligned_scanners = scanners[1:]
         scanner_locations: List[Point3D] = [(0, 0, 0)]
+
+        # we check each aligned scanner against unaligned reports to identify new beacons
         while aligned_scanner_reports:
             source = aligned_scanner_reports.pop()
-            # self.pp(f"scanning block starting w/ ")
-            next_round = []
-            for potential_overlap in unmatched_scanners:
-                self.pp(f"\naligning {source[0][0]} with {potential_overlap[0][0]}")
-                aligned_points, scanner_location = try_align(source, potential_overlap)
-                self.pp(
-                    f"  got {len(aligned_points) if aligned_points else '0'} newly-aligned points"
-                )
-                if not aligned_points:
-                    next_round.append(potential_overlap)
+            needs_recheck = []
+            for target in unaligned_scanners:
+                aligned_target, scanner_location = align_scanner_reports(source, target)
+
+                if not (aligned_target and scanner_location):
+                    needs_recheck.append(target)
                     continue
 
-                self.pp(f"{potential_overlap[0][0]} is now {aligned_points[0][0]}")
-                self.pp(aligned_points, scanner_location)
                 scanner_locations.append(scanner_location)
-                aligned_scanner_reports.append(aligned_points)
+                aligned_scanner_reports.append(aligned_target)
 
-            unmatched_scanners = next_round
+            unaligned_scanners = needs_recheck
             beacons.update(source)
 
-        # self.pp(sorted(beacons))
+        # scanner_pairs =
 
-        sxs = product(scanner_locations, repeat=2)
-        # TODO: cleanup
-        farthest_scanners = max(sum(abs(a - b) for (a, b) in zip(l, r)) for l, r in sxs)
+        farthest_scanners = max(
+            sum(abs(a_dim - b_dim) for a_dim, b_dim in zip(A, B))
+            for A, B in product(scanner_locations, repeat=2)
+        )
         return len(beacons), farthest_scanners
