@@ -1,9 +1,9 @@
 # prompt: https://adventofcode.com/2021/day/25
 
-from typing import Dict
-from ...base import GridPoint, StrSplitSolution, TextSolution, answer
+from typing import Callable, Dict, Tuple
 
-# from typing import Tuple
+from ...base import GridPoint, StrSplitSolution, answer
+
 Grid = Dict[GridPoint, str]
 
 
@@ -19,8 +19,7 @@ class Solution(StrSplitSolution):
                 print(grid.get((row, col), "."), end="")
             print()
 
-    # @answer(1234)
-    def part_1(self) -> int:
+    def parse_grid(self) -> Grid:
         grid: Grid = {}
         row = col = 0
         for row, line in enumerate(self.input):
@@ -31,61 +30,49 @@ class Solution(StrSplitSolution):
 
         self.max_row = row + 1
         self.max_col = col + 1
+        return grid
 
-        # self.pp(grid)
-        # self.pp("\ninitial")
-        # if self.debug:
-        # self.print_grid(grid)
+    def new_point(self, row: int, col: int, c: str) -> Tuple[int, int]:
+        if c == ">":
+            col = (col + 1) % self.max_col
+        if c == "v":
+            row = (row + 1) % self.max_row
+
+        return row, col
+
+    @answer(419)
+    def part_1(self) -> int:
+        grid = self.parse_grid()
 
         for i in range(999):
+            # pylint: disable=cell-var-from-loop
             next_grid: Grid = {}
-            for (row, col), c in grid.items():
-                if c == ">":
-                    new_col = (col + 1) % self.max_col
-                    # self.pp(f"checking if E {row, col} can move to {row, new_col}")
-                    if (row, new_col) not in grid:
-                        # self.pp("True!")
-                        next_grid[row, new_col] = c
+
+            def step(mode: str, can_move: Callable[[GridPoint], bool]):
+                for (row, col), c in grid.items():
+                    if c != mode:
+                        continue
+                    new_point = self.new_point(row, col, c)
+
+                    if can_move(new_point):
+                        next_grid[new_point] = c
                     else:
-                        # self.pp("False")
                         next_grid[row, col] = c
 
-            for (row, col), c in grid.items():
-                if c == "v":
-                    new_row = (row + 1) % self.max_row
-                    new_point = (new_row, col)
-                    # self.pp(f"checking if S {row, col} can move to {new_row, col}")
-
-                    # 1. check that no one moved into it
-                    # 2. check that the old resident isn't a v
-                    # check
-                    can_move = new_point not in next_grid and grid.get(new_point) != "v"
-
-                    if can_move:
-                        # self.pp("True!")
-                        next_grid[new_row, col] = c
-                    else:
-                        # self.pp("False")
-                        next_grid[row, col] = c
+            step(">", lambda new_point: new_point not in grid)
+            step(
+                "v",
+                lambda new_point: new_point not in next_grid
+                and grid.get(new_point) != "v",
+            )
 
             if grid == next_grid:
                 return i + 1
 
-            assert len(grid) == len(
-                next_grid
-            ), f"grid changed size from {len(grid)} to {len(next_grid)}"
-
             grid = next_grid
-
-            # print(f"\nafter {i} steps")
-            # self.print_grid(grid)
 
         raise ValueError("no solution")
 
-    # @answer(1234)
-    def part_2(self) -> int:
+    @answer(None)
+    def part_2(self) -> None:
         pass
-
-    # @answer((1234, 4567))
-    # def solve(self) -> Tuple[int, int]:
-    #     pass
