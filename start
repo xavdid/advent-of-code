@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 
-from housekeeping.date_utils import current_puzzle_year, next_day
+from misc.date_utils import current_puzzle_year, next_day
 
 PARSER = argparse.ArgumentParser(
     prog="./start", description="Start a new Advent of Code solution"
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     if not 1 <= day <= 25:
         PARSER.error(f"day {day} is not in range [1,25]")
 
-    day_dir = Path(year_dir, f"day_{day}")
+    day_dir = Path(year_dir, f"day_{day:02}")
 
     day_dir.mkdir(parents=True, exist_ok=True)
     Path(day_dir, "input.txt").touch()
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     if solution_path.exists():
         print("skipping solution creation, files already exists")
     else:
-        template = Path("housekeeping/example_solution.py.tmpl").read_text()
+        template = Path("misc/example_solution.py.tmpl").read_text()
         replaced_template = template.replace("<YEAR>", ARGS.year).replace(
             "<DAY>", str(day)
         )
