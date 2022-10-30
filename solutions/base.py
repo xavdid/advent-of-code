@@ -28,7 +28,7 @@ def slow(func):
             return func(self)
 
         print(
-            f'\nRefusing to run slow function ({func.__name__}), run `./advent` again with the "--slow" flag'
+            f"\nRefusing to run slow function ({func.__name__}), run `./advent` again with the `--slow` flag"
         )
         return None
 
@@ -92,7 +92,7 @@ class BaseSolution(Generic[I]):
     def read_input(self) -> InputType:
         with open(
             os.path.join(
-                os.path.dirname(__file__), f"{self.year}/day_{self.day}/input.txt"
+                os.path.dirname(__file__), f"{self.year}/day_{self.day:02}/input.txt"
             ),
         ) as file:
             if self.input_type is InputTypes.TEXT:
