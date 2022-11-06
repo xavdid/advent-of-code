@@ -25,7 +25,7 @@ The part of this that gave me the most trouble was how to model the data. It's _
 ]
 ```
 
-Each step is either empty or has a letter; each room is a sub array. But, I found this a little hard to visualize and manipulate, so I went for a more traditional grid. Each point is a `tuple` of `(horiz, vert)`. Here's the initial example again"
+Each step is either empty or has a letter; each room is a sub array. But, I found this a little hard to visualize and manipulate, so I went for a more traditional grid. Each point is a `tuple` of `(horiz, vert)`. Here's the initial example again:
 
 ```
 (0,0) (1,0) (2,0) (3,0) (4,0) (5,0) ... (9,0) (10,0)
@@ -146,15 +146,15 @@ class State:
 This all looks good, but there's a catch- nothing we've written so far verifies the _validity_ of the moves. Our prompt explains those rules, and there are many cases where we're unable to move an amphipod between two points (e.g. it's path is blocked). Let's think through the rules of how an amphipod can move. Then, given a state, we'll be able to generate every possible next state. There are a few rules of motion to consider:
 
 1. If an amphipod is in a house it can:
-   a. move into the hallway
-   b. move home
+   1. move into the hallway
+   2. move home
 2. If an amphipod is in the hallway, it can _only_ move home
-   a. To move home, all amphipods in that house must already be home
-   b. To move home, there must be a clear path there
+   1. To move home, all amphipods in that house must already be home
+   2. To move home, there must be a clear path there
 3. If an amphipod is in a house and is not at the top, it can't move
 4. An amphipod will only make 1 or 2 moves during the game:
-   a. start -> hall -> home, OR
-   b. start -> home
+   1. start -> hall -> home, OR
+   2. start -> home
 5. If an amphipod is home and everything below it is home, it won't move
 
 With those rules in hand, we can start iterating on possible next states! From the starting state, there are exactly 28 possible moves:

@@ -109,7 +109,7 @@ class Packet:
 
             self.value = bin_to_int("".join(value_bits))
 
-@property
+    @property
     def is_literal(self) -> bool:
         return self.type == 4
 ```

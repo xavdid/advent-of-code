@@ -19,7 +19,7 @@ class Point:
     y: int
 ```
 
-That's all it takes! The `__init__` function is also handled for us, so we'll be able to call `Point(1, 2)` like we'd expect. Truly :sparkle: magic.
+That's all it takes! The `__init__` function is also handled for us, so we'll be able to call `Point(1, 2)` like we'd expect. Truly :sparkles: magic.
 
 Next is our `Segment`. Each should have a `start` and `stop`. This should look familiar:
 
