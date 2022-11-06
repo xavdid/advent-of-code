@@ -55,7 +55,7 @@ result = new_result + num_births * [8]
 # => [1, 2, 3, 8, 8, 8]
 ```
 
-:sparkle: The more you know!
+:sparkles: The more you know!
 
 ## Part 2
 

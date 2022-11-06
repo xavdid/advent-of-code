@@ -4,7 +4,7 @@
 
 ## Part 1
 
-I started this so confidently. It seemed so straightforward! I whipped up a You can check it out [here](https://gist.github.com/xavdid/bb3b304f614e048d138d54b2d3578cdf) of the ALU operations. I got to use [structural pattern matching](https://www.python.org/dev/peps/pep-0636/). It would try every 14-digit number until it hit. Only problem- it was way too slow. That's the problem with 14-digit numbers: there are a lot of them.
+I started this so confidently. It seemed so straightforward! I whipped up a [proof of concept](https://gist.github.com/xavdid/bb3b304f614e048d138d54b2d3578cdf) of the ALU operations. I got to use [structural pattern matching](https://www.python.org/dev/peps/pep-0636/). It would try every 14-digit number until it hit. Only problem- it was way too slow. That's the problem with 14-digit numbers: there are a lot of them.
 
 Most days, there's a more efficient ways to write our code that's too slow. Sometimes, we can do something clever with how we store our data, or take shortcuts during calculations. Today, we're going a different direction: we're going to reverse engineer our input.
 

@@ -42,7 +42,7 @@ def num_to_pairs(n: str) -> Pairs:
     return result
 ```
 
-That part worked great. Now, here's where I went wrong. I assumed that to get the magnitude, I'd need re-create the pairs and nesting structure from the input. I wrote that dang function 3 separate hoping that I'd stumble on a solution.Eventually, I'd get stuck on because I wasn't able to decode a list of pairs all at the same level. The comma insertion and knowing when to add closing brackets was really messing me up. I got frustrated and took a step back. I ultimately needed that reconstruction to calculate the magnitude of a number- could I get that without fully decoding the pairs?
+That part worked great. Now, here's where I went wrong. I assumed that to get the magnitude, I'd need re-create the pairs and nesting structure from the input. I wrote that dang function 3 separate hoping that I'd stumble on a solution. Eventually, I'd get stuck on because I wasn't able to decode a list of pairs all at the same level. The comma insertion and knowing when to add closing brackets was really messing me up. I got frustrated and took a step back. I ultimately needed that reconstruction to calculate the magnitude of a number- could I get that without fully decoding the pairs?
 
 In a well-formed (balanced, etc) snail number, there must exist at least one pair that's only numbers. If we add both halves of it together, then it is now part of a pair that is only numbers (or it's half of one and there's a new "deepest"). If we keep adding pairs from the bottom up, we'll eventually have 2 items, which we'll combine into a single item, which is a number. This is no longer a valid snail number, but it _is_ the magnitude of the one we started with. Here's how that looks in code:
 
@@ -91,7 +91,7 @@ First, exploding. If the `depth` of a `Item` is `5`, then:
 - if there's an item to the right of the match in this pair (that is `i + 2` from this index), add the next value to that one
 - then, delete the other item in this pair (`i + 1`)
 
-Instead of doing `for p in pairs`, we'll do `for i in len(pairs)` so we can freely edit the list as we're moving through it. We return as soon as we make any changes, so this is pretty safe. Here's our `explode`:
+Instead of doing `for p in pairs`, we'll do `while i < len(pairs)` so we can freely edit the list as we're moving through it. We return as soon as we make any changes, so this is pretty safe. Here's our `explode`:
 
 ```py
 def explode(pairs: Pairs) -> bool:

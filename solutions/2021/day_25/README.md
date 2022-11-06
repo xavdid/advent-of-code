@@ -167,11 +167,3 @@ Now we pre-define the function that decides whether our cucumber can move, and w
 Nothing extra needed here! If you've followed the rest of [the guides](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021) and got all your stars, just click the button and you're all set.
 
 Congrats on completing Advent of Code 2021!
-
-```
-
-```
-
-```
-
-```
