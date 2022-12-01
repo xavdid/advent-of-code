@@ -75,8 +75,13 @@ reg['a'] += 1
 # => KeyError: 'a'
 
 # Instead, we need to write:
+if 'a' in reg:
+    reg['a'] += 1
+else:
+    reg['a'] = 1
 
-reg['a'] = reg.get('a', int()) + 1
+# or, as a one-liner:
+# reg['a'] = reg.get('a', int()) + 1
 
 # with a defaultdict, it "just works":
 d['a'] += 1
@@ -131,6 +136,8 @@ return part_1, sum(result.values())
 
 It should look pretty similar to part 1, but our operations use the `dict` instead of the `list`. Otherwise, smooth sailing!
 
+> The following solutions were contributed by [Andrew Szeto](https://github.com/jabagawee)
+
 ## Alternate solution 1: Yet another data structure (deque) from the collections module
 
 In our `defaultdict` based solution above, note that we never exceed nine keys in the dict (and those nine keys are always the integers 0 through 8). We generated new dicts after every simulated day by moving values down from a key `n` to the key `n-1`, we moved the key `0` to the key `8`, and then we did some extra work to add the value from the old key `0` to the new key `6`. This entire operation sounds exactly like the `rotate` method on the `collections.deque` class, so let's give that a shot too.
@@ -182,7 +189,7 @@ from functools import lru_cache
 @lru_cache(maxsize=9*129)
 def num_fish(reproduction_counter, days):
     ...
-    
+
 part_1 = sum(num_fish(original_fish, 80) for original_fish in self.input)
 part_2 = sum(num_fish(original_fish, 128) for original_fish in self.input)
 ```
