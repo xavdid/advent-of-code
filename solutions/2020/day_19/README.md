@@ -65,7 +65,7 @@ return len(
 
 Part of what we could rely on in part 1 was that `0` would always eventually resolve into a finite regex. That protection has been taken away in part 2. If we update the rules and run our part 1 solution without modifications, we get `RecursionError: maximum recursion depth exceeded in comparison`.
 
-Turns out the Python regex engine doesn't handle recursion (though some other languages engines' do; each language has its own regex implementation). We need to modify our `resolve_rules` function to break the infinite recursion. Can we do this and still get the right answer? It turns out, yes! We don't need to recurse infinitely - just far enough that our final `rule_0` matches messages correctly.
+Turns out the Python regex engine doesn't handle recursion (though some other languages' engines do; each language has its own regex implementation). We need to modify our `resolve_rules` function to break the infinite recursion. Can we do this and still get the right answer? It turns out, yes! We don't need to recurse infinitely - just far enough that our final `rule_0` matches messages correctly.
 
 Let's say we've got the rule `8: "a" | "a" 8`. As a regex, that would be `(a|a(a|a(a|a(...)))))` and so on. This gets very messy with the capture groups, but as long as the recursion level is deep enough, strings of a certain length will match it consistently. I'm not sure what exactly the math is here, but I did a bit of trial and error to prove my hunch. After 6 levels of recursion, the puzzle answer stopped changing, so that was the number I stuck with.
 
