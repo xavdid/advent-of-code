@@ -62,7 +62,7 @@ Run a specific day of Advent of Code
 **optional flags**:
 
 - `--year YEAR`: puzzle year. Defaults to current year if December has begun, otherwise previous year
-- `--test-data`: read puzzle input from `input.test.txt` instead of `input.txt`
+- `-t, --test-data`: read puzzle input from `input.test.txt` instead of `input.txt`
 - `--debug`: prints normally-hidden debugging statements (written with `self.pp(...)`)
 - `--profile`: run solution through a performance profiler
 - `--slow`: specify that long-running solutions (or those requiring manual input) should be run. They're skipped otherwise
@@ -72,6 +72,7 @@ Run a specific day of Advent of Code
 - `./advent`
 - `./advent 2`
 - `./advent 5 --year 2019`
+- `./advent 7 --test-data`
 
 ## File Structure
 

@@ -50,6 +50,7 @@ PARSER.add_argument(
 )
 PARSER.add_argument("--year", default=current_puzzle_year(), help="which year to use f")
 PARSER.add_argument(
+    "-t",
     "--test-data",
     action="store_true",
     help="run using test_input.txt instead of the day's actual input.",
