@@ -5,13 +5,13 @@ from pathlib import Path
 
 def current_puzzle_year() -> str:
     """
-    if it's on or after dec 1, use this year. Otherwise, use last year.
+    if it's on or after nov 30, use this year. Otherwise, use last year.
 
     Returns a string because math is never done on the result
     """
 
     now = date.today()
-    if now.month == 12:
+    if now.month == 12 or (now.month == 11 and now.day == 30):
         return str(now.year)
     return str(now.year - 1)
 

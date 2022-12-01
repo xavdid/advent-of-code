@@ -5,15 +5,17 @@ import cProfile
 import sys
 from importlib import import_module
 from pathlib import Path
+from typing import Type, cast
 
 from misc.date_utils import current_puzzle_year, next_day
+from solutions.base import BaseSolution
 
 PARSER = argparse.ArgumentParser(
-    description="Run a day of Advent of Code", prog="advent"
+    description="Run a specific day of Advent of Code", prog="advent"
 )
 
 
-def main(day: int, year: str, slow: bool, debug: bool):
+def main(day: int, year: str, slow: bool, debug: bool, test_data: bool):
     try:
         # class needs to have this name
         if ARGS.day is None:
@@ -23,30 +25,34 @@ def main(day: int, year: str, slow: bool, debug: bool):
             if not 1 <= day <= 25:
                 PARSER.error(f"day {day} is not in range [1,25]")
 
-        solver = import_module(f"solutions.{year}.day_{day:02}.solution").Solution
+        solver = cast(
+            Type[BaseSolution],
+            import_module(f"solutions.{year}.day_{day:02}.solution").Solution,
+        )
     except ModuleNotFoundError:
         print(
             f"solution not found for day {day} ({year}) (or there's an ImportError in your code)"
         )
         sys.exit(1)
 
-    solver(run_slow=slow, debug=debug).print_solutions()
+    solver(run_slow=slow, debug=debug, use_test_data=test_data).print_solutions()
 
 
+PARSER.add_argument("--version", action="version", version="2.1.0")
 PARSER.add_argument(
     "day",
     nargs="?",
     type=int,  # so that padding works correctly in `main`
     help=(
         "Which puzzle day to run, between [1,25]."
-        " Defaults to the latest day in the specified year (matching `day_N`)."
+        " Defaults to the latest day in the specified year (defaulting to this year)."
     ),
 )
-PARSER.add_argument("--year", default=current_puzzle_year())
+PARSER.add_argument("--year", default=current_puzzle_year(), help="which year to use f")
 PARSER.add_argument(
-    "--slow",
+    "--test-data",
     action="store_true",
-    help="specify that long-running solutions (or those requiring manual input) should be run",
+    help="run using test_input.txt instead of the day's actual input.",
 )
 PARSER.add_argument(
     "--debug", action="store_true", help="prints normally-hidden debugging statements"
@@ -54,11 +60,19 @@ PARSER.add_argument(
 PARSER.add_argument(
     "--profile", action="store_true", help="run solution through a performance profiler"
 )
+PARSER.add_argument(
+    "--slow",
+    action="store_true",
+    help="specify that long-running solutions (or those requiring manual input) should be run",
+)
 
 if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     if ARGS.profile:
-        cProfile.run("main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)", sort="tottime")
+        cProfile.run(
+            "main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data)",
+            sort="tottime",
+        )
     else:
-        main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug)
+        main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data)

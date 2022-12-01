@@ -2,22 +2,24 @@
 
 This is my tried-and-true Python helper package for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles. It contains helpful utilities, plus my [daily solution write-ups](https://github.com/xavdid/advent-of-code/tree/main/solutions).
 
+It expects to be run using at least Python 3.9.
+
 ## Quickstart
 
 To use this base class for your own solutions:
 
 1. Fork & clone this repo
 2. Delete my solution files (`rm -rf solutions/20*`)
-3. Start a new solution `./start 1` (defaults to the current year once December starts)
-4. Edit the newly created file at `solutions/YEAR/day_N/solution.py`
-5. Get your answers using `./advent 1`
+3. Start a new solution using `./start` (defaults to the current year once December starts)
+4. Edit the newly created file at `solutions/YEAR/day_01/solution.py`
+5. Get your answers using `./advent`
 6. Repeat!
 
 ## Commands
 
 This repo has two main commands: `start` and `advent`.
 
-### ./start
+### `./start`
 
 #### Usage
 
@@ -27,7 +29,7 @@ Start a new Advent of Code solution
 
 **positional arguments**:
 
-- `day` (optional): Which puzzle day to start, between `[1,25]`. Defaults to the next day _without_ a folder (matching `day_N`) in the specified year.
+- `day` (optional): Which puzzle day to start, between `[1,25]`. Defaults to the next day _without_ a folder (matching `day_NN`) in the specified year.
 
 **optional arguments**:
 
@@ -40,32 +42,36 @@ Start a new Advent of Code solution
 - `./start 1`
 - `./start 3 --year 2019`
 
-### ./advent
+### `./advent`
 
 #### Usage
 
-> `./advent [-h] [--year year] [--slow] [--debug] [--profile] [day]`
+> `./advent [--year year] [--test-data] [--debug] [--profile] [--slow] [day]`
 
-Run a day of Advent of Code
+Run a specific day of Advent of Code
+
+**informational flags**
+
+- `-h, --help`: Show this help message and exit
+- `--version`: Print version info and exit
 
 **positional arguments**:
 
-- `day` (optional): Which puzzle day to start, between [1,25]. Defaults to the latest day _with_ a folder (matching `day_N`) in the specified year.
+- `day` (optional): Which puzzle day to start, between `[1,25]`. Defaults to the latest day _with_ a folder (matching `day_NN`) in the specified year.
 
-**optional arguments**:
+**optional flags**:
 
-- `-h, --help` (optional): show this help message and exit
-- `--year YEAR` (optional): Puzzle year. Defaults to current year if December has begun, otherwise previous year
-- `--slow` (optional): specify that long-running solutions (or those requiring manual input) should be run. They're skipped otherwise
-- `--debug` (optional): prints normally-hidden debugging statements
-- `--profile` (optional): run solution through a performance profiler
+- `--year YEAR`: puzzle year. Defaults to current year if December has begun, otherwise previous year
+- `--test-data`: read puzzle input from `input.test.txt` instead of `input.txt`
+- `--debug`: prints normally-hidden debugging statements (written with `self.pp(...)`)
+- `--profile`: run solution through a performance profiler
+- `--slow`: specify that long-running solutions (or those requiring manual input) should be run. They're skipped otherwise
 
 #### Examples
 
 - `./advent`
 - `./advent 2`
 - `./advent 5 --year 2019`
-- `./advent 3 --slow`
 
 ## File Structure
 
@@ -75,23 +81,25 @@ Run a day of Advent of Code
 solutions/
 ├── ...
 └── 2020/
-    ├── day_1/
+    ├── day_01/
     │   ├── solution.py
     │   ├── input.txt
+    │   ├── input.test.txt
     │   └── README.md
-    ├── day_2/
+    ├── day_02/
     │   ├── solution.py
     │   ├── ...
     └── ...
 ```
 
 - each year has a folder (`YYYY`)
-- each day in that year (will eventually) have a folder (`day_N`)
+- each day in that year (will eventually) have a folder (`day_NN`)
 
-Each `day_N` folder has the following files:
+Each `day_NN` folder has the following files:
 
 - `solution.py`, which has a `class Solution`. `./advent` expects both that filename and that class name exactly, so you shouldn't change them. See [Writing Solutions](#writing-solutions) for how the file is structured
-- `input.txt` your input from the AoC site. You can put the example inputs in there as well while you're working
+- `input.txt` holds your input from the AoC site
+- `input.test.txt` holds the example input from the prompt. It's read when the `--test-input` flag is used (see below). It also won't throw errors if the result doesn't match the [answer](#saving-answers). You can also do all your work in `input.txt`, but it's marginally less convenient
 - `README.md` is a convenient place to take notes or explain your solution
 
 ## Writing Solutions
@@ -137,4 +145,12 @@ only_three(1) # error!
 only_three(3) # ok
 ```
 
-This is helpful for ensuring your answer doesn't change when editing your code after you've solved the puzzle. It's included as a comment in the template.
+This is helpful for ensuring your answer doesn't change when editing your code after you've solved the puzzle. It's included as a comment in the template. It's ignored when running against test input, so it's easy to verify as you go.
+
+### Debugging
+
+The base class includes a `self.pp` method which will pretty-print all manner of inputs. These only show up when the `--debug` flag is used, making it a convenient way to show debugging info selectively.
+
+### Marking Slow Solutions
+
+If you're running many solutions at once and want to exclude individual parts of solutions (or entire days), you can mark individual functions with the `@slow` decorator. They'll print a warning, but won't actually run the solution.

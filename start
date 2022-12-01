@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     day_dir.mkdir(parents=True, exist_ok=True)
     Path(day_dir, "input.txt").touch()
+    Path(day_dir, "input.test.txt").touch()
 
     notes_path = Path(day_dir, "README.md")
     if not notes_path.exists():

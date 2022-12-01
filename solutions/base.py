@@ -6,7 +6,17 @@ from functools import wraps
 from itertools import product
 from operator import itemgetter
 from pprint import pprint
-from typing import Generic, Iterator, List, Tuple, TypeVar, Union, cast
+from typing import (
+    Callable,
+    Generic,
+    Iterator,
+    List,
+    Optional,
+    Tuple,
+    TypeVar,
+    Union,
+    cast,
+)
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
@@ -28,14 +38,15 @@ def slow(func):
             return func(self)
 
         print(
-            f"\nRefusing to run slow function ({func.__name__}), run `./advent` again with the `--slow` flag"
+            f"\nRefusing to run slow function ({func.__name__}). "
+            "Run `./advent` again with the `--slow` flag."
         )
         return None
 
     return wrapper
 
 
-def print_answer(i, ans):
+def print_answer(i: int, ans: int):
     if ans is not None:
         print(f"\n== Part {i}")
         print(f"=== {ans}")
@@ -54,10 +65,15 @@ class BaseSolution(Generic[I]):
     _year: int
     _day: int
 
-    def __init__(self, run_slow=False, debug=False):
-        self.input = cast(I, self.read_input())
+    def __init__(self, run_slow=False, debug=False, use_test_data=False):
         self.slow = run_slow  # should run slow functions?
         self.debug = debug
+        self.use_test_data = use_test_data
+        self.input = cast(I, self.read_input())
+        if not self.input:
+            raise ValueError(
+                f"err, didn't read any input for {'test' if use_test_data else 'normal'} mode"
+            )
 
     @property
     def year(self):
@@ -92,7 +108,8 @@ class BaseSolution(Generic[I]):
     def read_input(self) -> InputType:
         with open(
             os.path.join(
-                os.path.dirname(__file__), f"{self.year}/day_{self.day:02}/input.txt"
+                os.path.dirname(__file__),
+                f"{self.year}/day_{self.day:02}/input{'.test' if self.use_test_data else ''}.txt",
             ),
         ) as file:
             if self.input_type is InputTypes.TEXT:
@@ -132,9 +149,11 @@ class BaseSolution(Generic[I]):
                 print_answer(index + 1, ans)
         else:
             for index in [1, 2]:
-                solve_func = getattr(self, f"part_{index}", None)
+                solve_func = cast(
+                    Optional[Callable[[], int]], getattr(self, f"part_{index}", None)
+                )
                 if solve_func:
-                    print_answer(index, solve_func())  # pylint: disable=not-callable
+                    print_answer(index, solve_func())
         print()
 
     def pp(self, *obj, newline=False):
@@ -156,10 +175,18 @@ class BaseSolution(Generic[I]):
 
 
 class TextSolution(BaseSolution[str]):
+    """
+    input is one solid block of text; the default
+    """
+
     input_type = InputTypes.TEXT
 
 
 class IntSolution(BaseSolution[int]):
+    """
+    input is a single int
+    """
+
     input_type = InputTypes.INTEGER
 
 
@@ -168,16 +195,28 @@ class TSVSolution(BaseSolution[List[int]]):
 
 
 class StrSplitSolution(BaseSolution[List[str]]):
+    """
+    input is a str[], split by a specified separator (default newline)
+        specify self.separator to tweak
+    """
+
     input_type = InputTypes.STRSPLIT
 
 
 class IntSplitSolution(BaseSolution[List[int]]):
+    """
+    input is a int[], split by a specified separator (default newline)
+        specify self.separator to tweak
+    """
+
     input_type = InputTypes.INTSPLIT
 
 
-def answer(ans):
+def answer(ans: Union[int, Tuple[int, int]]):
     """
     Decorator to assert the result of the function is a certain thing.
+    This is specifically designed to be used on instance methods of BaseSolution.
+    It only throws errors when _not_ using test data.
 
     Usage:
     ```py
@@ -192,9 +231,12 @@ def answer(ans):
 
     def deco(func):
         @wraps(func)
-        def wrapper(self):
+        # uses `self` because that's what's passed to the original solution function
+        def wrapper(self: BaseSolution):
             result = func(self)
-            assert result == ans, f"expected {result=} to equal {ans=}"
+            # only assert the answer for non-test data
+            if not self.use_test_data:
+                assert result == ans, f"expected {result=} to equal {ans=}"
             return result
 
         return wrapper
