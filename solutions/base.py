@@ -52,7 +52,7 @@ def print_answer(i: int, ans: int):
         print(f"=== {ans}")
 
 
-InputType = Union[str, int, List[int], List[str]]
+InputType = Union[str, int, List[int], List[str], List[List[int]]]
 I = TypeVar("I", bound=InputType)
 
 
@@ -112,27 +112,26 @@ class BaseSolution(Generic[I]):
                 f"{self.year}/day_{self.day:02}/input{'.test' if self.use_test_data else ''}.txt",
             ),
         ) as file:
-            if self.input_type is InputTypes.TEXT:
-                return file.read().strip()
-
-            if self.input_type is InputTypes.INTEGER:
-                num = file.read()
-                return int(num.strip())
-
             if self.input_type is InputTypes.TSV:
                 reader = csv.reader(file, delimiter="\t")
-                input_ = []
-                for row in reader:
-                    input_.append([int(i) for i in row])
-                return input_
+                return [[int(i) for i in row] for row in reader]
+
+            data = file.read().strip()
+            if not data:
+                raise ValueError("input file is empty")
+
+            if self.input_type is InputTypes.TEXT:
+                return data
+
+            if self.input_type is InputTypes.INTEGER:
+                return int(data)
 
             if (
                 self.input_type is InputTypes.STRSPLIT
                 or self.input_type is InputTypes.INTSPLIT
             ):
-                file_ = file.read().strip()
                 # default to newlines
-                parts = file_.split(self.separator)
+                parts = data.split(self.separator)
 
                 if self.input_type == InputTypes.INTSPLIT:
                     return [int(i) for i in parts]
@@ -190,7 +189,7 @@ class IntSolution(BaseSolution[int]):
     input_type = InputTypes.INTEGER
 
 
-class TSVSolution(BaseSolution[List[int]]):
+class TSVSolution(BaseSolution[List[List[int]]]):
     input_type = InputTypes.TSV
 
 
