@@ -2,15 +2,16 @@
 
 from typing import Tuple
 
-from ...base import TextSolution, answer
+from ...base import StrSplitSolution, answer
 
 
-class Solution(TextSolution):
+class Solution(StrSplitSolution):
     _year = 2022
     _day = 1
 
+    separator = "\n\n"
+
     @answer((68292, 203203))
     def solve(self) -> Tuple[int, int]:
-        raw_elves = self.input.split("\n\n")
-        elves = sorted(sum(map(int, elf.split("\n"))) for elf in raw_elves)
+        elves = sorted(sum(map(int, elf.split("\n"))) for elf in self.input)
         return elves[-1], sum(elves[-3:])
