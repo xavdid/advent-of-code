@@ -6,17 +6,7 @@ from functools import wraps
 from itertools import product
 from operator import itemgetter
 from pprint import pprint
-from typing import (
-    Callable,
-    Generic,
-    Iterator,
-    List,
-    Optional,
-    Tuple,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Generic, Iterator, List, Tuple, TypeVar, Union, cast
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
@@ -87,11 +77,12 @@ class BaseSolution(Generic[I]):
             raise NotImplementedError("explicitly define number")
         return self._day
 
-    def solve(self):
+    def solve(self) -> Tuple[int, int]:
         """
         Returns a 2-tuple with the answers.
             Used instead of `part_1/2` if one set of calculations yields both answers.
         """
+        return self.part_1(), self.part_2()  # type: ignore
 
     def part_1(self):
         """
@@ -142,17 +133,9 @@ class BaseSolution(Generic[I]):
 
     def print_solutions(self):
         print(f"\n= Solutions for {self.year} Day {self.day}")
-        res = self.solve()  # pylint: disable=assignment-from-no-return
-        if res:
-            for index, ans in enumerate(res):
-                print_answer(index + 1, ans)
-        else:
-            for index in [1, 2]:
-                solve_func = cast(
-                    Optional[Callable[[], int]], getattr(self, f"part_{index}", None)
-                )
-                if solve_func:
-                    print_answer(index, solve_func())
+        p1, p2 = self.solve()
+        print_answer(1, p1)
+        print_answer(2, p2)
         print()
 
     def pp(self, *obj, newline=False):
@@ -255,11 +238,12 @@ def neighbors(
     max_size: int = 0,
 ) -> Iterator[Tuple[int, int]]:
     """
-    given a point (2-tuple) it yields each neighboring point. Iterates from top left to bottom right, skipping any points as described below:
+    given a point (2-tuple) it yields each neighboring point.
+    Iterates from top left to bottom right, skipping any points as described below:
 
     * `num_directions`: Can get cardinal directions (4), include diagonals (8), or include self (9)
     * `ignore_negatives`: skips points where either value is less than 0
-    * `max_size`: skips points where either value is greater than the max grid size. Currently assumes a square grid
+    * `max_size`: skips points where either value is greater than the max grid size. Assumes a square grid
     """
     assert num_directions in [4, 8, 9]
 

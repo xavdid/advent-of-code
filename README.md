@@ -131,7 +131,7 @@ Specify `Solution.separator` to control how the SPLIT methods separate their inp
 
 Each AoC puzzle has two parts, so there are two functions you need to write: `part_1` and `part_2`. Each should return an `int`, since that's typically the answer that AoC expects.
 
-Sometimes, it's easier to calculate both parts in a single function (such as if the answer is asking about two parts of a single computation). In that case, there's also a `solve()` method, which should return a two-tuple with your answers (like `(5, 7)`). `solve` takes precedence if present. Feel free to delete any unused functions when you're done.
+Sometimes, it's easier to calculate both parts in a single function (such as if the answer is asking about two parts of a single computation). In that case, there's also a `solve()` method, which should return a 2-tuple with your answers (like `(5, 7)`). `solve` takes precedence if present. Feel free to delete any unused functions when you're done.
 
 ### Saving Answers
 
