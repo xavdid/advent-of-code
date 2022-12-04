@@ -3,6 +3,7 @@
 
 from enum import Enum
 from typing import List, Tuple
+
 from ...base import StrSplitSolution, answer
 
 
@@ -36,6 +37,7 @@ def value_for_game(moves: Tuple[Shape, Shape]) -> int:
     if you == opp:
         return you.value + 3
 
+    # pylint: disable=too-many-boolean-expressions
     # you win
     if (
         (you == Shape.ROCK and opp == Shape.SCISSORS)
