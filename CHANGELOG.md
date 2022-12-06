@@ -8,6 +8,12 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 2.1.3
+
+_released `2022-12-06`_
+
+- fixed: improved the typing around the `@answer` decorator to better support (rare) non-int answers
+
 ## 2.1.2
 
 _released `2022-12-04`_
