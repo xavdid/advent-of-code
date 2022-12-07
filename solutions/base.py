@@ -6,7 +6,7 @@ from functools import wraps
 from itertools import product
 from operator import itemgetter
 from pprint import pprint
-from typing import Callable, Generic, Iterator, List, Tuple, Type, TypeVar, Union, cast
+from typing import Callable, Generic, Iterator, List, Tuple, TypeVar, Union, cast
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods

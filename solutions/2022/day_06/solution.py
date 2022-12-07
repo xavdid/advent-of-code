@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2022/day/6
 
+import pytest
 
-from ...base import TextSolution, answer
+from solutions.base import TextSolution, answer
 
 
 def find_packet_start(s: str, packet_size: int) -> int:
@@ -22,3 +23,19 @@ class Solution(TextSolution):
     @answer(2746)
     def part_2(self) -> int:
         return find_packet_start(self.input, 14)
+
+
+# can call this file directly to run these tests
+@pytest.mark.parametrize(
+    "data, result",
+    [
+        ("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 7),
+        ("bvwbjplbgvbhsrlpgdmjqwftvncz", 5),
+        ("nppdvjthqldpwncqszvftbrmjlhg", 6),
+        # expected to fail
+        ("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 10),
+        ("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 11),
+    ],
+)
+def test_packet_start(data, result):
+    assert find_packet_start(data, 4) == result

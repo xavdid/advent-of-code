@@ -155,3 +155,9 @@ The base class includes a `self.pp` method which will pretty-print all manner of
 ### Marking Slow Solutions
 
 If you're running many solutions at once and want to exclude individual parts of solutions (or entire days), you can mark individual functions with the `@slow` decorator. They'll print a warning, but won't actually run the solution.
+
+## Using Pytest
+
+Pytest doesn't play nicely with the way I've set up relative imports on my base class and solution files. If I change them to absolute imports, pylint in VSCode complains about not being able to import things (likely fixable).
+
+To get pytest, working, _also_ needs a global installation (not via pipx). Then, I can run: `python -m pytest` and it'll pick up the tests in `solutions/2022/day_06/test_solution.py` and run correctly. To run only one one day at at time, I could potentially write a custom `test` command that would pass the correct path to the subfile (or right pytest filter). Alternatively, I could call pytest programmatically, from `advent` (though I think I'd still need the relative import adjustments?).
