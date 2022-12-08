@@ -8,6 +8,12 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 2.1.4
+
+_released `2022-12-07`_
+
+- fixed: further improved the typing around the `@answer` to support `tuple` responses from `solve`
+
 ## 2.1.3
 
 _released `2022-12-06`_

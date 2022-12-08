@@ -10,7 +10,7 @@ from typing import Type, cast
 from misc.date_utils import current_puzzle_year, next_day
 from solutions.base import BaseSolution
 
-__version__ = "2.1.3"
+__version__ = "2.1.4"
 
 PARSER = argparse.ArgumentParser(
     description="Run a specific day of Advent of Code", prog="advent"

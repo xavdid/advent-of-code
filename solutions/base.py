@@ -6,7 +6,7 @@ from functools import wraps
 from itertools import product
 from operator import itemgetter
 from pprint import pprint
-from typing import Callable, Generic, Iterator, List, Tuple, Type, TypeVar, Union, cast
+from typing import Callable, Generic, Iterator, List, Tuple, TypeVar, Union, cast
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
@@ -23,7 +23,7 @@ class InputTypes(Enum):  # pylint: disable=too-few-public-methods
 
 
 # almost always int, but occassionally str
-OutputType = Union[int, str]
+ResultType = Union[int, str]
 
 
 def slow(func):
@@ -40,7 +40,7 @@ def slow(func):
     return wrapper
 
 
-def print_answer(i: int, ans: OutputType):
+def print_answer(i: int, ans: ResultType):
     if ans is not None:
         print(f"\n== Part {i}")
         print(f"=== {ans}")
@@ -81,7 +81,7 @@ class BaseSolution(Generic[I]):
             raise NotImplementedError("explicitly define number")
         return self._day
 
-    def solve(self) -> Tuple[OutputType, OutputType]:
+    def solve(self) -> Tuple[ResultType, ResultType]:
         """
         Returns a 2-tuple with the answers.
             Used instead of `part_1/2` if one set of calculations yields both answers.
@@ -200,9 +200,11 @@ class IntSplitSolution(BaseSolution[List[int]]):
 
 # https://stackoverflow.com/a/65681955/1825390
 SolutionType = TypeVar("SolutionType", bound=BaseSolution)
+# what the functions that @answer wraps can return
+OutputType = Union[ResultType, Tuple[ResultType, ResultType]]
 
 
-def answer(ans: Union[OutputType, Tuple[OutputType, OutputType]]):
+def answer(ans: Union[ResultType, Tuple[ResultType, ResultType]]):
     """
     Decorator to assert the result of the function is a certain thing.
     This is specifically designed to be used on instance methods of BaseSolution.
