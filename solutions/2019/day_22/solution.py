@@ -56,6 +56,3 @@ class Solution(BaseSolution):
                 deck.handle_input(text)
 
         return deck.deck.index(2020)
-
-    def solve(self):
-        pass

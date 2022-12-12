@@ -40,7 +40,7 @@ def biodiversity(map_str: str) -> int:
     total = 0
     for index, char in enumerate(map_str):
         if TILES(char) == TILES.BUG:
-            total += 2 ** index
+            total += 2**index
     return total
 
 
@@ -110,7 +110,4 @@ class Solution(BaseSolution):
         return planet.compute()
 
     def part_2(self):
-        pass
-
-    def solve(self):
         pass

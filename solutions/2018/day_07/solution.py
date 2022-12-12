@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2018/day/7
 
-from ...base import BaseSolution, InputTypes
 from collections import defaultdict
+
+from ...base import BaseSolution, InputTypes
 
 # changes from example to actual puzzle
 NUM_WORKERS = 5
@@ -84,6 +85,3 @@ class Solution(BaseSolution):
             t += 1
 
         return t - 1
-
-    def solve(self):
-        pass

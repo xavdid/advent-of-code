@@ -16,6 +16,3 @@ class Solution(IntcodeSolution):
         computer = IntcodeComputer(self.input, inputs=[5])
         computer.run()
         return computer.diagnostic()
-
-    def solve(self):
-        pass

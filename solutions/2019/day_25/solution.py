@@ -73,6 +73,3 @@ class Solution(IntcodeSolution):
 
     def part_2(self):
         pass
-
-    def solve(self):
-        pass

@@ -104,6 +104,3 @@ class Solution(IntcodeSolution):
         robbie.run()
         robbie.print_panels()
         return "read letters above"
-
-    def solve(self):
-        pass

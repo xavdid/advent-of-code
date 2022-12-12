@@ -42,6 +42,3 @@ class Solution(IntcodeSolution):
             max_signal = max(max_signal, last_output)
 
         return max_signal
-
-    def solve(self):
-        pass

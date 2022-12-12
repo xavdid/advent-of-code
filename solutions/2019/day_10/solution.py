@@ -63,6 +63,3 @@ class Solution(BaseSolution):
         # lm...p...5.8abcd.
         # ..k.....X...ezA..
         # ..j.i.....h....gf
-
-    def solve(self):
-        pass

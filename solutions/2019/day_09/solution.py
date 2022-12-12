@@ -20,6 +20,3 @@ class Solution(IntcodeSolution):
         computer.run()
         assert len(computer.output) == 1
         return computer.output[0]
-
-    def solve(self):
-        pass

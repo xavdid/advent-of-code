@@ -119,6 +119,3 @@ class Solution(BaseSolution):
         print(cycles)
         # pylint: disable=no-value-for-parameter
         return lcm(*cycles)
-
-    def solve(self):
-        pass
