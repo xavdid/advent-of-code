@@ -8,6 +8,13 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 2.2.0
+
+_released `2022-12-12`_
+
+- added: `max_x_size` and `max_y_size` to `base.neighbors`
+- fixed: improved handling of non-tuple responses from `solve`
+
 ## 2.1.4
 
 _released `2022-12-07`_

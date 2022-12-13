@@ -3,7 +3,7 @@
 
 from typing import Dict, Literal, Tuple, Union, cast
 
-from ...base import GridPoint, StrSplitSolution, answer, neighbors
+from ...base import GridPoint, StrSplitSolution, answer, neighbors, slow
 
 Marker = Union[Literal["#"], Literal["."]]
 Image = Dict[GridPoint, bool]
@@ -13,6 +13,7 @@ class Solution(StrSplitSolution):
     _year = 2021
     _day = 20
 
+    @slow
     @answer((5268, 16875))
     def solve(self) -> Tuple[int, int]:
         enhancer = {x for x in range(len(self.input[0])) if self.input[0][x] == "#"}
