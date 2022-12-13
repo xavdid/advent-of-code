@@ -6,7 +6,20 @@ from functools import wraps
 from itertools import product
 from operator import itemgetter
 from pprint import pprint
-from typing import Callable, Generic, Iterator, List, Tuple, TypeVar, Union, cast
+
+# pylint: disable=no-name-in-module
+# missing TypeVarTuple and Unpack
+from typing import (
+    Callable,
+    Generic,
+    Iterator,
+    TypeVar,
+    TypeVarTuple,
+    Union,
+    Unpack,
+    cast,
+    overload,
+)
 
 
 class InputTypes(Enum):  # pylint: disable=too-few-public-methods
@@ -22,8 +35,8 @@ class InputTypes(Enum):  # pylint: disable=too-few-public-methods
     INTSPLIT = auto()
 
 
-# almost always int, but occassionally str
-ResultType = Union[int, str]
+# almost always int, but occassionally str; None is fine to disable a part
+ResultType = Union[int, str, None]
 
 
 def slow(func):
@@ -46,7 +59,7 @@ def print_answer(i: int, ans: ResultType):
         print(f"=== {ans}")
 
 
-InputType = Union[str, int, List[int], List[str], List[List[int]]]
+InputType = Union[str, int, list[int], list[str], list[list[int]]]
 I = TypeVar("I", bound=InputType)
 
 
@@ -81,7 +94,7 @@ class BaseSolution(Generic[I]):
             raise NotImplementedError("explicitly define number")
         return self._day
 
-    def solve(self) -> Tuple[ResultType, ResultType]:
+    def solve(self) -> tuple[ResultType, ResultType]:
         """
         Returns a 2-tuple with the answers.
             Used instead of `part_1/2` if one set of calculations yields both answers.
@@ -137,9 +150,11 @@ class BaseSolution(Generic[I]):
 
     def print_solutions(self):
         print(f"\n= Solutions for {self.year} Day {self.day}")
-        p1, p2 = self.solve()
-        print_answer(1, p1)
-        print_answer(2, p2)
+        result = self.solve()
+        if result:
+            p1, p2 = result
+            print_answer(1, p1)
+            print_answer(2, p2)
         print()
 
     def pp(self, *obj, newline=False):
@@ -176,11 +191,11 @@ class IntSolution(BaseSolution[int]):
     input_type = InputTypes.INTEGER
 
 
-class TSVSolution(BaseSolution[List[List[int]]]):
+class TSVSolution(BaseSolution[list[list[int]]]):
     input_type = InputTypes.TSV
 
 
-class StrSplitSolution(BaseSolution[List[str]]):
+class StrSplitSolution(BaseSolution[list[str]]):
     """
     input is a str[], split by a specified separator (default newline)
         specify self.separator to tweak
@@ -189,7 +204,7 @@ class StrSplitSolution(BaseSolution[List[str]]):
     input_type = InputTypes.STRSPLIT
 
 
-class IntSplitSolution(BaseSolution[List[int]]):
+class IntSplitSolution(BaseSolution[list[int]]):
     """
     input is a int[], split by a specified separator (default newline)
         specify self.separator to tweak
@@ -201,10 +216,33 @@ class IntSplitSolution(BaseSolution[List[int]]):
 # https://stackoverflow.com/a/65681955/1825390
 SolutionType = TypeVar("SolutionType", bound=BaseSolution)
 # what the functions that @answer wraps can return
-OutputType = Union[ResultType, Tuple[ResultType, ResultType]]
+OutputType = Union[ResultType, tuple[ResultType, ResultType]]
+
+R = TypeVar("R")  # return type generic
+Ts = TypeVarTuple("Ts")  # tuple items generic
 
 
-def answer(ans: Union[ResultType, Tuple[ResultType, ResultType]]):
+# see: https://github.com/microsoft/pyright/discussions/4317#discussioncomment-4386187
+@overload
+def answer(
+    ans: tuple[Unpack[Ts]],
+) -> Callable[
+    [Callable[[SolutionType], tuple[Unpack[Ts]]]],
+    Callable[[SolutionType], tuple[Unpack[Ts]]],
+]:
+    ...
+
+
+@overload
+def answer(
+    ans: R,
+) -> Callable[[Callable[[SolutionType], R]], Callable[[SolutionType], R]]:
+    ...
+
+
+def answer(
+    ans: R,
+) -> Callable[[Callable[[SolutionType], R]], Callable[[SolutionType], R]]:
     """
     Decorator to assert the result of the function is a certain thing.
     This is specifically designed to be used on instance methods of BaseSolution.
@@ -221,7 +259,7 @@ def answer(ans: Union[ResultType, Tuple[ResultType, ResultType]]):
     ```
     """
 
-    def deco(func: Callable[[SolutionType], OutputType]):
+    def deco(func: Callable[[SolutionType], R]):
         @wraps(func)
         # uses `self` because that's what's passed to the original solution function
         def wrapper(self: SolutionType):
@@ -245,20 +283,26 @@ def neighbors(
     num_directions=8,
     *,
     ignore_negatives: bool = False,
+    max_size: int = 0,
     max_x_size: int = 0,
     max_y_size: int = 0,
-) -> Iterator[Tuple[int, int]]:
+) -> Iterator[tuple[int, int]]:
     """
     given a point (2-tuple) it yields each neighboring point.
     Iterates from top left to bottom right, skipping any points as described below:
 
     * `num_directions`: Can get cardinal directions (4), include diagonals (8), or include self (9)
     * `ignore_negatives`: skips points where either value is less than 0
-    * `max_DIM_size`: if specified, skips points where the dimension value is greater than the max grid size in that dimension. If doing a 2D-List based (aka `(row,col)` grid) rather than a pure `(x,y)` grid, the max values should be `len(DIM) - 1`.
+    * `max_DIM_size`: if specified, skips points where the dimension value is greater than the max grid size in that dimension. If doing a 2D-List based (aka `(row,col)` grid) rather than a pure `(x,y)` grid, the max values should be `len(DIM) - 1`. Is mutually exclusive with `max_size`.
 
     For a 2D list-based grid, neighbors will come out in (row, col) format.
     """
     assert num_directions in {4, 8, 9}
+    # one or the other
+    if max_size:
+        assert not (max_x_size or max_y_size)
+    if max_x_size or max_y_size:
+        assert not max_size
 
     for dx, dy in DIRECTIONS:
         if num_directions == 4 and dx and dy:
@@ -273,6 +317,9 @@ def neighbors(
         ry = center[1] + dy
 
         if ignore_negatives and (rx < 0 or ry < 0):
+            continue
+
+        if max_size and (rx > max_size or ry > max_size):
             continue
 
         if max_x_size and (rx > max_x_size):

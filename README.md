@@ -2,7 +2,7 @@
 
 This is my tried-and-true Python helper package for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles. It contains helpful utilities, plus my [daily solution write-ups](https://github.com/xavdid/advent-of-code/tree/main/solutions).
 
-It expects to be run using at least Python 3.9.
+It expects to be run using at least Python 3.11; you can use a tool like [pyenv](https://github.com/pyenv/pyenv) to manage your Python versions.
 
 ## Quickstart
 
@@ -62,7 +62,7 @@ Run a specific day of Advent of Code
 **optional flags**:
 
 - `--year YEAR`: puzzle year. Defaults to current year if December has begun, otherwise previous year
-- `-t, --test-data`: read puzzle input from `input.test.txt` instead of `input.txt`
+- `-t, --test-data`: read puzzle input from `input.test.txt` instead of `input.txt`. Ignores `@answer` decorators.
 - `--debug`: prints normally-hidden debugging statements (written with `self.pp(...)`)
 - `--profile`: run solution through a performance profiler
 - `--slow`: specify that long-running solutions (or those requiring manual input) should be run. They're skipped otherwise

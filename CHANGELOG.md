@@ -8,6 +8,14 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 3.0.0
+
+_released `2022-12-13`_
+
+- BREAKING: requires python@3.11.x to take advantage of some new typing features (see below)
+- fixed: really nail the typing around the `@answer` decorator, which will require its arguments to match the return type of the wrapped function
+- fixed: remove some `typing` imports and replaced with their generic containers (which is preferred since Py 3.9); adjusted template accordingly.
+
 ## 2.2.0
 
 _released `2022-12-12`_
