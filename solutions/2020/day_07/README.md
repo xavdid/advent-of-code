@@ -120,7 +120,7 @@ Now my solution runs in 0.016 seconds, a 22.7x improvement.
 
 Breaking complex problems into small problems and caching the results is a technique called [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#Computer_programming). It can lead to huge gains in the speed of recursive algorithms. A valuable tool to have in your toolbelt!
 
-The complete part 1 solution is [here](https://github.com/xavdid/advent-of-code/blob/7ed9dcbeb0240a3d60f42ee572946c61a4f92f3d/solutions/2020/day_7/solution.py). We change it in part 2, so use that link to see it before changes.
+The complete part 1 solution is [here](https://github.com/xavdid/advent-of-code/blob/main/solutions/2020/day_07/solution.py). We change it in part 2, so use that link to see it before changes.
 
 ## Part 2
 

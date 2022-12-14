@@ -4,7 +4,7 @@
 
 ## Part 1
 
-The input parsing here looks a lot like that in [Day 4](https://github.com/xavdid/advent-of-code/tree/c594ac111e33a6ff01aed7705184cc9d64c8fc32/solutions/2020/day_4#part-1) - we'll want to take our big input as a string and split it by the double newline.
+The input parsing here looks a lot like that in [Day 4](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_04#part-1) - we'll want to take our big input as a string and split it by the double newline.
 
 Ultimately, we need to flatten each group into one long string and count the unique characters. Splitting each group into a list of characters is straightforward enough:
 

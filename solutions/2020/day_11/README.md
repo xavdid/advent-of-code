@@ -248,7 +248,7 @@ The more efficient loop runs my solution in `3.84s` and using `string` instead o
 
 We'll be able to reuse basically all of our code, but we need to make two of our functions a little more configurable.
 
-The main changes are in `tile_at`. Similar to the recursive solution to [day 10](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_10#part-2-recursive-solution), we need to keep looking in a direction until we hit a chair. To know how to move from a tile, we need a heading. The logic here is simple:
+The main changes are in `tile_at`. Similar to the recursive solution to [day 10](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_10#part-2-recursive-solution), we need to keep looking in a direction until we hit a chair. To know how to move from a tile, we need a heading. The logic here is simple:
 
 ```py
 # clockwise from 12

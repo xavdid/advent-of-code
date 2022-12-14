@@ -94,7 +94,7 @@ With that, my solution clocked in at just under 2 seconds. Not a bad improvement
 
 If you've got all 49 stars up to this point, then all that's left is to press the button! Congrats! :tada:
 
-Otherwise, [check the previous answers](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020) and solve old puzzles until you're ready.
+Otherwise, [check the previous answers](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020) and solve old puzzles until you're ready.
 
 ## One Last Thing
 

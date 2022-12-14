@@ -102,7 +102,7 @@ for row in range(len(self.input)):
                 to_explore += self.neighbors(*p)
 ```
 
-The only trick here is the reappearance of Python's "spread operator" (previously discussed on [day 3](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_3)). Since `self.neighbors` takes `row, col`, I could either:
+The only trick here is the reappearance of Python's "spread operator" (previously discussed on [day 3](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_03)). Since `self.neighbors` takes `row, col`, I could either:
 
 - split out the point: `self.neighbors(p[0], p[1])`
 - use `*` to tell Python to split this tuple into multiple arguments: `self.neighbors(*p)`

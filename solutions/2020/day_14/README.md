@@ -4,7 +4,7 @@
 
 ## Part 1
 
-I found this prompt very hard to parse, but the puzzle itself is straightforward. The prompt mentions a computer, but it's not the one we wrote on [day 8](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_8). In fact for our purposes, it's a humble `dict`. We're going to be writing numeric values at string keys.
+I found this prompt very hard to parse, but the puzzle itself is straightforward. The prompt mentions a computer, but it's not the one we wrote on [day 8](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_08). In fact for our purposes, it's a humble `dict`. We're going to be writing numeric values at string keys.
 
 Lines of input come in two forms. Either:
 

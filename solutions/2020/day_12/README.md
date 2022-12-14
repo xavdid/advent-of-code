@@ -4,7 +4,7 @@
 
 ## Part 1
 
-Another straightforward one! No tricks, no fancy algorithms, just following instructions. After [day 11's odd grid](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_11), I was personally happy to back to a more standard X/Y plane. In any case, let's start with a `class` and some constants:
+Another straightforward one! No tricks, no fancy algorithms, just following instructions. After [day 11's odd grid](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_11), I was personally happy to back to a more standard X/Y plane. In any case, let's start with a `class` and some constants:
 
 ```py
 COMPASS = ["N", "E", "S", "W"]

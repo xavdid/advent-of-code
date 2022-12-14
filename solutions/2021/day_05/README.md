@@ -4,7 +4,7 @@
 
 ## Part 1
 
-While it may look like we need to reach for our grid from [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_4), it's not actually the case. Really we're just tracking segments, which are made of points (which are in turn an `(x, y)` pair. While it's not necessary, I have a feeling we'll thank ourselves later if we do the parsing and filtering with a lot of structure. Let's make some classes!
+While it may look like we need to reach for our grid from [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_04), it's not actually the case. Really we're just tracking segments, which are made of points (which are in turn an `(x, y)` pair. While it's not necessary, I have a feeling we'll thank ourselves later if we do the parsing and filtering with a lot of structure. Let's make some classes!
 
 First is the `Point`. We could use a regular class, but we'll eventually want to use `Point` instances as keys in a dict. You can only do that with a user-defined class if you define some special methods (specifically `__eq__` and `__hash__`, so Python knows how to store and compare them).
 

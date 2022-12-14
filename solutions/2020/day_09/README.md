@@ -14,7 +14,7 @@ We'll look at each index starting at `PREAMBLE_SIZE`:
 for i in range(PREAMBLE_SIZE, len(self.input)):
 ```
 
-Next, the sums. Just like [day 1](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_1), we'll reach for `itertools.combinations`:
+Next, the sums. Just like [day 1](https://github.com/xavdid/advent-of-code/tree/main/solutions/202001), we'll reach for `itertools.combinations`:
 
 ```py
 sums = {

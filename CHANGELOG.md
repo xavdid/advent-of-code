@@ -62,7 +62,7 @@ _released `2022-10-29`_
 
 In the interest of not going too far back in time, this is the first version tracked in the changelog.
 
-- BREAKING CHANGE: pad the folder names for days 1-9 with a leading 0 (e.g. `day_1/...` -> `day_01/...`. Run `python misc/pad_day_migration.py` from the repo root to update your local files. Only really tested on macOS, so proceed with a little caution.
+- BREAKING CHANGE: pad the folder names for days 1-9 with a leading 0 (e.g. `day_1/...` -> `day_01/...`. Run `python misc/pad_day_migration.py` from the repo root to update your local files. Only really tested on macOS, so proceed with a little caution. You'll also need to update any existing GitHub urls to use the padded day number.
 
 ## 1.x.x
 

@@ -57,7 +57,7 @@ return differences[1] * differences[3]
 
 ## Part 2
 
-I'm pretty sure this is the first puzzle this year that can't be brute forced! This one was tough for me to wrap my head around, but the solution itself is pretty accessible. Similar to [day 7](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_7), we need to solve small, simple problems to build up to our final answer.
+I'm pretty sure this is the first puzzle this year that can't be brute forced! This one was tough for me to wrap my head around, but the solution itself is pretty accessible. Similar to [day 7](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_07), we need to solve small, simple problems to build up to our final answer.
 
 Let's say our adapter list is `[(0), 1, 2, 4, 5, 6, (9)]`.
 
@@ -100,13 +100,13 @@ for adapter in adapters:
 return num_paths[max_value]
 ```
 
-If you've been playing previous days and are curious why we didn't do this recursively (like [day 7](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_7)), it's mostly because we didn't to! In this input, we knew all the connections ahead of time (`5` can only connect to `{2,3,4}`). With the bags, there wasn't a way to know what bags held `shiny gold` without parsing the whole tree structure.
+If you've been playing previous days and are curious why we didn't do this recursively (like [day 7](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_07)), it's mostly because we didn't to! In this input, we knew all the connections ahead of time (`5` can only connect to `{2,3,4}`). With the bags, there wasn't a way to know what bags held `shiny gold` without parsing the whole tree structure.
 
 Nevertheless, recursion is also possible. Such a solution gives me a great opportunity to introduce a Python feature that would have made day 7 much simpler...
 
 ### Part 2: Recursive Solution
 
-If you haven't yet, skim through [day 7's extra credit portion](https://github.com/xavdid/advent-of-code/tree/master/solutions/2020/day_7#part-1-extra-credit), where we cached recursion results so their results didn't need to be re-computed later.
+If you haven't yet, skim through [day 7's extra credit portion](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_07#part-1-extra-credit), where we cached recursion results so their results didn't need to be re-computed later.
 
 Well, it turns out Python has a _function decorator_ that will help us do exactly that. Function decorators are functions that wrap other functions. The wrapper can store state (such as a cache), which turns out to be helpful for our needs.
 
