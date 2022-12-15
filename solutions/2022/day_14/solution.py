@@ -1,13 +1,28 @@
 # prompt: https://adventofcode.com/2022/day/14
 
+from dataclasses import dataclass, field
 from itertools import count, pairwise
 
 from ...base import GridPoint, StrSplitSolution, answer
 
 # Grid has everything, walls is only the initial input
-Grid = set[GridPoint]
+# Grid = set[GridPoint]
 Walls = frozenset[GridPoint]
 SOURCE: GridPoint = (500, 0)
+
+
+@dataclass
+class Grid:
+    floor: int = 0
+    _grid: set[GridPoint] = field(default_factory=set)
+
+    def add(self, p: GridPoint):
+        self._grid.add(p)
+
+    def __contains__(self, item: GridPoint):
+        if self.floor:
+            return item[1] >= self.floor or item in self._grid
+        return item in self._grid
 
 
 class Solution(StrSplitSolution):
@@ -21,8 +36,8 @@ class Solution(StrSplitSolution):
     # only modified in parse_walls
     walls: Walls = frozenset()
 
-    def parse_walls(self) -> Grid:
-        grid: Grid = set()
+    def parse_walls(self, floor: bool) -> Grid:
+        grid = Grid()
         for line in self.input:
             points = [tuple(map(int, p.split(","))) for p in line.split(" -> ")]
             for (x0, y0), (x1, y1) in pairwise(points):
@@ -39,38 +54,47 @@ class Solution(StrSplitSolution):
                     for x in range(min(x0, x1), max(x0, x1) + 1):
                         grid.add((x, y0))
 
-        self.walls = frozenset(grid)
+        if floor:
+            grid.floor = self.y_max + 2
+
+        self.walls = frozenset(grid._grid)  # pylint: disable=protected-access
         return grid
 
-    def print_grid(self, grid: Grid):
-        for y in range(self.y_max + 2):
+    def print_grid(self, grid: Grid, floor=False):
+        for y in range(self.y_max + 2 + floor):
             for x in range(self.x_min - 1, self.x_max + 2):
                 p = x, y
-                if p == SOURCE:
-                    print("+", end="")
-                    continue
 
-                if p in self.walls:
+                if p in self.walls or (floor and y == self.y_max + 2):
                     print("#", end="")
                 elif p in grid:
                     print("o", end="")
+                elif p == SOURCE:
+                    print("+", end="")
                 else:
                     print(".", end="")
+
             print()
 
     # @answer(1234)
     def part_1(self) -> int:
-        grid = self.parse_walls()
+        floor = True
+        grid = self.parse_walls(floor)
         assert self.walls
-        self.pp(f"{self.x_min=} {self.x_max=} {self.y_max=}")
+        self.pp(f"{self.x_min=} {self.x_max=} {self.y_max=}\n")
         # self.pp(grid)
-        # self.print_grid(grid)
+        # self.print_grid(grid, floor=floor)
 
         for grain_num in count():
+            if (500, 0) in grid:
+                # self.print_grid(grid, True)
+                return grain_num
             x = 500
             for y in count(1):
+                # assert y < 13, "too many y"
                 # falling off the world!
-                if y > self.y_max:
+                # part 1 only
+                if (not floor) and y > self.y_max:
                     return grain_num
 
                 if (x, y) not in grid:
@@ -84,8 +108,12 @@ class Solution(StrSplitSolution):
                     x += 1
                     continue
 
+                self.x_min = min(self.x_min, x)
+                self.x_max = max(self.x_max, x)
                 grid.add((x, y - 1))
                 break
+
+            # assert grain_num < 100, "infinite loop!"
 
     # @answer(1234)
     def part_2(self) -> int:
