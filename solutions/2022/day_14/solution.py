@@ -1,28 +1,23 @@
 # prompt: https://adventofcode.com/2022/day/14
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from itertools import count, pairwise
 
 from ...base import GridPoint, StrSplitSolution, answer
 
-# Grid has everything, walls is only the initial input
-# Grid = set[GridPoint]
-Walls = frozenset[GridPoint]
 SOURCE: GridPoint = (500, 0)
 
 
 @dataclass
 class Grid:
-    floor: int = 0
-    _grid: set[GridPoint] = field(default_factory=set)
+    _grid: set[GridPoint]
+    floor: int
 
     def add(self, p: GridPoint):
         self._grid.add(p)
 
     def __contains__(self, item: GridPoint):
-        if self.floor:
-            return item[1] >= self.floor or item in self._grid
-        return item in self._grid
+        return item[1] >= self.floor or item in self._grid
 
 
 class Solution(StrSplitSolution):
@@ -33,11 +28,11 @@ class Solution(StrSplitSolution):
     x_max = 0
     y_max = 0
 
-    # only modified in parse_walls
-    walls: Walls = frozenset()
+    # to differentiate walls vs sand later
+    walls: frozenset[GridPoint] = frozenset()
 
-    def parse_walls(self, floor: bool) -> Grid:
-        grid = Grid()
+    def parse_walls(self) -> Grid:
+        grid = set()
         for line in self.input:
             points = [tuple(map(int, p.split(","))) for p in line.split(" -> ")]
             for (x0, y0), (x1, y1) in pairwise(points):
@@ -54,11 +49,9 @@ class Solution(StrSplitSolution):
                     for x in range(min(x0, x1), max(x0, x1) + 1):
                         grid.add((x, y0))
 
-        if floor:
-            grid.floor = self.y_max + 2
-
-        self.walls = frozenset(grid._grid)  # pylint: disable=protected-access
-        return grid
+        floor = self.y_max + 2
+        self.walls = frozenset(grid.copy())
+        return Grid(grid, floor)
 
     def print_grid(self, grid: Grid, floor=False):
         for y in range(self.y_max + 2 + floor):
@@ -76,26 +69,21 @@ class Solution(StrSplitSolution):
 
             print()
 
-    # @answer(1234)
-    def part_1(self) -> int:
-        floor = True
-        grid = self.parse_walls(floor)
-        assert self.walls
-        self.pp(f"{self.x_min=} {self.x_max=} {self.y_max=}\n")
-        # self.pp(grid)
-        # self.print_grid(grid, floor=floor)
+    @answer((610, 27194))
+    def solve(self) -> tuple[int, int]:
+        grid = self.parse_walls()
+        part_1 = -1
 
         for grain_num in count():
-            if (500, 0) in grid:
-                # self.print_grid(grid, True)
-                return grain_num
-            x = 500
+            # end of part 2
+            if SOURCE in grid:
+                return part_1, grain_num
+
+            x = SOURCE[0]
             for y in count(1):
-                # assert y < 13, "too many y"
-                # falling off the world!
-                # part 1 only
-                if (not floor) and y > self.y_max:
-                    return grain_num
+                # end of part 1
+                if part_1 == -1 and y > self.y_max:
+                    part_1 = grain_num
 
                 if (x, y) not in grid:
                     continue
@@ -108,17 +96,11 @@ class Solution(StrSplitSolution):
                     x += 1
                     continue
 
+                # sand is at rest
                 self.x_min = min(self.x_min, x)
                 self.x_max = max(self.x_max, x)
                 grid.add((x, y - 1))
                 break
 
-            # assert grain_num < 100, "infinite loop!"
-
-    # @answer(1234)
-    def part_2(self) -> int:
-        pass
-
-    # @answer((1234, 4567))
-    # def solve(self) -> tuple[int, int]:
-    #     pass
+        # to make the typechecker happy; now all branches return/error
+        assert False, "shouldn't get here"

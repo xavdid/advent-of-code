@@ -18,6 +18,7 @@ from typing import (
     Union,
     Unpack,
     cast,
+    final,
     overload,
 )
 
@@ -113,6 +114,7 @@ class BaseSolution(Generic[I]):
             Only needed if there's not a unified solve method.
         """
 
+    @final
     def read_input(self) -> InputType:
         with open(
             os.path.join(
@@ -148,15 +150,19 @@ class BaseSolution(Generic[I]):
 
             raise ValueError(f"Unrecognized input_type: {self.input_type}")
 
+    @final
     def print_solutions(self):
         print(f"\n= Solutions for {self.year} Day {self.day}")
         result = self.solve()
-        if result:
-            p1, p2 = result
-            print_answer(1, p1)
-            print_answer(2, p2)
+        # make it more resistent to solve not returning a tuple during development
+        try:
+            for i, p in enumerate(result or []):
+                print_answer(i + 1, p)
+        except TypeError:
+            print_answer(0, result)
         print()
 
+    @final
     def pp(self, *obj, newline=False):
         if self.debug:
             for o in obj:
@@ -170,6 +176,7 @@ class BaseSolution(Generic[I]):
             if newline:
                 print()
 
+    @final
     def newline(self):
         if self.debug:
             print()
