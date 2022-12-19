@@ -5,19 +5,21 @@ import cProfile
 import sys
 from importlib import import_module
 from pathlib import Path
+from time import perf_counter_ns
 from typing import Type, cast
 
 from misc.date_utils import current_puzzle_year, next_day
 from solutions.base import BaseSolution
 
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 
 PARSER = argparse.ArgumentParser(
     description="Run a specific day of Advent of Code", prog="advent"
 )
 
 
-def main(day: int, year: str, slow: bool, debug: bool, test_data: bool):
+# pylint: disable=too-many-arguments
+def main(day: int, year: str, slow: bool, debug: bool, test_data: bool, time_it: bool):
     try:
         # class needs to have this name
         if ARGS.day is None:
@@ -37,7 +39,13 @@ def main(day: int, year: str, slow: bool, debug: bool, test_data: bool):
         )
         sys.exit(1)
 
+    start = perf_counter_ns()
     solver(run_slow=slow, debug=debug, use_test_data=test_data).print_solutions()
+    stop = perf_counter_ns()
+
+    if time_it:
+        print("== Performance")
+        print(f"=== Both parts ran in {round((stop - start) / 1000000000, 3)}s\n")
 
 
 PARSER.add_argument("--version", action="version", version=__version__)
@@ -68,6 +76,11 @@ PARSER.add_argument(
     action="store_true",
     help="specify that long-running solutions (or those requiring manual input) should be run",
 )
+PARSER.add_argument(
+    "--time",
+    action="store_true",
+    help="Print information about how long the solution (both parts) took to run",
+)
 
 if __name__ == "__main__":
     ARGS = PARSER.parse_args()
@@ -78,4 +91,4 @@ if __name__ == "__main__":
             sort="tottime",
         )
     else:
-        main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data)
+        main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data, ARGS.time)

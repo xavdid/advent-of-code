@@ -46,7 +46,7 @@ Start a new Advent of Code solution
 
 #### Usage
 
-> `./advent [--year year] [--test-data] [--debug] [--profile] [--slow] [day]`
+> `./advent [--year year] [--test-data] [--debug] [--profile] [--slow] [--time] [day]`
 
 Run a specific day of Advent of Code
 
@@ -66,6 +66,7 @@ Run a specific day of Advent of Code
 - `--debug`: prints normally-hidden debugging statements (written with `self.pp(...)`)
 - `--profile`: run solution through a performance profiler
 - `--slow`: specify that long-running solutions (or those requiring manual input) should be run. They're skipped otherwise
+- `--time`: print information about how long solutions took to run. More useful than timing at a shell level, since this only starts the timer once all imports have happened and any `advent` related code is done.
 
 #### Examples
 

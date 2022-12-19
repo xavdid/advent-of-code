@@ -40,20 +40,6 @@ class InputTypes(Enum):  # pylint: disable=too-few-public-methods
 ResultType = Union[int, str, None]
 
 
-def slow(func):
-    def wrapper(self):
-        if self.slow:
-            return func(self)
-
-        print(
-            f"\nRefusing to run slow function ({func.__name__}). "
-            "Run `./advent` again with the `--slow` flag."
-        )
-        return None
-
-    return wrapper
-
-
 def print_answer(i: int, ans: ResultType):
     if ans is not None:
         print(f"\n== Part {i}")
@@ -154,13 +140,16 @@ class BaseSolution(Generic[I]):
     def print_solutions(self):
         print(f"\n= Solutions for {self.year} Day {self.day}")
         result = self.solve()
-        # make it more resistent to solve not returning a tuple during development
         try:
-            for i, p in enumerate(result or []):
-                print_answer(i + 1, p)
-        except TypeError:
-            print_answer(0, result)
-        print()
+            if result:
+                p1, p2 = result
+                print_answer(1, p1)
+                print_answer(2, p2)
+            print()
+        except TypeError as exc:
+            raise ValueError(
+                "unable to unpack tuple from `solve`, got", result
+            ) from exc
 
     @final
     def pp(self, *obj, newline=False):
@@ -224,6 +213,29 @@ class IntSplitSolution(BaseSolution[list[int]]):
 SolutionType = TypeVar("SolutionType", bound=BaseSolution)
 # what the functions that @answer wraps can return
 OutputType = Union[ResultType, tuple[ResultType, ResultType]]
+
+
+def slow(
+    func: Callable[[SolutionType], OutputType]
+) -> Callable[[SolutionType], OutputType]:
+    """
+    A decorator for solution methods that blocks their execution (and returns without error)
+    if the the function is manually marked as "slow". Helpful if running many soultions at once,
+    so one doesn't gum up the whole thing.
+    """
+
+    def wrapper(self: SolutionType):
+        if self.slow or self.use_test_data:
+            return func(self)
+
+        print(
+            f"\nRefusing to run slow function ({func.__name__}). "
+            "Run `./advent` again with the `--slow` flag."
+        )
+        return None
+
+    return wrapper
+
 
 R = TypeVar("R")  # return type generic
 Ts = TypeVarTuple("Ts")  # tuple items generic
