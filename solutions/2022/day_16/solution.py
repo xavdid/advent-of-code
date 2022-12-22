@@ -4,7 +4,6 @@
 
 import heapq
 from dataclasses import dataclass
-from operator import itemgetter
 from typing import Iterable
 
 from ...base import StrSplitSolution, answer
@@ -139,26 +138,25 @@ class Solution(StrSplitSolution):
             )
         )
 
-        sequences_with_elephant = sorted(
-            [
+        sequences: list[tuple[int, set[Valve]]] = sorted(
+            (
                 (self.score_sequence(sequence, 26), set(sequence))
                 for sequence in self.every_sequence(
                     starting_valve, valves_to_check, [], 26
                 )
-            ],
-            key=itemgetter(0),
+            ),
             reverse=True,
         )
 
-        high_score = 0
-        for index, (score_a, sequence_a) in enumerate(sequences_with_elephant):
+        score = 0
+        for index, (score_a, sequence_a) in enumerate(sequences):
             # we're sorting by descending score, so if we hit one that won't beat
             # the current record when doubled, we'll never find a winner
-            if score_a * 2 < high_score:
+            if score_a * 2 < score:
                 break
-            for score_b, sequence_b in sequences_with_elephant[index + 1 :]:
+            for score_b, sequence_b in sequences[index + 1 :]:
                 # only consider sets of sequences that have no overlapping moves
                 if not sequence_a & sequence_b:
-                    high_score = max(high_score, score_a + score_b)
+                    score = max(score, score_a + score_b)
 
-        return max_steam_alone, high_score
+        return max_steam_alone, score

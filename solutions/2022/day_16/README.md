@@ -183,7 +183,7 @@ This uses `yield from`, which is a fancy way of doing `for item in x(): yield it
 Anyway, to help visualize this recursion, here's the arguments for reach function call to generate a single sequence:
 
 <details>
-<summary>Recursive Call Arguments</summary>
+<summary>Recursive Call Arguments (click to expand)</summary>
 
 ```py
 {'time': 30,
@@ -299,5 +299,83 @@ class Solution(StrSplitSolution):
 ```
 
 ## Part 2
+
+While part 1 asked us to compute the optimal 30-step path, part 2 asks us for the optimal pair of 26-step paths. As a pair, these paths must not contain any of the same steps (there'd be no reason for both us and the elephant to turn the same valve).
+
+The first order of business is calling `every_sequence` again, but with `time=26`. And, instead of just returning the score, we'll also return a `set` of the points involved:
+
+```py
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def solve(self) -> tuple[int, int]:
+        # part 1 code
+        ...
+        part_1 = max(...)
+
+        sequences: list[tuple[int, set[Valve]]] = sorted(
+            (
+                (self.score_sequence(sequence, 26), set(sequence))
+                for sequence in self.every_sequence(
+                    starting_valve, valves_to_check, [], 26
+                )
+            ),
+            reverse=True,
+        )
+```
+
+It's the same `every_sequence` call as above, but without the explicit kwargs. It's more consise, but less readable (IMO) if you don't know exactly what each kwarg is supposed to be. We also sorted our result by the score of the sequence, so we'll try the most valuable sequences first when iterating.
+
+Next, we have to find our winning pair of paths. We'll start by iterating over the sequences:
+
+```py
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def solve(self) -> tuple[int, int]:
+        ...
+
+        score = 0
+        for index, (score_a, sequence_a) in enumerate(sequences):
+            # we're sorting by descending score, so if we hit one that won't beat
+            # the current record when doubled, we'll never find a winner
+            if score_a * 2 < score:
+                break
+
+            ... # TODO
+
+        return max_steam_alone, score
+```
+
+Because we're starting at the highest score and descending, we know that if 2x `score_a` wouldn't win, it's not getting any better from here. Lastly, iterate the remaining list and see if those sequences have no overlap. If they don't, then we store their score (if it's the biggest yet):
+
+```py
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def solve(self) -> tuple[int, int]:
+        ...
+
+        score = 0
+        for index, (score_a, sequence_a) in enumerate(sequences):
+            ...
+
+            for score_b, sequence_b in sequences[index + 1 :]:
+                # only consider sets of sequences that have no overlapping moves
+                if not sequence_a & sequence_b:
+                    score = max(score, score_a + score_b)
+
+        return max_steam_alone, score
+```
+
+We could have used `itertools.combinations` instead of the nested loops (which would give us the same pattern), but it incurs extra memory use and takes a little longer by materializing the entire input tuple (while we're iterating over a sequence, which is _very_ efficient).
+
+And with that, we're done! Here's hoping the difficulty peaked early this year.
 
 [^1]: There are 55 values if you remove duplicates (`AA -> BB` is the same as `BB -> AA` on an undirected graph). There are 1,830 of them for the puzzle input.
