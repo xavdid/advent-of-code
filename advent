@@ -11,7 +11,7 @@ from typing import Type, cast
 from misc.date_utils import current_puzzle_year, next_day
 from solutions.base import BaseSolution
 
-__version__ = "3.0.2"
+__version__ = "3.1.1"
 
 PARSER = argparse.ArgumentParser(
     description="Run a specific day of Advent of Code", prog="advent"
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     if ARGS.profile:
         cProfile.run(
-            "main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data)",
+            "main(ARGS.day, ARGS.year, ARGS.slow, ARGS.debug, ARGS.test_data, False)",
             sort="tottime",
         )
     else:

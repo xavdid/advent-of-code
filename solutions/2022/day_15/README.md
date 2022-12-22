@@ -214,9 +214,7 @@ For each row, we get the ranges, then join them if they overlap. If they don't, 
 
 ### Part 2 Improved
 
-We know that our hole will be bordered on all sides by the borders of scanners. If any of those scanners had a range 1 larger than it does, then that scanner would be the only one to include the point. So, if we grow each scanner one at a time and iterate over its (now enlarged) border, we can report the one point that no other scanner can reach. That may sound like a lot of iterating, but we'll reduce 4mil lines to `sum([2x + 2y for x,y in scanners])`, and there are only 25 scanners. NUM TK Much more manageable.
-
-To do this, all we need is a method to walk the border of a scanner's reach + 1 circle:
+We know that our hole will be bordered on all sides by the borders of scanners. If any of those scanners had a range 1 larger than it does, then that scanner would be the only one to include the point. So, if we grow each scanner one at a time and iterate over its (now enlarged) border, we can report the one point that no other scanner can reach. To do this, all we need is a method to walk the border of a scanner's reach + 1 circle:
 
 ```py
 class Sensor:

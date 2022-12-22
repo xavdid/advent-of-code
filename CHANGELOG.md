@@ -8,6 +8,12 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 3.1.1
+
+_released `2022-12-21`_
+
+- fixed: argument error when running the profiler
+
 ## 3.1.0
 
 _released `2022-12-18`_
