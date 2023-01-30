@@ -36,7 +36,7 @@ class InputTypes(Enum):  # pylint: disable=too-few-public-methods
     INTSPLIT = auto()
 
 
-# almost always int, but occassionally str; None is fine to disable a part
+# almost always int, but occasionally str; None is fine to disable a part
 ResultType = Union[int, str, None]
 
 
@@ -284,7 +284,7 @@ def answer(
         def wrapper(self: SolutionType):
             result = func(self)
             # only assert the answer for non-test data
-            if not self.use_test_data:
+            if not self.use_test_data and result is not None:
                 assert result == ans, f"expected {result=} to equal {ans=}"
             return result
 
