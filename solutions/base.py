@@ -112,7 +112,7 @@ class BaseSolution(Generic[I]):
                 reader = csv.reader(file, delimiter="\t")
                 return [[int(i) for i in row] for row in reader]
 
-            data = file.read().strip()
+            data = file.read().strip("\n")
             if not data:
                 raise ValueError("input file is empty")
 
@@ -220,7 +220,7 @@ def slow(
 ) -> Callable[[SolutionType], OutputType]:
     """
     A decorator for solution methods that blocks their execution (and returns without error)
-    if the the function is manually marked as "slow". Helpful if running many soultions at once,
+    if the the function is manually marked as "slow". Helpful if running many solutions at once,
     so one doesn't gum up the whole thing.
     """
 

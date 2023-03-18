@@ -8,6 +8,12 @@ Below is a rough changelog of new features added, which largely follows [SemVer]
 - Minor versions add new, backwards-compatible features you may want to start using
 - Patch versions are internal functionality updates or changes to the template that won't affect compatibility with existing solutions
 
+## 3.1.3
+
+_released `2023-03-17`_
+
+- fixed: only trim leading and trailing newlines, not all whitespace
+
 ## 3.1.2
 
 _released `2023-01-29`_
