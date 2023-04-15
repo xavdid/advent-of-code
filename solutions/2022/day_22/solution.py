@@ -1,153 +1,168 @@
 # prompt: https://adventofcode.com/2022/day/22
 
-
 import re
+from dataclasses import dataclass, field
 from math import sqrt
-
-# pylint: disable=no-name-in-module
-from typing import Literal, NotRequired, TypedDict
+from pprint import pprint
+from typing import Literal
 
 from ...base import GridPoint, TextSolution, answer
 
 MAP_DIRECTIONS = Literal["east", "south", "west", "north"]
-DIRECTIONS_CLOCKWISE = ("east", "south", "west", "north")
+MAP_DIRECTIONS_CLOCKWISE = ("east", "south", "west", "north")
 
-CUBE_FACE_DIRECTIONS = Literal["up", "down", "left", "right", "forward", "back"]
-CUBE_FACES_CLOCKWISE: dict[CUBE_FACE_DIRECTIONS, list[CUBE_FACE_DIRECTIONS]] = {
-    "up": ["right", "forward", "left", "back"],
-    "right": ["up", "back", "down", "forward"],
-    "forward": ["up", "right", "down", "left"],
+CUBE_FACES = Literal["top", "bottom", "left", "right", "front", "back"]
+CUBE_FACES_CLOCKWISE: dict[CUBE_FACES, list[CUBE_FACES]] = {
+    "top": ["right", "front", "left", "back"],
+    "right": ["top", "back", "bottom", "front"],
+    "front": ["top", "right", "bottom", "left"],
 }
-CUBE_FACES_CLOCKWISE["down"] = list(reversed(CUBE_FACES_CLOCKWISE["up"]))
+CUBE_FACES_CLOCKWISE["bottom"] = list(reversed(CUBE_FACES_CLOCKWISE["top"]))
 CUBE_FACES_CLOCKWISE["left"] = list(reversed(CUBE_FACES_CLOCKWISE["right"]))
-CUBE_FACES_CLOCKWISE["back"] = list(reversed(CUBE_FACES_CLOCKWISE["forward"]))
-
-# negative safe modulo operator; not sure if required
-def modulo(x: int, m: int):
-    mod = x % m
-    if mod < 0:
-        return mod + m
-    return mod
+CUBE_FACES_CLOCKWISE["back"] = list(reversed(CUBE_FACES_CLOCKWISE["front"]))
 
 
-class Face(TypedDict):
-    i: int
-    j: int
-    grid: list[list[str]]
-    face: NotRequired[CUBE_FACE_DIRECTIONS]
-    neighbors: dict[MAP_DIRECTIONS, CUBE_FACE_DIRECTIONS]
+@dataclass
+class CubeFace:
+    # (row, col) in the 2D map
+    map_loc: tuple[int, int]
+    # portion of the grid belonging to this cube face
+    subgrid: list[list[str]]
+    # map of the 2D neighbors of this face on the map to its cube side
+    # e.g. the first 2D face's southern neighbor is the front of the cube
+    neighbors: dict[MAP_DIRECTIONS, CUBE_FACES] = field(default_factory=dict)
+    # managed property so we can not define it up front, but it's always defined on use
+    _cube_position: CUBE_FACES | None = None
+
+    @property
+    def cube_position(self):
+        assert self._cube_position
+        return self._cube_position
+
+    @cube_position.setter
+    def cube_position(self, v: CUBE_FACES):
+        self._cube_position = v
+
+    def __repr__(self) -> str:
+        return str(self.map_loc)
+
+    def absolute_loc(self, face_size: int):
+        return self.map_loc[0] * face_size + 1, self.map_loc[1] * face_size + 1
 
 
-Faces = dict[int, Face]
-FaceMap = dict[int, dict[int, int | None]]
+FlatCube = dict[int, dict[int, int | None]]
 
 
 def parse_input(raw_input: str):
     raw_grid, path = raw_input.split("\n\n")
-    size = int(sqrt((raw_grid.count(".") + raw_grid.count("#")) / 6))
-    # print(f"grid is of {size=}")
+    cube_size = int(sqrt((raw_grid.count(".") + raw_grid.count("#")) / 6))
 
     grid = raw_grid.split("\n")
+    longest_line_lenth = max(len(l) for l in grid) // cube_size
 
-    faces: Faces = {}
-    face_map: FaceMap = {}
+    faces: list[CubeFace] = []
+    flat_cube: FlatCube = {}
 
-    n = 0
-
-    # print(f"loop from 0 < {len(grid) // size}")
-    for i in range(len(grid) // size):
-        face_map[i] = {}
-        # print(f"inner loop 0 < {(max(len(l) for l in grid) // size)}")
-        for j in range((max(len(l) for l in grid) // size)):
-            # print(f"reading {i=} {j=}")
+    for row in range(len(grid) // cube_size):
+        flat_cube[row] = {}
+        for col in range(longest_line_lenth):
             try:
-                c = grid[i * size][j * size]
-                # print(f"  {c=} at {i*size}][{j*size}")
+                c = grid[row * cube_size][col * cube_size]
             except IndexError:
-                # print(grid)
-                # print(f"failed for {i=} {j=}")
-                face_map[i][j] = None
+                flat_cube[row][col] = None
             else:
                 if c != " ":
-                    face_map[i][j] = n
-                    res = [
-                        list(line[j * size : (j + 1) * size])
-                        for line in grid[i * size : (i + 1) * size]
+                    subgrid = [
+                        list(line[col * cube_size : (col + 1) * cube_size])
+                        for line in grid[row * cube_size : (row + 1) * cube_size]
                     ]
-                    faces[n] = {"i": i, "j": j, "grid": res, "neighbors": {}}
-                    # pprint(res)
-                    n += 1
+
+                    flat_cube[row][col] = len(faces)
+                    faces.append(CubeFace((row, col), subgrid))
                 else:
-                    face_map[i][j] = None
+                    flat_cube[row][col] = None
 
-    # ans = {
-    #     "faces": faces,
-    #     "faceMap": face_map,
-    #     "size": size,
-    #     "instructions": parse_path(path),
-    # }
-    # pprint(ans)
+    pprint(
+        {
+            "faces": faces,
+            "flat_cube": flat_cube,
+            "size": cube_size,
+            "instructions": parse_path(path),
+        }
+    )
 
-    return faces, face_map, size, parse_path(path)
+    return faces, flat_cube, cube_size, parse_path(path)
 
 
-def calculate_face_connectivity(faces: Faces, face_map: FaceMap):
-    faces[0]["face"] = "up"
+def calculate_face_connectivity(faces: list[CubeFace], flat_cube: FlatCube):
+    # orient the cube around the first side being "top"
+    print("initial position\n  no checks")
+    faces[0].cube_position = "top"
     populate_neighbors(faces[0], "east", "right")
 
     closed = set()
 
-    def walk(n: int):
-        closed.add(n)
+    def walk(face_index: int):
+        closed.add(face_index)
 
-        i, j = faces[n]["i"], faces[n]["j"]
-        neighbors = {
-            "east": face_map.get(i, {}).get(j + 1),
-            "south": face_map.get(i + 1, {}).get(j),
-            "west": face_map.get(i, {}).get(j - 1),
-            "north": face_map.get(i - 1, {}).get(j),
+        face = faces[face_index]
+        print("\nexploring", face)
+        row, col = face.map_loc
+
+        map_neighbor_indexes: dict[MAP_DIRECTIONS, int | None] = {
+            "east": flat_cube.get(row, {}).get(col + 1),
+            "south": flat_cube.get(row + 1, {}).get(col),
+            "west": flat_cube.get(row, {}).get(col - 1),
+            "north": flat_cube.get(row - 1, {}).get(col),
         }
-        # print(neighbors)
 
-        if (s := neighbors["east"]) and s not in closed:
-            faces[neighbors["east"]]["face"] = faces[n]["neighbors"]["east"]
-            assert "face" in faces[n]
-            populate_neighbors(faces[neighbors["east"]], "west", faces[n]["face"])
-            walk(neighbors["east"])
+        for dir_index, map_direction in enumerate(MAP_DIRECTIONS_CLOCKWISE):
+            print(f"  checking {map_direction}")
+            if (
+                neighbor_index := map_neighbor_indexes[map_direction]
+            ) and neighbor_index not in closed:
+                print(f"    found map tile at index {neighbor_index}")
 
-        if (s := neighbors["south"]) and s not in closed:
-            faces[neighbors["south"]]["face"] = faces[n]["neighbors"]["south"]
-            assert "face" in faces[n]
-            populate_neighbors(faces[neighbors["south"]], "north", faces[n]["face"])
-            walk(neighbors["south"])
+                faces[neighbor_index].cube_position = face.neighbors[map_direction]
 
-        if (s := neighbors["west"]) and s not in closed:
-            faces[neighbors["west"]]["face"] = faces[n]["neighbors"]["west"]
-            assert "face" in faces[n]
-            populate_neighbors(faces[neighbors["west"]], "east", faces[n]["face"])
-            walk(neighbors["west"])
+                print(
+                    f"    set {faces[neighbor_index]}'s cube position to the {map_direction} of {face}, making it the {face.neighbors[map_direction]} cube face"
+                )
 
-        if (s := neighbors["north"]) and s not in closed:
-            faces[neighbors["north"]]["face"] = faces[n]["neighbors"]["north"]
-            assert "face" in faces[n]
-            populate_neighbors(faces[neighbors["north"]], "south", faces[n]["face"])
-            walk(neighbors["north"])
+                populate_neighbors(
+                    faces[neighbor_index],
+                    # opposite direction
+                    MAP_DIRECTIONS_CLOCKWISE[(dir_index + 2) % 4],
+                    face.cube_position,
+                )
+                walk(neighbor_index)
+        print("returning")
 
     walk(0)
 
 
 def populate_neighbors(
-    face: Face, direction: MAP_DIRECTIONS, neighbor: CUBE_FACE_DIRECTIONS
+    face: CubeFace, map_direction: MAP_DIRECTIONS, cube_face: CUBE_FACES
 ):
-    direction_index = DIRECTIONS_CLOCKWISE.index(direction)
+    """
+    given a CubeFace, populate its `neighbors` clockwise, starting with the fact that its `map_direction` is the cube's `cube_face`
+    """
+    direction_index = MAP_DIRECTIONS_CLOCKWISE.index(map_direction)
 
-    assert "face" in face
-    face_index = CUBE_FACES_CLOCKWISE[face["face"]].index(neighbor)
+    face_index = CUBE_FACES_CLOCKWISE[face.cube_position].index(cube_face)
+
+    print(
+        f"    populating neighbors for {face} starting with {map_direction} ({direction_index}) -> {cube_face} ({face_index})"
+    )
 
     for i in range(4):
-        d = DIRECTIONS_CLOCKWISE[(direction_index + i) % 4]
-        s = CUBE_FACES_CLOCKWISE[face["face"]][(face_index + i) % 4]
-        face["neighbors"][d] = s
+        map_direction = MAP_DIRECTIONS_CLOCKWISE[(direction_index + i) % 4]
+        cube_face_direction = CUBE_FACES_CLOCKWISE[face.cube_position][
+            (face_index + i) % 4
+        ]
+        face.neighbors[map_direction] = cube_face_direction
+
+    print("      wrote", face.neighbors)
 
 
 def parse_grid(raw_grid: str) -> tuple[dict[GridPoint, bool], int, int]:
@@ -249,6 +264,10 @@ class SparseGrid:
         )
 
 
+# class CubeGrid(SparseGrid):
+#     pass
+
+
 class Solution(TextSolution):
     _year = 2022
     _day = 22
@@ -257,90 +276,103 @@ class Solution(TextSolution):
     def part_1(self) -> int:
         return SparseGrid(self.input).run()
 
-    # @answer(1234)
+    @answer(127012)
     def part_2(self) -> int:
-        faces, face_map, size, instructions = parse_input(self.input)
+        faces, face_map, cube_face_size, instructions = parse_input(self.input)
         calculate_face_connectivity(faces, face_map)
 
-        f = 0
-        x = 0
-        y = 0
-        direction = "east"
+        print("\n--------------")
+        face_index = 0
+        row = 0
+        col = 0
+        direction: MAP_DIRECTIONS = "east"
 
         for instruction in instructions:
+            print(f"\ntop! at {row=} {col=} facing {direction=}; {face_index=}")
             if instruction == "L":
-                direction = DIRECTIONS_CLOCKWISE[
-                    (DIRECTIONS_CLOCKWISE.index(direction) + 3) % 4
+                print("  rotated L")
+                direction = MAP_DIRECTIONS_CLOCKWISE[
+                    (MAP_DIRECTIONS_CLOCKWISE.index(direction) - 1) % 4
                 ]
                 continue
             if instruction == "R":
-                direction = DIRECTIONS_CLOCKWISE[
-                    (DIRECTIONS_CLOCKWISE.index(direction) + 1) % 4
+                print("  rotated R")
+                direction = MAP_DIRECTIONS_CLOCKWISE[
+                    (MAP_DIRECTIONS_CLOCKWISE.index(direction) + 1) % 4
                 ]
                 continue
 
-            for _ in range(instruction):
-                print(f"\ntop! {f} {x} {y} {direction}")
-                dx, dy = {
-                    "east": [1, 0],
-                    "south": [0, 1],
-                    "west": [-1, 0],
-                    "north": [0, -1],
+            for i in range(instruction):
+                print(
+                    f"  walking {direction} on {face_index} (step {i+1}/{instruction})"
+                )
+                row_offset, col_offset = {
+                    "east": [0, 1],
+                    "south": [1, 0],
+                    "west": [0, -1],
+                    "north": [-1, -0],
                 }[direction]
 
-                new_x = x + dx
-                new_y = y + dy
-                new_f = f
+                new_row = row + row_offset
+                new_col = col + col_offset
+
+                new_face_index = face_index
                 new_direction = direction
 
-                # if not ((0 < new_x <= size) and (0 < new_y <= size)):
-                print(f"  checking {new_x} {new_y}")
-                if new_x < 0 or new_x >= size or new_y < 0 or new_y >= size:
-                    print("resizing")
-                    new_x = modulo(new_x, size)
-                    new_y = modulo(new_y, size)
-                    found = False
-                    for k, v in faces.items():
-                        print(
-                            f'    does {v["face"]} eqq {faces[f]["neighbors"][direction]}?'
-                        )
-                        if v["face"] == faces[f]["neighbors"][direction]:
-                            found = True
-                            new_f = k
-                            break
-                    assert found
-                    print(f"  going from {f} to {new_f}")
+                print(f"    now at ({new_row}, {new_col})")
 
-                    dir_index = DIRECTIONS_CLOCKWISE.index(direction)
+                if not (
+                    0 <= new_col < cube_face_size and 0 <= new_row < cube_face_size
+                ):
+                    print("    out of bounds, wrapping;")
+                    new_row %= cube_face_size
+                    new_col %= cube_face_size
+                    print(f"      new pos: ({new_row}, {new_col})")
 
-                    new_dir_index = dir_index
+                    new_face_index = next(
+                        idx
+                        for idx, face in enumerate(faces)
+                        if face.cube_position == faces[face_index].neighbors[direction]
+                    )
                     print(
-                        f'  outside comparing {faces[new_f]["neighbors"][ DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4] ]} to {faces[f]["face"]}'
+                        f"      now on face_index {new_face_index} because the {direction} of {faces[face_index].cube_position} is {faces[new_face_index].cube_position}"
+                    )
+
+                    new_dir_index = MAP_DIRECTIONS_CLOCKWISE.index(direction)
+
+                    # loop until the direction behind us is the face we came from
+                    print(
+                        f"      looping until {faces[new_face_index].neighbors[ MAP_DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4] ]} matches {faces[face_index].cube_position}"
                     )
                     while (
-                        faces[new_f]["neighbors"][
-                            DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4]
+                        faces[new_face_index].neighbors[
+                            MAP_DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4]
                         ]
-                        != faces[f]["face"]
+                        != faces[face_index].cube_position
                     ):
-                        print(
-                            f'    comparing {faces[new_f]["neighbors"][ DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4] ]} to {faces[f]["face"]}'
-                        )
-                        # raise ValueError()
-                        new_x, new_y = size - 1 - new_y, new_x
+                        # this is the linear algebra magic, which handles rotating a face and updating position correctly
+                        new_col, new_row = cube_face_size - 1 - new_row, new_col
                         new_dir_index = (new_dir_index + 1) % 4
-                    new_direction = DIRECTIONS_CLOCKWISE[new_dir_index]
+                        print(
+                            f"        updated position to ({new_row}, {new_col}) facing {MAP_DIRECTIONS_CLOCKWISE[new_dir_index]}"
+                        )
+                        print(
+                            f"        - loop condition: {faces[new_face_index].neighbors[ MAP_DIRECTIONS_CLOCKWISE[(new_dir_index + 2) % 4] ]} <> {faces[face_index].cube_position}"
+                        )
+                    new_direction = MAP_DIRECTIONS_CLOCKWISE[new_dir_index]
 
-                print(f"  {new_f} {new_y} {new_x}")
-                if faces[new_f]["grid"][new_y][new_x] == "#":
+                if faces[new_face_index].subgrid[new_row][new_col] == "#":
+                    print("    wall")
                     break
 
-                x = new_x
-                y = new_y
-                f = new_f
+                face_index = new_face_index
+                row = new_row
+                col = new_col
                 direction = new_direction
 
-        i = faces[f]["i"] * size + y + 1
-        j = faces[f]["j"] * size + x + 1
+        # TODO: improve
+        i, j = faces[face_index].absolute_loc(cube_face_size)
 
-        return 1000 * i + 4 * j + DIRECTIONS_CLOCKWISE.index(direction)
+        return (
+            1000 * (i + row) + 4 * (j + col) + MAP_DIRECTIONS_CLOCKWISE.index(direction)
+        )
