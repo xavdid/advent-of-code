@@ -1,5 +1,6 @@
 # prompt: https://adventofcode.com/2022/day/22
 
+from pprint import pprint
 import re
 from dataclasses import dataclass, field
 from math import sqrt
@@ -36,7 +37,7 @@ class BaseGrid:
 
     def __init__(self, raw_input: str) -> None:
         raw_grid, path = raw_input.split("\n\n")
-        self.location = None
+        self.location = 0, 0
         self.path = parse_path(path)
         self._post_init(raw_grid)
 
@@ -114,8 +115,8 @@ class SparseGrid(BaseGrid):
 class CubeFace:
     # (row, col) in the 2D map
     map_loc: tuple[int, int]
-    # portion of the grid belonging to this cube face
-    subgrid: list[list[str]]
+    # values from the original grid belonging to this cube face
+    subgrid: list[list[str]] = field(repr=False)
     # map of the 2D neighbors of this face on the map to its cube side
     # e.g. the first 2D face's southern neighbor is the front of the cube
     neighbors: dict[MAP_DIRECTIONS, CUBE_FACES] = field(default_factory=dict)
@@ -150,9 +151,6 @@ class CubeFace:
             ]
             self.neighbors[map_direction] = cube_face_direction
 
-    def __repr__(self) -> str:
-        return str(self.map_loc)
-
 
 FlatCube = dict[int, dict[int, int | None]]
 
@@ -168,29 +166,27 @@ class CubeGrid(BaseGrid):
     def _post_init(self, raw_grid: str):
         self.cube_face_size = int(sqrt((raw_grid.count(".") + raw_grid.count("#")) / 6))
 
-        self.faces, self.flat_cube = self.parse_grid(raw_grid)
-        self.calcutate_face_connectivity()
+        self.faces, self.flat_cube = self.parse_cube(raw_grid)
+        self.calculate_face_connectivity()
 
-        self.location: GridPoint = 0, 0
-
-    def parse_grid(self, raw_grid: str) -> tuple[list[CubeFace], FlatCube]:
+    def parse_cube(self, raw_grid: str) -> tuple[list[CubeFace], FlatCube]:
         grid = raw_grid.split("\n")
 
-        longest_line_lenth = max(len(l) for l in grid) // self.cube_face_size
+        longest_line_length = max(len(l) for l in grid) // self.cube_face_size
 
         faces: list[CubeFace] = []
-        cube_map: FlatCube = {}
+        flat_cube: FlatCube = {}
 
         for row in range(len(grid) // self.cube_face_size):
-            cube_map[row] = {}
-            for col in range(longest_line_lenth):
+            flat_cube[row] = {}
+            for col in range(longest_line_length):
                 try:
                     c = grid[row * self.cube_face_size][col * self.cube_face_size]
                 except IndexError:
-                    cube_map[row][col] = None
+                    flat_cube[row][col] = None
                 else:
                     if c == " ":
-                        cube_map[row][col] = None
+                        flat_cube[row][col] = None
                         continue
 
                     subgrid = [
@@ -206,12 +202,12 @@ class CubeGrid(BaseGrid):
                         ]
                     ]
 
-                    cube_map[row][col] = len(faces)
+                    flat_cube[row][col] = len(faces)
                     faces.append(CubeFace((row, col), subgrid))
 
-        return faces, cube_map
+        return faces, flat_cube
 
-    def calcutate_face_connectivity(self):
+    def calculate_face_connectivity(self):
         self.faces[0].cube_position = "top"
         self.faces[0].populate_neighbors("east", "right")
 
@@ -231,7 +227,7 @@ class CubeGrid(BaseGrid):
 
             for dir_index, map_direction in enumerate(MAP_DIRECTIONS_CLOCKWISE):
                 if (
-                    neighbor_index := map_neighbor_indexes[map_direction]
+                    (neighbor_index := map_neighbor_indexes[map_direction]) is not None
                 ) and neighbor_index not in finished:
                     finished.add(neighbor_index)
 
@@ -249,14 +245,15 @@ class CubeGrid(BaseGrid):
         assert self.faces[1].neighbors
 
     def find_next_cube_face(self) -> int:
-        return next(
-            idx
-            for idx, face in enumerate(self.faces)
-            if face.cube_position == self.face().neighbors[self.direction]
-        )
+        for idx, face in enumerate(self.faces):
+            if self.face().neighbors[self.current_direction] == face.cube_position:
+                return idx
+
+        raise ValueError("failed to find!")
 
     def next_valid_loc(self) -> tuple[GridPoint, int, int]:
         new_row, new_col = add(self.location, self.offset)
+
         new_face_index = self.face_index
         new_offset_index = self.offset_index
 
@@ -269,15 +266,15 @@ class CubeGrid(BaseGrid):
             new_face_index = self.find_next_cube_face()
 
             while (
-                self.faces[new_face_index].neighbors[
+                self.face().cube_position
+                != self.faces[new_face_index].neighbors[
                     self.opposite_direction(new_offset_index)
                 ]
-                != self.face().cube_position
             ):
                 # this is the linear algebra magic,
                 # which handles rotating a face and updating position correctly
-                new_col, new_row = self.cube_face_size - 1 - new_row, new_col
                 new_offset_index = (new_offset_index + 1) % 4
+                new_col, new_row = self.cube_face_size - 1 - new_row, new_col
 
         return (new_row, new_col), new_face_index, new_offset_index
 
@@ -287,7 +284,7 @@ class CubeGrid(BaseGrid):
         return self.faces[index]
 
     @property
-    def direction(self) -> MAP_DIRECTIONS:
+    def current_direction(self) -> MAP_DIRECTIONS:
         return MAP_DIRECTIONS_CLOCKWISE[self.offset_index]
 
     def opposite_direction(self, direction_index: int) -> MAP_DIRECTIONS:
@@ -313,10 +310,11 @@ class CubeGrid(BaseGrid):
                 self.face_index = new_face_index
                 self.offset_index = new_offset_index
 
-        row, col = self.location
-        abs_row, abs_col = self.face().absolute_loc(self.cube_face_size)
+        abs_row, abs_col = add(
+            self.location, self.face().absolute_loc(self.cube_face_size)
+        )
 
-        return 1000 * (abs_row + row) + 4 * (abs_col + col) + self.offset_index
+        return 1000 * abs_row + 4 * abs_col + self.offset_index
 
 
 class Solution(TextSolution):
