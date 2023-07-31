@@ -68,7 +68,7 @@ return "".join(map(str, cups))[1:]
 
 ## Part 2
 
-This is a classic AoC move - part 1 can be solved by stepping through the puzzle instructions but part 2 uses way bigger numbers. A more technical approach is required. I couldn't come up with one off the top of my head, so let's adapt a Reddit solution, specifically [this one](https://www.reddit.com/r/adventofcode/comments/kimluc/2020_day_23_solutions/ggrtcop/).
+This is a classic AoC move - part 1 can be solved by stepping through the puzzle instructions but part 2 uses way bigger numbers. A more technical approach is required. I couldn't come up with one off the top of my head, so let's adapt a Reddit solution, specifically [this one](https://old.reddit.com/r/adventofcode/comments/kimluc/2020_day_23_solutions/ggrtcop/).
 
 Before, we stored a (very long) `deque` that we'd have to rotate many times per loop. Though that's a fast operation, we did it a lot. To store an ordered collection, Python introduces some overhead to track the order. As it turns out, we don't actually care which number is first in the list; just that the correct thing always comes next. There's a data structure that comes up in academia a lot that's perfect for this: the [linked list](https://en.wikipedia.org/wiki/Linked_list). A linked list consists of some number of `Node`s. Each has a value and a pointer to the `next` one. Traditionally, your program keeps a pointer to the start of the list so you don't lose track of it.
 

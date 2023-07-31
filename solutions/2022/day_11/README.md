@@ -131,7 +131,7 @@ Part 2 starts out easy enough- we pull our `// 3` and run the game for 10k round
 
 To fix this, we'll need to shrink the worry levels as we go, but in a way that doesn't change any of our math. Specifically, we have to shrink each item by a value that doesn't change the result of `item % monkey.divisor`. Turns out, if you mod a number by the least common multiple of a group of numbers, it remains evenly divisible by all those numbers individually. This is one of those puzzle tricks that I remembered, but don't understand the justification for well. Basically the AoC equivalent of [crosswordese](https://en.wikipedia.org/wiki/Crosswordese).
 
-Once I had my answer, I stopped by the [subreddit's answer thread](https://www.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/) and found [a great explanation](https://www.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/izrrnr3/) by `/u/QultrosSanhattan`. Definitely recommend reading if you're curious about the math backing this part.
+Once I had my answer, I stopped by the [subreddit's answer thread](https://old.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/) and found [a great explanation](https://old.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/izrrnr3/) by `/u/QultrosSanhattan`. Definitely recommend reading if you're curious about the math backing this part.
 
 Anyway, the code for part 2 isn't actually much once you know the trick. We'll move our solution into a function so we can control individual bits of it:
 

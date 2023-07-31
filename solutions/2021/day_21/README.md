@@ -116,7 +116,7 @@ It's the same basic algorithm, but we store the answer for each input so a given
 
 Today's pt 2 follows a similar idea. Though there may seem like many games to play(and there are! trillions, in fact), there is a finite number of states a game can be in. Each player can be in one of 10 positions, and their score can only be one of 21 values, so a player is in one of `210` states. With 2 players we have to multiply that by itself, so there are `44,100` different states an active game can be in. Sounds much more manageable, right? If we cache the result of a given game state, we'll be able to stop early.
 
-The hardest thing for me about this part was conceptualizing _what_ I was going to code. Reddit came in big here once again, especially this "[explain like I'm 5 thread](https://www.reddit.com/r/adventofcode/comments/rm7ygy/2021_day_21_part2_could_someone_explain_the/)". Let's walk through a simpler version of the problem, then scale up our code.
+The hardest thing for me about this part was conceptualizing _what_ I was going to code. Reddit came in big here once again, especially this "[explain like I'm 5 thread](https://old.reddit.com/r/adventofcode/comments/rm7ygy/2021_day_21_part2_could_someone_explain_the/)". Let's walk through a simpler version of the problem, then scale up our code.
 
 In our toy version, we'll make the following changes:
 

@@ -283,10 +283,10 @@ class Solution(StrSplitSolution):
 
 Running that, we get our answer in... 18 seconds. Definitely an improvement, but still quite slow as far as AoC solutions go. But at this point, I've spent enough time on this one.
 
-If you're curious about other (faster) approaches, check out the [Reddit solution thread](https://www.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/). Highlights include:
+If you're curious about other (faster) approaches, check out the [Reddit solution thread](https://old.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/). Highlights include:
 
-- finding the intersections of the lines that border each diamond ([permalink](https://www.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/j0b90nr/))
-- plugging the constraints into Z3, Microsoft Research's equation solver and letting it do the work ([permalink](https://www.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/j0af5cy/))
+- finding the intersections of the lines that border each diamond ([permalink](https://old.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/j0b90nr/))
+- plugging the constraints into Z3, Microsoft Research's equation solver and letting it do the work ([permalink](https://old.reddit.com/r/adventofcode/comments/zmcn64/2022_day_15_solutions/j0af5cy/))
 
 Good job sticking with this one!
 

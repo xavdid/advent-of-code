@@ -182,7 +182,7 @@ class Solution(TextSolution):
 
 Part 2 is generically the same as part 1, but there's a _big_ shift in our parsing and "next valid location" logic. But, working in 3D isn't something I have much experience with.
 
-After spinning my wheels for a while, I turned to [the solution thread](https://xavd.id/aoc/2022/22) for assistance. I liked [this solution](https://www.reddit.com/r/adventofcode/comments/zsct8w/2022_day_22_solutions/j184mn7/) by `/u/smrq` the best, since it works for any valid input (always my goal with AoC). Now that I've taken the time to translate it from JS, understand it, and refactor it, I'm excited to share these efforts with you. Remember- the main goal of AoC is to learn! Don't fret if you can't solve them all yourself (I certainly don't).
+After spinning my wheels for a while, I turned to [the solution thread](https://xavd.id/aoc/2022/22) for assistance. I liked [this solution](https://old.reddit.com/r/adventofcode/comments/zsct8w/2022_day_22_solutions/j184mn7/) by `/u/smrq` the best, since it works for any valid input (always my goal with AoC). Now that I've taken the time to translate it from JS, understand it, and refactor it, I'm excited to share these efforts with you. Remember- the main goal of AoC is to learn! Don't fret if you can't solve them all yourself (I certainly don't).
 
 Let's start by making a shared base class that our part 1 code uses:
 
@@ -696,7 +696,7 @@ class CubeGrid(BaseGrid):
 
 This is a little wordy, but makes a lot of sense. When we move from `0` to `3` while traveling `south`, face `3` is directly `south` of `0` with the same orientation. Our comparison of `self.faces[0].cube_position` is equal to `self.faces[3].neighbors['north']` (both are `top`). However, the same comparison is not true between faces `3` and `5` (we get `front` and `bottom`, respectively). We'll have to do some rotation magic to accommodate.
 
-Unfortunately, this is where I get a little out of my depth. The [original poster](https://www.reddit.com/r/adventofcode/comments/zsct8w/2022_day_22_solutions/j184mn7/) had this to say:
+Unfortunately, this is where I get a little out of my depth. The [original poster](https://old.reddit.com/r/adventofcode/comments/zsct8w/2022_day_22_solutions/j184mn7/) had this to say:
 
 > I found it a bit tricky to map coordinates from one edge to the corresponding coordinates of a differently oriented edge during the actual instruction-following step, but in retrospect the solution I came up with inadvertently drew upon some long-dormant linear algebra knowledge that I hadn't even realized until typing this comment. For a 90-degree clockwise rotation of an edge (e.g. if you walk off an edge going east and end up going south), the coordinates `[x, y]` get mapped to `[size-1 - y, x]`, which is of course the same thing as multiplying by a 90-degree rotation matrix (modulo some fudging with the location of the origin). I knew that something seemed right about `[-y, x]` but I didn't remember why.
 

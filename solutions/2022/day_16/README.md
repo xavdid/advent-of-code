@@ -6,7 +6,7 @@
 
 I'm gonna be honest, this one kicked my butt. I got to a place where I had (manually) built the shortest path between every pair of valves[^1], but my basic greedy algorithm wasn't getting the right answer.
 
-Ultimately, I threw in the towel. Because the point of AoC (for me) is to learn, I went through the [solution thread](https://www.reddit.com/r/adventofcode/comments/zn6k1l/2022_day_16_solutions/j0gqhgs/) until I found an explanation that clicked with me. I came across [this one](https://www.reddit.com/r/adventofcode/comments/zn6k1l/2022_day_16_solutions/j0gqhgs/), from `/u/Ill_Swimming4942`.
+Ultimately, I threw in the towel. Because the point of AoC (for me) is to learn, I went through the [solution thread](https://old.reddit.com/r/adventofcode/comments/zn6k1l/2022_day_16_solutions/j0gqhgs/) until I found an explanation that clicked with me. I came across [this one](https://old.reddit.com/r/adventofcode/comments/zn6k1l/2022_day_16_solutions/j0gqhgs/), from `/u/Ill_Swimming4942`.
 
 I'll walk through it like normal so you too can finish the day with sufficient understanding of the puzzle. Bear in mind that I did _not_ solve this myself (but I do now understand a working solution).
 

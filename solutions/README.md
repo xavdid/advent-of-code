@@ -19,7 +19,7 @@ Typically I'll solve part 1 and write its half of the post before solving and wr
 
 Sometimes, I'll go back and clean up the part 1 solution or post to serve part 2 better. It may make the whole thing look like I totally knew what I was doing the whole time, but don't let me mislead you - I don't.
 
-Occasionally I don't know how to solve a day. In that case, I take to the [subreddit](https://www.reddit.com/r/adventofcode/) and find a solution I can understand. Then I walk through that solution like a regular post (with attribution) so I make sure I know how it works (and you can too!).
+Occasionally I don't know how to solve a day. In that case, I take to the [subreddit](https://old.reddit.com/r/adventofcode/) and find a solution I can understand. Then I walk through that solution like a regular post (with attribution) so I make sure I know how it works (and you can too!).
 
 ## Feedback
 

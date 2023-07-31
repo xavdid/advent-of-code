@@ -73,7 +73,7 @@ This line in the prompt should have clued us in:
 
 I tried starting my loop at `ceil(100000000000000 / root_bus_id)`, but it turns out we're still not fast enough. We'll have to refine our approach.
 
-At this point, I was pretty stuck. I'm more interested in learning than figuring it all out on my own, so I took to the [Reddit solution thread](https://www.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/) for inspiration. I stumbled on [this great one](https://www.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfncyoc/) by `/u/noblematt20`. They give [a great explanation](https://www.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfsc2gg/) in the thread, but I'll break it down here as well.
+At this point, I was pretty stuck. I'm more interested in learning than figuring it all out on my own, so I took to the [Reddit solution thread](https://old.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/) for inspiration. I stumbled on [this great one](https://old.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfncyoc/) by `/u/noblematt20`. They give [a great explanation](https://old.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfsc2gg/) in the thread, but I'll break it down here as well.
 
 A bus is valid in this part if `(timestamp + offset) % bus_id == 0`. We start by finding the first time our first bus leaves again. In the above example, that's timestamp `17`. It's also the first bus, so it's offset is zero. Filling in the equation, we have `(17 + 0) % 17 == 0`, which is going to be true for any first bus.
 

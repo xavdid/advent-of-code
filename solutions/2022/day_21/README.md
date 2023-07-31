@@ -179,7 +179,7 @@ Plug that into Wolfram Alpha, and we get 301, our sample answer:
 
 But, I don't didn't know how to tell Python to solve an equation like that.[^3]
 
-After spinning my wheels a bit, I made for the daily [solution thread](https://www.reddit.com/r/adventofcode/comments/zrav4h/2022_day_21_solutions/) for inspiration. I came across [this absolute gem](https://www.reddit.com/r/adventofcode/comments/zrav4h/2022_day_21_solutions/j133ko6/) of a solution by `/u/Anton31Kah`. It uses "imaginary numbers", a concept I hadn't thought about since high school. A quick refresher: imaginary numbers, traditionally represented by `i`, can never be resolved. Instead, the answer of an equation involving `i` is expressed in _terms_ of `i`. While `2 * 2` can be simplified to `4`, `2 * i` cannot be further broken down.
+After spinning my wheels a bit, I made for the daily [solution thread](https://old.reddit.com/r/adventofcode/comments/zrav4h/2022_day_21_solutions/) for inspiration. I came across [this absolute gem](https://old.reddit.com/r/adventofcode/comments/zrav4h/2022_day_21_solutions/j133ko6/) of a solution by `/u/Anton31Kah`. It uses "imaginary numbers", a concept I hadn't thought about since high school. A quick refresher: imaginary numbers, traditionally represented by `i`, can never be resolved. Instead, the answer of an equation involving `i` is expressed in _terms_ of `i`. While `2 * 2` can be simplified to `4`, `2 * i` cannot be further broken down.
 
 Miraculously, this is something that Python supports natively in the new-to-me `complex` type. Imaginary numbers are written with a trialing `j`. Check this out:
 
