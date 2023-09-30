@@ -18,21 +18,20 @@ The first part of the line is regular enough that we can pull it out:
 
 ```py
 for line in self.input:
-    this.mapping = {}
-    # dull bronze bags contain 1 mirrored beige bag, 5 muted violet bags, 1 wavy lime bag.
+    self.mapping = {}
+    # light red bags contain 1 bright white bag, 2 muted yellow bags.
 
     # this_bag holds these_bags
     this_bag, held_bags = s.split(' bags contain ')
 
     if 'no other bags' in held_bags:
-
         pass
 
-    # ['dull bronze', '1 mirrored beige bag, 5 muted violet bags, 1 wavy lime bag.']
+    # ['light red', '1 bright white bag, 2 muted yellow bags']
 
     held_bags = held_bags.split(', ')
 
-    # ['1 mirrored beige bag', '5 muted violet bags', '1 wavy lime bag.']
+    # ['1 bright white bag', '2 muted yellow bags']
 
     these_bags = []
     # just grab the adjective and color
@@ -40,9 +39,9 @@ for line in self.input:
         bag_parts = bag.split(' ')
         these_bags.append(' '.join(bag_parts[1:3]))
 
-    # ['mirrored beige', 'muted violet', 'wavy lime']
+    # ['bright white', 'muted yellow']
 
-    this.mapping[this_bag] = these_bags
+    self.mapping[this_bag] = these_bags
 ```
 
 Now that we've got the parts split out, we need to store it. A string that maps to a list of string sounds a lot like a `Dict[str, List[str]]` to me! Let's store that as `self.mapping` (if your solution is in a class, like mine. Otherwise, declare `mapping = {}` at the very top of the file).
