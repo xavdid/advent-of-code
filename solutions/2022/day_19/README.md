@@ -2,7 +2,7 @@
 
 `Not Enough Minerals` ([prompt](https://adventofcode.com/2022/day/19))
 
-I'm writing this after finishing day 24; I had [skipped it originally](https://github.com/xavdid/advent-of-code/blob/1086ad9009b97a9d38a2d2864109a1ed3555fee9/solutions/2022/day_19/README.md). I knew what I wanted to do as a basic approach, but wasn't sure how to get the code where I wanted it. So I did through day 24, did some ruminating, wrote a [really ugly, slow, dict-based version](https://gist.github.com/xavdid/b39d387aa624ce85fbb11dd27693b599) and then finally landed on something I'm really pleased with. Let's get to it!
+I'm writing this after finishing day 24; I had [skipped it originally](https://github.com/xavdid/advent-of-code/blob/6f9bb46685d0b606ad714bafef22d6404989c65a/solutions/2022/day_19/README.md). I knew what I wanted to do as a basic approach, but wasn't sure how to get the code where I wanted it. So I did through day 24, did some ruminating, wrote a [really ugly, slow, dict-based version](https://gist.github.com/xavdid/b39d387aa624ce85fbb11dd27693b599) and then finally landed on something I'm really pleased with. Let's get to it!
 
 ## Part 1
 

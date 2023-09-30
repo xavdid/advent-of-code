@@ -141,7 +141,7 @@ That's a lot of code, but nothing to crazy! We:
 - we have a basic Dijkstra implementation, which adds and removes items from a [priority queue](https://docs.python.org/3/library/heapq.html)
 - we have an `assert` to make sure our logic is sound - we should never occupy a spot where there's currently a blizzard. Doing so is indicative of a bug (in code we haven't written yet)
 
-Now, neighbor selection. In each case, we're going to look at `state_at[time + 1]` and add points to the queue if they're not in that set. We'll re-use the [neighbors](https://github.com/xavdid/advent-of-code/blob/4251e68be416ab88b7ad0c98b3290f2b6648dbcf/solutions/base.py#L300) function to find current in-bound neighbors for each grid square. We also need special cases for the beginning and end (since those are outside the grid and won't be seen by `neighbors`). And of course, the ability to wait in place.
+Now, neighbor selection. In each case, we're going to look at `state_at[time + 1]` and add points to the queue if they're not in that set. We'll re-use the [neighbors](https://github.com/xavdid/advent-of-code/blob/513f070cd043b898d5b745e248ab0dd466d689f0/solutions/base.py#L300-L350) function to find current in-bound neighbors for each grid square. We also need special cases for the beginning and end (since those are outside the grid and won't be seen by `neighbors`). And of course, the ability to wait in place.
 
 Here's what that all looks like:
 

@@ -72,7 +72,7 @@ return len(black_tiles)
 
 ## Part 2
 
-Hopefully this sounds familiar- it's another take on Conway's Game of Life. So similar, in fact, that we can take the same approach as we did in [day 17](https://github.com/xavdid/advent-of-code/blob/e552e2db142051e5544b0f942e497147f8d2907b/solutions/2020/day_17/README.md#part-2). On each loop, we'll build a `Counter` with each neighbor of each black tile:
+Hopefully this sounds familiar- it's another take on Conway's Game of Life. So similar, in fact, that we can take the same approach as we did in [day 17](https://github.com/xavdid/advent-of-code/blob/main/solutions/2020/day_17/README.md#part-2). On each loop, we'll build a `Counter` with each neighbor of each black tile:
 
 ```py
 from collections import Counter

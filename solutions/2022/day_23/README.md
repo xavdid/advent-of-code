@@ -73,7 +73,7 @@ class Grid:
         potential_moves: defaultdict[GridPoint, list[GridPoint]] = defaultdict(list)
 ```
 
-Next, we calculate the moves for each elf. This reuses my handy `neighbors` function mentioned in [day 12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12) (which you can see in its entirety [here](https://github.com/xavdid/advent-of-code/blob/342aa8cdc1d34dfc4d3954e7ca5179d0da79f0e7/solutions/base.py#L300-L350)).
+Next, we calculate the moves for each elf. This reuses my handy `neighbors` function mentioned in [day 12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12) (which you can see in its entirety [here](https://github.com/xavdid/advent-of-code/blob/513f070cd043b898d5b745e248ab0dd466d689f0/solutions/base.py#L300-L350)).
 
 So we:
 

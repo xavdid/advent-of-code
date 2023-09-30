@@ -68,7 +68,7 @@ def very_slow_function():
 cProfile.run('very_slow_function()')
 ```
 
-There are a number of ways to sort the results - I've found `tottime` to be most helpful. It pinpoints the individual functions that execution spends the most time in. I've got it [built into my `advent` command](https://github.com/xavdid/advent-of-code/blob/3f1e4c9354e81d954355a3bfdd01e7a12e7c96dc/advent#L55-L56), but you can drop it into your code pretty easily. Let's drop to 10M loops and remove our `print` statements (surprisingly slow) and see what we get:
+There are a number of ways to sort the results - I've found `tottime` to be most helpful. It pinpoints the individual functions that execution spends the most time in. I've got it [built into my `advent` command](https://github.com/xavdid/advent-of-code/blob/513f070cd043b898d5b745e248ab0dd466d689f0/advent#L89-L92), but you can drop it into your code pretty easily. Let's drop to 10M loops and remove our `print` statements (surprisingly slow) and see what we get:
 
 ```
 % ./advent --profile
