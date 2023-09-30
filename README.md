@@ -1,6 +1,6 @@
 # Advent of Code
 
-This is my tried-and-true Python helper package for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles. It contains helpful utilities, plus my [daily solution write-ups](https://github.com/xavdid/advent-of-code/tree/main/solutions).
+This is my tried-and-true Python helper package for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles. It contains helpful utilities, plus my [daily solution write-ups](https://github.com/xavdid/advent-of-code/tree/main/solutions). Note that it doesn't include my puzzle inputs, per [a request from the creator](https://www.reddit.com/r/adventofcode/wiki/troubleshooting/no_asking_for_inputs).
 
 It expects to be run using at least Python 3.11; you can use a tool like [pyenv](https://github.com/pyenv/pyenv) to manage your Python versions.
 

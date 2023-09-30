@@ -1,0 +1,8 @@
+{
+  // I gitignore my puzzle inputs so they're not shared,
+  // but I want to see them in VSCode
+  // any generated files I legit need to ignore will need to be added via
+  // "files.exclude"
+  "explorer.excludeGitIgnore": false,
+  "search.useIgnoreFiles": false
+}
