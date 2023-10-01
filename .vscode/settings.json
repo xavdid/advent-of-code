@@ -4,5 +4,8 @@
   // any generated files I legit need to ignore will need to be added via
   // "files.exclude"
   "explorer.excludeGitIgnore": false,
-  "search.useIgnoreFiles": false
+  "search.useIgnoreFiles": false,
+  "files.exclude": {
+    ".ruff_cache": true
+  }
 }
