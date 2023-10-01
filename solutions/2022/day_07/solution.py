@@ -68,7 +68,7 @@ class Solution(StrSplitSolution):
     @answer((1391690, 5469168))
     def solve(self) -> Tuple[int, int]:
         filesystem = self.parse_filesystem()
-        self.pp(filesystem)
+        self.debug(filesystem)
 
         self.calculate_directory_sizes(filesystem)
 

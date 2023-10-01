@@ -26,7 +26,7 @@ class Solution(BaseSolution):
     def part_1(self):
         num_loops = 100
         result = self.input
-        self.pp(result)
+        self.debug(result)
 
         for loop in range(1, num_loops + 1):
             next_result = []
@@ -37,7 +37,7 @@ class Solution(BaseSolution):
                     total += int(digit) * next(pattern)
                 next_result.append(total % 10)
             result = next_result
-            self.pp(f"after phase {loop}: {result}")
+            self.debug(f"after phase {loop}: {result}")
 
         return "".join([str(i) for i in result][:8])
 

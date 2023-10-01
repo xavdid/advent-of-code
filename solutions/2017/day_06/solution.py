@@ -1,15 +1,17 @@
 # prompt: https://adventofcode.com/2017/day/6
 
-from ...base import BaseSolution, InputTypes
+import csv
+
+from ...base import StrSplitSolution
 
 
-class Solution(BaseSolution):
+class Solution(StrSplitSolution):
     _year = 2017
     _day = 6
 
-    @property
-    def input_type(self):
-        return InputTypes.TSV
+    def _parse_tsv(self):
+        reader = csv.reader(self.input, delimiter="\t")
+        return [[int(i) for i in row] for row in reader]
 
     def redistribute(self, arr):
         biggest = max(arr)
@@ -24,7 +26,7 @@ class Solution(BaseSolution):
         return arr
 
     def solve(self):
-        arr = self.input[0]  # don't mutate input
+        arr = self._parse_tsv()[0]  # don't mutate input
         seen = [arr[:]]
 
         while True:  # python could use a do-while

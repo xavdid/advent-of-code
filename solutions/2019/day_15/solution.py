@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Dict, List
 
-from .day_2 import IntcodeComputer, IntcodeSolution
+from ..intcode import IntcodeComputer, IntcodeSolution
 
 
 class Direction(IntEnum):
@@ -148,13 +148,12 @@ class Solution(IntcodeSolution):
         part_1_answer = 0
         while to_check:
             exa = to_check.pop(0)
-            self.pp(f"checking: {exa}")
+            self.debug(f"checking: {exa}")
             result = exa.step()
-            self.pp(f"got {result} | (now at {exa.trail[-1]})")
+            self.debug(f"got {result} | (now at {exa.trail[-1]})")
             maze.add_point(exa.last_position, result)
             if result == 0:
-                self.pp(f"kill {exa.id}")
-                self.newline()
+                self.debug(f"kill {exa.id}", trailing_newline=True)
                 continue
             if result == 1:
                 for direction in Direction:
@@ -163,10 +162,12 @@ class Solution(IntcodeSolution):
                         visited.add(next_point)
                         new_exa = exa.fork(direction)
                         to_check.append(new_exa)
-                        self.pp(f"queueing {new_exa}")
-                self.pp(f"there are {len(to_check)} EXAs remaining", newline=True)
+                        self.debug(f"queueing {new_exa}")
+                self.debug(
+                    f"there are {len(to_check)} EXAs remaining", trailing_newline=True
+                )
             if result == 2:
-                # self.pp(str(maze))
+                # self.debug(str(maze))
                 # don't return, because we need the full maze
                 # store the answer though; don't count starting position
                 part_1_answer = len(exa.trail) - 1

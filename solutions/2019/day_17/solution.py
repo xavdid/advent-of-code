@@ -70,7 +70,7 @@ class Solution(IntcodeSolution):
 
         # print the maze with the --debug flag
         # helpful for visualizing the path in part 2
-        self.pp(diag)
+        self.debug(diag)
         return sum([x * y for x, y in diag.get_intersections()])
 
     def part_2(self):

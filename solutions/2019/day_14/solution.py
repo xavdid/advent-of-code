@@ -66,17 +66,17 @@ class Solution(BaseSolution):
 
         while unresolved_resources:
             # copy so we can change the dict while we iterate
-            self.newline()
-            self.newline()
+            self.debug(trailing_newline=True)
+            self.debug(trailing_newline=True)
 
-            self.pp("need", unresolved_resources, "have", stockpile)
+            self.debug("need", unresolved_resources, "have", stockpile)
 
             _resource_name, num_resources_unresolved = list(
                 unresolved_resources.items()
             )[0]
             reaction = self.reactions[_resource_name]
 
-            self.pp(
+            self.debug(
                 f"working {_resource_name}; have {stockpile[reaction.name]}, need {unresolved_resources[reaction.name]}"
             )
 
@@ -84,14 +84,14 @@ class Solution(BaseSolution):
 
             if need_to_create <= 0:
                 stockpile[reaction.name] -= unresolved_resources[reaction.name]
-                self.pp(
+                self.debug(
                     f"no reaction needed, stockpile is now {stockpile[reaction.name]}"
                 )
                 del unresolved_resources[reaction.name]
                 continue
 
             # have too few, must create
-            self.pp(f"resolving {reaction.name}, clearing stockpile")
+            self.debug(f"resolving {reaction.name}, clearing stockpile")
             del unresolved_resources[reaction.name]
             del stockpile[reaction.name]
 
@@ -101,19 +101,19 @@ class Solution(BaseSolution):
             # tracking this extra was what I wasn't doing before
             # cheers to https://0xdf.gitlab.io/adventofcode2019/14#part-1 for the tip
             stockpile[reaction.name] += extra
-            self.pp(
+            self.debug(
                 f"doing {num_reactions} reaction(s) (each producing {reaction.out.amount}) to fulfill above, leaving {extra} extra"
             )
 
             if reaction.is_ore_based:
                 total_ore_required += num_reactions * reaction.ore_cost
-                self.pp(
+                self.debug(
                     f"that cost {num_reactions * reaction.ore_cost} ore, total is now {total_ore_required}"
                 )
             else:
-                self.pp("not an ore reaction!")
+                self.debug("not an ore reaction!")
                 for reagent in reaction.in_:
-                    self.pp(
+                    self.debug(
                         f"adding {reaction.name} depedency on {reagent.name} (need {reagent.amount * num_reactions})"
                     )
                     unresolved_resources[reagent.name] += reagent.amount * num_reactions

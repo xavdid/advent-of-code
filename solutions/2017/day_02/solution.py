@@ -1,18 +1,14 @@
 # prompt: https://adventofcode.com/2017/day/2
 
 import csv
-import os
 from itertools import permutations
-from ...base import BaseSolution, InputTypes
+
+from ...base import StrSplitSolution
 
 
-class Solution(BaseSolution):
+class Solution(StrSplitSolution):
     _year = 2017
     _day = 2
-
-    @property
-    def input_type(self):
-        return InputTypes.TSV
 
     def part_1(self):
         return self._solve(self.diff)
@@ -20,8 +16,12 @@ class Solution(BaseSolution):
     def part_2(self):
         return self._solve(self.find_evenly_divisible_values)
 
+    def _parse_tsv(self):
+        reader = csv.reader(self.input, delimiter="\t")
+        return [[int(i) for i in row] for row in reader]
+
     def _solve(self, f):
-        return sum([f(a) for a in self.input])
+        return sum([f(a) for a in self._parse_tsv()])
 
     def diff(self, arr):
         return max(arr) - min(arr)

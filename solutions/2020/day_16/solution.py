@@ -73,13 +73,13 @@ class Solution(BaseSolution):
 
         column_names = {}
         while self.validators:
-            self.pp(f"Top of loop, {len(self.validators)} unknown fields remain")
+            self.debug(f"Top of loop, {len(self.validators)} unknown fields remain")
             for index, value_set in enumerate(value_sets):
                 possible_columns = self.possible_columns_for_values(value_set)
                 if len(possible_columns) == 1:
                     field_name = possible_columns[0]
                     column_names[field_name] = index
-                    self.pp(f'field "{field_name}" identified at column {index}')
+                    self.debug(f'field "{field_name}" identified at column {index}')
                     self.validators.pop(field_name)
 
         my_ticket = list(
