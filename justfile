@@ -7,6 +7,9 @@ _require-venv:
     import sys
     sys.exit(sys.prefix == sys.base_prefix)
 
+@install: _require-venv
+  pip install ruff pyright
+
 # run linting and typecheking over the solutions
 @lint: _require-venv
   # everything lints
