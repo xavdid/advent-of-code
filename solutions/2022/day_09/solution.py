@@ -3,7 +3,8 @@
 from dataclasses import dataclass, field
 from typing import Set
 
-from ...base import GridPoint, StrSplitSolution, answer
+from ...base import StrSplitSolution, answer
+from ...utils.graphs import GridPoint
 
 
 def get_offset(direction: str) -> GridPoint:

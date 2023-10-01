@@ -4,7 +4,8 @@ from collections import defaultdict
 from operator import itemgetter
 from typing import Optional
 
-from ...base import GridPoint, TextSolution, answer, neighbors, slow
+from ...base import TextSolution, answer, slow
+from ...utils.graphs import GridPoint, neighbors
 
 
 def calculate_offset(tile: GridPoint, offset: GridPoint) -> GridPoint:

@@ -3,7 +3,8 @@
 from dataclasses import dataclass
 from itertools import count, pairwise
 
-from ...base import GridPoint, StrSplitSolution, answer
+from ...base import StrSplitSolution, answer
+from ...utils.graphs import GridPoint
 
 SOURCE: GridPoint = (500, 0)
 

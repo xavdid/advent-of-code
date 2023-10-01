@@ -4,7 +4,8 @@ from dataclasses import dataclass, field
 from heapq import heappop, heappush
 from typing import Literal
 
-from ...base import GridPoint, TextSolution, answer, neighbors
+from ...base import TextSolution, answer
+from ...utils.graphs import GridPoint, neighbors
 
 DIRECTIONS = Literal["<", ">", "v", "^"]
 OFFSETS: dict[DIRECTIONS, GridPoint] = {

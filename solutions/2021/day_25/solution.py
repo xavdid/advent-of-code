@@ -2,7 +2,8 @@
 
 from typing import Callable, Dict, Tuple
 
-from ...base import GridPoint, StrSplitSolution, answer
+from ...base import StrSplitSolution, answer
+from ...utils.graphs import GridPoint
 
 Grid = Dict[GridPoint, str]
 

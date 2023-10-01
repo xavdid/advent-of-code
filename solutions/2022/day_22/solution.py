@@ -1,12 +1,12 @@
 # prompt: https://adventofcode.com/2022/day/22
 
-from pprint import pprint
 import re
 from dataclasses import dataclass, field
 from math import sqrt
 from typing import Literal
 
-from ...base import GridPoint, TextSolution, answer
+from ...base import TextSolution, answer
+from ...utils.graphs import GridPoint
 
 OFFSETS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 

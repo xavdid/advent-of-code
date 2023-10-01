@@ -5,7 +5,8 @@ from operator import itemgetter
 from re import findall
 from typing import Iterable
 
-from ...base import GridPoint, StrSplitSolution, answer, slow
+from ...base import StrSplitSolution, answer, slow
+from ...utils.graphs import GridPoint
 
 TUNING_MULTIPLIER = 4_000_000
 

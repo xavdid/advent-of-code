@@ -3,7 +3,8 @@
 from collections import defaultdict
 from heapq import heappop, heappush
 
-from ...base import GridPoint, StrSplitSolution, answer, neighbors
+from ...base import StrSplitSolution, answer
+from ...utils.graphs import GridPoint, neighbors
 
 
 def can_step(src: str, dst: str) -> bool:

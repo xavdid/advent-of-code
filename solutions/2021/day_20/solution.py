@@ -3,7 +3,8 @@
 
 from typing import Dict, Literal, Tuple, Union, cast
 
-from ...base import GridPoint, StrSplitSolution, answer, neighbors, slow
+from ...base import StrSplitSolution, answer, slow
+from ...utils.graphs import GridPoint, neighbors
 
 Marker = Union[Literal["#"], Literal["."]]
 Image = Dict[GridPoint, bool]

@@ -4,7 +4,8 @@ from dataclasses import dataclass
 from itertools import cycle
 from typing import Literal, cast
 
-from ...base import GridPoint, TextSolution, answer
+from ...base import TextSolution, answer
+from ...utils.graphs import GridPoint
 
 Points = set[GridPoint]
 

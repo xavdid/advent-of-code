@@ -20,7 +20,8 @@ from typing import (
     cast,
 )
 
-from ...base import GridPoint, TextSolution, answer
+from ...base import TextSolution, answer
+from ...utils.graphs import GridPoint
 
 Amphipod = Union[Literal["A"], Literal["B"], Literal["C"], Literal["D"]]
 
