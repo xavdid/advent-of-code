@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from functools import reduce
 from operator import mul
-from typing import List, Literal, Optional, Tuple, Union, cast
+from typing import List, Literal, Optional, Union, cast
 
 from ...base import StrSplitSolution, answer
 

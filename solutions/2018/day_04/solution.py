@@ -1,10 +1,10 @@
 # prompt: https://adventofcode.com/2018/day/4
 
-from ...base import BaseSolution, InputTypes
 from collections import defaultdict
 from itertools import chain
-from statistics import mode
 from operator import itemgetter
+
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):

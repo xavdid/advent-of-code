@@ -1,7 +1,7 @@
 # prompt: https://adventofcode.com/2022/day/9
 
 from dataclasses import dataclass, field
-from typing import Set
+from typing import cast
 
 from ...base import StrSplitSolution, answer
 from ...utils.graphs import GridPoint
@@ -24,7 +24,7 @@ def get_offset(direction: str) -> GridPoint:
 class RopeEnd:
     x: int = 0
     y: int = 0
-    locations: Set[GridPoint] = field(default_factory=lambda: {(0, 0)})
+    locations: set[GridPoint] = field(default_factory=lambda: {(0, 0)})
 
     @property
     def loc(self):
@@ -67,7 +67,7 @@ class Solution(StrSplitSolution):
                 for a, b in zip(rope, rope[1:]):
                     tail_offset = a.offset(b)
                     if should_move(tail_offset):
-                        b.move(tuple(map(squish_offset, tail_offset)))
+                        b.move(cast(GridPoint, tuple(map(squish_offset, tail_offset))))
 
         return len(rope[-1].locations)
 

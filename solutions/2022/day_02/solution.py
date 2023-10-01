@@ -2,7 +2,7 @@
 
 
 from enum import Enum
-from typing import List, Tuple
+from typing import cast
 
 from ...base import StrSplitSolution, answer
 
@@ -30,7 +30,7 @@ class Result(Enum):
     WIN = "Z"
 
 
-def value_for_game(moves: Tuple[Shape, Shape]) -> int:
+def value_for_game(moves: tuple[Shape, Shape]) -> int:
     opp, you = moves
 
     # tie
@@ -50,7 +50,7 @@ def value_for_game(moves: Tuple[Shape, Shape]) -> int:
     return you.value
 
 
-def parse_shape_and_result(game: str) -> Tuple[Shape, Result]:
+def parse_shape_and_result(game: str) -> tuple[Shape, Result]:
     shape, result = game.split(" ")
     return Shape.from_letter(shape), Result(result)
 
@@ -71,7 +71,7 @@ SHAPE_TO_PICK = {
 }
 
 
-def value_for_desired_result(game_state: Tuple[Shape, Result]) -> int:
+def value_for_desired_result(game_state: tuple[Shape, Result]) -> int:
     opp, res = game_state
 
     if res == Result.TIE:
@@ -84,10 +84,13 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 2
 
-    def parse_shapes(self) -> List[Tuple[Shape, Shape]]:
-        return [tuple(map(Shape.from_letter, game.split(" "))) for game in self.input]
+    def parse_shapes(self) -> list[tuple[Shape, Shape]]:
+        return [
+            cast(tuple[Shape, Shape], tuple(map(Shape.from_letter, game.split(" "))))
+            for game in self.input
+        ]
 
-    def parse_goals(self) -> List[Tuple[Shape, Result]]:
+    def parse_goals(self) -> list[tuple[Shape, Result]]:
         return [parse_shape_and_result(game) for game in self.input]
 
     @answer(9177)

@@ -3,8 +3,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from math import ceil
-from os import name
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List
 
 from ...base import BaseSolution, InputTypes
 

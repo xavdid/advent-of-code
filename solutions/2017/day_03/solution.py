@@ -1,6 +1,7 @@
 # prompt: https://adventofcode.com/2017/day/3
 
 import math
+
 from ...base import BaseSolution, InputTypes
 
 

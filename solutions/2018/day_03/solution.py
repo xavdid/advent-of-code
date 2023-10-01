@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2018/day/3
 
-from ...base import BaseSolution, InputTypes, slow
 import itertools
+
+from ...base import BaseSolution, InputTypes, slow
 
 
 class Solution(BaseSolution):

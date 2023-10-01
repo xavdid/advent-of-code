@@ -3,7 +3,7 @@
 from collections import defaultdict
 from enum import Enum, auto
 from itertools import product
-from typing import Iterable
+from typing import Iterable, cast
 
 from ...base import StrSplitSolution, answer
 
@@ -15,7 +15,7 @@ def neighbors_3d(p: GridPoint3D) -> Iterable[GridPoint3D]:
         copied = list(p)
         copied[idx] += offset
 
-        yield tuple(copied)
+        yield cast(GridPoint3D, tuple(copied))
 
 
 class PointState(Enum):
@@ -29,7 +29,9 @@ class Solution(StrSplitSolution):
     _day = 18
 
     def parse_points(self) -> set[GridPoint3D]:
-        return {tuple(map(int, line.split(","))) for line in self.input}
+        return {
+            cast(GridPoint3D, (tuple(map(int, line.split(","))) for line in self.input))
+        }
 
     @answer(3466)
     def part_1(self) -> int:

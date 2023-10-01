@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2017/day/16
 
-from ...base import BaseSolution, InputTypes
 from collections import deque
+
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):
@@ -46,7 +47,6 @@ class Solution(BaseSolution):
             else:
                 seen.append(programs)
 
-            old = programs
             for i in self.input:
                 if i[0] == "s":
                     d = deque(programs)
@@ -62,6 +62,5 @@ class Solution(BaseSolution):
                     )
                 else:
                     raise BaseException("who knows")
-            # seen[old] = programs
 
         return "".join(programs)

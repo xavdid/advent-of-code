@@ -9,8 +9,11 @@ _require-venv:
 
 # run linting and typecheking over the solutions
 @lint: _require-venv
-	ruff solutions/2022
-	pyright solutions/2022
+  # everything lints
+  ruff .
+  # but I didn't want to go back and typecheck anything pre-2022
+  # all of 2022 was verified against latest pyright in sept 2023
+  pyright solutions/2023
 
 # run every solution for a given year
 @validate year:

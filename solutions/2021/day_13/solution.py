@@ -1,7 +1,7 @@
 # prompt: https://adventofcode.com/2021/day/13
 
-from typing import Tuple, Set, cast, List
 import re
+from typing import List, Set, Tuple, cast
 
 from ...base import StrSplitSolution, answer
 

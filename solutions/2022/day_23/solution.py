@@ -2,14 +2,14 @@
 
 from collections import defaultdict
 from operator import itemgetter
-from typing import Optional
+from typing import Optional, cast
 
 from ...base import TextSolution, answer, slow
 from ...utils.graphs import GridPoint, neighbors
 
 
 def calculate_offset(tile: GridPoint, offset: GridPoint) -> GridPoint:
-    return tuple(map(sum, zip(tile, offset)))
+    return cast(GridPoint, tuple(map(sum, zip(tile, offset))))
 
 
 OFFSETS: dict[str, list[tuple[int, int]]] = {

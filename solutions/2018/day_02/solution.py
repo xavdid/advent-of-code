@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2018/day/2
 
-from ...base import BaseSolution, InputTypes
 from itertools import combinations
+
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):

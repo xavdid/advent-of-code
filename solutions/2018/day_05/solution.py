@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2018/day/5
 
-from ...base import BaseSolution, InputTypes, slow
 from string import ascii_lowercase
+
+from ...base import BaseSolution, slow
 
 
 class Solution(BaseSolution):

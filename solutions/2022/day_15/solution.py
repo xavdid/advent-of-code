@@ -3,7 +3,7 @@
 from dataclasses import InitVar, dataclass
 from operator import itemgetter
 from re import findall
-from typing import Iterable
+from typing import Iterable, cast
 
 from ...base import StrSplitSolution, answer, slow
 from ...utils.graphs import GridPoint
@@ -90,7 +90,7 @@ class Solution(StrSplitSolution):
         for numbers in (
             tuple(map(int, findall(r"[\d-]+", line))) for line in self.input
         ):
-            sensors.append(Sensor(numbers[0], numbers[1], numbers[2:]))
+            sensors.append(Sensor(numbers[0], numbers[1], cast(GridPoint, numbers[2:])))
 
         return sensors
 

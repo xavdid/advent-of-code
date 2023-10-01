@@ -1,7 +1,8 @@
 # prompt: https://adventofcode.com/2017/day/18
 
-from ...base import BaseSolution, InputTypes
 from string import ascii_lowercase
+
+from ...base import BaseSolution, InputTypes
 
 
 class TIS100:

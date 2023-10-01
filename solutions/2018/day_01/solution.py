@@ -2,7 +2,6 @@
 
 from itertools import cycle
 
-from itertools import cycle
 from ...base import BaseSolution, InputTypes
 
 

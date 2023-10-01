@@ -2,9 +2,9 @@
 
 from collections import defaultdict
 from heapq import heappop, heappush
+from itertools import product
 from math import inf  # pylint: disable=no-name-in-module
 from typing import DefaultDict, Dict, List, Set, Tuple
-from itertools import product
 
 from ...base import StrSplitSolution, answer
 

@@ -1,9 +1,10 @@
 # prompt: https://adventofcode.com/2017/day/10
 
-from ...base import BaseSolution, InputTypes
-from itertools import islice, cycle
-from operator import xor
 from functools import reduce
+from itertools import islice
+from operator import xor
+
+from ...base import BaseSolution
 
 
 class Hahser:

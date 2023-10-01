@@ -5,7 +5,9 @@ import re
 
 from ...base import BaseSolution, InputTypes
 
-int_to_padded_binary = lambda i, l=36: bin(i)[2:].rjust(l, "0")
+
+def int_to_padded_binary(i, l=36):
+    return bin(i)[2:].rjust(l, "0")
 
 
 def apply_mask_to_int(mask: str, i: int) -> str:

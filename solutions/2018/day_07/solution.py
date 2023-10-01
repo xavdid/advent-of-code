@@ -63,7 +63,6 @@ class Solution(BaseSolution):
     def part_2(self):
         self.build_map()
 
-        offset = 0
         t = 0
         # map<finish_at, letter>
         jobs = {}
@@ -72,16 +71,15 @@ class Solution(BaseSolution):
             if t in jobs:
                 self.completed.append(jobs.pop(t))
 
-            # worksers pick up all availabble options until queue is empty or workers are busy
+            # workers pick up all available options until queue is empty or workers are busy
             for cur in sorted(self.queue):
                 if len(jobs) == NUM_WORKERS:
                     break
 
-                if not self.pre_reqs[cur] - set(self.completed):  # all prereqs are met
+                if not self.pre_reqs[cur] - set(self.completed):  # all pre-reqs are met
                     jobs[t + self.num_seconds(cur)] = cur
                     self.queue.discard(cur)
                     self.queue.update(self.instructions[cur])
-                    offset = 0
             t += 1
 
         return t - 1

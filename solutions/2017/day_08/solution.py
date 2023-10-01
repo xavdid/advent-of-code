@@ -1,8 +1,9 @@
 # prompt: https://adventofcode.com/2017/day/8
 
-from ...base import BaseSolution, InputTypes
 from collections import defaultdict
-from operator import gt, lt, ge, le, eq, ne, add, sub
+from operator import add, eq, ge, gt, le, lt, ne, sub
+
+from ...base import BaseSolution, InputTypes
 
 
 class Solution(BaseSolution):

@@ -3,7 +3,7 @@
 
 from collections import Counter
 from itertools import product
-from typing import Optional, Set, Tuple, List, cast
+from typing import List, Optional, Set, Tuple, cast
 
 from ...base import TextSolution, answer
 

@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2017/day/14
 
-from ...base import BaseSolution, InputTypes, slow
+from ...base import BaseSolution, slow
 from .day_10 import Hahser
 
 
