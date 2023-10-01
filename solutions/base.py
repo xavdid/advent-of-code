@@ -290,7 +290,7 @@ def answer(
             result = func(self)
             # only assert the answer for non-test data
             if not self.use_test_data and result is not None:
-                if result != answer:
+                if result != expected:
                     raise AoCException(
                         f"Failed @answer assertion for {self.__module__}.Solution.{func.__name__}:\n  returned: {result}\n  expected: {expected}"
                     )
