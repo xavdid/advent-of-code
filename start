@@ -6,7 +6,7 @@ from pathlib import Path
 from misc.date_utils import current_puzzle_year, next_day
 
 PARSER = argparse.ArgumentParser(
-    prog="./start", description="Start a new Advent of Code solution"
+    prog="./start", description="Scaffold a new Advent of Code solution"
 )
 PARSER.add_argument(
     "day",
@@ -22,7 +22,7 @@ PARSER.add_argument("--year", default=current_puzzle_year(), help="Puzzle year")
 if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
-    year_dir = Path(f"solutions/{ARGS.year}")
+    year_dir = Path("solutions", ARGS.year)
     year_dir.mkdir(parents=True, exist_ok=True)
 
     if ARGS.day is None:
@@ -41,14 +41,22 @@ if __name__ == "__main__":
 
     notes_path = Path(day_dir, "README.md")
     if not notes_path.exists():
-        # pylint: disable=line-too-long
         notes_path.write_text(
-            f"# Day {day} ({ARGS.year})\n\n`TITLE` ([prompt](https://adventofcode.com/{ARGS.year}/day/{day}))\n\n## Part 1\n\n## Part 2\n\n"
+            "\n\n".join(
+                [
+                    f"# Day {day} ({ARGS.year})",
+                    f"`TITLE` ([prompt](https://adventofcode.com/{ARGS.year}/day/{day}))",
+                    "## Part 1",
+                    "## Part 2",
+                    "",
+                ]
+            )
         )
 
     solution_path = Path(day_dir, "solution.py")
     if solution_path.exists():
-        print("skipping solution creation, files already exists")
+        # if we're here, it's probably a re-run
+        print("skipping solution creation, file already exists")
     else:
         template = Path("misc/example_solution.py.tmpl").read_text()
         replaced_template = template.replace("<YEAR>", ARGS.year).replace(
