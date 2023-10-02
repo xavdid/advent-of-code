@@ -1,4 +1,0 @@
-[MASTER]
-
-# since i'm only actually running the root file, the imports are fine
-disable=relative-beyond-top-level,missing-module-docstring,missing-class-docstring,missing-function-docstring,invalid-name,too-few-public-methods,too-many-locals,unspecified-encoding
