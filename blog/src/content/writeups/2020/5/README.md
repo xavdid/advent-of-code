@@ -1,6 +1,9 @@
-# Day 5 (2020)
-
-`Binary Boarding` ([prompt](https://adventofcode.com/2020/day/5))
+---
+year: 2020
+day: 5
+title: "Binary Boarding"
+slug: "2020/day/5"
+---
 
 ## Part 1
 

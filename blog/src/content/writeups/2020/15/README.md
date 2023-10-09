@@ -1,6 +1,9 @@
-# Day 15 (2020)
-
-`Rambunctious Recitation` ([prompt](https://adventofcode.com/2020/day/15))
+---
+year: 2020
+day: 15
+title: "Rambunctious Recitation"
+slug: "2020/day/15"
+---
 
 ## Part 1
 

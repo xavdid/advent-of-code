@@ -1,6 +1,9 @@
-# Day 24 (2021)
-
-`Arithmetic Logic Unit` ([prompt](https://adventofcode.com/2021/day/24))
+---
+year: 2021
+day: 24
+title: "Arithmetic Logic Unit"
+slug: "2021/day/24"
+---
 
 ## Part 1
 

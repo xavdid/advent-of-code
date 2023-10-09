@@ -1,6 +1,9 @@
-# Day 2 (2022)
-
-`Rock Paper Scissors` ([prompt](https://adventofcode.com/2022/day/2))
+---
+year: 2022
+day: 2
+title: "Rock Paper Scissors"
+slug: "2022/day/2"
+---
 
 ## Part 1
 

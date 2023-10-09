@@ -1,6 +1,9 @@
-# Day 4 (2021)
-
-`Giant Squid` ([prompt](https://adventofcode.com/2021/day/4))
+---
+year: 2021
+day: 4
+title: "Giant Squid"
+slug: "2021/day/4"
+---
 
 ## Part 1
 

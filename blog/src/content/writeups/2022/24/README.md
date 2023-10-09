@@ -1,6 +1,9 @@
-# Day 24 (2022)
-
-`Blizzard Basin` ([prompt](https://adventofcode.com/2022/day/24))
+---
+year: 2022
+day: 24
+title: "Blizzard Basin"
+slug: "2022/day/24"
+---
 
 ## Part 1
 

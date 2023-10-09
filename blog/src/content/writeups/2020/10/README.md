@@ -1,6 +1,9 @@
-# Day 10 (2020)
-
-`Adapter Array` ([prompt](https://adventofcode.com/2020/day/10))
+---
+year: 2020
+day: 10
+title: "Adapter Array"
+slug: "2020/day/10"
+---
 
 ## Part 1
 

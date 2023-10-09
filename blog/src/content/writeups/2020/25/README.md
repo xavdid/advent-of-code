@@ -1,6 +1,9 @@
-# Day 25 (2020)
-
-`Combo Breaker` ([prompt](https://adventofcode.com/2020/day/25))
+---
+year: 2020
+day: 25
+title: "Combo Breaker"
+slug: "2020/day/25"
+---
 
 ## Part 1
 

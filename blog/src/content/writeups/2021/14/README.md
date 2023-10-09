@@ -1,6 +1,9 @@
-# Day 14 (2021)
-
-`Extended Polymerization` ([prompt](https://adventofcode.com/2021/day/14))
+---
+year: 2021
+day: 14
+title: "Extended Polymerization"
+slug: "2021/day/14"
+---
 
 ## Part 1
 

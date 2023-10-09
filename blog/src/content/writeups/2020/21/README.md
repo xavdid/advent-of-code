@@ -1,6 +1,9 @@
-# Day 21 (2020)
-
-`Allergen Assessment` ([prompt](https://adventofcode.com/2020/day/21))
+---
+year: 2020
+day: 21
+title: "Allergen Assessment"
+slug: "2020/day/21"
+---
 
 ## Part 1
 

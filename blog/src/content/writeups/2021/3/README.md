@@ -1,6 +1,9 @@
-# Day 3 (2021)
-
-`Binary Diagnostic` ([prompt](https://adventofcode.com/2021/day/3))
+---
+year: 2021
+day: 3
+title: "Binary Diagnostic"
+slug: "2021/day/3"
+---
 
 ## Part 1
 

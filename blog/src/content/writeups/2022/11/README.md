@@ -1,6 +1,9 @@
-# Day 11 (2022)
-
-`Monkey in the Middle` ([prompt](https://adventofcode.com/2022/day/11))
+---
+year: 2022
+day: 11
+title: "Monkey in the Middle"
+slug: "2022/day/11"
+---
 
 ## Part 1
 

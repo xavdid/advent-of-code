@@ -1,6 +1,9 @@
-# Day 23 (2022)
-
-`Unstable Diffusion` ([prompt](https://adventofcode.com/2022/day/23))
+---
+year: 2022
+day: 23
+title: "Unstable Diffusion"
+slug: "2022/day/23"
+---
 
 ## Part 1
 

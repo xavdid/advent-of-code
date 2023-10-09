@@ -1,6 +1,9 @@
-# Day 9 (2022)
-
-`Rope Bridge` ([prompt](https://adventofcode.com/2022/day/9))
+---
+year: 2022
+day: 9
+title: "Rope Bridge"
+slug: "2022/day/9"
+---
 
 ## Part 1
 

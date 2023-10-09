@@ -1,6 +1,9 @@
-# Day 18 (2021)
-
-`Snailfish` ([prompt](https://adventofcode.com/2021/day/18))
+---
+year: 2021
+day: 18
+title: "Snailfish"
+slug: "2021/day/18"
+---
 
 ## Part 1
 

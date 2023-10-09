@@ -1,6 +1,9 @@
-# Day 20 (2020)
-
-`Jurassic Jigsaw` ([prompt](https://adventofcode.com/2020/day/20))
+---
+year: 2020
+day: 20
+title: "Jurassic Jigsaw"
+slug: "2020/day/20"
+---
 
 ## Part 1
 

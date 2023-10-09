@@ -1,6 +1,9 @@
-# Day 15 (2022)
-
-`Beacon Exclusion Zone` ([prompt](https://adventofcode.com/2022/day/15))
+---
+year: 2022
+day: 15
+title: "Beacon Exclusion Zone"
+slug: "2022/day/15"
+---
 
 ## Part 1
 

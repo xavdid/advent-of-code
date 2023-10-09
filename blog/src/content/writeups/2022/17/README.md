@@ -1,6 +1,9 @@
-# Day 17 (2022)
-
-`Pyroclastic Flow` ([prompt](https://adventofcode.com/2022/day/17))
+---
+year: 2022
+day: 17
+title: "Pyroclastic Flow"
+slug: "2022/day/17"
+---
 
 ## Part 1
 

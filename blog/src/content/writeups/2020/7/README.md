@@ -1,6 +1,9 @@
-# Day 7 (2020)
-
-`Handy Haversacks` ([prompt](https://adventofcode.com/2020/day/7))
+---
+year: 2020
+day: 7
+title: "Handy Haversacks"
+slug: "2020/day/7"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 11 (2020)
-
-`Seating System` ([prompt](https://adventofcode.com/2020/day/11))
+---
+year: 2020
+day: 11
+title: "Seating System"
+slug: "2020/day/11"
+---
 
 ## Part 1
 

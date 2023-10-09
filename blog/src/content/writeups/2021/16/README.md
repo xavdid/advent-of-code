@@ -1,6 +1,9 @@
-# Day 16 (2021)
-
-`Packet Decoder` ([prompt](https://adventofcode.com/2021/day/16))
+---
+year: 2021
+day: 16
+title: "Packet Decoder"
+slug: "2021/day/16"
+---
 
 ## Part 1
 

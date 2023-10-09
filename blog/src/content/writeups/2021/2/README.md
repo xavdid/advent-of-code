@@ -1,6 +1,9 @@
-# Day 2 (2021)
-
-`Dive!` ([prompt](https://adventofcode.com/2021/day/2))
+---
+year: 2021
+day: 2
+title: "Dive!"
+slug: "2021/day/2"
+---
 
 ## Part 1
 

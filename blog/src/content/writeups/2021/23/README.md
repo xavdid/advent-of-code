@@ -1,6 +1,9 @@
-# Day 23 (2021)
-
-`Amphipod` ([prompt](https://adventofcode.com/2021/day/23))
+---
+year: 2021
+day: 23
+title: "Amphipod"
+slug: "2021/day/23"
+---
 
 ## Part 1
 

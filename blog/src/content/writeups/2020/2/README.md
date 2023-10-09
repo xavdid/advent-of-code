@@ -1,6 +1,9 @@
-# Day 2 (2020)
-
-`Password Philosophy` ([prompt](https://adventofcode.com/2020/day/2))
+---
+year: 2020
+day: 2
+title: "Password Philosophy"
+slug: "2020/day/2"
+---
 
 ## Part 1
 

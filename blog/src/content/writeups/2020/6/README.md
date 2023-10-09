@@ -1,6 +1,9 @@
-# Day 6 (2020)
-
-`Custom Customs` ([prompt](https://adventofcode.com/2020/day/6))
+---
+year: 2020
+day: 6
+title: "Custom Customs"
+slug: "2020/day/6"
+---
 
 ## Part 1
 

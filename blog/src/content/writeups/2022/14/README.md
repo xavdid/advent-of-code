@@ -1,6 +1,9 @@
-# Day 14 (2022)
-
-`Regolith Reservoir` ([prompt](https://adventofcode.com/2022/day/14))
+---
+year: 2022
+day: 14
+title: "Regolith Reservoir"
+slug: "2022/day/14"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 21 (2021)
-
-`Dirac Dice` ([prompt](https://adventofcode.com/2021/day/21))
+---
+year: 2021
+day: 21
+title: "Dirac Dice"
+slug: "2021/day/21"
+---
 
 ## Part 1
 

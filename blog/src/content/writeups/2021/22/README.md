@@ -1,6 +1,9 @@
-# Day 22 (2021)
-
-`Reactor Reboot` ([prompt](https://adventofcode.com/2021/day/22))
+---
+year: 2021
+day: 22
+title: "Reactor Reboot"
+slug: "2021/day/22"
+---
 
 ## Part 1
 

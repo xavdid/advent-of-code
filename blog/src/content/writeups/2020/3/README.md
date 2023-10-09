@@ -1,6 +1,9 @@
-# Day 3 (2020)
-
-`Toboggan Trajectory` ([prompt](https://adventofcode.com/2020/day/3))
+---
+year: 2020
+day: 3
+title: "Toboggan Trajectory"
+slug: "2020/day/3"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 20 (2021)
-
-`Trench Map` ([prompt](https://adventofcode.com/2021/day/20))
+---
+year: 2021
+day: 20
+title: "Trench Map"
+slug: "2021/day/20"
+---
 
 ## Part 1
 

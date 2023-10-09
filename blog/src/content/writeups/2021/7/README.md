@@ -1,6 +1,9 @@
-# Day 7 (2021)
-
-`The Treachery of Whales` ([prompt](https://adventofcode.com/2021/day/7))
+---
+year: 2021
+day: 7
+title: "The Treachery of Whales"
+slug: "2021/day/7"
+---
 
 ## Part 1
 

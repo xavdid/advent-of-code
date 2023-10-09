@@ -1,6 +1,9 @@
-# Day 12 (2022)
-
-`Hill Climbing Algorithm` ([prompt](https://adventofcode.com/2022/day/12))
+---
+year: 2022
+day: 12
+title: "Hill Climbing Algorithm"
+slug: "2022/day/12"
+---
 
 ## Part 1
 
@@ -27,7 +30,7 @@ Those in hand, you perform the following steps until the queue is empty or you'v
 
 If you're a visual learner, here's a great gif from [Wikimedia](https://commons.wikimedia.org/w/index.php?curid=6282617):
 
-![](../../2021/day_15/animation.gif)
+![](../../2021/15/images/animation.gif)
 
 ---
 

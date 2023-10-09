@@ -1,6 +1,9 @@
-# Day 12 (2021)
-
-`Passage Pathing` ([prompt](https://adventofcode.com/2021/day/12))
+---
+year: 2021
+day: 12
+title: "Passage Pathing"
+slug: "2021/day/12"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 4 (2020)
-
-`Passport Processing` ([prompt](https://adventofcode.com/2020/day/4))
+---
+year: 2020
+day: 4
+title: "Passport Processing"
+slug: "2020/day/4"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 1 (2020)
-
-`Report Repair` ([prompt](https://adventofcode.com/2020/day/1))
+---
+year: 2020
+day: 1
+title: "Report Repair"
+slug: "2020/day/1"
+---
 
 ## Part 1
 

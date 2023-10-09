@@ -1,6 +1,9 @@
-# Day 5 (2022)
-
-`Supply Stacks` ([prompt](https://adventofcode.com/2022/day/5))
+---
+year: 2022
+day: 5
+title: "Supply Stacks"
+slug: "2022/day/5"
+---
 
 ## Part 1
 

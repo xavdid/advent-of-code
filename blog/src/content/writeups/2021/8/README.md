@@ -1,6 +1,9 @@
-# Day 8 (2021)
-
-`Seven Segment Search` ([prompt](https://adventofcode.com/2021/day/8))
+---
+year: 2021
+day: 8
+title: "Seven Segment Search"
+slug: "2021/day/8"
+---
 
 ## Part 1
 

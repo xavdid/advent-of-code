@@ -1,6 +1,9 @@
-# Day 25 (2022)
-
-`Full of Hot Air` ([prompt](https://adventofcode.com/2022/day/25))
+---
+year: 2022
+day: 25
+title: "Full of Hot Air"
+slug: "2022/day/25"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 17 (2021)
-
-`Trick Shot` ([prompt](https://adventofcode.com/2021/day/17))
+---
+year: 2021
+day: 17
+title: "Trick Shot"
+slug: "2021/day/17"
+---
 
 ## Part 1
 

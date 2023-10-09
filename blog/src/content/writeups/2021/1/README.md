@@ -1,6 +1,9 @@
-# Day 1 (2021)
-
-`Sonar Sweep` ([prompt](https://adventofcode.com/2021/day/1))
+---
+year: 2021
+day: 1
+title: "Sonar Sweep"
+slug: "2021/day/1"
+---
 
 ## Part 1
 

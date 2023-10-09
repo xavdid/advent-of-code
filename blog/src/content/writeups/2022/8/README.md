@@ -1,6 +1,9 @@
-# Day 8 (2022)
-
-`Treetop Tree House` ([prompt](https://adventofcode.com/2022/day/8))
+---
+year: 2022
+day: 8
+title: "Treetop Tree House"
+slug: "2022/day/8"
+---
 
 ## Part 1
 

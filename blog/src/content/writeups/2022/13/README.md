@@ -1,6 +1,9 @@
-# Day 13 (2022)
-
-`Distress Signal` ([prompt](https://adventofcode.com/2022/day/13))
+---
+year: 2022
+day: 13
+title: "Distress Signal"
+slug: "2022/day/13"
+---
 
 ## Part 1
 

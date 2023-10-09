@@ -1,6 +1,9 @@
-# Day 6 (2021)
-
-`Lanternfish` ([prompt](https://adventofcode.com/2021/day/6))
+---
+year: 2021
+day: 6
+title: "Lanternfish"
+slug: "2021/day/6"
+---
 
 ## Part 1
 

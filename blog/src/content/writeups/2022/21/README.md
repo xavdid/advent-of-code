@@ -1,6 +1,9 @@
-# Day 21 (2022)
-
-`Monkey Math` ([prompt](https://adventofcode.com/2022/day/21))
+---
+year: 2022
+day: 21
+title: "Monkey Math"
+slug: "2022/day/21"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 22 (2022)
-
-`Monkey Map` ([prompt](https://adventofcode.com/2022/day/22))
+---
+year: 2022
+day: 22
+title: "Monkey Map"
+slug: "2022/day/22"
+---
 
 ## Part 1
 

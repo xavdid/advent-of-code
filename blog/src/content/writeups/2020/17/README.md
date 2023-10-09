@@ -1,6 +1,9 @@
-# Day 17 (2020)
-
-`Conway Cubes` ([prompt](https://adventofcode.com/2020/day/17))
+---
+year: 2020
+day: 17
+title: "Conway Cubes"
+slug: "2020/day/17"
+---
 
 ## Part 1
 

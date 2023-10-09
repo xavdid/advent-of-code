@@ -1,6 +1,9 @@
-# Day 23 (2020)
-
-`Crab Cups` ([prompt](https://adventofcode.com/2020/day/23))
+---
+year: 2020
+day: 23
+title: "Crab Cups"
+slug: "2020/day/23"
+---
 
 ## Part 1
 

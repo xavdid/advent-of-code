@@ -1,6 +1,9 @@
-# Day 1 (2022)
-
-`Calorie Counting` ([prompt](https://adventofcode.com/2022/day/1))
+---
+year: 2022
+day: 1
+title: "Calorie Counting"
+slug: "2022/day/1"
+---
 
 ## Part 1
 

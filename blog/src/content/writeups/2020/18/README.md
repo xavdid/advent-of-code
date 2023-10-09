@@ -1,6 +1,9 @@
-# Day 18 (2020)
-
-`Operation Order` ([prompt](https://adventofcode.com/2020/day/18))
+---
+year: 2020
+day: 18
+title: "Operation Order"
+slug: "2020/day/18"
+---
 
 ## Part 1
 

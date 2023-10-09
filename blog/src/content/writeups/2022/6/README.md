@@ -1,6 +1,9 @@
-# Day 6 (2022)
-
-`Tuning Trouble` ([prompt](https://adventofcode.com/2022/day/6))
+---
+year: 2022
+day: 6
+title: "Tuning Trouble"
+slug: "2022/day/6"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 22 (2020)
-
-`Crab Combat` ([prompt](https://adventofcode.com/2020/day/22))
+---
+year: 2020
+day: 22
+title: "Crab Combat"
+slug: "2020/day/22"
+---
 
 ## Part 1
 

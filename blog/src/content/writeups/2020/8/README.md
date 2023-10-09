@@ -1,6 +1,9 @@
-# Day 8 (2020)
-
-`Handheld Halting` ([prompt](https://adventofcode.com/2020/day/8))
+---
+year: 2020
+day: 8
+title: "Handheld Halting"
+slug: "2020/day/8"
+---
 
 ## Part 1
 

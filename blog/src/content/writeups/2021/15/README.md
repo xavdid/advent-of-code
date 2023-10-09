@@ -1,6 +1,9 @@
-# Day 15 (2021)
-
-`Chiton` ([prompt](https://adventofcode.com/2021/day/15))
+---
+year: 2021
+day: 15
+title: "Chiton"
+slug: "2021/day/15"
+---
 
 ## Part 1
 
@@ -105,7 +108,7 @@ Ok, now we're cooking. For each neighbor of `current`, its (tentative) distance 
 
 Here's a good gif from [Wikimedia](https://commons.wikimedia.org/w/index.php?curid=6282617) that shows it in action. Watch it for a couple of loops and make sure you understand why each step happens:
 
-![](./animation.gif)
+![](./images/animation.gif)
 
 Let's implement it in some sort of loop:
 

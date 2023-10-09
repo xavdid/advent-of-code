@@ -1,6 +1,9 @@
-# Day 18 (2022)
-
-`Boiling Boulders` ([prompt](https://adventofcode.com/2022/day/18))
+---
+year: 2022
+day: 18
+title: "Boiling Boulders"
+slug: "2022/day/18"
+---
 
 ## Part 1
 

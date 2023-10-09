@@ -1,6 +1,9 @@
-# Day 14 (2020)
-
-`Docking Data` ([prompt](https://adventofcode.com/2020/day/14))
+---
+year: 2020
+day: 14
+title: "Docking Data"
+slug: "2020/day/14"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 16 (2020)
-
-`Ticket Translation` ([prompt](https://adventofcode.com/2020/day/16))
+---
+year: 2020
+day: 16
+title: "Ticket Translation"
+slug: "2020/day/16"
+---
 
 ## Part 1
 

@@ -1,6 +1,9 @@
-# Day 20 (2022)
-
-`Grove Positioning System` ([prompt](https://adventofcode.com/2022/day/20))
+---
+year: 2022
+day: 20
+title: "Grove Positioning System"
+slug: "2022/day/20"
+---
 
 ## Part 1
 

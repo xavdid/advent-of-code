@@ -1,6 +1,9 @@
-# Day 24 (2020)
-
-`Lobby Layout` ([prompt](https://adventofcode.com/2020/day/24))
+---
+year: 2020
+day: 24
+title: "Lobby Layout"
+slug: "2020/day/24"
+---
 
 ## Part 1
 

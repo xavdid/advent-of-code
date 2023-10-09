@@ -1,6 +1,9 @@
-# Day 16 (2022)
-
-`Proboscidea Volcanium` ([prompt](https://adventofcode.com/2022/day/16))
+---
+year: 2022
+day: 16
+title: "Proboscidea Volcanium"
+slug: "2022/day/16"
+---
 
 ## Part 1
 

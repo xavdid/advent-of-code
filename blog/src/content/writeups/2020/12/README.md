@@ -1,6 +1,9 @@
-# Day 12 (2020)
-
-`Rain Risk` ([prompt](https://adventofcode.com/2020/day/12))
+---
+year: 2020
+day: 12
+title: "Rain Risk"
+slug: "2020/day/12"
+---
 
 ## Part 1
 

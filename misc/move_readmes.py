@@ -3,6 +3,7 @@ A script to rename directories for days 1-9 each year to include a padded 0.
 This ensures they'll sort as expected in all lists, especially on GitHub.
 """
 
+import re
 import subprocess
 from pathlib import Path
 
@@ -80,5 +81,40 @@ def leave_breadcrumbs():
                 print("empty folder??")
 
 
+def add_frontmatter_to_writeups():
+    for year in WRITEUPS_ROOT.iterdir():
+        if not year.is_dir():
+            continue
+        for day in year.iterdir():
+            if not day.is_dir():
+                continue
+            readme_path = Path(day / "README.md")
+            readme_content = readme_path.read_text()
+            if readme_content.startswith("---"):
+                continue
+            parts = readme_content.split("## Part 1", maxsplit=1)
+
+            if not (title := re.search(r"`(.*)`", parts[0])):
+                print("malformed README?", day)
+                continue
+
+            frontmatter = "\n".join(
+                [
+                    "---",
+                    f"year: {int(year.name)}",
+                    f"day: {int(day.name)}",
+                    f'title: "{title.group(1)}"',
+                    f'slug: "{int(year.name)}/day/{int(day.name)}"',
+                    "---",
+                    "",
+                    "## Part 1",
+                ]
+            )
+
+            result = "".join([frontmatter, parts[1]])
+
+            readme_path.write_text(result)
+
+
 if __name__ == "__main__":
-    leave_breadcrumbs()
+    add_frontmatter_to_writeups()

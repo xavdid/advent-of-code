@@ -1,6 +1,9 @@
-# Day 5 (2021)
-
-`Hydrothermal Venture` ([prompt](https://adventofcode.com/2021/day/5))
+---
+year: 2021
+day: 5
+title: "Hydrothermal Venture"
+slug: "2021/day/5"
+---
 
 ## Part 1
 
