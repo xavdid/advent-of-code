@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./Layout.astro";
 
-type Props = CollectionEntry<"solutions">["data"];
+type Props = CollectionEntry<"writeups">["data"];
 
 const { year, day } = Astro.props;
 

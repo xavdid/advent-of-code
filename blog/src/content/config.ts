@@ -2,7 +2,7 @@
 import { defineCollection, z } from "astro:content";
 
 // 2. Define a `type` and `schema` for each collection
-const solutions = defineCollection({
+const writeups = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(), // puzzle title
@@ -12,4 +12,4 @@ const solutions = defineCollection({
 });
 
 // 3. Export a single `collections` object to register your collection(s)
-export const collections = { solutions };
+export const collections = { writeups };

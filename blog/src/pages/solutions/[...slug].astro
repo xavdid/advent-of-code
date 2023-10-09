@@ -3,18 +3,18 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Solution from "../../layouts/Solution.astro";
 
 export async function getStaticPaths() {
-  const solutions = await getCollection("solutions");
-  return solutions.map((solution) => ({
-    params: { slug: solution.slug },
-    props: solution,
+  const writeups = await getCollection("writeups");
+  return writeups.map((writeup) => ({
+    params: { slug: writeup.slug },
+    props: writeup,
   }));
 }
-type Props = CollectionEntry<"solutions">;
+type Props = CollectionEntry<"writeups">;
 
-const solution = Astro.props;
-const { Content } = await solution.render();
+const writeup = Astro.props;
+const { Content } = await writeup.render();
 ---
 
-<Solution {...solution.data}>
+<Solution {...writeup.data}>
   <Content />
 </Solution>
