@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./Layout.astro";
+
+type Props = CollectionEntry<"solutions">["data"];
+
+const { year, day } = Astro.props;
+
+const title = `Advent of Code ${year} day ${day} Solution`;
+---
+
+<BaseLayout title={title}>
+  <article>
+    <div class="prose">
+      <div class="title">
+        <h1>{title}</h1>
+        <hr />
+      </div>
+      <slot />
+    </div>
+  </article>
+
+  <!-- <Footer /> -->
+</BaseLayout>

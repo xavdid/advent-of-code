@@ -1,0 +1,19 @@
+# make installed binaries available at the top level
+export PATH := "./node_modules/.bin:" + env_var('PATH')
+
+@_default:
+	just --list
+
+@dev:
+	astro dev
+
+# general purpose handler for anstro commands
+@astro *options="":
+	astro {{options}}
+
+@validate:
+	astro check
+# eslint?
+
+@build: validate
+	astro build
