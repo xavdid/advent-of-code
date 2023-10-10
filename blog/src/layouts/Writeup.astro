@@ -4,21 +4,25 @@ import BaseLayout from "./Layout.astro";
 
 type Props = CollectionEntry<"writeups">["data"];
 
-const { year, day } = Astro.props;
+const { year, day, title } = Astro.props;
 
-const title = `Advent of Code ${year} day ${day} Solution`;
+const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={writeupTitle}>
   <article>
     <div class="prose">
       <div class="title">
-        <h1>{title}</h1>
+        <h1>{writeupTitle}</h1>
         <hr />
+        <h3>
+          {title}
+        </h3>
+         (<a href={`https://adventofcode.com/${year}/day/${day}`}>prompt</a>)
       </div>
+
       <slot />
     </div>
   </article>
-
   <!-- <Footer /> -->
 </BaseLayout>

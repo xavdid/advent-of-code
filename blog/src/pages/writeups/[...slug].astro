@@ -1,11 +1,11 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Solution from "../../layouts/Solution.astro";
+import Writeup from "../../layouts/Writeup.astro";
 
 export async function getStaticPaths() {
   const writeups = await getCollection("writeups");
-  return writeups.map((writeup) => ({
-    params: { slug: writeup.slug },
+  return writeups.map(({ slug, ...writeup }) => ({
+    params: { slug },
     props: writeup,
   }));
 }
@@ -15,6 +15,6 @@ const writeup = Astro.props;
 const { Content } = await writeup.render();
 ---
 
-<Solution {...writeup.data}>
+<Writeup {...writeup.data}>
   <Content />
-</Solution>
+</Writeup>

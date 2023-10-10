@@ -1,0 +1,48 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Writeup from "../../layouts/Writeup.astro";
+import BaseLayout from "../../layouts/Layout.astro";
+
+type Writeup = CollectionEntry<"writeups">;
+
+// which pages to create and what data to pass to each page
+export async function getStaticPaths() {
+  const writeups = await getCollection("writeups");
+
+  const years = writeups.reduce((result, writeup) => {
+    if (!result.has(writeup.data.year)) {
+      result.set(writeup.data.year, []);
+    }
+
+    result.get(writeup.data.year)?.push(writeup);
+
+    return result;
+  }, new Map<number, Writeup[]>());
+
+  return [...years.entries()].map(([year, writeups]) => ({
+    params: { year },
+    props: {
+      year,
+      writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),
+    },
+  }));
+}
+type Props = { year: number; writeups: Writeup[] };
+
+const { year, writeups } = Astro.props;
+---
+
+<BaseLayout title={`Advent of Code - ${year}`}>
+  <h1>
+    Advent of Code - {year}
+  </h1>
+  <ul>
+    {
+      writeups.map((writeup) => (
+        <li>
+          Day {writeup.data.day}: {writeup.data.title}
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
