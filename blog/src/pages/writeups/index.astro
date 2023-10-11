@@ -5,11 +5,11 @@ import Writeup from "../../layouts/Writeup.astro";
 import BaseLayout from "../../layouts/Layout.astro";
 
 type Writeup = CollectionEntry<"writeups">;
-type Props = { year: number; writeups: Writeup[] };
+// type Props = { year: number; writeups: Writeup[] };
 
 // which pages to create and what data to pass to each page
 // : () => Promise< { params: { year: number }; props: Props }[] >
-export const getStaticPaths = async () => {
+const loadWriteups = async () => {
   const writeups = await getCollection("writeups");
 
   const years = writeups.reduce((result, writeup) => {
@@ -22,29 +22,31 @@ export const getStaticPaths = async () => {
     return result;
   }, new Map<number, Writeup[]>());
 
-  return [...years.entries()].map(([year, writeups]) => ({
-    params: { year },
-    props: {
+  return [...years.entries()]
+    .map(([year, writeups]) => ({
       year,
       writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),
-    },
-  }));
+    }))
+    .sort((a, b) => b.year - a.year);
 };
 
-const { year, writeups } = Astro.props;
+const writeups = await loadWriteups();
 ---
 
-<BaseLayout title={`Advent of Code - ${year}`}>
-  <h1>
-    Advent of Code - {year}
-  </h1>
-  <ul>
-    {
-      writeups.map(({ data: { day, title } }) => (
-        <li>
-          <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
-        </li>
-      ))
-    }
-  </ul>
+<BaseLayout title={`All Writeups`}>
+  <h1>All Writeups</h1>
+  {
+    writeups.map(({ year, writeups }) => (
+      <>
+        <p>{year}</p>
+        <ul>
+          {writeups.map(({ data: { day, title } }) => (
+            <li>
+              <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
+            </li>
+          ))}
+        </ul>
+      </>
+    ))
+  }
 </BaseLayout>
