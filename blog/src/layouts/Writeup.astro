@@ -16,7 +16,13 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
     <h1>
       {title}
     </h1>
-     (<a href={`https://adventofcode.com/${year}/day/${day}`}>prompt</a>)
+
+    <div class="info">
+      <a href={`https://adventofcode.com/${year}/day/${day}`} target="_blank"
+        >Original Prompt</a
+      >
+      <!-- <span> Concepts: Depth-First Search, Recursion, Pathfinding</span> -->
+    </div>
 
     <slot />
   </article>
@@ -36,8 +42,16 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
 </BaseLayout>
 
 <style>
+  h1,
+  .prompt {
+    text-align: center;
+  }
   .footer-links {
     display: flex;
     justify-content: space-between;
+  }
+  .info {
+    display: flex;
+    justify-content: space-around;
   }
 </style>

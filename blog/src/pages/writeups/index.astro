@@ -41,9 +41,9 @@ const writeups = await loadWriteups();
   {
     writeups.map(({ year, writeups }) => (
       <>
-        <p>
+        <h2>
           <a href={`/writeups/${year}`}> {year}</a>
-        </p>
+        </h2>
         <ul>
           {writeups.map(({ data: { day, title } }) => (
             <li>
