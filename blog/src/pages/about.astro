@@ -1,14 +1,13 @@
 ---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-  <main>
-    <h1>David's Advent of Code Solutions</h1>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur eaque
-      maxime doloribus iste fugit atque, et error. Quo tempora, quam autem optio
-      totam enim quasi asperiores labore, error obcaecati dolore.
-    </p>
-  </main>
+  <Breadcrumbs page="about" />
+  <p>
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur eaque
+    maxime doloribus iste fugit atque, et error. Quo tempora, quam autem optio
+    totam enim quasi asperiores labore, error obcaecati dolore.
+  </p>
 </Layout>

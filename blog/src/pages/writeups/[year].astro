@@ -4,12 +4,18 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Writeup from "../../layouts/Writeup.astro";
 import BaseLayout from "../../layouts/Layout.astro";
 
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+
 type Writeup = CollectionEntry<"writeups">;
 type Props = { year: number; writeups: Writeup[] };
 
 // which pages to create and what data to pass to each page
-// : () => Promise< { params: { year: number }; props: Props }[] >
-export const getStaticPaths = async () => {
+// this has to be typed separately until https://github.com/withastro/compiler/issues/554 is fixed
+type StaticPathResult = () => Promise<
+  { params: { year: number }; props: Props }[]
+>;
+
+export const getStaticPaths: StaticPathResult = async () => {
   const writeups = await getCollection("writeups");
 
   const years = writeups.reduce((result, writeup) => {
@@ -35,6 +41,7 @@ const { year, writeups } = Astro.props;
 ---
 
 <BaseLayout title={`Advent of Code - ${year}`}>
+  <Breadcrumbs path={["writeups"]} page={year} />
   <h1>
     Advent of Code - {year}
   </h1>

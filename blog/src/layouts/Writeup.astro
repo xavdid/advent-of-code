@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./Layout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 
 type Props = CollectionEntry<"writeups">["data"];
 
@@ -10,19 +11,33 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
 ---
 
 <BaseLayout title={writeupTitle}>
+  <Breadcrumbs path={["writeups", String(year)]} page={`Day ${day}`} />
   <article>
-    <div class="prose">
-      <div class="title">
-        <h1>{writeupTitle}</h1>
-        <hr />
-        <h3>
-          {title}
-        </h3>
-         (<a href={`https://adventofcode.com/${year}/day/${day}`}>prompt</a>)
-      </div>
+    <h1>
+      {title}
+    </h1>
+     (<a href={`https://adventofcode.com/${year}/day/${day}`}>prompt</a>)
 
-      <slot />
-    </div>
+    <slot />
   </article>
-  <!-- <Footer /> -->
+  <hr />
+  <div class="footer-links">
+    <a
+      href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
+        day
+      ).padStart(2, "0")}/solution.py`}
+      target="_blank">Full Solution</a
+    >
+    <a href="TKTK">RSS</a>
+    <a href="https://github.com/xavdid/advent-of-code-python-template"
+      >Python Template</a
+    >
+  </div>
 </BaseLayout>
+
+<style>
+  .footer-links {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>

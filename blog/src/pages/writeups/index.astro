@@ -4,6 +4,8 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Writeup from "../../layouts/Writeup.astro";
 import BaseLayout from "../../layouts/Layout.astro";
 
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+
 type Writeup = CollectionEntry<"writeups">;
 // type Props = { year: number; writeups: Writeup[] };
 
@@ -34,11 +36,14 @@ const writeups = await loadWriteups();
 ---
 
 <BaseLayout title={`All Writeups`}>
+  <Breadcrumbs page="writeups" />
   <h1>All Writeups</h1>
   {
     writeups.map(({ year, writeups }) => (
       <>
-        <p>{year}</p>
+        <p>
+          <a href={`/writeups/${year}`}> {year}</a>
+        </p>
         <ul>
           {writeups.map(({ data: { day, title } }) => (
             <li>
