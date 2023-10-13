@@ -7,11 +7,10 @@ import BaseLayout from "../../layouts/Layout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 
 type Writeup = CollectionEntry<"writeups">;
-// type Props = { year: number; writeups: Writeup[] };
+type Props = { year: number; writeups: Writeup[] };
 
 // which pages to create and what data to pass to each page
-// : () => Promise< { params: { year: number }; props: Props }[] >
-const loadWriteups = async () => {
+const loadWriteups: () => Promise<Props[]> = async () => {
   const writeups = await getCollection("writeups");
 
   const years = writeups.reduce((result, writeup) => {
