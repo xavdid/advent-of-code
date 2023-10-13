@@ -11,9 +11,18 @@ export PATH := "./node_modules/.bin:" + env_var('PATH')
 @astro *options="":
 	astro {{options}}
 
+# to any checks to ensure the site is ready to go
 @validate:
 	astro check
+	just test
 # eslint?
 
+# do a production build
 @build: validate
 	astro build
+
+@test:
+  vitest run
+
+@test-watch:
+  vitest watch

@@ -11,6 +11,7 @@ const { page, path } = Astro.props;
   <code class="location"
     ><a href="/">~</a>
     {
+      // path && is extraneous here, but TS likes it
       path?.map((segment, index) => {
         return (
           <span>

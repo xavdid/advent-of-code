@@ -1,11 +1,17 @@
 ---
 import "water.css/out/water.min.css";
 
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { pathToBreadcrumbs } from "../utils/pathTools";
+
 interface Props {
   title: string;
 }
 
-const { title } = Astro.props;
+// url is only available when this layout is used for markdown
+const { title, url } = Astro.props as Astro["props"] & { url?: string };
+
+const { page, path } = pathToBreadcrumbs(url);
 ---
 
 <!doctype html>
@@ -20,11 +26,14 @@ const { title } = Astro.props;
   </head>
   <body>
     <h2>
-      <a href="/">David's Advent of Code Solutions</a>
+      <a href="/">@xavdid does Advent of Code</a>
     </h2>
+
     <hr />
 
     <main>
+      <!-- this only renders on pure markdown pages -->
+      {page && <Breadcrumbs page={page} path={path} />}
       <slot />
     </main>
   </body>
