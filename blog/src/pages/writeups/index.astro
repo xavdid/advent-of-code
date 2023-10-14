@@ -1,17 +1,18 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 
 import Writeup from "../../layouts/Writeup.astro";
 import BaseLayout from "../../layouts/Layout.astro";
 
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { getPublishedWriteups } from "../../utils/collections";
 
 type Writeup = CollectionEntry<"writeups">;
 type Props = { year: number; writeups: Writeup[] };
 
 // which pages to create and what data to pass to each page
 const loadWriteups: () => Promise<Props[]> = async () => {
-  const writeups = await getCollection("writeups");
+  const writeups = await getPublishedWriteups();
 
   const years = writeups.reduce((result, writeup) => {
     if (!result.has(writeup.data.year)) {
