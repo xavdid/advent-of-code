@@ -19,7 +19,7 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
     </h1>
 
     <div class="info">
-      <span>Published: `{pub_date}`</span>
+      <span>Published: <code>{pub_date}</code></span>
       <a href={`https://adventofcode.com/${year}/day/${day}`} target="_blank"
         >Original Prompt</a
       >
@@ -34,9 +34,9 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
       href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
         day
       ).padStart(2, "0")}/solution.py`}
-      target="_blank">Full Solution</a
+      target="_blank">Complete Solution</a
     >
-    <a href="TKTK">RSS</a>
+    <!-- <a href="TKTK">RSS</a> -->
     <a href="https://github.com/xavdid/advent-of-code-python-template"
       >Use My Python Template</a
     >
@@ -50,7 +50,7 @@ const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
   }
   .footer-links {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .info {
     display: flex;
