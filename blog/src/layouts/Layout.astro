@@ -29,17 +29,25 @@ const { page, path } = pathToBreadcrumbs(url);
     <title>{title}</title>
   </head>
   <body>
-    <h2>
-      <a href="/">@xavdid does Advent of Code</a>
-    </h2>
-
-    <hr />
+    <header>
+      <h2 class="title">
+        <a href="/">@xavdid does Advent of Code</a>
+      </h2>
+    </header>
 
     <main>
       <!-- this only renders on pure markdown pages -->
       {page && <Breadcrumbs page={page} path={path} />}
       <slot />
     </main>
+
+    <footer>
+      Solutions and website by <a href="https://xavd.id">David Brownman</a>.
+      Puzzles by <a href="https://adventofcode.com">Advent of Code</a>. Blog is <a
+        href="https://github.com/xavdid/advent-of-code/tree/main/blog"
+        >Open Source</a
+      >; feel free to report any typos!
+    </footer>
   </body>
 </html>
 
@@ -51,7 +59,7 @@ const { page, path } = pathToBreadcrumbs(url);
   }
 </style>
 
-<!-- code blocks! global so it affects all rendered children -->
+<!-- global so it affects all rendered children, including markdown -->
 <style is:global>
   pre {
     padding: 1em;
@@ -72,5 +80,25 @@ const { page, path } = pathToBreadcrumbs(url);
       Bitstream Vera Sans Mono,
       Courier New,
       monospace;
+  }
+
+  main {
+    h2 {
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3:before {
+      content: "› ";
+    }
+
+    h2 > a,
+    h3 > a {
+      color: var(--text-main);
+      /* text-decoration: underline; */
+
+      &:hover {
+        border-bottom: 1px solid var(--text-main);
+      }
+    }
   }
 </style>
