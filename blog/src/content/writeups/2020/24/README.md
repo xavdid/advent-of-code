@@ -3,6 +3,7 @@ year: 2020
 day: 24
 title: "Lobby Layout"
 slug: "2020/day/24"
+pub_date: "2021-01-06"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2020
 day: 20
 title: "Jurassic Jigsaw"
 slug: "2020/day/20"
+pub_date: "2020-12-29"
 ---
 
 ## Part 1

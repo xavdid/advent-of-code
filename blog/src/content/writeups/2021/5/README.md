@@ -3,6 +3,7 @@ year: 2021
 day: 5
 title: "Hydrothermal Venture"
 slug: "2021/day/5"
+pub_date: "2021-12-05"
 ---
 
 ## Part 1

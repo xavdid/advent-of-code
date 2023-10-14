@@ -3,6 +3,7 @@ year: 2021
 day: 23
 title: "Amphipod"
 slug: "2021/day/23"
+pub_date: "2022-01-22"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 14
 title: "Extended Polymerization"
 slug: "2021/day/14"
+pub_date: "2021-12-17"
 ---
 
 ## Part 1

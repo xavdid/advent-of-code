@@ -3,6 +3,7 @@ year: 2022
 day: 15
 title: "Beacon Exclusion Zone"
 slug: "2022/day/15"
+pub_date: "2022-12-18"
 ---
 
 ## Part 1

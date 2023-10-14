@@ -3,6 +3,7 @@ year: 2022
 day: 1
 title: "Calorie Counting"
 slug: "2022/day/1"
+pub_date: "2022-12-01"
 ---
 
 ## Part 1

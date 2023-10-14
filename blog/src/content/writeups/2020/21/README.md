@@ -3,6 +3,7 @@ year: 2020
 day: 21
 title: "Allergen Assessment"
 slug: "2020/day/21"
+pub_date: "2020-12-30"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2022
 day: 22
 title: "Monkey Map"
 slug: "2022/day/22"
+pub_date: "2023-04-16"
 ---
 
 ## Part 1

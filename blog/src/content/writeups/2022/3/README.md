@@ -3,6 +3,7 @@ year: 2022
 day: 3
 title: "Rucksack Reorganization"
 slug: "2022/day/3"
+pub_date: "2022-12-03"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2020
 day: 14
 title: "Docking Data"
 slug: "2020/day/14"
+pub_date: "2020-12-15"
 ---
 
 ## Part 1

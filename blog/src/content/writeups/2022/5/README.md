@@ -3,6 +3,7 @@ year: 2022
 day: 5
 title: "Supply Stacks"
 slug: "2022/day/5"
+pub_date: "2022-12-06"
 ---
 
 ## Part 1

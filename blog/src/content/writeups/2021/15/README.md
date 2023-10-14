@@ -3,6 +3,7 @@ year: 2021
 day: 15
 title: "Chiton"
 slug: "2021/day/15"
+pub_date: "2021-12-18"
 ---
 
 ## Part 1

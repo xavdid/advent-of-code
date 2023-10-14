@@ -3,6 +3,7 @@ year: 2022
 day: 16
 title: "Proboscidea Volcanium"
 slug: "2022/day/16"
+pub_date: "2022-12-22"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 13
 title: "Transparent Origami"
 slug: "2021/day/13"
+pub_date: "2021-12-13"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 8
 title: "Seven Segment Search"
 slug: "2021/day/8"
+pub_date: "2021-12-09"
 ---
 
 ## Part 1

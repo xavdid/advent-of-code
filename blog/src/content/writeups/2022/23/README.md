@@ -3,6 +3,7 @@ year: 2022
 day: 23
 title: "Unstable Diffusion"
 slug: "2022/day/23"
+pub_date: "2023-07-25"
 ---
 
 ## Part 1

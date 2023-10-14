@@ -3,6 +3,7 @@ year: 2022
 day: 18
 title: "Boiling Boulders"
 slug: "2022/day/18"
+pub_date: "2022-12-31"
 ---
 
 ## Part 1

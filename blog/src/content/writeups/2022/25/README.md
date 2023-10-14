@@ -3,6 +3,7 @@ year: 2022
 day: 25
 title: "Full of Hot Air"
 slug: "2022/day/25"
+pub_date: "2023-08-03"
 ---
 
 ## Part 1

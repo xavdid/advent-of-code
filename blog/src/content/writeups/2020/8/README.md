@@ -3,6 +3,7 @@ year: 2020
 day: 8
 title: "Handheld Halting"
 slug: "2020/day/8"
+pub_date: "2020-12-09"
 ---
 
 ## Part 1

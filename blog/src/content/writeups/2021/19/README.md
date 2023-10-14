@@ -3,6 +3,7 @@ year: 2021
 day: 19
 title: "Beacon Scanner"
 slug: "2021/day/19"
+pub_date: "2022-03-06"
 ---
 
 ## Part 1

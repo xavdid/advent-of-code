@@ -3,6 +3,7 @@ year: 2021
 day: 10
 title: "Syntax Scoring"
 slug: "2021/day/10"
+pub_date: "2021-12-10"
 ---
 
 ## Part 1

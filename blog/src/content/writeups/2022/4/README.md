@@ -3,6 +3,7 @@ year: 2022
 day: 4
 title: "Camp Cleanup"
 slug: "2022/day/4"
+pub_date: "2022-12-04"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 16
 title: "Packet Decoder"
 slug: "2021/day/16"
+pub_date: "2021-12-22"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 17
 title: "Trick Shot"
 slug: "2021/day/17"
+pub_date: "2021-12-22"
 ---
 
 ## Part 1

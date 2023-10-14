@@ -3,6 +3,7 @@ year: 2020
 day: 4
 title: "Passport Processing"
 slug: "2020/day/4"
+pub_date: "2020-12-04"
 ---
 
 ## Part 1

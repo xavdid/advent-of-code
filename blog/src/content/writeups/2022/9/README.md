@@ -3,6 +3,7 @@ year: 2022
 day: 9
 title: "Rope Bridge"
 slug: "2022/day/9"
+pub_date: "2022-12-10"
 ---
 
 ## Part 1

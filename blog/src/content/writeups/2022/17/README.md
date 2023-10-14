@@ -3,6 +3,7 @@ year: 2022
 day: 17
 title: "Pyroclastic Flow"
 slug: "2022/day/17"
+pub_date: "2022-12-27"
 ---
 
 ## Part 1

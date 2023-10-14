@@ -3,6 +3,7 @@ year: 2022
 day: 6
 title: "Tuning Trouble"
 slug: "2022/day/6"
+pub_date: "2022-12-06"
 ---
 
 ## Part 1

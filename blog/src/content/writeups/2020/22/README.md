@@ -3,6 +3,7 @@ year: 2020
 day: 22
 title: "Crab Combat"
 slug: "2020/day/22"
+pub_date: "2020-12-31"
 ---
 
 ## Part 1

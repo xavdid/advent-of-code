@@ -3,6 +3,7 @@ year: 2021
 day: 6
 title: "Lanternfish"
 slug: "2021/day/6"
+pub_date: "2021-12-06"
 ---
 
 ## Part 1

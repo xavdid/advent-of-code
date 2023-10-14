@@ -3,6 +3,7 @@ year: 2022
 day: 13
 title: "Distress Signal"
 slug: "2022/day/13"
+pub_date: "2022-12-13"
 ---
 
 ## Part 1

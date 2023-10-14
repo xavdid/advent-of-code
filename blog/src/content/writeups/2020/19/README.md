@@ -3,6 +3,7 @@ year: 2020
 day: 19
 title: "Monster Messages"
 slug: "2020/day/19"
+pub_date: "2020-12-22"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2020
 day: 10
 title: "Adapter Array"
 slug: "2020/day/10"
+pub_date: "2020-12-10"
 ---
 
 ## Part 1

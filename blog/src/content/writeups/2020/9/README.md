@@ -3,6 +3,7 @@ year: 2020
 day: 9
 title: "Encoding Error"
 slug: "2020/day/9"
+pub_date: "2020-12-09"
 ---
 
 ## Part 1

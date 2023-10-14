@@ -3,6 +3,7 @@ year: 2021
 day: 24
 title: "Arithmetic Logic Unit"
 slug: "2021/day/24"
+pub_date: "2022-02-17"
 ---
 
 ## Part 1

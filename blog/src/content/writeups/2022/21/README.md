@@ -3,6 +3,7 @@ year: 2022
 day: 21
 title: "Monkey Math"
 slug: "2022/day/21"
+pub_date: "2023-02-02"
 ---
 
 ## Part 1

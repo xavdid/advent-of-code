@@ -3,6 +3,7 @@ year: 2020
 day: 18
 title: "Operation Order"
 slug: "2020/day/18"
+pub_date: "2020-12-21"
 ---
 
 ## Part 1

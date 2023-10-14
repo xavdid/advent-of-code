@@ -3,6 +3,7 @@ year: 2021
 day: 12
 title: "Passage Pathing"
 slug: "2021/day/12"
+pub_date: "2021-12-12"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 25
 title: "Sea Cucumber"
 slug: "2021/day/25"
+pub_date: "2022-03-03"
 ---
 
 ## Part 1

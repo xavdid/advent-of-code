@@ -3,6 +3,7 @@ year: 2020
 day: 6
 title: "Custom Customs"
 slug: "2020/day/6"
+pub_date: "2020-12-06"
 ---
 
 ## Part 1

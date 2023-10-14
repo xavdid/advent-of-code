@@ -3,6 +3,7 @@ year: 2021
 day: 3
 title: "Binary Diagnostic"
 slug: "2021/day/3"
+pub_date: "2021-12-03"
 ---
 
 ## Part 1

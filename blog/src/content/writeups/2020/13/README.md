@@ -3,6 +3,7 @@ year: 2020
 day: 13
 title: "Shuttle Search"
 slug: "2020/day/13"
+pub_date: "2020-12-15"
 ---
 
 ## Part 1

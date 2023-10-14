@@ -3,6 +3,7 @@ year: 2021
 day: 20
 title: "Trench Map"
 slug: "2021/day/20"
+pub_date: "2021-12-28"
 ---
 
 ## Part 1

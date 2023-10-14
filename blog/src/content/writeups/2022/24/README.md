@@ -3,6 +3,7 @@ year: 2022
 day: 24
 title: "Blizzard Basin"
 slug: "2022/day/24"
+pub_date: "2023-07-28"
 ---
 
 ## Part 1

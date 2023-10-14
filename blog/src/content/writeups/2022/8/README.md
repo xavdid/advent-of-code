@@ -3,6 +3,7 @@ year: 2022
 day: 8
 title: "Treetop Tree House"
 slug: "2022/day/8"
+pub_date: "2022-12-08"
 ---
 
 ## Part 1

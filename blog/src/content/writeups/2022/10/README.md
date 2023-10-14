@@ -3,6 +3,7 @@ year: 2022
 day: 10
 title: "Cathode-Ray Tube"
 slug: "2022/day/10"
+pub_date: "2022-12-11"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2020
 day: 23
 title: "Crab Cups"
 slug: "2020/day/23"
+pub_date: "2021-01-05"
 ---
 
 ## Part 1

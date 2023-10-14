@@ -3,6 +3,7 @@ year: 2022
 day: 2
 title: "Rock Paper Scissors"
 slug: "2022/day/2"
+pub_date: "2022-12-02"
 ---
 
 ## Part 1

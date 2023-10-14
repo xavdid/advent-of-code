@@ -3,6 +3,7 @@ year: 2022
 day: 19
 title: "Not Enough Minerals"
 slug: "2022/day/19"
+pub_date: "2023-07-31"
 ---
 
 ## Part 1

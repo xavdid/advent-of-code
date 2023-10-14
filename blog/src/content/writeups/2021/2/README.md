@@ -3,6 +3,7 @@ year: 2021
 day: 2
 title: "Dive!"
 slug: "2021/day/2"
+pub_date: "2021-12-02"
 ---
 
 ## Part 1

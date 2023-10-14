@@ -3,6 +3,7 @@ year: 2021
 day: 7
 title: "The Treachery of Whales"
 slug: "2021/day/7"
+pub_date: "2021-12-07"
 ---
 
 ## Part 1

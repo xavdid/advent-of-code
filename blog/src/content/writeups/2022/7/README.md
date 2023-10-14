@@ -3,6 +3,7 @@ year: 2022
 day: 7
 title: "No Space Left On Device"
 slug: "2022/day/7"
+pub_date: "2022-12-07"
 ---
 
 ## Part 1

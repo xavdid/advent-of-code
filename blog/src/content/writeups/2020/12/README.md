@@ -3,6 +3,7 @@ year: 2020
 day: 12
 title: "Rain Risk"
 slug: "2020/day/12"
+pub_date: "2020-12-12"
 ---
 
 ## Part 1

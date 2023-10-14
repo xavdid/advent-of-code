@@ -3,6 +3,7 @@ year: 2021
 day: 18
 title: "Snailfish"
 slug: "2021/day/18"
+pub_date: "2021-12-26"
 ---
 
 ## Part 1

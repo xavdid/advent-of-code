@@ -3,6 +3,7 @@ year: 2020
 day: 25
 title: "Combo Breaker"
 slug: "2020/day/25"
+pub_date: "2021-01-08"
 ---
 
 ## Part 1

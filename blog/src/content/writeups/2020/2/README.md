@@ -3,6 +3,7 @@ year: 2020
 day: 2
 title: "Password Philosophy"
 slug: "2020/day/2"
+pub_date: "2020-12-02"
 ---
 
 ## Part 1

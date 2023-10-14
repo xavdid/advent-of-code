@@ -3,6 +3,7 @@ year: 2021
 day: 4
 title: "Giant Squid"
 slug: "2021/day/4"
+pub_date: "2021-12-04"
 ---
 
 ## Part 1

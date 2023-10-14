@@ -3,6 +3,7 @@ year: 2021
 day: 22
 title: "Reactor Reboot"
 slug: "2021/day/22"
+pub_date: "2022-01-02"
 ---
 
 ## Part 1

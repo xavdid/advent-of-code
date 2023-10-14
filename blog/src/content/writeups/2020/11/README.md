@@ -3,6 +3,7 @@ year: 2020
 day: 11
 title: "Seating System"
 slug: "2020/day/11"
+pub_date: "2020-12-12"
 ---
 
 ## Part 1

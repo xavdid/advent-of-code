@@ -3,6 +3,7 @@ year: 2022
 day: 11
 title: "Monkey in the Middle"
 slug: "2022/day/11"
+pub_date: "2022-12-11"
 ---
 
 ## Part 1

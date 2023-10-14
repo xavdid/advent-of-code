@@ -3,6 +3,7 @@ year: 2022
 day: 14
 title: "Regolith Reservoir"
 slug: "2022/day/14"
+pub_date: "2022-12-15"
 ---
 
 ## Part 1

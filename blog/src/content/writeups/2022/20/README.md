@@ -3,6 +3,7 @@ year: 2022
 day: 20
 title: "Grove Positioning System"
 slug: "2022/day/20"
+pub_date: "2023-01-29"
 ---
 
 ## Part 1

@@ -3,6 +3,7 @@ year: 2021
 day: 1
 title: "Sonar Sweep"
 slug: "2021/day/1"
+pub_date: "2021-12-01"
 ---
 
 ## Part 1

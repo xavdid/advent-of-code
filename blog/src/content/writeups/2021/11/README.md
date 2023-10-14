@@ -3,6 +3,7 @@ year: 2021
 day: 11
 title: "Dumbo Octopus"
 slug: "2021/day/11"
+pub_date: "2021-12-11"
 ---
 
 ## Part 1

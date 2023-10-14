@@ -3,6 +3,7 @@ year: 2020
 day: 7
 title: "Handy Haversacks"
 slug: "2020/day/7"
+pub_date: "2020-12-08"
 ---
 
 ## Part 1

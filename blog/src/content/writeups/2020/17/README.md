@@ -3,6 +3,7 @@ year: 2020
 day: 17
 title: "Conway Cubes"
 slug: "2020/day/17"
+pub_date: "2020-12-19"
 ---
 
 ## Part 1

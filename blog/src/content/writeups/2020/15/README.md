@@ -3,6 +3,7 @@ year: 2020
 day: 15
 title: "Rambunctious Recitation"
 slug: "2020/day/15"
+pub_date: "2020-12-17"
 ---
 
 ## Part 1

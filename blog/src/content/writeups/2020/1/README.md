@@ -3,6 +3,7 @@ year: 2020
 day: 1
 title: "Report Repair"
 slug: "2020/day/1"
+pub_date: "2020-12-01"
 ---
 
 ## Part 1

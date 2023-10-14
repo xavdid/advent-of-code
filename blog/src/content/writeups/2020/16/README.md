@@ -3,6 +3,7 @@ year: 2020
 day: 16
 title: "Ticket Translation"
 slug: "2020/day/16"
+pub_date: "2020-12-19"
 ---
 
 ## Part 1

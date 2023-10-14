@@ -3,6 +3,7 @@ year: 2022
 day: 12
 title: "Hill Climbing Algorithm"
 slug: "2022/day/12"
+pub_date: "2022-12-13"
 ---
 
 ## Part 1

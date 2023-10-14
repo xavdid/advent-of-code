@@ -3,6 +3,7 @@ year: 2020
 day: 3
 title: "Toboggan Trajectory"
 slug: "2020/day/3"
+pub_date: "2020-12-03"
 ---
 
 ## Part 1

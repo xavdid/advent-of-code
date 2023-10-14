@@ -3,6 +3,7 @@ year: 2021
 day: 9
 title: "Smoke Basin"
 slug: "2021/day/9"
+pub_date: "2021-12-09"
 ---
 
 ## Part 1

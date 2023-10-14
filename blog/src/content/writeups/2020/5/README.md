@@ -3,6 +3,7 @@ year: 2020
 day: 5
 title: "Binary Boarding"
 slug: "2020/day/5"
+pub_date: "2020-12-05"
 ---
 
 ## Part 1
