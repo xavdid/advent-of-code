@@ -44,6 +44,14 @@ Posts assume readers have read all the previous ones from that year, so I won't 
 
 I _will_ typically explain more complex Python patterns, useful stdlib functions, and novel ways to approach the puzzle.
 
+## Methodology
+
+Typically I'll solve part 1 and write its half of the post before solving and writing part 2. This helps me write the same way other solvers will read- doing part 1 without knowing what part 2 is.
+
+Sometimes, I'll go back and clean up the part 1 solution or post to serve part 2 better. It may make the whole thing look like I totally knew what I was doing the whole time, but don't let me mislead you - I don't.
+
+Occasionally I don't know how to solve a day. In that case, I take to the [subreddit](https://old.reddit.com/r/adventofcode/) and find a solution I can understand. Then I walk through that solution like a regular post (with attribution) so I make sure I know how it works (and you can too!).
+
 ## Goals
 
 My overall goal with AoC is to improve as an engineer and as a writer. To that end, I try to write the code I'd like to read at work. It should be clear, maintainable, and at least a little documented; practice makes perfect, after all! When writing solutions, I keep a few overall goals in mind.

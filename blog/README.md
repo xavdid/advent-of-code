@@ -1,6 +1,6 @@
 # Advent of Code Blog
 
-TKTK
+This is a static site, built with [Astro](https://astro.build/), that houses my step-by-step explanations of Advent of Code puzzles. You can see it live at https://advent-of-code.xavd.id.
 
 ## Attributions
 
