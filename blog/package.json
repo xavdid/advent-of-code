@@ -5,6 +5,7 @@
   "dependencies": {
     "@astrojs/check": "0.2.0",
     "@astrojs/rss": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.1",
     "astro": "^3.2.4",
     "astro-seo": "0.8.0",
     "rehype-autolink-headings": "^7.0.0",

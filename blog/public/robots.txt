@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://advent-of-code.xavd.id/sitemap-index.xml
