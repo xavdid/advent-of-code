@@ -1,0 +1,67 @@
+---
+import { type CollectionEntry } from "astro:content";
+
+import BaseLayout from "../../layouts/Layout.astro";
+
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { getPublishedWriteups } from "../../utils/collections";
+
+type Writeup = CollectionEntry<"writeups">;
+type Props = { year: number; writeups: Writeup[] };
+
+// which pages to create and what data to pass to each page
+const loadWriteups: () => Promise<Props[]> = async () => {
+  const writeups = await getPublishedWriteups();
+
+  const years = writeups.reduce((result, writeup) => {
+    if (!result.has(writeup.data.year)) {
+      result.set(writeup.data.year, []);
+    }
+
+    result.get(writeup.data.year)?.push(writeup);
+
+    return result;
+  }, new Map<number, Writeup[]>());
+
+  return [...years.entries()]
+    .map(([year, writeups]) => ({
+      year,
+      writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),
+    }))
+    .sort((a, b) => b.year - a.year);
+};
+
+const writeups = await loadWriteups();
+---
+
+<BaseLayout
+  seo={{
+    title: "Every Advent of Code Puzzle, Explained",
+    description: "All of David's AoC Writeups, grouped by year.",
+  }}
+>
+  <Breadcrumbs page="writeups" />
+  <h1>All Writeups</h1>
+  {
+    writeups.map(({ year, writeups }) => (
+      <>
+        <h2>
+          <a href={`/writeups/${year}`}> {year}</a>
+        </h2>
+        <ul>
+          {writeups.map(({ data: { day, title } }) => (
+            <li>
+              <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
+            </li>
+          ))}
+        </ul>
+      </>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  h2 > a {
+    color: var(--links);
+  }
+</style>

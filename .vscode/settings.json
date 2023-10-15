@@ -6,6 +6,8 @@
   "explorer.excludeGitIgnore": false,
   "search.useIgnoreFiles": false,
   "files.exclude": {
-    ".ruff_cache": true
+    ".ruff_cache": true,
+    "blog/.astro": true,
+    "blog/dist": true
   }
 }

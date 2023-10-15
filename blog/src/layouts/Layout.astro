@@ -1,0 +1,179 @@
+---
+import "water.css/out/water.min.css";
+import { SEO, type Props as SEOProps } from "astro-seo";
+
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { pathToBreadcrumbs } from "../utils/pathTools";
+
+interface Props {
+  seo: {
+    title?: string;
+    description?: string;
+    pubDate?: string;
+  };
+}
+
+// url is only available when this layout is used for markdown directly
+const { url } = Astro.props as Astro["props"] & { url?: string };
+const { page, path } = pathToBreadcrumbs(url);
+
+const { seo = {} } = Astro.props;
+const title = seo.title ?? "@xavdid does Advent of Code";
+
+const groupedSeo: SEOProps = {
+  title,
+  description:
+    seo.description ??
+    "David's step-by-step Python solutions for Advent of Code.",
+  openGraph: {
+    basic: {
+      title,
+      type: seo.pubDate ? "article" : "website",
+      image: "https://advent-of-code.xavd.id/python-ascii-banner.png",
+    },
+    optional: {
+      siteName: "xavd.id",
+    },
+    image: {
+      type: "image/png",
+      width: 1920,
+      height: 1080,
+      alt: "An ASCII image of a Christmas tree and the Python logo, plus the words 'Advent of Code'",
+    },
+    article: seo.pubDate
+      ? {
+          publishedTime: seo.pubDate,
+        }
+      : undefined,
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!-- https://www.favicon.cc/?action=icon&file_id=1000870 -->
+    <link
+      href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAADtvYoAdUcWAAAAAAD/hAAARygGAP/+/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIiIiIiIiIiQiIiREREQiE0IiEzMzMxITNCIVUAAAEhMzQiEREREiITM0IiIiIiIiEzNCIiIiIiIhMzQiIiIiIiIQABIiIiIiIQABIiIiIiIQABIiIiIiIQABIiIiIiIQABIiIiIiIhVRIiIiIiIiFRIiIiIiIiIhIiIiIiIiL//wAA3wEAAI4AAACGAAAAgwEAAMH/AADg/wAA8H8AAPg/AADwfwAA4P8AAMH/AACD/wAAh/8AAI//AADf/wAA"
+      rel="icon"
+      type="image/x-icon"
+    />
+    <script
+      data-goatcounter="https://advent-of-code.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"></script>
+    <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <SEO {...groupedSeo} />
+  </head>
+  <body>
+    <header>
+      <h2 class="title">
+        <a href="/">@xavdid does Advent of Code</a>
+      </h2>
+    </header>
+
+    <main>
+      <!-- this only renders on pure markdown pages -->
+      {page && <Breadcrumbs page={page} path={path} />}
+      <slot />
+    </main>
+
+    <footer>
+      Solutions and website by <a
+        href="https://xavd.id"
+        target="_blank"
+        rel="noopener">David Brownman</a
+      >. Puzzles by <a
+        href="https://adventofcode.com"
+        target="_blank"
+        rel="noopener">Advent of Code</a
+      >. Posts in
+
+      <!-- RSS icon from wikipedia -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        id="RSSicon"
+        viewBox="0 0 8 8"
+        width="12"
+        height="12"
+      >
+        <title>RSS feed icon</title>
+        <style type="text/css">
+          .button {
+            stroke: none;
+            fill: orange;
+          }
+          .symbol {
+            stroke: none;
+            fill: white;
+          }
+        </style>
+        <rect class="button" width="8" height="8" rx="1.5"></rect>
+        <circle class="symbol" cx="2" cy="6" r="1"></circle>
+        <path class="symbol" d="m 1,4 a 3,3 0 0 1 3,3 h 1 a 4,4 0 0 0 -4,-4 z"
+        ></path>
+        <path class="symbol" d="m 1,2 a 5,5 0 0 1 5,5 h 1 a 6,6 0 0 0 -6,-6 z"
+        ></path>
+      </svg>
+      {" "}<a href="/rss.xml">RSS</a>. Code on <a
+        href="https://github.com/xavdid/advent-of-code/tree/main/blog"
+        target="_blank"
+        rel="noopener">GitHub</a
+      >.
+    </footer>
+    <style>
+      h2 {
+        margin: 0;
+        text-align: center;
+        /* text-decoration: underline; */
+      }
+    </style>
+
+    <!-- global so it affects all rendered children, including markdown -->
+    <style is:global>
+      pre {
+        padding: 1em;
+        border-radius: 5px;
+        border: 0.5px solid white;
+      }
+      pre > code {
+        /* defer to shiki for styling */
+        all: unset;
+      }
+      code {
+        font-family:
+          Menlo,
+          Monaco,
+          Lucida Console,
+          Liberation Mono,
+          DejaVu Sans Mono,
+          Bitstream Vera Sans Mono,
+          Courier New,
+          monospace;
+      }
+
+      main {
+        h2 {
+          border-bottom: 1px solid var(--border);
+        }
+
+        h3:before {
+          content: "› ";
+        }
+
+        h2 > a,
+        h3 > a {
+          color: var(--text-main);
+
+          &:hover {
+            border-bottom: 1px solid var(--text-main);
+          }
+        }
+      }
+    </style>
+  </body>
+</html>

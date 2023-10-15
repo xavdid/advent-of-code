@@ -1,0 +1,61 @@
+---
+import { type CollectionEntry } from "astro:content";
+
+import BaseLayout from "../../layouts/Layout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { getPublishedWriteups } from "../../utils/collections";
+
+type Writeup = CollectionEntry<"writeups">;
+type Props = { year: number; writeups: Writeup[] };
+
+// which pages to create and what data to pass to each page
+// this has to be typed separately until https://github.com/withastro/compiler/issues/554 is fixed
+type StaticPathResult = () => Promise<
+  { params: { year: number }; props: Props }[]
+>;
+
+export const getStaticPaths: StaticPathResult = async () => {
+  const writeups = await getPublishedWriteups();
+
+  const years = writeups.reduce((result, writeup) => {
+    if (!result.has(writeup.data.year)) {
+      result.set(writeup.data.year, []);
+    }
+
+    result.get(writeup.data.year)?.push(writeup);
+
+    return result;
+  }, new Map<number, Writeup[]>());
+
+  return [...years.entries()].map(([year, writeups]) => ({
+    params: { year },
+    props: {
+      year,
+      writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),
+    },
+  }));
+};
+
+const { year, writeups } = Astro.props;
+---
+
+<BaseLayout
+  seo={{
+    title: `Advent of Code ${year} - Full Explanations`,
+    description: `Step-by-step Python solutions for every puzzle in Advent of Code ${year}`,
+  }}
+>
+  <Breadcrumbs path={["writeups"]} page={year} />
+  <h1>
+    {year}'s Writeups
+  </h1>
+  <ul>
+    {
+      writeups.map(({ data: { day, title } }) => (
+        <li>
+          <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

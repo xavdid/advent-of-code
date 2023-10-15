@@ -1,0 +1,39 @@
+---
+type Props = {
+  page: string | number; // final, unlinked segment
+  path?: string[];
+};
+
+const { page, path } = Astro.props;
+---
+
+<div class="breadcrumbs">
+  <code class="location"
+    ><a href="/">~</a>
+    {
+      // path && is extraneous here, but TS likes it
+      path?.map((segment, index) => {
+        return (
+          <span>
+            / <a href={`/${path.slice(0, index + 1).join("/")}`}>{segment}</a>
+          </span>
+        );
+      })
+    }<span> / {page}</span>
+  </code>
+</div>
+
+<style>
+  .breadcrumbs {
+    text-align: center;
+    padding-top: 13px;
+  }
+  /* sizing the way I like requires font-family: Menlo */
+  .location {
+    border: 1px solid #cdcdcd;
+    padding: 5px;
+    @media (prefers-color-scheme: dark) {
+      background-color: #272822;
+    }
+  }
+</style>
