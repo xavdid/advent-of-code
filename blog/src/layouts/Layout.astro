@@ -6,7 +6,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { pathToBreadcrumbs } from "../utils/pathTools";
 
 interface Props {
-  seo?: {
+  seo: {
     title?: string;
     description?: string;
     pubDate?: string;
@@ -71,7 +71,7 @@ const groupedSeo: SEOProps = {
   <body>
     <header>
       <h2 class="title">
-        <a href="/">{title}</a>
+        <a href="/">@xavdid does Advent of Code</a>
       </h2>
     </header>
 
@@ -159,7 +159,6 @@ const groupedSeo: SEOProps = {
         h2 > a,
         h3 > a {
           color: var(--text-main);
-          /* text-decoration: underline; */
 
           &:hover {
             border-bottom: 1px solid var(--text-main);

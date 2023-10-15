@@ -1,7 +1,9 @@
 ---
-import { type CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
 import { getPublishedWriteups } from "../../utils/collections";
-import Writeup from "../../layouts/Writeup.astro";
+import BaseLayout from "../../layouts/Layout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 
 export async function getStaticPaths() {
   const writeups = await getPublishedWriteups();
@@ -14,8 +16,66 @@ type Props = CollectionEntry<"writeups">;
 
 const writeup = Astro.props;
 const { Content } = await writeup.render();
+const {
+  data: { year, day, title, pub_date },
+} = Astro.props;
+
+const writeupTitle = `Advent of Code ${year} Day ${day}: ${title}`;
 ---
 
+<BaseLayout
+  seo={{
+    title: writeupTitle,
+    description: `A step-by-step Python walkthrough for solving Advent of Code ${year} Day ${day}.`,
+    pubDate: pub_date,
+  }}
+>
+  <Breadcrumbs path={["writeups", String(year)]} page={`Day ${day}`} />
+  <article>
+    <h1>
+      {title}
+    </h1>
+
+    <div class="info">
+      <span>Published: <code>{pub_date}</code></span>
+      <a href={`https://adventofcode.com/${year}/day/${day}`} target="_blank"
+        >Original Prompt</a
+      >
+      <!-- <span> Concepts: Depth-First Search, Recursion, Pathfinding</span> -->
+    </div>
+
+    <Content />
+  </article>
+  <hr />
+  <div class="footer-links">
+    <a
+      href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
+        day
+      ).padStart(2, "0")}/solution.py`}
+      target="_blank">Published Solution</a
+    >
+    <a href="https://github.com/xavdid/advent-of-code-python-template"
+      >Use My Python Template</a
+    >
+  </div>
+</BaseLayout>
+
+<style>
+  h1,
+  .prompt {
+    text-align: center;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: space-around;
+  }
+  .info {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+
+<!--
 <Writeup {...writeup.data}>
   <Content />
-</Writeup>
+</Writeup> -->

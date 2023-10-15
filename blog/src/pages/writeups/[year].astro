@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry } from "astro:content";
 
-import Writeup from "../../layouts/Writeup.astro";
 import BaseLayout from "../../layouts/Layout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { getPublishedWriteups } from "../../utils/collections";
@@ -48,7 +47,7 @@ const { year, writeups } = Astro.props;
 >
   <Breadcrumbs path={["writeups"]} page={year} />
   <h1>
-    Advent of Code - {year}
+    {year}'s Writeups
   </h1>
   <ul>
     {
