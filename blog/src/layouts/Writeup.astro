@@ -8,10 +8,16 @@ type Props = CollectionEntry<"writeups">["data"];
 
 const { year, day, title, pub_date } = Astro.props;
 
-const writeupTitle = `Advent of Code ${year} day ${day} Solution`;
+const writeupTitle = `Advent of Code ${year} Day ${day}: ${title}`;
 ---
 
-<BaseLayout title={writeupTitle}>
+<BaseLayout
+  seo={{
+    title: writeupTitle,
+    description: `A step-by-step Python walkthrough for solving Advent of Code ${year} Day ${day}.`,
+    pubDate: pub_date,
+  }}
+>
   <Breadcrumbs path={["writeups", String(year)]} page={`Day ${day}`} />
   <article>
     <h1>

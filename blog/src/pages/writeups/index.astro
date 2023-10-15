@@ -35,7 +35,12 @@ const loadWriteups: () => Promise<Props[]> = async () => {
 const writeups = await loadWriteups();
 ---
 
-<BaseLayout title={`All Writeups`}>
+<BaseLayout
+  seo={{
+    title: "Every Advent of Code Puzzle, Explained",
+    description: "All of David's AoC Writeups, grouped by year.",
+  }}
+>
   <Breadcrumbs page="writeups" />
   <h1>All Writeups</h1>
   {

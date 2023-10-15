@@ -40,7 +40,12 @@ export const getStaticPaths: StaticPathResult = async () => {
 const { year, writeups } = Astro.props;
 ---
 
-<BaseLayout title={`Advent of Code - ${year}`}>
+<BaseLayout
+  seo={{
+    title: `Advent of Code ${year} - Full Explanations`,
+    description: `Step-by-step Python solutions for every puzzle in Advent of Code ${year}`,
+  }}
+>
   <Breadcrumbs path={["writeups"]} page={year} />
   <h1>
     Advent of Code - {year}
