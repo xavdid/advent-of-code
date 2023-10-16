@@ -156,12 +156,15 @@ const groupedSeo: SEOProps = {
           content: "› ";
         }
 
-        h2 > a,
-        h3 > a {
+        h2 > a:not(.no-anchor),
+        h3 > a:not(.no-anchor) {
           color: var(--text-main);
 
           &:hover {
-            border-bottom: 1px solid var(--text-main);
+            text-decoration: none;
+            &:after {
+              content: " #";
+            }
           }
         }
       }

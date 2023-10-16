@@ -21,3 +21,7 @@ _require-venv:
 # run every solution for a given year
 @validate year:
 	for i in $(seq 1 25); do ./advent $i --slow --year {{year}}; done;
+
+# run the dev server for the blog
+@dev:
+  just --justfile blog/justfile dev

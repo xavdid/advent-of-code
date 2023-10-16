@@ -46,7 +46,10 @@ const writeups = await loadWriteups();
     writeups.map(({ year, writeups }) => (
       <>
         <h2>
-          <a href={`/writeups/${year}`}> {year}</a>
+          <a class="no-anchor" href={`/writeups/${year}`}>
+            {" "}
+            {year}
+          </a>
         </h2>
         <ul>
           {writeups.map(({ data: { day, title } }) => (
