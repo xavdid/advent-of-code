@@ -1,3 +1,4 @@
+// currently unused
 export const pathToBreadcrumbs = (
   url?: string
 ): { page: string; path?: string[] } => {

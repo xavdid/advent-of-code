@@ -14,7 +14,8 @@ export PATH := "./node_modules/.bin:" + env_var('PATH')
 # to any checks to ensure the site is ready to go
 @validate:
 	astro check
-	just test
+# don't need to test, since the only test so far is for an unused function
+# just test
 # eslint?
 
 # do a production build

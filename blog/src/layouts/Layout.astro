@@ -2,9 +2,6 @@
 import "water.css/out/water.min.css";
 import { SEO, type Props as SEOProps } from "astro-seo";
 
-import Breadcrumbs from "../components/Breadcrumbs.astro";
-import { pathToBreadcrumbs } from "../utils/pathTools";
-
 interface Props {
   seo: {
     title?: string;
@@ -12,10 +9,6 @@ interface Props {
     pubDate?: string;
   };
 }
-
-// url is only available when this layout is used for markdown directly
-const { url } = Astro.props as Astro["props"] & { url?: string };
-const { page, path } = pathToBreadcrumbs(url);
 
 const { seo = {} } = Astro.props;
 const title = seo.title ?? "@xavdid does Advent of Code";
@@ -77,8 +70,6 @@ const groupedSeo: SEOProps = {
     </header>
 
     <main>
-      <!-- this only renders on pure markdown pages -->
-      {page && <Breadcrumbs page={page} path={path} />}
       <slot />
     </main>
 
