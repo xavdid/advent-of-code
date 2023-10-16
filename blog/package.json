@@ -3,10 +3,10 @@
   "type": "module",
   "version": "1.0.0",
   "dependencies": {
-    "@astrojs/check": "0.2.0",
+    "@astrojs/check": "0.2.1",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.1",
-    "astro": "^3.2.4",
+    "astro": "^3.3.0",
     "astro-seo": "0.8.0",
     "rehype-autolink-headings": "^7.0.0",
     "typescript": "^5.2.2",
