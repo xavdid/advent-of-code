@@ -1,0 +1,87 @@
+---
+import { getEntry } from "astro:content";
+interface Props {
+  day: number;
+  year: number;
+}
+
+const { day, year } = Astro.props;
+const prevSlug = `${year}/day/${day - 1}`;
+const nextSlug = `${year}/day/${day + 1}`;
+
+const prev = await getEntry("writeups", prevSlug);
+const next = await getEntry("writeups", nextSlug);
+---
+
+<div class="footer-nav">
+  {
+    prev && (
+      <a href={`/writeups/${prevSlug}`} class="prev">
+        ❮ Day {day - 1}
+      </a>
+    )
+  }
+  <a
+    href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
+      day
+    ).padStart(2, "0")}/solution.py`}
+    target="_blank"
+    rel="noopener"
+    class="solution center">Published Solution</a
+  >
+  <a href={`/writeups/${year}`} class="back-to-year center">Back to {year}</a>
+  <a
+    href="https://github.com/xavdid/advent-of-code-python-template"
+    target="_blank"
+    rel="noopener"
+    class="template center">My Python Template</a
+  >
+
+  {
+    next && (
+      <a href={`/writeups/${nextSlug}`} class="next right">
+        Day {day + 1} ❯
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .prev {
+    grid-area: prev;
+  }
+  .solution {
+    grid-area: solution;
+  }
+  .template {
+    grid-area: template;
+  }
+  .back-to-year {
+    grid-area: back-to-year;
+  }
+  .next {
+    grid-area: next;
+  }
+
+  .center {
+    text-align: center;
+  }
+  .right {
+    text-align: right;
+  }
+
+  .footer-nav {
+    display: grid;
+    row-gap: 10px;
+    grid-template-areas:
+      "prev prev back-to-year back-to-year next next"
+      "solution solution solution template template template";
+  }
+  @media (min-width: 650px) {
+    .footer-nav {
+      /* always lock to 5 columns, even if some aren't rendered */
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-areas: "prev solution back-to-year template next";
+    }
+  }
+</style>

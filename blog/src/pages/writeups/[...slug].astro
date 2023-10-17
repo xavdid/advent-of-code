@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPublishedWriteups } from "../../utils/collections";
 import BaseLayout from "../../layouts/Layout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import NavControls from "../../components/NavControls.astro";
 
 export const getStaticPaths = async () => {
   const writeups = await getPublishedWriteups();
@@ -47,29 +48,12 @@ const writeupTitle = `Advent of Code ${year} Day ${day}: ${title}`;
     <Content />
   </article>
   <hr />
-  <div class="footer-links">
-    <a
-      href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
-        day
-      ).padStart(2, "0")}/solution.py`}
-      target="_blank">Published Solution</a
-    >
-    <a
-      href="https://github.com/xavdid/advent-of-code-python-template"
-      target="_blank"
-      rel="noopener">Use My Python Template</a
-    >
-  </div>
+  <NavControls day={day} year={year} />
 </BaseLayout>
 
 <style>
-  h1,
-  .prompt {
+  h1 {
     text-align: center;
-  }
-  .footer-links {
-    display: flex;
-    justify-content: space-around;
   }
   .info {
     display: flex;
