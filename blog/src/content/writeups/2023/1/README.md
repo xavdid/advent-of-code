@@ -67,7 +67,7 @@ NUMBERS = {
 
 And in our calibration function, we replace all instances of each word with its digit:
 
-```py
+```py ins=", replace_nums=False" add={2-4}
 def calculate_calibration(s: str, replace_nums=False) -> int:
     if replace_nums:
         for num, digit in NUMBERS.items():
@@ -82,12 +82,14 @@ Taking a closer look at the examples, we see a couple of test cases for which th
 
 So, when doing our replacements we _can't_ destroy any overlaps. A quick read shows us that two number names can only overlap by a single letter (that is, there's no names whose last 2 letters are the start of another number). So, when replacing words, we have to do so in a way that doesn't change their first or last letters in the string (while still adding the digit). Once we've thought it through that way, it's easy enough:
 
-```py
+```py add="f"{num[0]}{digit}{num[-1]}""
 def calculate_calibration(s: str, replace_nums=False) -> int:
     if replace_nums:
         for num, digit in NUMBERS.items():
             # don't remove the word, since some words are used twice
             s = s.replace(num, f"{num[0]}{digit}{num[-1]}")
+
+    ...
 ```
 
 Now our replacement of `eightwothree` goes:
