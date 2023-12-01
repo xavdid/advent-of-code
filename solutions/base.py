@@ -291,8 +291,9 @@ def answer(
             # only assert the answer for non-test data
             if not self.use_test_data and result is not None:
                 if result != expected:
+                    _, year, day, _ = self.__module__.split(".")
                     raise AoCException(
-                        f"Failed @answer assertion for {self.__module__}.Solution.{func.__name__}:\n  returned: {result}\n  expected: {expected}"
+                        f"Failed @answer assertion for {year} / {day} / {func.__name__}:\n  returned: {result}\n  expected: {expected}"
                     )
             return result
 
