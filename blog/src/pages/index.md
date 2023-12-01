@@ -7,9 +7,10 @@ layout: "../layouts/Layout.astro"
 <pre>
 ~
 └── <a href="/writeups">writeups</a>
+    ├── <a href="/writeups/2023">2023</a>
     ├── <a href="/writeups/2022">2022</a>
     ├── <a href="/writeups/2021">2021</a>
-    └── <a href="/writeups/2020">2020</a>
+    └── ...
 </pre>
 
 ## About
