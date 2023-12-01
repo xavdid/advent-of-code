@@ -40,6 +40,15 @@ if __name__ == "__main__":
     day_dir.mkdir(parents=True, exist_ok=True)
     Path(day_dir, "input.txt").touch()
     Path(day_dir, "input.test.txt").touch()
+    Path(day_dir, "README.md").write_text(
+        "\n".join(
+            [
+                f"# {year} Day {day}",
+                "",
+                f"For a full explanation of this code, check out https://advent-of-code.xavd.id/writeups/{year}/day/{day}",
+            ]
+        )
+    )
 
     writeup_folder = Path("blog", "src", "content", "writeups", str(year), str(day))
     writeup_folder.mkdir(parents=True, exist_ok=True)
