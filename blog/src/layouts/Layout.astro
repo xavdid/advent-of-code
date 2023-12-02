@@ -56,7 +56,7 @@ const groupedSeo: SEOProps = {
     <script
       data-goatcounter="https://advent-of-code.goatcounter.com/count"
       async
-      src="//gc.zgo.at/count.js"></script>
+      src="https://gc.zgo.at/count.js"></script>
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -137,10 +137,6 @@ const groupedSeo: SEOProps = {
         border-radius: 5px;
         border: 0.5px solid white;
       }
-      pre > code {
-        /* defer to shiki for styling */
-        all: unset;
-      }
       code {
         font-family:
           Menlo,
@@ -172,6 +168,17 @@ const groupedSeo: SEOProps = {
               content: " #";
             }
           }
+        }
+
+        /* for plain markdown images */
+        & p:has(img) {
+          /* doesn't work in firefox as of 2023-12-02, but is coming soon */
+          /* https://developer.mozilla.org/en-US/docs/Web/CSS/:has */
+          text-align: center;
+        }
+        /* for images with captions */
+        & figure {
+          text-align: center;
         }
       }
     </style>

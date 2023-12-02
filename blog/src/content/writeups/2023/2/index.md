@@ -34,7 +34,10 @@ We haven't written our actual condition check yet, but we have a rough outline o
 
 Now for the good stuff. We need to extract each count & color pair from the rest of each line. At first, I was splitting by semi-colon and then splitting and iterating again, but no part of the puzzle actually requires differentiating between each set of marbles. We only care that each number is under a certain value (based on its color). Extracting values out of structured text is exactly what [regular expressions](https://realpython.com/regex-python/) (or regex) are useful for, so we'll start there!
 
-![https://xkcd.com/1171/](https://imgs.xkcd.com/comics/perl_problems.png)
+<figure>
+  <img src="https://imgs.xkcd.com/comics/perl_problems.png" />
+  <figcaption><a href="https://xkcd.com/1171/">obligatory xkcd</a></figcaption>
+</figure>
 
 A lot of people are intimidated or scared of regex, but they're one of the most useful tools in a programmer's arsenal.
 
@@ -99,7 +102,7 @@ Part 2 is very similar, except we have different data to track. For each row, we
 
 For each line, we'll store the larger of the previous value or the new one. We could use `.get(color, 0)` to easily handle missing keys, but Python's `collections.defaultdict` cleans this code up a bit (by returning `0` instead of a `KeyError` when you ask for a missing key). Here's our part 2 solution:
 
-```py {3-5, 15,18,20}
+```py ins={3-5, 15,18,20}
 ...
 
 from collections import defaultdict
