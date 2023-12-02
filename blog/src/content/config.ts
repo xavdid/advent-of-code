@@ -10,6 +10,7 @@ const writeups = defineCollection({
     year: z.number().gte(2015),
     pub_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     draft: z.optional(z.boolean()), // basically true or undefined
+    concepts: z.optional(z.array(z.string())), // basically true or undefined
   }),
 });
 

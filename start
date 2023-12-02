@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     writeup_folder = Path("blog", "src", "content", "writeups", str(year), str(day))
     writeup_folder.mkdir(parents=True, exist_ok=True)
-    notes_path = writeup_folder / "README.md"
+    notes_path = writeup_folder / "index.md"
     if not notes_path.exists():
         notes_path.write_text(
             "\n".join(
