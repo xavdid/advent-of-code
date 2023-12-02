@@ -68,7 +68,7 @@ Do you notice some patterns? Here's what jumped out to me:
 
 Before we worry about snafu, let's write a straight base 10 -> base 5 converter. This is a pretty well-known algorithm and I found [this great example generator](https://madformath.com/calculators/basic-math/base-converters/decimal-to-base-5-converter-with-steps/decimal-to-base-5-converter-with-steps) (which lets you paste in your own numbers). Here's the steps for converting `2022`:
 
-![](https://cdn.zappy.app/d8d01603ae7c489f1be4151829f075af.png)
+![](./images/base-5-conversions.png)
 
 To convert to base-5, we divide the number by 5 and keep the remainder for an answer. Then, we divide whatever wasn't part of the remainder by 5, take the remainder, and so on. Here's a simple implementation of that using the new-to-me `divmod` function ([docs](https://docs.python.org/3/library/functions.html#divmod)):
 

@@ -33,7 +33,7 @@ class Instruction:
 
 Remember - `dataclass`es are a simple version of a Python `class` that specialize in holding data. You can add methods just like a normal class, but a nice `__init__` method is created for you:
 
-![](https://cdn.zappy.app/753a0dfbd3c48b27dd0b11543c299847.png)
+![](./images/dataclass-init.png)
 
 We're also worried about infinite loops, so let's add a custom `Exception` we can catch:
 

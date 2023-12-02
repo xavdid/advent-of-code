@@ -176,6 +176,12 @@ const groupedSeo: SEOProps = {
           /* https://developer.mozilla.org/en-US/docs/Web/CSS/:has */
           text-align: center;
         }
+        & p > img {
+          @media (min-width: 768px) {
+            /* shrink images on desktop */
+            max-width: 60%;
+          }
+        }
         /* for images with captions */
         & figure {
           text-align: center;

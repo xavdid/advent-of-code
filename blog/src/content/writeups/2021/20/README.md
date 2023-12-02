@@ -10,9 +10,7 @@ pub_date: "2021-12-28"
 
 I was so confident. I read this prompt through and felt right away like I knew how to do it. All I needed was a `set` to store the points where were illuminated. On each [enhancement](https://www.youtube.com/watch?v=3uoM5kfZIQ0), I could iterate the list of illuminated pixels and calculate their new value. I'd also need to calculate any for any pixel that _neighbored_ an illuminated pixel. If your 3x3 grid has no `#`, then you can't turn on, so it can be safely ignored. Coded it up, passed the sample input and... failed my puzzle input. That's unusual. I stepped through the sample and it did exactly what it was supposed to. Out of frustration, I took to reddit and searched recent posts with `day 20`, hoping for a hint (can usually find people asking for help rather than going straight to the solutions thread). I came across [this post](https://old.reddit.com/r/adventofcode/comments/rkpdlv/2021_day_20_me_right_now_reading_the_problem/), which made me laugh and cry at the same time:
 
-<p align="center">
-    <img src="images/meme.png" width="400" />
-</p>
+![](./images//meme.png)
 
 In the sample, the enhancement algorithm started with a `.`, meaning 9 dots (out in infinite space somewhere) would always stay a `0`. But, in my (and it turns out, everyone's) puzzle input, the string started with `#`. As a result, the infinite field turns on every other step. Luckily, the puzzle is asking about an odd step, so the field will be dark. But, that means pixels that border the infinite have to account for unknown pixels sometimes being `#` instead of always being `.`. Well played, puzzle creator.
 

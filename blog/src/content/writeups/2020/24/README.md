@@ -12,7 +12,7 @@ The only real curveball today is the hex grid. Though we [know it to be the best
 
 Like I mentioned, this was my first time using hexes in a program. We can define the points however we want as long as we're consistent about it. I turned to an expert on the subject, Amit Patel, and his blog, Red Blob Games. It's a great resource for algorithms in videogames (and a great place to learn, even if you're not writing a game). He's written the veritable bible on hex grids. The whole thing is great, but [this is the pertinent bit](https://www.redblobgames.com/grids/hexagons/#coordinates-cube). He describes a system where each point is expressed as `(x, y, z)` and for any point, `x + y + z == 0`. He's included a helpful diagram:
 
-[![](https://cdn.zappy.app/cf7adabc866493c42ddd7ac9ef221ee9.png)](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
+![](./images/hexagons.png)
 
 You can click through to his site, as the diagram itself is interactive. It's a great way to visualize the grid we're about to write.
 

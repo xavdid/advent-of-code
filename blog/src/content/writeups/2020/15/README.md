@@ -57,7 +57,7 @@ for turn in range(len(self.input), length):
 
 Let's run it:
 
-![](https://cdn.zappy.app/a18ce7e7aeaecb181736cb8e9440668b.gif)
+![](./images/running.gif)
 
 We're making pretty consistent progress! It's not an infinite loop or anything, it's just that 30M loops is a lot. It's interesting that printing certain numbers takes longer. That shows that we're not running in constant time. Something in our program gets slower the more loops it does. Let's profile it and check out what that might be.
 

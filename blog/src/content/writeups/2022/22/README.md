@@ -395,11 +395,11 @@ All good so far? Make sure you really understand what's going on here because we
 
 I really got in my head about being able to tell which side of the cube was "up" and how to fold the cube out of an arbitrary 2D shape. Luckily, it turns out to be much simpler than that. We know that every face of the cube touches at least one other in the map. We also know that on a cube, each face touches exactly 4 others (e.g. the top face shares an edge with all other faces besides the bottom). Given that, we can pick an arbitrary face in our 2D map, decide it's the top of the cube, and assign a direction for the face that it touches. Let's look at our input again:
 
-![](https://cdn.zappy.app/530acb1e04cd2333dcfce06e45ad5bd8.png)
+![](./images/flag-cube.png)
 
 Each face is labeled with its index in the `faces` list and has been colored for convenience. The blue `0` face is the first one, and it's touching the pink `3` face. So, let's decide `0` is the `top` of the cube and that its `east` side is the `right` cube face. By extension, we also know which faces are in its other cardinal directions (but we don't yet know which indexes map to those `CubeFaces`):
 
-![](https://cdn.zappy.app/ca8949c897b5d75da56f3883b9254e57.png)
+![](./images/cube-faces-1.png)
 
 Nevertheless, we can deduce that the `north` side of `0` is `back`, `west` is `left`, and `south` is `front`. We can code up and store that info; we'll add some types and lists to help us keep things straight. Compass directions (`east`, etc) will always refer to the 2D map, while other directional words refer to sides of the cubes based on the orientation we declared when we made face `0` the `top`:
 
@@ -546,7 +546,7 @@ Which describes face `0`'s position in the map. Then we check each cardinal dire
 
 When we're done, every element of `self.faces` has a full `neighbors` and `cube_position` value, giving us a fully folded cube:
 
-![](https://cdn.zappy.app/7da20ffcef69579d1c331e32074ab347.png)
+![](./images/rotations.png)
 
 This shows the folded cube being rotated clockwise from its initial position (`3` on the `front`). The green `4` is the `bottom` face and is never visible during this rotation.
 
@@ -610,7 +610,7 @@ Home stretch now! We have to handle what happens when we cross an edge. There's 
 
 Kindly, the example covers both of these cases right away:
 
-![](https://cdn.zappy.app/573cc09c0a52c9d6eeeba832da9e7bb8.png)
+![](./images/ascii-map.png)
 
 When traveling south from face `0` to `3`, we're on a new face but still facing south. When we move `east` from `3`, we know we've landed on `5` but are clearly moving a different direction.
 

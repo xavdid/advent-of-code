@@ -186,7 +186,7 @@ list(zip(*lines.split('\n')))
 
 Which is _mostly_ usable, though there are a couple of issues. Firstly, our lines are backwards- the number is all the way on the right and the letters are in the reverse order of how we're stacking boxes (bottom is on the left). That's fixable, we can reverse the lines before we zip. More importantly, we seem to have lost a column!
 
-![](https://api.memegen.link/images/gru/Split_the_lines/Rotate_the_lines/Shortest_column_is_gone/Shortest_column_is_gone.png)
+![](./images/rotate-meme.png)
 
 That's because `zip` stops as soon as _any_ of the iterables end:
 
