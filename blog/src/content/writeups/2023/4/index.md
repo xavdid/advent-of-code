@@ -90,7 +90,7 @@ This was on the right track, but didn't solve the example yet. There were 2 bugs
 
 Luckily, these are both easy fixes:
 
-```py ins={9} ins="* num_copies[card_id]"
+```py ins={9} ins="num_copies[card_id]"
 ...
 
 class Solution(StrSplitSolution):
