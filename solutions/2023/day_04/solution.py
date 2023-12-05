@@ -25,12 +25,12 @@ class Solution(StrSplitSolution):
 
     @answer(10212704)
     def part_2(self) -> int:
-        num_copies: defaultdict[int, int] = defaultdict(lambda: 1)
+        num_copies: defaultdict[int, int] = defaultdict(int)
 
         for idx, line in enumerate(self.input):
             card_id = idx + 1  # 1-index our card numbers!
-            # initialize self in defaultdict if we're not there
-            num_copies[card_id]
+
+            num_copies[card_id] += 1
             num_winners = count_winning_numbers(line)
 
             for c in range(card_id + 1, card_id + 1 + num_winners):

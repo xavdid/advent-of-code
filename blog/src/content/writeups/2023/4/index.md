@@ -49,7 +49,7 @@ return sum(
 
 I had to read this prompt 3 times and I still didn't quite follow it. When I get to that point, I just start implementing the steps in the prompt very literally and see where it gets me, which ended up working on this one.
 
-To start off, we'll need to track the number of copies we have of each card. It starts at `1`, will go up when previous cards add copies. We'll use a `defaultdict` for that, but our initializer function will return `1` instead of `0`:
+To start off, we'll need to track the number of copies we have of each card. It starts at `1`, will go up when previous cards add copies. We'll use a `defaultdict` for that so we can increment without checking membership first:
 
 ```py
 from collections import defaultdict
@@ -58,7 +58,7 @@ from collections import defaultdict
 
 class Solution(StrSplitSolution):
     def part_1(self) -> int:
-        num_copies: defaultdict[int, int] = defaultdict(lambda: 1)
+        num_copies: defaultdict[int, int] = defaultdict(int)
 ```
 
 For each card, the N _next_ cards each get a copy for each winner on that card. So we'll count our winners (same as before) and use that as the far end of a `range`:
@@ -90,7 +90,7 @@ This was on the right track, but didn't solve the example yet. There were 2 bugs
 
 Luckily, these are both easy fixes:
 
-```py ins={9} ins="num_copies[card_id]"
+```py ins={9} ins="num_copies[card_id] += 1"
 ...
 
 class Solution(StrSplitSolution):
@@ -99,7 +99,8 @@ class Solution(StrSplitSolution):
 
         for idx, line in enumerate(self.input):
             card_id = idx + 1  # 1-index our card numbers!
-            num_copies[card_id] # initialize our current id if it's not there
+
+            num_copies[card_id] += 1
             num_winners = count_winning_numbers(line)
 
             # start after our current id and go for `num_winners` more cards
@@ -109,7 +110,7 @@ class Solution(StrSplitSolution):
         ...
 ```
 
-1. When we calculate winners for each card, we also add it to the dict if it's not there already. Reading a key and ignoring it looks a little weird, but it ensures we're using our `defaultdict`'s initializer. If we manually assigned `1`, then it becomes important that that assignment stay in sync with whatever the `defaultdict` is doing. Another option I considered was using a regular dict with a lot of `.get` calls, but that ended up being way more code for little benefit.
+1. When we calculate winners for each card, we also add it to the dict if it's not there already.
 2. We switched to multiplication! Instead of incrementing by 1, we increment based on the number of copies of the current card.
 
 And that'll do it! These puzzles have been all over the place with the amount of code required, but hey, [puzzle difficulty is tricky](https://old.reddit.com/r/adventofcode/comments/7idn6k/question_why_does_the_difficulty_vary_so_much/dqy08tk/)!
