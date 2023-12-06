@@ -3,7 +3,7 @@ year: 2023
 day: 5
 title: "If You Give A Seed A Fertilizer"
 slug: 2023/day/5
-pub_date: "2023-12-04"
+pub_date: "2023-12-05"
 ---
 
 ## Part 1
