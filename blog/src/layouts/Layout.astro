@@ -3,7 +3,7 @@ import "water.css/out/water.min.css";
 import { SEO, type Props as SEOProps } from "astro-seo";
 
 interface Props {
-  seo: {
+  seo?: {
     title?: string;
     description?: string;
     pubDate?: string;
@@ -63,7 +63,12 @@ const groupedSeo: SEOProps = {
 
     <SEO {...groupedSeo} />
     <!-- advertise the feed -->
-    <link rel="alternate" type="application/rss+xml" title="@xavdid does Advent of Code" href="/rss.xml">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="@xavdid does Advent of Code"
+      href="/rss.xml"
+    />
   </head>
   <body>
     <header>

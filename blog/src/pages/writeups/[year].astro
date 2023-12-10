@@ -3,7 +3,7 @@ import { type CollectionEntry } from "astro:content";
 
 import BaseLayout from "../../layouts/Layout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import { getPublishedWriteups } from "../../utils/collections";
+import { getWriteupsByYear } from "../../utils/collections";
 
 type Writeup = CollectionEntry<"writeups">;
 type Props = { year: number; writeups: Writeup[] };
@@ -15,17 +15,7 @@ type StaticPathResult = () => Promise<
 >;
 
 export const getStaticPaths: StaticPathResult = async () => {
-  const writeups = await getPublishedWriteups();
-
-  const years = writeups.reduce((result, writeup) => {
-    if (!result.has(writeup.data.year)) {
-      result.set(writeup.data.year, []);
-    }
-
-    result.get(writeup.data.year)?.push(writeup);
-
-    return result;
-  }, new Map<number, Writeup[]>());
+  const years = await getWriteupsByYear();
 
   return [...years.entries()].map(([year, writeups]) => ({
     params: { year },

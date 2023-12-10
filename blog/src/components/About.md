@@ -1,18 +1,3 @@
----
-layout: "../layouts/Layout.astro"
----
-
-**Welcome!** This site houses one of my favorite projects: my step-by-step [Advent of Code](https://adventofcode.com) explanations. They're written in [Python](https://www.python.org/) and use [my custom solution template](https://github.com/xavdid/advent-of-code-python-template) (which handles input parsing, among other tasks). Dive right in by picking a year, or read on to learn more about the project.
-
-<pre>
-~
-└── <a href="/writeups">writeups</a>
-    ├── <a href="/writeups/2023">2023</a>
-    ├── <a href="/writeups/2022">2022</a>
-    ├── <a href="/writeups/2021">2021</a>
-    └── ...
-</pre>
-
 ## About
 
 [Advent of Code](https://adventofcode.com) is a programming-focused puzzle contest run every December by [Eric Wastl](http://was.tl/). The puzzles are imaginative and engaging; there's nothing quite like them.

@@ -1,7 +1,23 @@
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export type Writeup = CollectionEntry<"writeups">;
 
 // https://docs.astro.build/en/guides/content-collections/#filtering-collection-queries
 export const getPublishedWriteups = async () =>
   getCollection("writeups", ({ data: { draft } }) =>
     import.meta.env.PROD ? draft !== true : true
   );
+
+export const getWriteupsByYear = async () => {
+  const writeups = await getPublishedWriteups();
+
+  return writeups.reduce((result, writeup) => {
+    if (!result.has(writeup.data.year)) {
+      result.set(writeup.data.year, []);
+    }
+
+    result.get(writeup.data.year)?.push(writeup);
+
+    return result;
+  }, new Map<number, Writeup[]>());
+};
