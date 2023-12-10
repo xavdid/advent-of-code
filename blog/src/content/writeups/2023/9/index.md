@@ -117,3 +117,26 @@ class Solution(StrSplitSolution):
     def part_2(self) -> int:
         return self._solve(extrapolate_left)
 ```
+
+---
+
+_edit_: After writing all of the above, I checked Reddit and saw a solution so simple I can't believe it didn't occur to me. Part 1 and 2 are the same except we go in the opposite direction. So, instead of changing our extrapolation at all, we could just reverse the list! Duh.
+
+```py rem={3,7} ins={4,8,13,16} ins="h[::-1] if reverse else h"
+...
+
+def extrapolate_right(layers: NestedList) -> int:
+def extrapolate(layers: NestedList) -> int:
+
+class Solution(StrSplitSolution):
+    def _solve(self, extrapolator: Callable[[NestedList], int]) -> int:
+    def _solve(self, reverse: bool) -> int:
+        histories = self._parse_input()
+        return sum(extrapolate(simplify(h[::-1] if reverse else h)) for h in histories)
+
+    def part_1(self) -> int:
+        return self._solve(reverse=False)
+
+    def part_2(self) -> int:
+        return self._solve(reverse=True)
+```
