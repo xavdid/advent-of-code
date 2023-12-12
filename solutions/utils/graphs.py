@@ -1,6 +1,6 @@
 from itertools import product
 from operator import itemgetter
-from typing import Iterator
+from typing import Iterator, Optional
 
 GridPoint = tuple[int, int]
 Grid = dict[GridPoint, str]
@@ -61,7 +61,7 @@ def neighbors(
         yield (rx, ry)
 
 
-def parse_grid(raw_grid: list[str]) -> Grid:
+def parse_grid(raw_grid: list[str], ignore_chars: str = "") -> Grid:
     """
     returns 2-tuples of (row, col) with their value
 
@@ -74,9 +74,12 @@ def parse_grid(raw_grid: list[str]) -> Grid:
     (9, 0) ------> (9, 9)
     """
     result = {}
+    ignore = set(ignore_chars)
 
     for row, line in enumerate(raw_grid):
         for col, c in enumerate(line):
+            if c in ignore:
+                continue
             result[row, col] = c
 
     return result
@@ -87,3 +90,7 @@ def add_points(a: GridPoint, b: GridPoint) -> GridPoint:
     add a pair of 2-tuples together. Useful for calculating a new position from a location and an offset
     """
     return a[0] + b[0], a[1] + b[1]
+
+
+def taxicab_distance(a: GridPoint, b: GridPoint) -> int:
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
