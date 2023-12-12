@@ -3,6 +3,8 @@ from operator import itemgetter
 from typing import Iterator
 
 GridPoint = tuple[int, int]
+Grid = dict[GridPoint, str]
+
 DIRECTIONS = sorted(product((-1, 0, 1), repeat=2), key=itemgetter(1))
 
 
@@ -57,3 +59,31 @@ def neighbors(
             continue
 
         yield (rx, ry)
+
+
+def parse_grid(raw_grid: list[str]) -> Grid:
+    """
+    returns 2-tuples of (row, col) with their value
+
+    (0, 0) ------> (0, 9)
+      |              |
+      |              |
+      |              |
+      |              |
+      |              V
+    (9, 0) ------> (9, 9)
+    """
+    result = {}
+
+    for row, line in enumerate(raw_grid):
+        for col, c in enumerate(line):
+            result[row, col] = c
+
+    return result
+
+
+def add_points(a: GridPoint, b: GridPoint) -> GridPoint:
+    """
+    add a pair of 2-tuples together. Useful for calculating a new position from a location and an offset
+    """
+    return a[0] + b[0], a[1] + b[1]

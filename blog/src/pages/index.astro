@@ -14,7 +14,7 @@ const recentYears = [...posts.keys()]
   .slice(0, NUM_RECENT_POSTS);
 const thisYearsPosts = posts.get(recentYears[0]);
 const showEllipse = Number(thisYearsPosts?.length) > NUM_RECENT_POSTS;
-const newestPosts = thisYearsPosts?.slice(-NUM_RECENT_POSTS);
+const newestPosts = thisYearsPosts?.toSorted((a,b) => a.data.day - b.data.day).slice(-NUM_RECENT_POSTS);
 ---
 
 <Layout>

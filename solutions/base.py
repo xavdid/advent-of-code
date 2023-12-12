@@ -175,7 +175,10 @@ class BaseSolution(Generic[I]):
             return
 
         for o in objects:
-            pprint(o)
+            if isinstance(o, str):
+                print(o)
+            else:
+                pprint(o)
 
         if trailing_newline:
             print()
