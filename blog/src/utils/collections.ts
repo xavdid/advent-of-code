@@ -4,8 +4,8 @@ export type Writeup = CollectionEntry<"writeups">;
 
 // https://docs.astro.build/en/guides/content-collections/#filtering-collection-queries
 export const getPublishedWriteups = async () =>
-  getCollection("writeups", ({ data: { draft } }) =>
-    import.meta.env.PROD ? draft !== true : true
+  getCollection("writeups", ({ data: { pub_date } }) =>
+    import.meta.env.PROD ? pub_date : true
   );
 
 export const getWriteupsByYear = async () => {

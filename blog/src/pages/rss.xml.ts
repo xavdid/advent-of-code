@@ -14,7 +14,9 @@ export const GET: APIRoute = async (context) => {
     items: writeups
       .sort(
         (a, b) =>
-          +new Date(b.data.pub_date) - +new Date(a.data.pub_date) ||
+          // these are only the published posts
+          new Date(b.data.pub_date!).valueOf() -
+            new Date(a.data.pub_date!).valueOf() ||
           // presume I did these in order in case of ties
           b.data.day - a.data.day
       )
@@ -23,7 +25,7 @@ export const GET: APIRoute = async (context) => {
           title: `David's AoC ${year} Day ${day} Solution`,
           link: `/writeups/${slug}`,
           description: `David solves: ${title}`,
-          pubDate: new Date(pub_date),
+          pubDate: new Date(pub_date!),
         };
       }),
   });

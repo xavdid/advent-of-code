@@ -8,7 +8,7 @@ const writeups = defineCollection({
     title: z.string(), // puzzle title
     day: z.number().gte(1).lte(25),
     year: z.number().gte(2015),
-    pub_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    pub_date: z.optional(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
     draft: z.optional(z.boolean()), // basically true or undefined
     concepts: z.optional(z.array(z.string())), // basically true or undefined
   }),
