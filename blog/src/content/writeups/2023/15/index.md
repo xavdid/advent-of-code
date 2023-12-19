@@ -3,7 +3,7 @@ year: 2023
 day: 15
 slug: 2023/day/15
 title: "Lens Library"
-# pub_date: "2023-12-18"
+pub_date: "2023-12-18"
 ---
 
 ## Part 1
