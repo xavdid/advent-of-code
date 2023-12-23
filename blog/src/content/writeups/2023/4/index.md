@@ -90,12 +90,12 @@ This was on the right track, but didn't solve the example yet. There were 2 bugs
 
 Luckily, these are both easy fixes:
 
-```py ins={9} ins="num_copies[card_id] += 1"
+```py ins={10} ins="+= num_copies[card_id]" ins="defaultdict(int)"
 ...
 
 class Solution(StrSplitSolution):
     def part_1(self) -> int:
-        num_copies: defaultdict[int, int] = defaultdict(lambda: 1)
+        num_copies: defaultdict[int, int] = defaultdict(int)
 
         for idx, line in enumerate(self.input):
             card_id = idx + 1  # 1-index our card numbers!
@@ -110,7 +110,7 @@ class Solution(StrSplitSolution):
         ...
 ```
 
-1. When we calculate winners for each card, we also add it to the dict if it's not there already.
+1. When we calculate winners for each card, we count it once. This also simplifies our `defaultdict`, since everything can start at 0.
 2. We switched to multiplication! Instead of incrementing by 1, we increment based on the number of copies of the current card.
 
 And that'll do it! These puzzles have been all over the place with the amount of code required, but hey, [puzzle difficulty is tricky](https://old.reddit.com/r/adventofcode/comments/7idn6k/question_why_does_the_difficulty_vary_so_much/dqy08tk/)!
