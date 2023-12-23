@@ -1,6 +1,6 @@
 from itertools import product
 from operator import itemgetter
-from typing import Iterator, Optional
+from typing import Iterator
 
 GridPoint = tuple[int, int]
 Grid = dict[GridPoint, str]
