@@ -3,8 +3,7 @@ year: 2023
 day: 18
 slug: 2023/day/18
 title: "Lavaduct Lagoon"
-# concepts: []
-# pub_date: "TBD"
+pub_date: "2023-12-25"
 ---
 
 ## Part 1
