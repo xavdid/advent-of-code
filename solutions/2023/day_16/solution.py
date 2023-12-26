@@ -1,38 +1,10 @@
 # prompt: https://adventofcode.com/2023/day/16
 
-from enum import IntEnum
 from functools import cache
-from typing import Literal, NamedTuple
+from typing import NamedTuple
 
 from ...base import StrSplitSolution, answer
-from ...utils.graphs import (
-    Grid,
-    GridPoint,
-    add_points,
-    parse_grid,
-)
-
-Rotation = Literal["CCW", "CW"]
-
-
-class Direction(IntEnum):
-    UP = 0
-    RIGHT = 1
-    DOWN = 2
-    LEFT = 3
-
-    @staticmethod
-    def rotate(facing: "Direction", towards: Rotation) -> "Direction":
-        offset = 1 if towards == "CW" else -1
-        return Direction((facing.value + offset) % 4)
-
-
-ROW_COLL_OFFSETS: dict[Direction, GridPoint] = {
-    Direction.UP: (-1, 0),
-    Direction.RIGHT: (0, 1),
-    Direction.DOWN: (1, 0),
-    Direction.LEFT: (0, -1),
-}
+from ...utils.graphs import Direction, Grid, GridPoint, Rotation, add_points, parse_grid
 
 
 class State(NamedTuple):
@@ -41,7 +13,7 @@ class State(NamedTuple):
 
     @property
     def next_loc(self) -> GridPoint:
-        return add_points(self.loc, ROW_COLL_OFFSETS[self.facing])
+        return add_points(self.loc, Direction.offset(self.facing))
 
     def step(self) -> "State":
         return State(self.next_loc, self.facing)

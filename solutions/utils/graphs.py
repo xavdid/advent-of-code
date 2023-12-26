@@ -1,6 +1,7 @@
+from enum import IntEnum
 from itertools import product
 from operator import itemgetter
-from typing import Iterator
+from typing import Iterator, Literal
 
 GridPoint = tuple[int, int]
 Grid = dict[GridPoint, str]
@@ -94,3 +95,30 @@ def add_points(a: GridPoint, b: GridPoint) -> GridPoint:
 
 def taxicab_distance(a: GridPoint, b: GridPoint) -> int:
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+
+Rotation = Literal["CCW", "CW"]
+
+
+class Direction(IntEnum):
+    UP = 0
+    RIGHT = 1
+    DOWN = 2
+    LEFT = 3
+
+    @staticmethod
+    def rotate(facing: "Direction", towards: Rotation) -> "Direction":
+        offset = 1 if towards == "CW" else -1
+        return Direction((facing.value + offset) % 4)
+
+    @staticmethod
+    def offset(facing: "Direction") -> GridPoint:
+        return _ROW_COLL_OFFSETS[facing]
+
+
+_ROW_COLL_OFFSETS: dict[Direction, GridPoint] = {
+    Direction.UP: (-1, 0),
+    Direction.RIGHT: (0, 1),
+    Direction.DOWN: (1, 0),
+    Direction.LEFT: (0, -1),
+}
