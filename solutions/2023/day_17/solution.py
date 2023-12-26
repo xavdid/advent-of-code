@@ -3,7 +3,7 @@
 from heapq import heappop, heappush
 from typing import NamedTuple
 
-from ...base import StrSplitSolution, answer
+from ...base import StrSplitSolution, answer, slow
 from ...utils.graphs import Direction, GridPoint, Rotation, add_points, parse_grid
 
 
@@ -71,6 +71,7 @@ class Solution(StrSplitSolution):
     def part_1(self) -> int:
         return self._solve(0, 3)
 
+    @slow
     @answer(1367)
     def part_2(self) -> int:
         return self._solve(4, 10)
