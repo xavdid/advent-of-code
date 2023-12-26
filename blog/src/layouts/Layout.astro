@@ -5,6 +5,7 @@ import { SEO, type Props as SEOProps } from "astro-seo";
 interface Props {
   seo?: {
     title?: string;
+    tabTitle?: string;
     description?: string;
     pubDate?: string;
   };
@@ -14,7 +15,7 @@ const { seo = {} } = Astro.props;
 const title = seo.title ?? "@xavdid does Advent of Code";
 
 const groupedSeo: SEOProps = {
-  title,
+  title: seo.tabTitle ?? title,
   description:
     seo.description ??
     "David's step-by-step Python solutions for Advent of Code.",
