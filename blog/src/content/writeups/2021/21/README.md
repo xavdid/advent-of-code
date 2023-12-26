@@ -183,7 +183,7 @@ for roll in product([1, 2, 3], repeat=3):
         ...
 ```
 
-I touched on `itertools.product` [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_20); it gives us a nested loop so we can get every combination of the 3 rolls. For each game the active player has won, count the win otherwise, we'll recurse. To do that, we play a round where the active and inactive players have swapped. After all, it's the other person's turn.
+I touched on `itertools.product` [yesterday](/writeups/2021/day/20/); it gives us a nested loop so we can get every combination of the 3 rolls. For each game the active player has won, count the win otherwise, we'll recurse. To do that, we play a round where the active and inactive players have swapped. After all, it's the other person's turn.
 
 ```py
 ...

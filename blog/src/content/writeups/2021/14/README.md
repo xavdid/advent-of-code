@@ -8,7 +8,7 @@ pub_date: "2021-12-17"
 
 ## Part 1
 
-Nothing too wild here. We're parsing our input and storing it in a `dict` that maps pairs to their output. Then we're looping to do the specified replacements. We can use the `zip` trick from [day 1](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_01) to get our pairs. Then we use a `Counter` to get our totals. Nice and straightforward!
+Nothing too wild here. We're parsing our input and storing it in a `dict` that maps pairs to their output. Then we're looping to do the specified replacements. We can use the `zip` trick from [day 1](/writeups/2021/day/1/) to get our pairs. Then we use a `Counter` to get our totals. Nice and straightforward!
 
 ```py
 from collections import Counter

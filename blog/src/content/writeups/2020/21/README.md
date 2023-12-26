@@ -72,7 +72,7 @@ return sum(
 
 ## Part 2
 
-Now we actually have to figure out which allergens map to which ingredients. This'll play out a lot like [day 16](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_16#part-2). We start with any allergens that map to a single ingredient (like `A` in the cleaned example above), then remove that one from all other places it's a potential. We keep doing that until all the potential values are empty.
+Now we actually have to figure out which allergens map to which ingredients. This'll play out a lot like [day 16](/writeups/2020/day/16/#part-2). We start with any allergens that map to a single ingredient (like `A` in the cleaned example above), then remove that one from all other places it's a potential. We keep doing that until all the potential values are empty.
 
 The only tricky thing here is that we have to take care to not modify the size of the dict as we're iterating through it. Instead, we consume the generator before iterating through it, which looks a little unusual:
 

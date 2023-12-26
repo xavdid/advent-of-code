@@ -13,7 +13,7 @@ Eric, the creator of AoC, has [talked about](https://old.reddit.com/r/adventofco
 We have to iterate over a string, looking at each 4-letter chunk. If all letters in that chunk are unique, then we return the index where the chunk ends. We have all the tools to do this:
 
 - we know how to iterate over a specific set of numbers (`range`)
-- we know how to slice a subset of a list (see [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_05#part-1-for-real))
+- we know how to slice a subset of a list (see [yesterday](/writeups/2022/day/5/#part-1-for-real))
 - we know how to remove duplicates from an iterable (`set`)
 
 Let's string it together:

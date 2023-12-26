@@ -79,7 +79,7 @@ class Solution(StrSplitSolution):
             grid[p] = PointState.ROCK
 ```
 
-Now that we have our rock structure expressed in the grid, we can run the fill algorithm. We'll do a breadth-first search, which steps through reachable points and all all neighbors to the queue. It shares a lot of implementation details with the depth-first search we used to back our Dijkstra's algorithm in days [12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12) and [16](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_16). The only thing left to calculate is the max size of the grid (so we know when to stop checking out into space)
+Now that we have our rock structure expressed in the grid, we can run the fill algorithm. We'll do a breadth-first search, which steps through reachable points and all all neighbors to the queue. It shares a lot of implementation details with the depth-first search we used to back our Dijkstra's algorithm in days [12](/writeups/2022/day/12/) and [16](/writeups/2022/day/16/). The only thing left to calculate is the max size of the grid (so we know when to stop checking out into space)
 
 ```py
 ...

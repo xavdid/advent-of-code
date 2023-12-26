@@ -10,7 +10,7 @@ pub_date: "2022-01-22"
 
 This has been the toughest day for me so far. I usually do both parts in a couple of hours, max. I worked on this one for literal days. I got there! But boy, did it take some time.
 
-Generically, it's the same problem as [day 15](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_15)- we have to figure out the most efficient bath between a starting state and and an ending state. We will be able to calculate the cost between two states. So, we'll be able to use Dijkstra's algorithm again to find the most efficient series of intermediate states to get to the desired ending.
+Generically, it's the same problem as [day 15](/writeups/2021/day/15/)- we have to figure out the most efficient bath between a starting state and and an ending state. We will be able to calculate the cost between two states. So, we'll be able to use Dijkstra's algorithm again to find the most efficient series of intermediate states to get to the desired ending.
 
 To that end, I copied my entire algorithm from day 15 and put it in a `self._dijkstra` method. Its only parameter is `max_room_size`, which will be important for part 2; don't worry about it for now.
 
@@ -368,7 +368,7 @@ It's a nice little piece of syntactic sugar. You can read more about it in [the 
 
 There's a nice little optimization there- if we can successfully go home, we can discard the rest of the `amph_results`- the best move is always to go home, so we only need to bring that state along with it if it's an option. Either way, we return whatever we have.
 
-Congratulations on making it this far! We've done the lion's share of the work- there's just a couple of things left. Let's revisit our Dijkstra's implementation. Here's what I copied from [day 15](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_15) with a couple of updates for today:
+Congratulations on making it this far! We've done the lion's share of the work- there's just a couple of things left. Let's revisit our Dijkstra's implementation. Here's what I copied from [day 15](/writeups/2021/day/15/) with a couple of updates for today:
 
 ```py
 def _dijkstra(self, max_room_size: int) -> int:

@@ -8,7 +8,7 @@ pub_date: "2020-12-19"
 
 ## Part 1
 
-Similar to [day 11](https://github.com/xavdid/advent-of-code/tree/main/solutions/2020/day_11), we're doing a spin on [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (albeit with a much more direct reference).
+Similar to [day 11](/writeups/2020/day/11/), we're doing a spin on [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (albeit with a much more direct reference).
 
 The rules are simple enough:
 

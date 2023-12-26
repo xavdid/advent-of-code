@@ -72,7 +72,7 @@ class Solution(StrSplitSolution):
             yield self.input[i : i + n]
 ```
 
-This function uses `yield` in place of `return`, meaning it (implicitly) returns a generator! This is a very memory efficient construct I talked about in [day 1](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_01#cleanup). In practice, it just means we can iterate through the result.
+This function uses `yield` in place of `return`, meaning it (implicitly) returns a generator! This is a very memory efficient construct I talked about in [day 1](/writeups/2022/day/1/#cleanup). In practice, it just means we can iterate through the result.
 
 This lets us easily get 3 elves at a time out of our input. Put that in another list comprehension, and that's our day:
 

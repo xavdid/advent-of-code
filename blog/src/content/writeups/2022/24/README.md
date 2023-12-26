@@ -8,7 +8,7 @@ pub_date: "2023-07-28"
 
 ## Part 1
 
-Whenever you see "fastest way to do X", it's a good bet we're going to use Dijkstra's algorithm like we did in [day 12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12). I've covered this a number of times before, so I'll focus on what makes this problem unique.
+Whenever you see "fastest way to do X", it's a good bet we're going to use Dijkstra's algorithm like we did in [day 12](/writeups/2022/day/12/). I've covered this a number of times before, so I'll focus on what makes this problem unique.
 
 First up, input! I started with a little `Blizzard` class. It needs to do 2 things:
 

@@ -29,7 +29,7 @@ grid[1][2] # => 6
 grid[2][0] # => 7
 ```
 
-Once we've loaded the inputs into grids, we need to be able to check off pulled numbers. Each time a number is pulled, we'd need to loop through each row (and column; we can rotate rows using `zip` like we have [before](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_03)) to see if any of them are a subset of the already-pulled numbers. If so, that board's a winner! If this approach sounds like a lot of repeated loops, it's because it is. We can certainly code it up, but let's consider an alternative way to store our input.
+Once we've loaded the inputs into grids, we need to be able to check off pulled numbers. Each time a number is pulled, we'd need to loop through each row (and column; we can rotate rows using `zip` like we have [before](/writeups/2021/day/3/)) to see if any of them are a subset of the already-pulled numbers. If so, that board's a winner! If this approach sounds like a lot of repeated loops, it's because it is. We can certainly code it up, but let's consider an alternative way to store our input.
 
 Because we're doing to be checking each row/column many times, it would be preferable to make that operation as fast as possible. Checking individual numbers with `if N in row` requires us to check every item in every row, every time. The `in` operator verifies membership in _linear_ time, meaning it takes longer as the length of the list grows. Ideally we'd use an approach that is always the same speed, no matter how long our list is. For that, we need a different data structure.
 

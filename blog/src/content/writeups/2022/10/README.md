@@ -110,7 +110,7 @@ class Solution(StrSplitSolution):
 
 `x` is actually the range of `(x-1, x+1)`, so we check if `cycle` (shifted to a 0-index, mod 40) is in that range.[^1] That part is straightforward enough, but our printing bears breaking down a little bit.
 
-This is actually the same algorithm we used in [day 3](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_03#part-2) to get chunks from a list. For reach chunk, we join all of the pixels in that slice (which is exactly 40-long), and then join those stringified lines with newlines to make a little monitor. We could have also broken it out like this:
+This is actually the same algorithm we used in [day 3](/writeups/2022/day/3/#part-2) to get chunks from a list. For reach chunk, we join all of the pixels in that slice (which is exactly 40-long), and then join those stringified lines with newlines to make a little monitor. We could have also broken it out like this:
 
 ```py
 lines = []

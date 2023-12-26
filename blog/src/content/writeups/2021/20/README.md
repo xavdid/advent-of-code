@@ -48,7 +48,7 @@ GridPoint = Tuple[int, int]
 DIRECTIONS = sorted(product((-1, 0, 1), repeat=2), key=itemgetter(1))
 ```
 
-`operator` (a package we saw before on [day 16](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_16)) supplies a function that returns a function. `itemgetter(N)` creates a function that returns `item[N]` for anything you pass it. It's roughly you could write this as:
+`operator` (a package we saw before on [day 16](/writeups/2021/day/16/)) supplies a function that returns a function. `itemgetter(N)` creates a function that returns `item[N]` for anything you pass it. It's roughly you could write this as:
 
 ```py
 def itemgetter(N: int):

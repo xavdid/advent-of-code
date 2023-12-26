@@ -46,7 +46,7 @@ for y, line in enumerate(self.input):
         grid[(x, y)] = int(val)
 ```
 
-That should look familiar at this point. We're using the grid from [day 11](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_11) where `0, 0` is the top left and `x` (the first item) increases to the right. I write that dang `neighbors` function so much that I should really incorporate a version of it into my base class.
+That should look familiar at this point. We're using the grid from [day 11](/writeups/2021/day/11/) where `0, 0` is the top left and `x` (the first item) increases to the right. I write that dang `neighbors` function so much that I should really incorporate a version of it into my base class.
 
 Now it's time for the algorithm itself! Let's do it step by step:
 

@@ -111,7 +111,7 @@ Or, we take advantage of a little-used global function: `slice`. It turns out, t
 [1,2,3,4,5,6,7,8,9][slice(None, -4, -1)]
 ```
 
-Used in conjunction with our lambda-injection pattern from [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_04#and-another-one), we can write some pretty clean code. Check this out:
+Used in conjunction with our lambda-injection pattern from [yesterday](/writeups/2022/day/4/#and-another-one), we can write some pretty clean code. Check this out:
 
 ```py
 from typing import Callable
@@ -161,7 +161,7 @@ list(zip('ABC', '123'))
 # [('A', '1'), ('B', '2'), ('C', '3')]
 ```
 
-If we use that in conjunction with the spread operator discussed [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_04), we can `zip` the lines in our stacks so each character in the top line becomes the beginning of a new string, each character in the second line is the second character, etc. Here's how that looks with the sample input:
+If we use that in conjunction with the spread operator discussed [yesterday](/writeups/2022/day/4/), we can `zip` the lines in our stacks so each character in the top line becomes the beginning of a new string, each character in the second line is the second character, etc. Here's how that looks with the sample input:
 
 ```py
 list(zip(*lines.split('\n')))

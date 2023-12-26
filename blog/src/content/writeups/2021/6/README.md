@@ -65,7 +65,7 @@ result = new_result + num_births * [8]
 
 Boom. My part 1 finished instantly and part 2 hung long enough that I gave up. We'll have to think of another, faster way to store our lanternfish counts.
 
-The key here is that all laternfish that share a number have the same result. So rather than calculate each fish's update individually, we can just keep a _count_ of the number of fish of each age and add them all together. This is a good example of _algorithmic complexity_ (an important Computer Science concept I [touched briefly on](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_04) in day 4). Our part 1 approach got slower as the days went on, since our list of fish kept getting longer. Our new approach will take the same amount of computation every day, since we're only ever storing (up to) 8 numbers. That's known as "constant time complexity", which is a great "score" for an algorithm.
+The key here is that all laternfish that share a number have the same result. So rather than calculate each fish's update individually, we can just keep a _count_ of the number of fish of each age and add them all together. This is a good example of _algorithmic complexity_ (an important Computer Science concept I [touched briefly on](/writeups/2021/day/4/) in day 4). Our part 1 approach got slower as the days went on, since our list of fish kept getting longer. Our new approach will take the same amount of computation every day, since we're only ever storing (up to) 8 numbers. That's known as "constant time complexity", which is a great "score" for an algorithm.
 
 We'll rely here on Python's `collections.defaultdict`. While a regular `dict` throws an error if you access a missing key, `defaultdict` uses a specified default instead:
 

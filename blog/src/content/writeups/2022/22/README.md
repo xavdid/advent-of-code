@@ -77,7 +77,7 @@ class SparseGrid:
     ...
 ```
 
-There's two important pieces of state we need to maintain: our current location and our direction. We'll make like we did on [day 17](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_17) and add an offset to our location based on the direction we're facing. Rotating is a matter of wrapping an index around a list (using the modulo operator). Our starting location is the first `.` on the top row, so we can add that to `__init__`:
+There's two important pieces of state we need to maintain: our current location and our direction. We'll make like we did on [day 17](/writeups/2022/day/17/) and add an offset to our location based on the direction we're facing. Rotating is a matter of wrapping an index around a list (using the modulo operator). Our starting location is the first `.` on the top row, so we can add that to `__init__`:
 
 ```py
 OFFSETS = [(0, 1), (1, 0), (0, -1), (-1, 0)]

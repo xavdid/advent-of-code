@@ -34,7 +34,7 @@ class Shape(Enum):
 
 Enums are great for descriptive code. Because they're plain english, we can be very expressive with our conditionals. As written, Python enums are only comparable to other enum members.[^2] We also have a helper function to translate from a letter into an enum property.
 
-Next, we should parse our input. We'll use a similar construct to [day 1](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_01), where we combine `map` with a function to quickly transform input data:
+Next, we should parse our input. We'll use a similar construct to [day 1](/writeups/2022/day/1/), where we combine `map` with a function to quickly transform input data:
 
 ```py
 from typing import List, Tuple

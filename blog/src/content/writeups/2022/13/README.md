@@ -57,7 +57,7 @@ def is_ordered(left: Packet, right: Packet) -> bool | None:
     return is_ordered([left], right)
 ```
 
-That covers our main branches. The last thing is to handle lists. We need to compare the first element of `left` with the first element of `right`, second element of each, etc. Sounds like a job for `zip`! But, like [day 5](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_05), we need to use `functools.zip_longest` so that we know when one of the lists has ended. The potential to pass `None` as `left` or `right` requires an update to our branches:
+That covers our main branches. The last thing is to handle lists. We need to compare the first element of `left` with the first element of `right`, second element of each, etc. Sounds like a job for `zip`! But, like [day 5](/writeups/2022/day/5/), we need to use `functools.zip_longest` so that we know when one of the lists has ended. The potential to pass `None` as `left` or `right` requires an update to our branches:
 
 ```py
 def is_ordered(left: Packet | None, right: Packet | None) -> bool | None:
@@ -150,4 +150,4 @@ class Solution(StrSplitSolution):
 
 And that'll do it!
 
-[^1]: Another option that I'm embarrassed to realize didn't occur to me is using to `json.loads`, since each line is valid JSON. I had eval on the mind though, since I _almost_ used it for [day 11](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_11)'s equations.
+[^1]: Another option that I'm embarrassed to realize didn't occur to me is using to `json.loads`, since each line is valid JSON. I had eval on the mind though, since I _almost_ used it for [day 11](/writeups/2022/day/11/)'s equations.

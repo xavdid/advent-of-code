@@ -112,7 +112,7 @@ class Solution(StrSplitSolution):
         }
 ```
 
-We're doing the breadth-first version of Dijkstra's algorithm (in contrast to the depth-first one [I covered in day 12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12)). Starting with `start`, we find the distance to all other points in the grid and then filter out the ones we'll never stop at. What's left is a `dict` of only `Valve`s with rates. Here's `AA` from the sample input:
+We're doing the breadth-first version of Dijkstra's algorithm (in contrast to the depth-first one [I covered in day 12](/writeups/2022/day/12/)). Starting with `start`, we find the distance to all other points in the grid and then filter out the ones we'll never stop at. What's left is a `dict` of only `Valve`s with rates. Here's `AA` from the sample input:
 
 ```py
 {

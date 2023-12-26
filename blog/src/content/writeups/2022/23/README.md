@@ -8,7 +8,7 @@ pub_date: "2023-07-25"
 
 ## Part 1
 
-Today's task is a spin on the widely-studied [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) - a big grid of individual ~~cells~~ elves moves each turn based on their surroundings. Calculating these moves efficiently will require a grid, probably a sparse one like we had [yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_22). Because the only thing we need to know about a point is whether or not there's an elf currently in it, we don't even need a `dict`; a `set` of elf locations will suffice:
+Today's task is a spin on the widely-studied [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) - a big grid of individual ~~cells~~ elves moves each turn based on their surroundings. Calculating these moves efficiently will require a grid, probably a sparse one like we had [yesterday](/writeups/2022/day/22/). Because the only thing we need to know about a point is whether or not there's an elf currently in it, we don't even need a `dict`; a `set` of elf locations will suffice:
 
 ```py
 GridPoint = tuple[int, int]
@@ -41,7 +41,7 @@ class Grid:
         return min_row, max_row, min_col, max_col
 ```
 
-We used `itemgetter` on days [12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12) and [15](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_15), so it's hopefully familiar by now. It remains a nice way to simplify repetitive code.
+We used `itemgetter` on days [12](/writeups/2022/day/12/) and [15](/writeups/2022/day/15/), so it's hopefully familiar by now. It remains a nice way to simplify repetitive code.
 
 Because our rectangle is the smallest that contains every elf, we can easily count the empty floor spaces by getting the area of the square and subtracting the number of elves (a fixed number):
 
@@ -77,7 +77,7 @@ class Grid:
         potential_moves: defaultdict[GridPoint, list[GridPoint]] = defaultdict(list)
 ```
 
-Next, we calculate the moves for each elf. This reuses my handy `neighbors` function mentioned in [day 12](https://github.com/xavdid/advent-of-code/tree/main/solutions/2022/day_12) (which you can see in its entirety [here](https://github.com/xavdid/advent-of-code/blob/513f070cd043b898d5b745e248ab0dd466d689f0/solutions/base.py#L300-L350)).
+Next, we calculate the moves for each elf. This reuses my handy `neighbors` function mentioned in [day 12](/writeups/2022/day/12/) (which you can see in its entirety [here](https://github.com/xavdid/advent-of-code/blob/513f070cd043b898d5b745e248ab0dd466d689f0/solutions/base.py#L300-L350)).
 
 So we:
 

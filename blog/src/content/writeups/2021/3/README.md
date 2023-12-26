@@ -43,7 +43,7 @@ We want a 5 item list where each element has length 3:
 ]
 ```
 
-It might look hard, but we already know the function for this. It's `zip`, as mentioned in the bonus part of the [day 1 solution](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_01#part-2). It takes many lists and gives you lists of the 1st element from each, the 2nd element from each, etc. But, all we have now are a single list of strings. We want to call `zip('00100', '11110', '10110')`, but we can't type that out ahead of time- it has to be dynamically called using our input.
+It might look hard, but we already know the function for this. It's `zip`, as mentioned in the bonus part of the [day 1 solution](/writeups/2021/day/1/#part-2). It takes many lists and gives you lists of the 1st element from each, the 2nd element from each, etc. But, all we have now are a single list of strings. We want to call `zip('00100', '11110', '10110')`, but we can't type that out ahead of time- it has to be dynamically called using our input.
 
 Enter Python's "spread operator", the humble asterisk `*`. It tells Python that instead of passing this list to a function as a single list, transform it into individual arguments:
 
@@ -112,7 +112,7 @@ epsilon = "".join(["0" if c == "1" else "1" for c in gamma])
 
 It's good not to pack _too_ much functionality into a single line, but in this case, I find it readable enough.
 
-> savvy readers will notice that I broke my guideline from [literally yesterday](https://github.com/xavdid/advent-of-code/tree/main/solutions/2021/day_02) where I cautioned against having an `else` at the end of a block to catch defaults. In this case, binary is _really does_ only have the two options, so it's safe enough.
+> savvy readers will notice that I broke my guideline from [literally yesterday](/writeups/2021/day/2/) where I cautioned against having an `else` at the end of a block to catch defaults. In this case, binary is _really does_ only have the two options, so it's safe enough.
 
 All that's left is to convert our answers from a string to a binary number, and multiply them:
 
