@@ -223,7 +223,7 @@ OutputType = Union[ResultType, tuple[ResultType, ResultType]]
 
 
 def slow(
-    func: Callable[[SolutionClassType], OutputType]
+    func: Callable[[SolutionClassType], OutputType],
 ) -> Callable[[SolutionClassType], OutputType]:
     """
     A decorator for solution methods that blocks their execution (and returns without error)
