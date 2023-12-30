@@ -16,10 +16,7 @@ If we've got a list of strings (`block`) and some index in the middle (`idx`), g
 
 ```py
 def reflection_row(block: list[str]) -> int:
-    for idx in range(len(block)):
-        if idx == 0:
-            continue
-
+    for idx in range(1, len(block)):
         if all(l == r for l, r in zip(reversed(block[:idx]), block[idx:])):
             return idx
 
