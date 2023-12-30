@@ -1,15 +1,20 @@
 // 1. Import utilities from `astro:content`
 import { defineCollection, z } from "astro:content";
 
+const isProdBuild = import.meta.env.PROD;
+
+const prodOnlyRule = (c: boolean) => (isProdBuild ? c : true);
+
 // 2. Define a `type` and `schema` for each collection
 const writeups = defineCollection({
   type: "content",
   schema: z.object({
-    title: z.string(), // puzzle title
+    title: z.string().refine((t) => prodOnlyRule(t !== "TKTK"), {
+      message: "Missing post title during production build",
+    }),
     day: z.number().gte(1).lte(25),
     year: z.number().gte(2015),
     pub_date: z.optional(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
-    draft: z.optional(z.boolean()), // basically true or undefined
     concepts: z.optional(z.array(z.string())), // basically true or undefined
   }),
 });

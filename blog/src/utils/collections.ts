@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 export type Writeup = CollectionEntry<"writeups">;
 
 // https://docs.astro.build/en/guides/content-collections/#filtering-collection-queries
+// everything in dev, published only in prod
 export const getPublishedWriteups = async () =>
   getCollection("writeups", ({ data: { pub_date } }) =>
     import.meta.env.PROD ? pub_date : true

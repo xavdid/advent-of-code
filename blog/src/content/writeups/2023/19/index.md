@@ -2,7 +2,7 @@
 year: 2023
 day: 19
 slug: 2023/day/19
-title: "TKTK"
+title: "Aplenty"
 concepts: [regex, recursion, generics]
 pub_date: "2023-12-29"
 ---
