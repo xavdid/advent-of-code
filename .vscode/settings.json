@@ -9,5 +9,9 @@
     ".ruff_cache": true,
     "blog/.astro": true,
     "blog/dist": true
+  },
+  "markdown.copyFiles.destination": {
+    // the trailing slash is important here!
+    "*": "${documentDirName}/images/"
   }
 }

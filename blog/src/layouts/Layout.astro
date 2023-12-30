@@ -180,13 +180,12 @@ const groupedSeo: SEOProps = {
 
         /* for plain markdown images */
         & p:has(img) {
-          /* doesn't work in firefox as of 2023-12-02, but is coming soon */
           /* https://developer.mozilla.org/en-US/docs/Web/CSS/:has */
           text-align: center;
         }
         & p > img {
           @media (min-width: 768px) {
-            /* shrink images on desktop */
+            /* shrink images on desktop a little so they're not giant (but only for images that aren't in links) */
             max-width: 60%;
           }
         }
