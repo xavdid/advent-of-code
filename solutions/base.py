@@ -256,15 +256,13 @@ def answer(
 ) -> Callable[
     [Callable[[SolutionClassType], tuple[Unpack[Ts]]]],
     Callable[[SolutionClassType], tuple[Unpack[Ts]]],
-]:
-    ...
+]: ...
 
 
 @overload
 def answer(
     expected: R,
-) -> Callable[[Callable[[SolutionClassType], R]], Callable[[SolutionClassType], R]]:
-    ...
+) -> Callable[[Callable[[SolutionClassType], R]], Callable[[SolutionClassType], R]]: ...
 
 
 def answer(
