@@ -44,8 +44,7 @@ class Solution(BaseSolution):
             # what we don't know is how long the loop is, but we can know where in the sequence we'll be after 1bil tries
             if programs in seen:
                 return seen[num_dances % n]
-            else:
-                seen.append(programs)
+            seen.append(programs)
 
             for i in self.input:
                 if i[0] == "s":

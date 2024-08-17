@@ -48,7 +48,7 @@ class Solution(BaseSolution):
         return deck.deck.index(2019)
 
     def part_2(self):
-        return
+        return None
         deck = Deck(119315717514047)  # this causes an overflow, way too big
 
         for _ in range(101741582076661):

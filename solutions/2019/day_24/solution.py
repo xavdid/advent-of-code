@@ -6,9 +6,6 @@ from typing import List, Tuple
 
 from ...base import BaseSolution, InputTypes
 
-# pylint: disable=invalid-name
-
-
 #    y, x
 #
 #    0 x-> 5

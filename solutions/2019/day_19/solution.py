@@ -13,7 +13,6 @@ class Solution(IntcodeSolution):
         return computer.output[-1]
 
     def part_1(self):
-
         results = 0
         for x in range(50):
             for y in range(50):

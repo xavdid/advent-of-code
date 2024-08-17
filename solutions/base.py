@@ -30,8 +30,6 @@ class AoCException(Exception):
     custom error class for issues related to creating/running solutions
     """
 
-    pass
-
 
 class InputTypes(Enum):
     # one solid block of text; the default
@@ -92,15 +90,21 @@ class BaseSolution(Generic[I]):
         """
         return self.part_1(), self.part_2()
 
-    def part_1(self):
+    def part_1(self) -> ResultType:
         """
         Returns the answer for part 1 of the puzzle. Only needed if there's not a unified solve method.
         """
+        raise NotImplementedError
 
-    def part_2(self):
+    def part_2(self) -> ResultType:
         """
         Returns the answer for part 2 of the puzzle. Only needed if there's not a unified solve method.
         """
+        if self.day == 25:
+            # day 25 never has a part 2
+            pass
+        else:
+            raise NotImplementedError
 
     @final
     def read_input(self) -> InputType:
@@ -218,20 +222,28 @@ class IntSplitSolution(BaseSolution[list[int]]):
 
 # https://stackoverflow.com/a/65681955/1825390
 SolutionClassType = TypeVar("SolutionClassType", bound=BaseSolution)
-# what the functions that @answer wraps can return
-OutputType = Union[ResultType, tuple[ResultType, ResultType]]
 
 
+@overload
 def slow(
-    func: Callable[[SolutionClassType], OutputType],
-) -> Callable[[SolutionClassType], OutputType]:
+    func: Callable[[SolutionClassType], tuple[ResultType, ResultType]],
+) -> Callable[[SolutionClassType], tuple[ResultType, ResultType]]: ...
+
+
+@overload
+def slow(
+    func: Callable[[SolutionClassType], ResultType],
+) -> Callable[[SolutionClassType], ResultType]: ...
+
+
+def slow(func):  # type: ignore
     """
     A decorator for solution methods that blocks their execution (and returns without error)
     if the the function is manually marked as "slow". Helpful if running many solutions at once,
     so one doesn't gum up the whole thing.
     """
 
-    def wrapper(self: SolutionClassType):
+    def wrapper(self: BaseSolution):
         if self.slow or self.use_test_data:
             return func(self)
 
@@ -251,7 +263,7 @@ Ts = TypeVarTuple("Ts")  # tuple items generic
 
 
 @overload
-def answer(
+def answer(  # type: ignore
     expected: tuple[Unpack[Ts]],
 ) -> Callable[
     [Callable[[SolutionClassType], tuple[Unpack[Ts]]]],
@@ -290,12 +302,11 @@ def answer(
         def wrapper(self: SolutionClassType):
             result = func(self)
             # only assert the answer for non-test data
-            if not self.use_test_data and result is not None:
-                if result != expected:
-                    _, year, day, _ = self.__module__.split(".")
-                    raise AoCException(
-                        f"Failed @answer assertion for {year} / {day} / {func.__name__}:\n  returned: {result}\n  expected: {expected}"
-                    )
+            if not self.use_test_data and result is not None and result != expected:
+                _, year, day, _ = self.__module__.split(".")
+                raise AoCException(
+                    f"Failed @answer assertion for {year} / {day} / {func.__name__}:\n  returned: {result}\n  expected: {expected}"
+                )
             return result
 
         return wrapper

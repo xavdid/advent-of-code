@@ -37,16 +37,15 @@ class Solution(BaseSolution):
 
             if children == 0:
                 return (totals, sum(data[:metas]), data[metas:])
-            else:
-                return (
-                    totals,
-                    sum(
-                        scores[k - 1]
-                        for k in data[:metas]
-                        if k > 0 and k <= len(scores)
-                    ),
-                    data[metas:],
-                )
+            return (
+                totals,
+                sum(
+                    scores[k - 1]
+                    for k in data[:metas]
+                    if k > 0 and k <= len(scores)
+                ),
+                data[metas:],
+            )
 
         total, value, remaining = parse(self.input)
 

@@ -176,10 +176,9 @@ class Image(Tile):
                     i += 1
                     continue
                 match = re.match(MONSTER_MIDDLE, line[i:])
-                if match:
-                    if self.is_monster(row_num, i):
-                        total += 1
-                        i += 20  # total length of sea monster
+                if match and self.is_monster(row_num, i):
+                    total += 1
+                    i += 20  # total length of sea monster
 
                 i += 1
 
@@ -215,7 +214,7 @@ class Solution(BaseSolution):
 
     def solve(self) -> Tuple[int, int]:
         # parse input
-        self.tiles = set(Tile(x) for x in self.input.split("\n\n"))
+        self.tiles = {Tile(x) for x in self.input.split("\n\n")}
         grid_size = int(sqrt(len(self.tiles)))  # grid is always square
 
         for tile in self.tiles:
@@ -265,7 +264,7 @@ class Solution(BaseSolution):
         actual_image_strs: List[str] = []
         for row in solved:
             for subrow in zip(*[t.drop_border() for t in row]):
-                actual_image_strs.append("".join(subrow))
+                actual_image_strs.append("".join(subrow))  # noqa: PERF401
 
         actual_image = Image(actual_image_strs)
         num_monsters = actual_image.find_monsters()

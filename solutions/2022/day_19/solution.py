@@ -20,7 +20,7 @@ class MathTuple(NamedTuple):
     def _combine(self, f: Callable[[int, int], int], other: "MathTuple"):
         return MathTuple(*(f(a, b) for a, b in zip(self, other)))
 
-    def __add__(self, other: "MathTuple") -> "MathTuple":
+    def __add__(self, other: "MathTuple") -> "MathTuple":  # type: ignore
         return self._combine(add, other)
 
     def __sub__(self, other: "MathTuple") -> "MathTuple":
@@ -29,16 +29,16 @@ class MathTuple(NamedTuple):
     def _comparator(self, f: Callable[[int, int], int], other: "MathTuple") -> bool:
         return all(f(a, b) for a, b in zip(self, other))
 
-    def __lt__(self, other: "MathTuple") -> bool:
+    def __lt__(self, other: "MathTuple") -> bool:  # type: ignore
         return self._comparator(lt, other)
 
-    def __le__(self, other: "MathTuple") -> bool:
+    def __le__(self, other: "MathTuple") -> bool:  # type: ignore
         return self._comparator(le, other)
 
-    def __gt__(self, other: "MathTuple") -> bool:
+    def __gt__(self, other: "MathTuple") -> bool:  # type: ignore
         return self._comparator(gt, other)
 
-    def __ge__(self, other: "MathTuple") -> bool:
+    def __ge__(self, other: "MathTuple") -> bool:  # type: ignore
         return self._comparator(ge, other)
 
 

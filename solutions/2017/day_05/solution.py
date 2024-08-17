@@ -12,7 +12,7 @@ class Solution(BaseSolution):
         return InputTypes.INTSPLIT
 
     def part_1(self):
-        def inc(j):
+        def inc(_):
             return 1
 
         return self._solve(inc)
@@ -22,8 +22,7 @@ class Solution(BaseSolution):
         def maybe_inc(j):
             if j >= 3:
                 return -1
-            else:
-                return 1
+            return 1
 
         return self._solve(maybe_inc)
 

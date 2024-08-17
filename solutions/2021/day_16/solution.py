@@ -103,7 +103,6 @@ class Packet:
         assert len(self.sub_packets) == 2
         assert op in OPERATOR_COMPARISONS, f'Unknown operator: "{op}"'
 
-        # pylint: disable=unbalanced-tuple-unpacking
         l, r = self.sub_packets
         # `int` isn't actually required here since bool is a subclass of int
         # and can be included in math operations like an int.

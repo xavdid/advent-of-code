@@ -41,9 +41,9 @@ class Solution(BaseSolution):
         found_allergens = {}
         while possible_translations:
             # consume the generator before we start walking
-            for allergen, ingredients in list(
+            for allergen, ingredients in [
                 (k, v) for k, v in possible_translations.items() if len(v) == 1
-            ):
+            ]:
                 found_ingredient = ingredients.pop()
                 found_allergens[allergen] = found_ingredient
                 del possible_translations[allergen]

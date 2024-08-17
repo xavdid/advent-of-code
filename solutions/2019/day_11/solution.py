@@ -25,7 +25,6 @@ CHANGE_SET = {
 
 @dataclass(frozen=True)
 class Point:
-    # pylint: disable=invalid-name
     x: int
     y: int
 
@@ -63,7 +62,6 @@ class Robot:
         self._move()
 
     def print_panels(self):
-        # pylint: disable=invalid-name
         min_x = min(point.x for point in self.painted_panels)
         min_y = min(point.y for point in self.painted_panels)
         max_x = max(point.x for point in self.painted_panels)
@@ -83,7 +81,6 @@ class Robot:
         self._dir_index = (self._dir_index + change) % 4
 
     def _move(self):
-        # pylint: disable=invalid-name
         """step 1 forward in the current direction"""
         direction = DIRECTION_ORDER[self._dir_index]
         [x, y] = CHANGE_SET[direction]

@@ -11,7 +11,6 @@ CHARS = [" ", "X", "B", "_", "o"]
 
 @dataclass(frozen=True)
 class Point:
-    # pylint: disable=invalid-name
     x: int
     y: int
     tile_type: int
@@ -27,7 +26,6 @@ class Solution(IntcodeSolution):
         tiles = []
         chunk_size = 3
         for i in range(0, len(computer.output), chunk_size):
-            # pylint: disable=invalid-name
             x, y, tile_type = computer.output[i : i + chunk_size]
             tiles.append(Point(x, y, tile_type))
 
@@ -35,8 +33,7 @@ class Solution(IntcodeSolution):
 
     @slow
     def part_2(self):
-        # pylint: disable=invalid-name
-        # the name works, but there's a little bit of input lag? so it's hard to play
+        # the game works, but there's a little bit of input lag? so it's hard to play
         computer = IntcodeComputer(self.input)
         computer.program[0] = 2
         score = 0

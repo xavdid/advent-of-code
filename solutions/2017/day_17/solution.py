@@ -30,7 +30,7 @@ class Solution(BaseSolution):
 
         return res
 
-    def _solve(self, end, find):
+    def _solve(self, end, _find):
         b = [0]
         pos = 0
 

@@ -45,7 +45,7 @@ class BaseGrid:
         """
         expected to do any setup and instance variable assignments
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @property
     def offset(self) -> GridPoint:
@@ -182,7 +182,7 @@ class CubeGrid(BaseGrid):
             for col in range(longest_line_length):
                 try:
                     c = grid[row * self.cube_face_size][col * self.cube_face_size]
-                except IndexError:
+                except IndexError:  # noqa: PERF203
                     flat_cube[row][col] = None
                 else:
                     if c == " ":
@@ -192,8 +192,7 @@ class CubeGrid(BaseGrid):
                     subgrid = [
                         list(
                             line[
-                                col
-                                * self.cube_face_size : (col + 1)
+                                col * self.cube_face_size : (col + 1)
                                 * self.cube_face_size
                             ]
                         )

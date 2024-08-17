@@ -17,6 +17,7 @@ class Solution(BaseSolution):
             target = 2020 - amount
             if target in self.input:
                 return amount * target
+        return None
 
     def part_2(self) -> int:
         # need a list of pairs so we can search for the third
@@ -24,3 +25,4 @@ class Solution(BaseSolution):
             target = 2020 - a - b
             if target in self.input:
                 return a * b * target
+        return None

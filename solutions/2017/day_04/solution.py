@@ -29,7 +29,7 @@ class Solution(BaseSolution):
 
         def anagram(pw):
             for i, phrase in enumerate(pw):
-                anagrams = set(["".join(s) for s in permutations(phrase)])
+                anagrams = {"".join(s) for s in permutations(phrase)}
                 the_rest = set(sans(pw, i))
                 if anagrams.intersection(the_rest):
                     return False

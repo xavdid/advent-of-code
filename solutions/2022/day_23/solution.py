@@ -37,6 +37,7 @@ class Grid:
         """
         if not any(calculate_offset(elf, o) in self.grid for o in OFFSETS[d]):
             return calculate_offset(elf, OFFSETS[d][1])
+        return None
 
     def step(self) -> bool:
         # map of a position and who all wants to move there

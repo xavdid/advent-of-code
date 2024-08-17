@@ -32,7 +32,6 @@ class Instruction:
 
 
 class IntcodeComputer:
-    # pylint: disable=too-many-instance-attributes,no-self-use
     def __init__(
         self, program, inputs: List[int] = None, debug=False, default_input=None
     ):
@@ -252,12 +251,11 @@ class IntcodeComputer:
         self.last_output = len(self.output)
 
     def diagnostic(self):
-        if not all([x == 0 for x in self.output[:-1]]):
+        if not all(x == 0 for x in self.output[:-1]):
             raise RuntimeError("bad diagnostic code", self.output[:-1])
         return self.output[-1]
 
     def __str__(self):
-        # pylint: disable=line-too-long
         max_index = max(self.program)  # so empty items in the middle are accounted for
         return f"=======\nprogram: {[self.program[x] for x in range(max_index + 1)]}\npointer: {self.pointer}\nrelative_base: {self.relative_base}\noutput: {self.output}\n"
 

@@ -29,7 +29,7 @@ class Solution(TextSolution):
         assert len(players) == 2
         return cast(
             Tuple[Player, Player],
-            tuple(map(lambda pos: Player(int(pos) - 1), players)),
+            tuple((Player(int(pos) - 1) for pos in players)),
         )
 
     @answer(897798)

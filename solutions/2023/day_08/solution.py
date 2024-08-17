@@ -40,6 +40,6 @@ class Solution(TextSolution):
     @answer(14321394058031)
     def part_2(self) -> int:
         _, nodes = self._parse_input()
-        starts = [k for k in nodes.keys() if k[-1] == "A"]
+        starts = [k for k in nodes if k[-1] == "A"]
 
         return math.lcm(*[self._solve(s) for s in starts])

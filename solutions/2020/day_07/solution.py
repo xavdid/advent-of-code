@@ -41,7 +41,7 @@ class Solution(BaseSolution):
                 bag_info.can_hold_gold = True
             else:
                 bag_info.can_hold_gold = any(
-                    [self.can_hold_gold(color) for color in held_bag_colors]
+                    self.can_hold_gold(color) for color in held_bag_colors
                 )
 
         # don't need to re-save the bag_info because it's a pointer to a dict already

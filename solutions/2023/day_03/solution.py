@@ -3,10 +3,12 @@
 import re
 from collections import defaultdict
 from operator import mul
-
-from solutions.utils.graphs import GridPoint
+from typing import TYPE_CHECKING
 
 from ...base import StrSplitSolution, answer
+
+if TYPE_CHECKING:
+    from solutions.utils.graphs import GridPoint
 
 
 class Solution(StrSplitSolution):

@@ -24,7 +24,7 @@ class Solution(BaseSolution):
 
         # see how far our input is from the odd-square.
         # the possible values are a corner (max_distance) or the center of a row (half of that)
-        steps = max_distance - ((side ** 2 - self.input) % max_distance)
+        steps = max_distance - ((side**2 - self.input) % max_distance)
         return int(steps)
 
     def part_2(self):

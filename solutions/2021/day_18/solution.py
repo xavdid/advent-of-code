@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from itertools import permutations
-from math import ceil, floor  # pylint: disable=no-name-in-module
+from math import ceil, floor
 from typing import List
 
 from ...base import StrSplitSolution, answer

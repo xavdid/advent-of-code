@@ -8,8 +8,6 @@ SCAFFOLD_CHARS = {"#", "v", "^", "<", ">"}
 
 
 class Diagram:
-    # pylint: disable=invalid-name
-
     diagram: List[List[str]] = [[]]
     # [ [ 0,0 | 0,1 | 0,2 ],
     #   [ 1,0 | 1,1 | 1,2 ]
@@ -33,7 +31,7 @@ class Diagram:
             return False
 
         # this could honestly just look at the first row since the diagram is rectangular
-        if x >= len(self.diagram[y]):
+        if x >= len(self.diagram[y]):  # noqa: SIM103
             return False
 
         return True

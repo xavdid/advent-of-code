@@ -76,7 +76,7 @@ class Solution(StrSplitSolution):
                     and neighbor not in seen
                     and all(-1 <= x <= size for x in neighbor)
                 ):
-                    queue.append(neighbor)
+                    queue.append(neighbor)  # noqa: PERF401
 
         total = 0
         for p in points:

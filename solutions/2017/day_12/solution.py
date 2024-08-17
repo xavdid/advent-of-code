@@ -24,7 +24,7 @@ class Solution(BaseSolution):
         res = []
         for line in input_:
             nodes = line.split(" <-> ")
-            res.append((int(nodes[0]), set([int(i) for i in nodes[1].split(", ")])))
+            res.append((int(nodes[0]), {int(i) for i in nodes[1].split(", ")}))
         return dict(res)
 
     def solve(self):

@@ -16,7 +16,6 @@ class Solution(IntcodeSolution):
         ]
 
         while True:
-            # pylint: disable=invalid-name
             for vm in vms:
                 vm.run(num_outputs=3, num_inputs=1)
                 maybe_output: Optional[Tuple[int, int, int]] = vm.output[-3:]
@@ -38,7 +37,6 @@ class Solution(IntcodeSolution):
         last_sent: Optional[Tuple[int, int]] = None
 
         while True:
-            # pylint: disable=invalid-name
             for vm in vms:
                 stopped_reason = vm.run(num_outputs=3, num_inputs=1)
 
@@ -53,11 +51,10 @@ class Solution(IntcodeSolution):
                 else:
                     vms[to].add_input([x, y])
 
-            if all([vm.idle for vm in vms]):
+            if all(vm.idle for vm in vms):
                 # network is idle, send the special packet to 0
                 vms[0].add_input(nat_mem)
 
-                # pylint: disable=unsubscriptable-object
                 if last_sent and last_sent[1] == nat_mem[1]:
                     return nat_mem[1]
 

@@ -46,7 +46,6 @@ class Solution(StrSplitSolution):
         grid = self.parse_grid()
 
         for i in range(999):
-            # pylint: disable=cell-var-from-loop
             next_grid: Grid = {}
 
             def step(mode: str, can_move: Callable[[GridPoint], bool]):

@@ -70,6 +70,7 @@ class Solution(IntcodeSolution):
             return re.search(r"\d{3,}", res).group()
 
         print("no combination found")
+        return None
 
     def part_2(self):
         pass

@@ -13,6 +13,7 @@ def prominent_color(stack):
         if pixel == "2":
             continue
         return pixel
+    return None
 
 
 class Solution(BaseSolution):

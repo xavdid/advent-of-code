@@ -1,6 +1,6 @@
 # prompt: https://adventofcode.com/2022/day/11
 
-from math import lcm  # pylint: disable=no-name-in-module
+from math import lcm
 from operator import add, mul
 from typing import Callable, Dict
 
@@ -73,7 +73,7 @@ class Solution(StrSplitSolution):
 
                 monkey.items = []
 
-        sorted_monkeys = list(sorted(monkeys.values()))
+        sorted_monkeys = sorted(monkeys.values())
         return sorted_monkeys[-1].num_inspections * sorted_monkeys[-2].num_inspections
 
     @answer(99852)

@@ -14,7 +14,6 @@ class Direction(IntEnum):
     EAST = 4
 
 
-# pylint: disable=invalid-name
 @dataclass(frozen=True, eq=True)
 class Point:
     x: int
@@ -116,7 +115,7 @@ class Maze:
         for y in range(max_y, min_y - 1, -1):
             row = []
             for x in range(min_x, max_x + 1):
-                row.append(self.char(self.maze.get(Point(x, y), "default")))
+                row.append(self.char(self.maze.get(Point(x, y), "default")))  # noqa: PERF401
             rows.append(row)
 
         return "\n".join(["".join(row) for row in rows])

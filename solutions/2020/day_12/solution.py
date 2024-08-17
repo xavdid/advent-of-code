@@ -8,7 +8,7 @@ from ...base import BaseSolution, InputTypes
 
 COMPASS = ["N", "E", "S", "W"]
 
-DIRECTIONS = set([*COMPASS, "F"])
+DIRECTIONS = {*COMPASS, "F"}
 
 
 class Ship:

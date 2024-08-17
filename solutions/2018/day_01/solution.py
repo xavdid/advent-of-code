@@ -23,5 +23,5 @@ class Solution(BaseSolution):
             c += i
             if c in s:
                 return c
-            else:
-                s.add(c)
+            s.add(c)
+        return None

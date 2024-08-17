@@ -49,7 +49,7 @@ class VM:
     def execute(self) -> None:
         ins = self.instructions[self.pointer]
         if self.pointer in self.visited:
-            raise InfiniteLoopException()
+            raise InfiniteLoopException
 
         self.visited.add(self.pointer)
 
@@ -99,3 +99,4 @@ class Solution(BaseSolution):
                 continue
 
             return vm.acc
+        return None

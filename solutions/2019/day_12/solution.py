@@ -14,8 +14,6 @@ AXES = ["x", "y", "z"]
 
 
 def lcm(a, b, c):
-    # pylint: disable=invalid-name
-
     temp_res = (a * b) // gcd(a, b)
     return temp_res * c // gcd(temp_res, c)
 
@@ -87,7 +85,6 @@ class Solution(BaseSolution):
         return InputTypes.STRSPLIT
 
     def part_1(self):
-
         moons = [Moon(coordinates) for coordinates in self.input]
         for _ in range(1000):
             for moon, other_moon in combinations(moons, 2):
@@ -112,10 +109,9 @@ class Solution(BaseSolution):
                     moon.resolve_velocity(only_axis=axis)
                 counter += 1
 
-                if all([moon.has_reset(axis) for moon in moons]):
+                if all(moon.has_reset(axis) for moon in moons):
                     break
             cycles.append(counter)
 
         print(cycles)
-        # pylint: disable=no-value-for-parameter
         return lcm(*cycles)

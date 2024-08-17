@@ -19,7 +19,7 @@ class Solution(IntcodeSolution):
     def part_2(self):
         target = 19_690_720
 
-        for noun, verb in product(range(0, 100), range(0, 100)):
+        for noun, verb in product(range(100), range(100)):
             computer = IntcodeComputer(self.input)
             computer.program[1] = noun
             computer.program[2] = verb

@@ -41,11 +41,10 @@ class Solution(BaseSolution):
             if self.all_values_pass_validators(value_set, validators)
         ]
 
-    # pylint: disable=no-self-use
     def all_values_pass_validators(
         self, value_set, validators: List[Sequence[int]]
     ) -> bool:
-        return all([any(v in validator for validator in validators) for v in value_set])
+        return all(any(v in validator for validator in validators) for v in value_set)
 
     def solve(self) -> Tuple[int, int]:
         self.parse_requirements()

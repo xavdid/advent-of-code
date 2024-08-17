@@ -5,7 +5,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from functools import cached_property
 from heapq import heappop, heappush
-from math import inf  # pylint: disable=no-name-in-module
+from math import inf
 from operator import add, sub
 from typing import (
     Callable,
@@ -47,7 +47,7 @@ class State:
 
     @property
     def did_win(self) -> bool:
-        return all(self.loc_is_home(p) for p in self.populated.keys())
+        return all(self.loc_is_home(p) for p in self.populated)
 
     def new_state_with_swap(self, old: GridPoint, new: GridPoint) -> "State":
         new_pop = self.populated.copy()

@@ -33,7 +33,6 @@ class Solution(StrSplitSolution):
             arr = self.redistribute(arr)
             if arr in seen:
                 break
-            else:
-                seen.append(arr[:])
+            seen.append(arr[:])
 
         return (len(seen), len(seen) - seen.index(arr))

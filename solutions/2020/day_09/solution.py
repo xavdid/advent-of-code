@@ -34,3 +34,4 @@ class Solution(BaseSolution):
                     return bad_num, min(continuous_range) + max(continuous_range)
                 if running_sum > bad_num:
                     break
+        return None

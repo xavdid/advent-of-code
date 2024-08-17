@@ -1,7 +1,7 @@
 # prompt: https://adventofcode.com/2020/day/11
 
 from collections import Counter
-from functools import cache  # pylint: disable=no-name-in-module
+from functools import cache
 from typing import List, Tuple
 
 from ...base import BaseSolution, InputTypes
@@ -98,7 +98,7 @@ class Grid:
         for y in range(self.max_y):
             new_row = []
             for x in range(self.max_x):
-                new_row.append(self.next_tile(y, x))
+                new_row.append(self.next_tile(y, x))  # noqa: PERF401
             self.next_grid.append(new_row)
 
         if self.grid == self.next_grid:
@@ -106,7 +106,7 @@ class Grid:
 
         self.grid = self.next_grid
         self.next_grid = []
-        self.tile_at.cache_clear()  # pylint: disable=no-member
+        self.tile_at.cache_clear()
         return True
 
 

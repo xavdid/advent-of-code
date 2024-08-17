@@ -15,6 +15,7 @@ class Generator:
         self.value = (self.value * self.factor) % self.mod
         if only_mulitples and self.value % self.multiple != 0:
             return self.step(only_mulitples)
+        return None
 
     def lowest_bits(self):
         return bin(self.value)[2:].zfill(32)[-16:]

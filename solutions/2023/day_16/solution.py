@@ -68,7 +68,7 @@ class Solution(StrSplitSolution):
 
             for next_state in current.next_states(grid[current.loc]):
                 if next_state.loc in grid:
-                    queue.append(next_state)
+                    queue.append(next_state)  # noqa: PERF401
 
         return len({state.loc for state in seen})
 

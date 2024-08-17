@@ -33,7 +33,7 @@ def apply_mask_to_int_v2(mask: str, i: int) -> str:
 
 def resolve_floaters(mask: str) -> int:
     num_x = mask.count("X")
-    num_combos = 2 ** num_x
+    num_combos = 2**num_x
 
     for i in range(num_combos):
         res = mask

@@ -21,7 +21,7 @@ def all_in_range(points: Points) -> bool:
 def print_grid(points: Points, max_y: int, min_y: int = -1):
     result = []
     for y in range(max_y + 2, min_y, -1):
-        result.append(f'|{"".join("#" if (x,y) in points else "." for x in range(7))}|')
+        result.append(f'|{"".join("#" if (x,y) in points else "." for x in range(7))}|')  # noqa: PERF401
     if min_y == -1:
         result.append("+-------+")
     print("\n".join(result))

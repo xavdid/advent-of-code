@@ -90,20 +90,17 @@ class Solution(StrSplitSolution):
         for numbers in (
             tuple(map(int, findall(r"[\d-]+", line))) for line in self.input
         ):
-            sensors.append(Sensor(numbers[0], numbers[1], cast(GridPoint, numbers[2:])))
+            sensors.append(Sensor(numbers[0], numbers[1], cast(GridPoint, numbers[2:])))  # noqa: PERF401
 
         return sensors
 
     def get_ranges(
         self, sensors: list[Sensor], target_row: int, clamp_at: int = 0
     ) -> list[range]:
-        ranges = list(
-            sorted(
-                (r for s in sensors if (r := s.range_on_row(target_row, clamp_at))),
-                key=itemgetter(0),
-            )
+        return sorted(
+            (r for s in sensors if (r := s.range_on_row(target_row, clamp_at))),
+            key=itemgetter(0),
         )
-        return ranges
 
     @answer(5335787)
     def part_1(self) -> int:

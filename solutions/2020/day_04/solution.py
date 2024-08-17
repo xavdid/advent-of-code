@@ -31,25 +31,18 @@ VALIDATORS = {
     "hcl": lambda x: bool(re.match(r"#[0-9a-f]{6}", x)),
     "ecl": lambda x: x in {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"},
     "pid": lambda x: len(x) == 9 and int(x),
-    "cid": lambda x: True,  # ignored
+    "cid": lambda _: True,
 }
 
 
 def passport_has_valid_keys(passport: Dict[str, str]) -> bool:
     if len(passport) == 8:
         return True
-    if len(passport) == 7 and "cid" not in passport:
-        return True
-    return False
+    return bool(len(passport) == 7 and "cid" not in passport)
 
 
 def passport_has_valid_values(passport: Dict[str, str]) -> bool:
-    for k, v in passport.items():
-        if not VALIDATORS[k](v):
-            # print(f"invalid {k}: {v}")
-            # break early on failure
-            return False
-    return True
+    return all(VALIDATORS[k](v) for k, v in passport.items())
 
 
 class Solution(BaseSolution):

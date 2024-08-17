@@ -9,7 +9,6 @@ from ...base import StrSplitSolution, answer
 Packet = int | list["Packet"]
 
 
-# pylint: disable=too-many-return-statements
 def is_ordered(left: Packet | None, right: Packet | None) -> bool | None:
     # right is smaller, not sorted
     if right is None:
@@ -60,7 +59,7 @@ class Solution(StrSplitSolution):
         flat_packets: list[Packet] = [divider_1, divider_2]
         for block in self.input:
             for packet in block.split("\n"):
-                flat_packets.append(literal_eval(packet))
+                flat_packets.append(literal_eval(packet))  # noqa: PERF401
 
         flat_packets.sort(key=cmp_to_key(lambda l, r: -1 if is_ordered(l, r) else 1))
 

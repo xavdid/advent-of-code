@@ -48,3 +48,4 @@ class Solution(BaseSolution):
                 for idx, (i, j) in enumerate(zip(*pair)):
                     if i != j:
                         return pair[0][:idx] + pair[0][idx + 1 :]
+        return None

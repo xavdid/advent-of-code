@@ -37,7 +37,7 @@ def align_scanner_reports(
         difference = target_dim = None
 
         source_dim_values = [b[source_dim] for b in source_scanner]
-        for (signed_int, target_dim) in product((1, -1), range(3)):
+        for signed_int, target_dim in product((1, -1), range(3)):
             # bail early if we have already seen a successful match in this dimension
             if target_dim in found_dims:
                 continue
@@ -59,7 +59,7 @@ def align_scanner_reports(
 
         # failed to find sufficient overlap between these scanners
         if num_shared_beacons < 12:
-            return [], tuple()
+            return [], ()
 
         # these all hold their last value from the loop when we break
         # they need to have been set to non-initial values

@@ -22,7 +22,7 @@ class Solution(BaseSolution):
             name, weight = info[0].split(" ")
             weight = int(weight[1:-1])  # strip parens
 
-            if len(info) == 2:
+            if len(info) == 2:  # noqa: SIM108
                 # has kids
                 children = info[1].split(", ")
             else:
@@ -59,18 +59,16 @@ class Solution(BaseSolution):
     def odd_one_out(self, arr):
         # returns the element that doesn't belong if there's exactly one different
         if len(arr) == 0:
-            return
-        elif len(arr) < 3:
+            return None
+        if len(arr) < 3:
             raise ValueError("unable to find odd element with less than 3")
-        else:
-            if arr[0] == arr[1]:
-                s = set(arr)
-                s.remove(arr[0])
-                return s.pop()
-            elif arr[0] == arr[2]:
-                return arr[1]
-            else:
-                return arr[0]
+        if arr[0] == arr[1]:
+            s = set(arr)
+            s.remove(arr[0])
+            return s.pop()
+        if arr[0] == arr[2]:
+            return arr[1]
+        return arr[0]
 
     def part_1(self):
         tree = self.build_tree(self.input)

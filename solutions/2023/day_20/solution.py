@@ -19,16 +19,16 @@ class BaseModule:
         return [(self.name, is_high_pulse, t) for t in self.targets]
 
     def send(self, source: str, is_high_pulse: bool) -> list[Pulse]:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def register_sources(self, sources: list[str]):
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class FlipFlopModule(BaseModule):
     state = False
 
-    def send(self, _: str, is_high_pulse: bool) -> list[Pulse]:
+    def send(self, source: str, is_high_pulse: bool) -> list[Pulse]:  # noqa: ARG002
         # high pulses are ignored
         if is_high_pulse:
             return []

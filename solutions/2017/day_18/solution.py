@@ -56,8 +56,7 @@ class TIS100:
         """
         if r in self.registers:
             return self.registers[r]
-        else:
-            return int(r)
+        return int(r)
 
     def execute(self):
         while not self.is_finished:

@@ -1,5 +1,6 @@
 # prompt: https://adventofcode.com/2023/day/1
 
+
 from ...base import StrSplitSolution, answer
 
 NUMBERS = {

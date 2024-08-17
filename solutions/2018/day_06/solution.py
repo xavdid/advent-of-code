@@ -51,7 +51,6 @@ class Solution(BaseSolution):
         border_ids = set()
 
         for p in self.traverse_grid():
-
             # could speed this up by not recalculating every distance every time
             # it's neighbor + 1, if we've got spacial awareness
 

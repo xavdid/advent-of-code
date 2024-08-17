@@ -1,5 +1,4 @@
 # prompt: https://adventofcode.com/2019/day/3
-# pylint: disable=invalid-name
 
 from dataclasses import dataclass
 from typing import Set, Union

@@ -24,7 +24,7 @@ class Box:
 
     @property
     def is_small(self) -> bool:
-        return all(-50 <= r.start and r.stop <= 51 for r in self.ranges)
+        return all(-50 <= r.start and r.stop <= 51 for r in self.ranges)  # noqa: SIM300
 
     @property
     def ranges(self):
@@ -113,7 +113,7 @@ class Solution(StrSplitSolution):
             action, raw_bounds = line.split(" ")
             bounds = [
                 map(int, x)
-                for x in re.findall(fr"[xyz]={signed_int}..{signed_int}", raw_bounds)
+                for x in re.findall(rf"[xyz]={signed_int}..{signed_int}", raw_bounds)
             ]
             assert len(bounds) == 3
             results.append(

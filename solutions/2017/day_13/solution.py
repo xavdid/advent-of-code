@@ -28,13 +28,11 @@ class Solution(BaseSolution):
 
     def run_maze(self, start=0, exit_early=False):
         caught = []
-        location = 0  # start and tick might not be the same
-        for i in range(start, start + max(self.tree, key=int) + 1):
+        for location, i in enumerate(range(start, start + max(self.tree, key=int) + 1)):
             if location in self.tree and self.at_zero(i, self.tree[location]):
                 caught.append(location)
                 if exit_early:
                     break
-            location += 1
 
         return caught
 

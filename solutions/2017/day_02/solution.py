@@ -31,3 +31,4 @@ class Solution(StrSplitSolution):
         for pair in pairs:
             if max(pair) % min(pair) == 0:
                 return max(pair) // min(pair)
+        raise RuntimeError

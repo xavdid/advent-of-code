@@ -37,7 +37,6 @@ def value_for_game(moves: tuple[Shape, Shape]) -> int:
     if you == opp:
         return you.value + 3
 
-    # pylint: disable=too-many-boolean-expressions
     # you win
     if (
         (you == Shape.ROCK and opp == Shape.SCISSORS)

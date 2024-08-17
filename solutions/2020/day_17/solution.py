@@ -74,13 +74,11 @@ class ConwayCube:
         return len(
             [
                 self.cubes[neighbor]
-                # pylint: disable=no-value-for-parameter
                 for neighbor in self.neighbors(*coord)
                 if self.cubes[neighbor]
             ]
         )
 
-    # pylint: disable=no-self-use
     def neighbors(self, cube_x: int, cube_y: int, cube_z: int):
         for x, y, z in product(COORD_OFFSETS, repeat=3):
             if not any([x, y, z]):
@@ -109,7 +107,7 @@ class Solution(BaseSolution):
     input_type = InputTypes.STRSPLIT
 
     def part_1(self) -> int:
-        return
+        return None
         cubes = ConwayCube(self.input)
         for _ in range(6):
             cubes.step()

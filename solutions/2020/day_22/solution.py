@@ -13,7 +13,6 @@ MaybeDeck = Union[List[int], str]
 class Deck:
     def __init__(self, deck: MaybeDeck) -> None:
         if isinstance(deck, str):
-
             self.cards = deque(map(int, deck.split("\n")[1:]))
         else:
             self.cards = deque(deck)

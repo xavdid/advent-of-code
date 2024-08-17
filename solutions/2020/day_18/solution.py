@@ -4,7 +4,7 @@ import ast
 from operator import __add__, __mul__
 from typing import Tuple
 
-from ...base import BaseSolution, InputTypes
+from ...base import BaseSolution, InputTypes, answer
 
 # part 1
 
@@ -30,7 +30,6 @@ def solve(equation: str) -> Tuple[int, int]:
                 pointer += offset + 1
 
             if operator:
-                # pylint: disable=not-callable
                 number = operator(int(head), number)
                 operator = None
             else:
@@ -46,11 +45,10 @@ def solve(equation: str) -> Tuple[int, int]:
 
 
 class SwapPrecedence(ast.NodeTransformer):
-    # pylint: disable=no-self-use,unused-argument
-    def visit_Sub(self, node):
+    def visit_Sub(self, _):
         return ast.Mult()
 
-    def visit_Div(self, node):
+    def visit_Div(self, _):
         return ast.Add()
 
 
@@ -59,15 +57,16 @@ class Solution(BaseSolution):
     _day = 18
     input_type = InputTypes.STRSPLIT
 
+    @answer(75592527415659)
     def part_1(self) -> int:
         return sum([solve(line.replace(" ", ""))[0] for line in self.input])
 
+    @answer(360029542265462)
     def part_2(self) -> int:
         total = 0
         for line in self.input:
             tree = ast.parse(line.replace("+", "/").replace("*", "-"), mode="eval")
             new_tree = SwapPrecedence().visit(tree)
-            # pylint: disable=eval-used
             total += eval(compile(new_tree, filename="", mode="eval"))
 
         return total

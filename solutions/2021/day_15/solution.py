@@ -3,7 +3,7 @@
 from collections import defaultdict
 from heapq import heappop, heappush
 from itertools import product
-from math import inf  # pylint: disable=no-name-in-module
+from math import inf
 from typing import DefaultDict, Dict, List, Set, Tuple
 
 from ...base import StrSplitSolution, answer

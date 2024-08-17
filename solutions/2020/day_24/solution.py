@@ -34,10 +34,7 @@ class Solution(BaseSolution):
             tile = (0, 0, 0)
             i = 0
             while i < len(line):
-                if line[i] in ["w", "e"]:
-                    width = 1
-                else:
-                    width = 2
+                width = 1 if line[i] in ["w", "e"] else 2
 
                 tile = calculate_offset(tile, offsets[line[i : i + width]])
 
