@@ -7,20 +7,20 @@ _require-venv:
     import sys
     sys.exit(sys.prefix == sys.base_prefix)
 
+# install dev deps
 @install: _require-venv
-  pip install ruff pyright
+  # extra flags make this ~ as fast as I want
+  pip install -r requirements.txt --quiet --disable-pip-version-check
 
 # run linting and typecheking over the solutions
-@lint: _require-venv
-  # everything lints
-  ruff .
-  # but I didn't want to go back and typecheck anything pre-2022
-  # all of 2022 was verified against latest pyright in sept 2023
-  pyright solutions/2023
+@lint: _require-venv install
+  ruff check --silent
+  ruff format --check --silent
+  pyright
 
 # run every solution for a given year
 @validate year:
-	for i in $(seq 1 25); do ./advent $i --slow --year {{year}}; done;
+	for i in $(seq 1 25); do ./advent $i --slow --year {{year}}; echo; done;
 
 # run the dev server for the blog
 @dev:

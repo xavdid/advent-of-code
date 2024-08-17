@@ -1,0 +1,46 @@
+[project]
+name = "advent-of-code"
+version = "0"
+
+
+[tool.pyright]
+# everything pre-2023 wasn't written with a typechecker, so I'm not going back to look now
+ignore = [
+  "solutions/2017",
+  "solutions/2018",
+  "solutions/2019",
+  "solutions/2020",
+  "solutions/2021",
+]
+
+[tool.ruff.lint]
+select = [
+  "E",    # PEP8 recommendations
+  "F",    # bugs
+  "I001", # import sorting
+  "BLE",  # catching root Exception
+  "A",    # built-in shadowing
+  "C4",   # unnecessary comprehensions
+  "ISC",  # implicit string concat
+  "PIE",  # misc useful lints
+  "Q",    # better quoting behavior
+  "RSE",  # no parens on exceptions that lack args
+  "RET",  # more correct return behavior
+  "SIM",  # general style things
+  "TCH",  # type-only imports should be in a typecheck block
+  "ARG",  # unused args
+  "PTH",  # use pathlib
+  "FLY",  # short "".join calls
+  "PERF", # performance hints
+  # "RUF", # these are a little picky for me
+]
+
+ignore = [
+  "E501", # skip enforcing line length
+  "E741", # ignore short variable names
+]
+
+unfixable = [
+  "F401", # don't remove unused imports
+  "F841", # don't remove unused variables
+]
