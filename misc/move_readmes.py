@@ -40,7 +40,7 @@ def move_readmes():
                         *to_move,
                         str(destination_path.relative_to(REPO_ROOT)),
                     ],
-                    capture_output=True,
+                    capture_output=True, check=False,
                 )
                 if result.returncode:
                     print(f"failed to move {to_move}: ", result.stderr)

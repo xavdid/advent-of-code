@@ -14,8 +14,8 @@ _require-venv:
 
 # run linting and typecheking over the solutions
 @lint: _require-venv install
-  ruff check --silent
-  ruff format --check --silent
+  ruff check --quiet
+  ruff format --check --quiet
   pyright
 
 # run every solution for a given year

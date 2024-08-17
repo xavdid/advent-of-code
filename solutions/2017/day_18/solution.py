@@ -96,13 +96,12 @@ class TIS100:
                 if self.evaluate(instructions[0]) != 0:
                     # we want the first recieved sound, so stop once we play one
                     self.is_finished = True
+            elif self.queue:
+                self.is_locked = False
+                self.registers[instructions[0]] = self.queue.pop(0)
             else:
-                if self.queue:
-                    self.is_locked = False
-                    self.registers[instructions[0]] = self.queue.pop(0)
-                else:
-                    self.is_locked = True
-                    return
+                self.is_locked = True
+                return
 
         if command == "jgz" and self.evaluate(instructions[0]) > 0:
             self.pos += self.evaluate(instructions[1])

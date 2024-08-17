@@ -52,7 +52,7 @@ class Solution(BaseSolution):
                     d.rotate(int(i[1:]))
                     programs = "".join(d)
                 elif i[0] == "x":
-                    [i, j] = [int(i) for i in i[1:].split("/")]
+                    [i, j] = [int(i) for i in i[1:].split("/")]  # noqa: PLW2901
                     programs = swap(programs, i, j)
                 elif i[0] == "p":
                     [prog_1, prog_2] = i[1:].split("/")

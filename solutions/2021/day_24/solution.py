@@ -63,13 +63,12 @@ class Solution(StrSplitSolution):
                 else:
                     result[prev.digit] = str(9)
                     result[curr.digit] = str(9 + diff)
+            elif diff > 0:
+                result[prev.digit] = str(1)
+                result[curr.digit] = str(1 + diff)
             else:
-                if diff > 0:
-                    result[prev.digit] = str(1)
-                    result[curr.digit] = str(1 + diff)
-                else:
-                    result[prev.digit] = str(1 - diff)
-                    result[curr.digit] = str(1)
+                result[prev.digit] = str(1 - diff)
+                result[curr.digit] = str(1)
 
         assert all(result)
         assert len(result) == 14

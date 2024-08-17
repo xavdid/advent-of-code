@@ -61,9 +61,9 @@ class Solution(StrSplitSolution):
             for monkey in monkeys.values():
                 monkey.num_inspections += len(monkey.items)
                 for item in monkey.items:
-                    item = monkey.operation(item) // worry_decreaser
+                    item = monkey.operation(item) // worry_decreaser  # noqa: PLW2901
                     if shrinker:
-                        item = item % shrinker
+                        item = item % shrinker  # noqa: PLW2901
                     dest = (
                         monkey.if_true
                         if item % monkey.divisor == 0

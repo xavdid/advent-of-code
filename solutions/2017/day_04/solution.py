@@ -40,7 +40,7 @@ class Solution(BaseSolution):
     def _solve(self, f):
         total = 0
         for pw in self.input:
-            pw = pw.split(" ")
+            pw = pw.split(" ")  # noqa: PLW2901
             if f(pw):
                 total += 1
 

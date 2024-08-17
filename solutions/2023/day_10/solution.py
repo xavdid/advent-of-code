@@ -67,7 +67,7 @@ class Solution(StrSplitSolution):
             points.append(current)
             a, b = possible_moves(current, grid[current])
 
-            if (a == start or b == start) and last != start:
+            if (start in (a, b)) and last != start:
                 farthest_loop_distance = ceil(len(points) / 2)
                 break
 

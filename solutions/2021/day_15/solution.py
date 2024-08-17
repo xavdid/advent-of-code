@@ -21,7 +21,7 @@ class Solution(StrSplitSolution):
         grid: Dict[Point, int] = {}
         for y, line in enumerate(self.input):
             for x, val in enumerate(line):
-                val = int(val)
+                val = int(val)  # noqa: PLW2901
                 for mult_x, mult_y in product(range(grid_mult), range(grid_mult)):
                     out = val + mult_x + mult_y
                     if out > 9:

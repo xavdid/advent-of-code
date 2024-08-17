@@ -87,7 +87,7 @@ class Solution(TextSolution):
         result = []
         for seed in seeds:
             for transformations in map_layers:
-                seed = mask_number(seed, transformations)
+                seed = mask_number(seed, transformations)  # noqa: PLW2901
 
             result.append(seed)
 

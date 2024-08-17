@@ -32,12 +32,17 @@ select = [
   "PTH",  # use pathlib
   "FLY",  # short "".join calls
   "PERF", # performance hints
+  "PL",
   # "RUF", # these are a little picky for me
 ]
 
 ignore = [
-  "E501", # skip enforcing line length
-  "E741", # ignore short variable names
+  "E501",    # skip enforcing line length
+  "E741",    # ignore short variable names
+  "PLR2004", # magic values
+  "PLR0911", # too many returns
+  "PLR0912", # too many branches
+  "PLR0913", # too many arguments
 ]
 
 unfixable = [
