@@ -10,6 +10,7 @@
     "astro-expressive-code": "^0.29.2",
     "astro-seo": "0.8.0",
     "rehype-autolink-headings": "^7.0.0",
+    "rehype-external-links": "^3.0.0",
     "typescript": "^5.2.2",
     "water.css": "^2.1.1"
   },
