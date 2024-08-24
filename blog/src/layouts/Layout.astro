@@ -57,6 +57,7 @@ const groupedSeo: SEOProps = {
     <link rel="apple-touch-icon" href="/apple-icon-180.png" />
     <link rel="me" href="https://mastodon.social/@xavdid" />
     <script
+      is:inline
       data-goatcounter="https://advent-of-code.goatcounter.com/count"
       async
       src="https://gc.zgo.at/count.js"></script>
@@ -157,6 +158,7 @@ const groupedSeo: SEOProps = {
           monospace;
       }
 
+      /* everything inside the layout */
       main {
         & h2 {
           border-bottom: 1px solid var(--border);
@@ -178,6 +180,9 @@ const groupedSeo: SEOProps = {
           }
         }
 
+        & p {
+          line-height: 1.5em;
+        }
         /* for plain markdown images */
         & p:has(img) {
           /* https://developer.mozilla.org/en-US/docs/Web/CSS/:has */
