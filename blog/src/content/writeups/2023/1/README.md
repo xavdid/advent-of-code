@@ -67,7 +67,7 @@ NUMBERS = {
 
 And in our calibration function, we replace all instances of each word with its digit:
 
-```py ins=", replace_nums=False" add={2-4}
+```py ins=", replace_nums=False" ins={2-4}
 def calculate_calibration(s: str, replace_nums=False) -> int:
     if replace_nums:
         for num, digit in NUMBERS.items():

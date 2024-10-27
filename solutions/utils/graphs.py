@@ -66,6 +66,8 @@ def parse_grid(raw_grid: list[str], ignore_chars: str = "") -> Grid:
     """
     returns 2-tuples of (row, col) with their value
 
+    `ignore_chars` is for grid characters that aren't valid landing spots, like walls.
+
     (0, 0) ------> (0, 9)
       |              |
       |              |

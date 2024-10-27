@@ -32,7 +32,7 @@ select = [
   "PTH",  # use pathlib
   "FLY",  # short "".join calls
   "PERF", # performance hints
-  "PL",
+  "PL",   # pylint, general recommendations
   # "RUF", # these are a little picky for me
 ]
 
