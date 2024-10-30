@@ -2,9 +2,9 @@
 year: 2023
 day: 23
 slug: 2023/day/23
-title: "TKTK"
+title: "A Long Walk"
 # concepts: [dfs]
-# pub_date: "TBD"
+pub_date: "2024-10-29"
 ---
 
 ## Part 1
@@ -145,4 +145,141 @@ I thought this would take too long to run on the real input, but I got my answer
 
 ## Part 2
 
-Unfortunately, the removal of the slides mean there are now _many_ paths through the map, so we'll need another approach.
+Unfortunately, the removal of the slides mean there are now _many_ paths through the map, so we'll need another approach. The best way to start is to reduce the number of graph nodes down to the actual places we can stop.
+
+Because everything is hallways, we're really only making choices when we reach intersections. If we pre-calculate all those distances, we can save ourselves a lot of computation when we're exploring all the possible routes.
+
+Ultimately, we want to build a graph where each intersection knows the distance to each intersection it can reach directly (and how far away it is). For the test input, that'll be:
+
+```py
+{
+    (0, 1): {(5, 3): 15},
+    (3, 11): {(5, 3): 22, (11, 21): 30, (13, 13): 24},
+    (5, 3): {(3, 11): 22, (13, 5): 22},
+    (11, 21): {(3, 11): 30, (13, 13): 18, (19, 19): 10},
+    (13, 5): {(5, 3): 22, (13, 13): 12, (19, 13): 38},
+    (13, 13): {(3, 11): 24, (11, 21): 18, (13, 5): 12, (19, 13): 10},
+    (19, 13): {(13, 5): 38, (13, 13): 10, (19, 19): 10},
+    (19, 19): {(11, 21): 10, (19, 13): 10, (22, 21): 5}
+}
+```
+
+> NOTE: I kept my parts 1 and 2 solutions separate, but I'll mark the changes I made to the existing code to keep everything easier to follow.
+
+We'll walk the grid again, but the data structure we use to track paths has changed. Instead of mapping a whole path and forking it, we just need to record the distance between each intersection:
+
+```py ins={1,12,15,19-20} rem={11,14,18}
+from collections import defaultdict
+
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def part_2(self) -> int:
+        ... # parse graph, find start
+
+        paths: list[tuple[GridPoint, set[GridPoint]]] = [(start, {start})]
+        paths: list[tuple[GridPoint, GridPoint]] = [(start, start)]
+
+        distances: list[int] = []
+        graph: defaultdict[GridPoint, dict[GridPoint, int]] = defaultdict(dict)
+
+        while paths:
+            cur, seen = paths.pop()
+            starting_point, cur = paths.pop()
+            seen = {starting_point}
+
+            ...
+```
+
+Beginning with `(start, start)` looks a little silly, but we'll be passing different things when we hit intersections.
+
+Next, we'll change how we calculate next steps. We don't care about the slides anymore, so we can simplify this section a bit:
+
+```py ins={15,26-27,30,34-37,39} rem={14,31-33}
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def part_2(self) -> int:
+        ...
+
+        while paths:
+            ...
+
+            while True:
+                if cur == target:
+                    distances.append(len(seen))
+                    graph[starting_point][cur] = len(seen)
+                    break
+
+                seen.add(cur)
+
+                moves = [
+                    n
+                    for n in neighbors(cur, num_directions=4)
+                    if n in grid and n not in seen
+                ]
+
+                if not moves:
+                    break
+                if len(moves) == 1:
+                    cur = moves[0]
+                    continue
+                else:
+                    paths += [(n, seen.copy()) for n in moves]
+                    break
+                if cur not in graph[starting_point]:
+                    # we started on the first step, so we have to offset by 1
+                    graph[starting_point][cur] = len(seen) - 1
+                    paths += [(cur, n) for n in moves]
+
+                break
+```
+
+If there are no moves, we just stop, and if we take a single step in a hallway, we keep trucking.
+
+The key piece here is right at the bottom - if there are multiple moves, you've reached an intersection! First, store your distance from the original starting point to here. Then, queue up the next segments: an expedition to chart from (`cur`) and the neighbor representing the first step (`n`). Once we've hit an intersection, we stop whether or not we've queued further steps.
+
+And, once we're standing on the target, we can store that distance (even though it's not an intersection).
+
+Next, we need to traverse the graph and find all the routes. This looks like a simplified version of our part 1 code:
+
+```py ins={14,17-28}
+...
+
+class Solution(StrSplitSolution):
+    ...
+
+    def part_2(self) -> int:
+        ...
+
+        graph: defaultdict[GridPoint, dict[GridPoint, int]] = defaultdict(dict)
+
+        while paths:
+            ...
+
+        stack: list[tuple[GridPoint, int, set[GridPoint]]] = [(start, 0, set())]
+        distances: list[int] = []
+
+        while stack:
+            cur, distance, seen = stack.pop()
+
+            if cur == target:
+                distances.append(distance)
+                continue
+
+            seen.add(cur)
+
+            for intersection, d in graph[cur].items():
+                if intersection not in seen:
+                    stack.append((intersection, distance + d, seen.copy()))
+
+        return max(distances)
+```
+
+Each time we step, we check each other node we could visit and add anything we haven't visited on this trip and summing our distance as we go. We do the same forking we did in part 1, where every journey gets its own copy of the trail.
+
+While part 1 was fast, running this takes ~ 17 seconds on my laptop. Definitely faster than I'd like, but there are only so many ways to explore this many nodes. There could be other tricks, but sometimes things just take a while!
