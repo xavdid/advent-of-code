@@ -11,6 +11,14 @@ def parse_3d_point(point: str) -> list[int]:
     return list(map(int, point.split(", ")))
 
 
+def possible_velocities(hailstone_v: int, distance: int) -> set[int]:
+    return {
+        v
+        for v in range(-1000, 1000)
+        if v != hailstone_v and distance % (v - hailstone_v) == 0
+    }
+
+
 @dataclass
 class Hailstone:
     px: int
@@ -48,6 +56,28 @@ class Hailstone:
 
         return self.px < x
 
+    def velocity(self, dim: str) -> int:
+        return getattr(self, f"v{dim}")
+
+    def position(self, dim: str) -> int:
+        return getattr(self, f"p{dim}")
+
+    def slower_hailstone(self, rvx: int, rvy: int) -> "Hailstone":
+        """
+        given the 2D velocity of a rock, slow this hailstone down by that much
+        """
+        return Hailstone(
+            self.px, self.py, self.pz, self.vx - rvx, self.vy - rvy, self.vz
+        )
+
+    def intersection_with(self, other: "Hailstone") -> tuple[float, float]:
+        x_intersection = (other.y_intercept - self.y_intercept) / (
+            self.slope - other.slope
+        )
+        y_intersection = self.slope * x_intersection + self.y_intercept
+
+        return x_intersection, y_intersection
+
 
 class Solution(StrSplitSolution):
     _year = 2023
@@ -70,8 +100,7 @@ class Solution(StrSplitSolution):
             if l.slope == r.slope:
                 continue
 
-            x_intersection = (r.y_intercept - l.y_intercept) / (l.slope - r.slope)
-            y_intersection = l.slope * x_intersection + l.y_intercept
+            x_intersection, y_intersection = l.intersection_with(r)
 
             if l.is_point_in_past(x_intersection) or r.is_point_in_past(x_intersection):
                 continue
@@ -84,10 +113,38 @@ class Solution(StrSplitSolution):
 
         return total
 
-    # @answer(1234)
+    @answer(557743507346379)
     def part_2(self) -> int:
-        pass
+        """
+        NOTE: adapted from https://www.reddit.com/r/adventofcode/comments/18pnycy/2023_day_24_solutions/keqf8uq/
+        """
+        hailstones = [Hailstone.parse(line) for line in self.input]
 
-    # @answer((1234, 4567))
-    # def solve(self) -> tuple[int, int]:
-    #     pass
+        rock_velocities = []
+        for dim in "xyz":
+            all_possibilities = [
+                possible_velocities(l.velocity(dim), r.position(dim) - l.position(dim))
+                for l, r in combinations(hailstones, 2)
+                if l.velocity(dim) == r.velocity(dim)
+            ]
+
+            common_possibilities = all_possibilities[0].intersection(*all_possibilities)
+            assert len(common_possibilities) == 1
+
+            rock_velocities.append(common_possibilities.pop())
+
+        rvx, rvy, rvz = rock_velocities
+
+        a, b, *_ = hailstones
+        # store un-slowed because we need it later
+        avx = a.vx
+
+        a = a.slower_hailstone(rvx, rvy)
+        b = b.slower_hailstone(rvx, rvy)
+
+        rpx, rpy = a.intersection_with(b)
+
+        time = (rpx - a.px) / (avx - rvx)
+        rpz = a.pz + (a.vz - rvz) * time
+
+        return int(rpx + rpy + rpz)
