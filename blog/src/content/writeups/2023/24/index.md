@@ -4,7 +4,7 @@ day: 24
 slug: 2023/day/24
 title: "Never Tell Me The Odds"
 # concepts: []
-# pub_date: "TBD"
+pub_date: "2024-11-10"
 ---
 
 ## Part 1
