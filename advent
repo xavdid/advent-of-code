@@ -8,7 +8,7 @@ from pathlib import Path
 from time import perf_counter_ns
 from typing import Type, cast
 
-from misc.date_utils import current_puzzle_year, next_day
+from misc.date_utils import current_puzzle_year, last_completed_day
 from solutions.base import AoCException, BaseSolution
 
 __version__ = "4.0.3"
@@ -57,10 +57,9 @@ def main(
         # class needs to have this name
         if day is None:
             year_dir = Path(f"solutions/{year}")
-            day = next_day(year_dir)
-        else:
-            if not 1 <= day <= 25:
-                PARSER.error(f"day {day} is not in range [1,25]")
+            day = last_completed_day(year_dir)
+        elif not 1 <= day <= 25:
+            PARSER.error(f"day {day} is not in range [1,25]")
 
         solution_class = cast(
             Type[BaseSolution],

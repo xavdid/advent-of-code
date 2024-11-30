@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-from datetime import date
 from pathlib import Path
 
-from misc.date_utils import current_puzzle_year, next_day
+from misc.date_utils import current_puzzle_year, last_completed_day
 
 PARSER = argparse.ArgumentParser(
     prog="./start", description="Scaffold a new Advent of Code solution"
@@ -27,10 +26,7 @@ if __name__ == "__main__":
     year_dir = Path("solutions", year)
     year_dir.mkdir(parents=True, exist_ok=True)
 
-    if ARGS.day is None:
-        day = next_day(year_dir) + 1
-    else:
-        day = ARGS.day
+    day = ARGS.day or last_completed_day(year_dir) + 1
 
     if not 1 <= day <= 25:
         PARSER.error(f"day {day} is not in range [1,25]")
@@ -60,7 +56,7 @@ if __name__ == "__main__":
                     "---",
                     f"year: {year}",
                     f"day: {day}",
-                    f"slug: {year}/day/{day}",
+                    f'slug: "{year}/day/{day}"',
                     'title: "TKTK"',
                     "# concepts: []",
                     '# pub_date: "TBD"',

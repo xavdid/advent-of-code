@@ -16,11 +16,11 @@ def current_puzzle_year() -> str:
     return str(now.year - 1)
 
 
-def next_day(year_dir: Path) -> int:
+def last_completed_day(year_dir: Path) -> int:
     """
     Finds the day of the last completed puzzle in a given folder.
 
-    Returns 0 by default. Uses int because we add 1 later.
+    Returns 0 by default. Uses `int` because we add 1 later.
     """
     return max(
         [

@@ -27,7 +27,7 @@ select = [
   "RSE",  # no parens on exceptions that lack args
   "RET",  # more correct return behavior
   "SIM",  # general style things
-  "TCH",  # type-only imports should be in a typecheck block
+  "TC",   # type-only imports should be in a typecheck block
   "ARG",  # unused args
   "PTH",  # use pathlib
   "FLY",  # short "".join calls
