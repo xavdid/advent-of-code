@@ -25,3 +25,7 @@ _require-venv:
 # run the dev server for the blog
 @dev:
   just --justfile blog/justfile dev
+
+# add all and commit with message "{{year}} day {{day}}"
+@commit year day:
+  gg "{{year}} day {{day}}"
