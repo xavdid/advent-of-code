@@ -75,7 +75,7 @@ def add_points(a: GridPoint, b: GridPoint) -> GridPoint:
     return a[0] + b[0], a[1] + b[1]
 ```
 
-The full neighbor generation is written with `(x, y)` variable names (because it works for Cartesian grids as well) but works the same for `(row, col)` grids. The full thing is on GitHub TKTK but the gist is:
+The full neighbor generation is written with `(x, y)` variable names (because it works for Cartesian grids as well) but works the same for `(row, col)` grids. The full thing is [on GitHub](https://github.com/xavdid/advent-of-code/blob/140c7462682356db6adaba9522c28d39020b3366/solutions/utils/graphs.py#L12-L71) but the gist is:
 
 ```py
 # all 9 possible offsets
