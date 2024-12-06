@@ -4,7 +4,7 @@ day: 6
 slug: "2024/day/6"
 title: "Guard Gallivant"
 # concepts: []
-# pub_date: "TBD"
+pub_date: "2024-12-05"
 ---
 
 ## Part 1
