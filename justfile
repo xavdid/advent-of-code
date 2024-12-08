@@ -26,6 +26,13 @@ _require-venv:
 @dev:
   just --justfile blog/justfile dev
 
+# manualy update this
+YEAR := "2024"
+
 # add all and commit with message "{{year}} day {{day}}"
-@commit year day:
+@commit day year=YEAR:
   gg "{{year}} day {{day}}"
+
+# open all the relevant files for a given day. Hardcodes the current year.
+@open day:
+  code -r solutions/{{YEAR}}/day_$(printf %02d {{day}})/solution.py solutions/{{YEAR}}/day_$(printf %02d {{day}})/input.t*  blog/src/content/writeups/{{YEAR}}/{{day}}/index.md
