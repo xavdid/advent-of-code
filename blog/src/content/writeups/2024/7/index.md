@@ -40,7 +40,9 @@ list(product('AB', repeat=3))
 
 Instead of letters, we can use the pre-built `add` and `mul` functions from the `operator` module. Those, plus our list of numbers and we have everything we need to produce a total... except the algorithm, of course.
 
-I enjoy recursion, so I figured I'd give that a go. Our base case when there's only a single number left in the list. Otherwise, there's at least 2. We should perform the first operation on them and then recurse with the result as the first item in the array. Python's `*` operator makes it easy to pop the front item(s) off a list:
+> I enjoy recursion, so I figured I'd give that a go. If you want a more thorough introduction to recursive concepts, I recommend jumping back to [2020 day 7](/writeups/2020/day/7/#rule-1-always-start-with-your-base-case) or Al Sweigart's [Recursive Book of Recursion](https://nostarch.com/recursive-book-recursion).
+
+Our base case when there's only a single number left in the list. Otherwise, there's at least 2. We should perform the first operation on them and then recurse with the result as the first item in the array. Python's `*` operator makes it easy to pop the front item(s) off a list:
 
 ```py
 from typing import Callable, Sequence
@@ -129,7 +131,7 @@ class Solution(StrSplitSolution):
         return sum(process_line(line, include_concat=True) for line in self.input)
 ```
 
-But now we get to our performance problem. This solution takes more than 20 seconds to run, which is unnacaptible. We could refactor the whole thing, (there are definitely some tricks!) but we've already solved it and reworking the whole thing feels like a marginal benefit at best.
+But now we get to our performance problem. This solution takes more than 20 seconds to run, which is unacceptable. We could refactor the whole thing, (there are definitely some tricks!) but we've already solved it and reworking the whole thing feels like a marginal benefit at best.
 
 At the beginning, I mentioned how each line is totally independent and can be handled individually. Problems like that are a great candidates for parallel computation, where the CPU puts work onto each of its cores. By default, Python only uses a single core, which means every line is waiting on the one before it. If we could work on multiple lines at once, we'd finish in a fraction of the time.
 

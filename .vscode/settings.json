@@ -15,6 +15,5 @@
     // also, images need to be at `./${documentDirName}`, but the `.` gets replaced with the full path
     // there's probably a way to improve that, but I didn't want to fiddle with VSCode snippet expansion
     "*": "${documentDirName}/images/"
-  },
-  "cSpell.words": ["unnacaptible"]
+  }
 }

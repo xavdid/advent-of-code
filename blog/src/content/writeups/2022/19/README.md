@@ -248,7 +248,7 @@ Starting round 18, queue is length 2,357,070
 ...
 ```
 
-While the early rounds fly by, the rate at which our queue grows in the later rounds quickly becomes untenable; each state can potentially spawn 5 more. We'll have to apply a classic CS concept: [branch & bound](https://en.wikipedia.org/wiki/Branch_and_bound).
+While the early rounds fly by, the rate at which our queue grows in the later rounds quickly becomes untenable; each state can potentially spawn 5 more. We'll have to apply a classic CS concept: ~~[branch & bound](https://en.wikipedia.org/wiki/Branch_and_bound)~~ [Beam Search](https://en.wikipedia.org/wiki/Beam_search) (_much thanks to `@DataWraith` on Tildes for kindly [correcting me](https://tildes.net/~comp.advent_of_code/1kj7/day_7_bridge_repair#comment-eaxs)_ on this naming!).
 
 Instead of treating every single state as a potential winner, we can prune our queue by throwing out states that we don't think will go the distance. How exactly we do that is up to us but the idea that at the start of each round, we:
 
