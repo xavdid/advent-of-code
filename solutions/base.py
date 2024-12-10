@@ -178,11 +178,13 @@ class BaseSolution(Generic[I]):
         if not self.is_debugging:
             return
 
-        for o in objects:
-            if isinstance(o, str):
-                print(o)
-            else:
-                pprint(o)
+        # for o in objects:
+        #     if isinstance(o, str):
+        #         print(o, end="")
+        #     else:
+        #         pprint(o)
+
+        print(*objects)
 
         if trailing_newline:
             print()
