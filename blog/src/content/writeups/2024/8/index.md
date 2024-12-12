@@ -59,7 +59,7 @@ The number of unique points we find this way is our puzzle answer!
 
 Now, rather than stepping once, we step as long as we're still in the grid. Luckily, this only takes minor changes from our part 1 code. Instead of just checking one step, we'll set ourselves to keep walking in a direction until we hit the grid edge:
 
-```py rem={3,14-16} add={4,17-22}
+```py rem={4,14-16} add={5,17-22}
 ...
 
 class Solution(StrSplitSolution):

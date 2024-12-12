@@ -7,7 +7,7 @@ from operator import add, mul
 from typing import Callable, Sequence
 
 from ...base import StrSplitSolution, answer
-from ...utils.transformations import parse_int_list
+from ...utils.transformations import parse_ints
 
 type Operation = Callable[[int, int], int]
 
@@ -27,7 +27,7 @@ def concat(a: int, b: int) -> int:
 
 
 def process_line(line: str, include_concat=False) -> int:
-    target, *inputs = parse_int_list(line.replace(":", "").split())
+    target, *inputs = parse_ints(line.replace(":", "").split())
 
     ops = [add, mul]
     if include_concat:

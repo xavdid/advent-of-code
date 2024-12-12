@@ -3,7 +3,7 @@
 from graphlib import TopologicalSorter
 
 from ...base import TextSolution, answer
-from ...utils.transformations import parse_int_list
+from ...utils.transformations import parse_ints
 
 
 def adheres_to_rule(rule: list[int], update: list[int]) -> bool:
@@ -29,12 +29,11 @@ class Solution(TextSolution):
         raw_rules, raw_updates = self.input.split("\n\n")
 
         rules: list[list[int]] = [
-            parse_int_list(raw_rule.split("|")) for raw_rule in raw_rules.splitlines()
+            parse_ints(raw_rule.split("|")) for raw_rule in raw_rules.splitlines()
         ]
 
         updates: list[list[int]] = [
-            parse_int_list(raw_update.split(","))
-            for raw_update in raw_updates.splitlines()
+            parse_ints(raw_update.split(",")) for raw_update in raw_updates.splitlines()
         ]
 
         part_1, part_2 = 0, 0

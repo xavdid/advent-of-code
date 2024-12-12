@@ -169,7 +169,7 @@ class BaseSolution(Generic[I]):
             ) from exc
 
     @final
-    def debug(self, *objects, trailing_newline=False):
+    def debug(self, *objects, trailing_newline=False, pretty=False):
         """
         helpful debugging utility. Does nothing if `./advent` isn't passed the --debug flag
 
@@ -178,13 +178,11 @@ class BaseSolution(Generic[I]):
         if not self.is_debugging:
             return
 
-        # for o in objects:
-        #     if isinstance(o, str):
-        #         print(o, end="")
-        #     else:
-        #         pprint(o)
-
-        print(*objects)
+        if pretty:
+            for o in objects:
+                pprint(o)
+        else:
+            print(*objects)
 
         if trailing_newline:
             print()

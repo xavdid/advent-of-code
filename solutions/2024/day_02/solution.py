@@ -4,7 +4,7 @@ from itertools import pairwise
 from typing import Iterable
 
 from ...base import StrSplitSolution, answer
-from ...utils.transformations import parse_int_list
+from ...utils.transformations import parse_ints
 
 
 def is_strictly_increasing(vals: list[int]) -> bool:
@@ -26,10 +26,10 @@ class Solution(StrSplitSolution):
 
     @answer(432)
     def part_1(self) -> int:
-        return sum(is_safe(parse_int_list(line.split())) for line in self.input)
+        return sum(is_safe(parse_ints(line.split())) for line in self.input)
 
     @answer(488)
     def part_2(self) -> int:
-        lists = [parse_int_list(line.split()) for line in self.input]
+        lists = [parse_ints(line.split()) for line in self.input]
 
         return sum(is_safe(l) or any(is_safe(o) for o in omit_one(l)) for l in lists)
