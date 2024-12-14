@@ -1,10 +1,11 @@
 from enum import IntEnum
 from itertools import product
 from operator import itemgetter
-from typing import Iterator, Literal, Optional
+from typing import Iterator, Literal, Optional, overload
 
-GridPoint = tuple[int, int]
-Grid = dict[GridPoint, str]
+type GridPoint = tuple[int, int]
+type Grid = dict[GridPoint, str]
+type IntGrid = dict[GridPoint, int]
 
 OFFSETS = sorted(product((-1, 0, 1), repeat=2), key=itemgetter(1))
 
@@ -71,9 +72,25 @@ def neighbors(
         yield (next_x, next_y)
 
 
-def parse_grid(raw_grid: list[str], ignore_chars: str = "") -> Grid:
+@overload
+def parse_grid(raw_grid: list[str]) -> Grid: ...
+@overload
+def parse_grid(raw_grid: list[str], *, ignore_chars: str) -> Grid: ...
+@overload
+def parse_grid(
+    raw_grid: list[str], *, int_vals: Literal[True], ignore_chars: str = ""
+) -> IntGrid: ...
+@overload
+def parse_grid(
+    raw_grid: list[str], *, int_vals: Literal[False], ignore_chars: str = ""
+) -> Grid: ...
+
+
+def parse_grid(
+    raw_grid: list[str], *, int_vals: bool = False, ignore_chars: str = ""
+) -> Grid | IntGrid:
     """
-    returns 2-tuples of (row, col) with their value
+    returns 2-tuples of (row, col) with their value. Values are `str` by default, but can be ints with `int_vals=True`.
 
     `ignore_chars` is for grid characters that aren't valid landing spots, like walls.
 
@@ -94,7 +111,10 @@ def parse_grid(raw_grid: list[str], ignore_chars: str = "") -> Grid:
         for col, c in enumerate(line):
             if c in ignore:
                 continue
-            result[row, col] = c
+
+            val = int(c) if int_vals else c
+
+            result[row, col] = val
 
     return result
 
