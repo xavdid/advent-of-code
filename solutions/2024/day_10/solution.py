@@ -39,7 +39,7 @@ class Solution(StrSplitSolution):
     def solve(self) -> tuple[int, int]:
         grid = parse_grid(self.input, int_vals=True)
 
-        return tuple(  # type: ignore
+        return tuple(  # type: ignore - I promise this is a 2-tuple
             sum(
                 score_trailhead(grid, trailhead, skip_visited=skip_visited)
                 for trailhead, v in grid.items()

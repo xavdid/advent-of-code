@@ -83,7 +83,7 @@ On an undirected graph (where you can move freely between any two neighbors) you
 
 As a result, every time we access a point, we must have taken a unique path to get there. Since we're counting unique paths, this is very convenient! To solve part 2, we just need to tweak our part 1 code to not skip visited points. All we need is an extra arg:
 
-```py rem={3,13} add={4,14}
+```py rem={3} add={4,13}
 ...
 
 def score_trailhead(grid: IntGrid, trailhead: GridPoint) -> int:
@@ -97,10 +97,10 @@ def score_trailhead(grid: IntGrid, trailhead: GridPoint, *, skip_visited: bool) 
         cur = queue.pop()
 
         if skip_visited:
-            if cur in visited:
-                continue
-
-            visited.add(cur)
+            if cur in visited: # indented
+                continue       # but
+                               # otherwise
+            visited.add(cur)   # unchanged
 
         if (val := grid[cur]) == 9:
             score += 1
@@ -127,16 +127,18 @@ Only in the second case can you guess what the argument at the end does without 
 
 Anyway, to wrap up, we call our function twice for each `0` in the grid. We can wrap both parts into a single function:
 
-```py
+```py rem={4,11} ins={5,8,9,12,16,17}
 ...
 
 class Solution(StrSplitSolution):
+    def part_1(self) -> int:
     def solve(self) -> tuple[int, int]:
         grid = parse_grid(self.input, int_vals=True)
 
         # typechecker doesn't realize this will always be the 2-tuple we expect
         return tuple(  # type: ignore
             sum(
+                score_trailhead(grid, trailhead)
                 score_trailhead(grid, trailhead, skip_visited=skip_visited)
                 for trailhead, v in grid.items()
                 if v == 0
