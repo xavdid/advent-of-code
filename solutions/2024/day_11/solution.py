@@ -36,8 +36,7 @@ class Solution(StrSplitSolution):
         stones: dict[str, int] = {k: 1 for k in self.input}
         assert len(stones) == len(self.input)
 
-        for _ in range(5):
-            print(stones)
+        for _ in range(75):
             new_stones = defaultdict(int)
             for stone, num in stones.items():
                 for new_stone in step_stone(stone):
