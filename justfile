@@ -1,3 +1,6 @@
+# manualy update this
+YEAR := "2024"
+
 _default:
   just --list
 
@@ -25,9 +28,6 @@ _require-venv:
 # run the dev server for the blog
 @dev:
   just --justfile blog/justfile dev
-
-# manualy update this
-YEAR := "2024"
 
 # add all and commit with message "{{year}} day {{day}}"
 @commit day year=YEAR:

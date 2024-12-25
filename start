@@ -31,6 +31,9 @@ if __name__ == "__main__":
     if not 1 <= day <= 25:
         PARSER.error(f"day {day} is not in range [1,25]")
 
+    if day == 1:
+        print("❗ Remember to increment `YEAR` in the justfile!")
+
     day_dir = Path(year_dir, f"day_{day:02}")
 
     day_dir.mkdir(parents=True, exist_ok=True)
