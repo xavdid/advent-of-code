@@ -118,7 +118,10 @@ While moving whole files sounds easier than splitting them up, it means we have 
 
 ```py
 from dataclasses import dataclass
-from typing import Literal
+from typing import Iterable, Literal
+
+def parse_ints(l: Iterable[str]) -> list[int]:
+    return [int(i) for i in l]
 
 @dataclass
 class Item:

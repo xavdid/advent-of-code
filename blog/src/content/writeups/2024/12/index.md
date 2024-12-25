@@ -226,7 +226,7 @@ Anyway, iterating like this is a great way to improve our design with small step
 
 I finished part 1 days ago but have been spinning my wheels while I overthink part 2. Finding sides _sounds_ like it should be just like finding the perimeter. But, I kept getting caught up in how I'd need to group points to build (and deduplicate) sides.
 
-To unblock myself, I found some hints on the subreddit. The most important one was that we count corners as a proxy for sides. Every side has 2 corners and every corner connects 2 sides. So, how do we determine if a given point is a corner?
+To unblock myself, I found some hints on the subreddit. The most important one was that we can count corners as a proxy for sides. Every side has 2 corners and every corner connects 2 sides. So, how do we determine if a given point is a corner?
 
 A corner is formed by a point with two neighbors outside its region(in an `L` shape). Thus, each of these `A`s is a corner (I've numbered their exterior `L` shaped pairs of neighbors):
 
