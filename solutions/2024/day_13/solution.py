@@ -2,9 +2,8 @@
 
 from re import findall
 
-from solutions.utils.transformations import parse_ints
-
 from ...base import StrSplitSolution, answer
+from ...utils.transformations import parse_ints
 
 PART_2_INCREASE = 10_000_000_000_000
 

@@ -105,5 +105,6 @@ venv.bak/
 
 # End of https://www.gitignore.io/api/python
 
-# don't include actual puzzle inputs
+# don't include actual puzzle inputs or misc output files
 input.txt
+output.txt
