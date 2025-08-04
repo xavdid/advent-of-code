@@ -23,7 +23,8 @@ if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     year = ARGS.year
-    year_dir = Path("solutions", year)
+    # use absolute paths for better symlinking
+    year_dir = Path(Path.cwd(), "solutions", year)
     year_dir.mkdir(parents=True, exist_ok=True)
 
     day = ARGS.day or last_completed_day(year_dir) + 1
@@ -49,11 +50,13 @@ if __name__ == "__main__":
         )
     )
 
-    writeup_folder = Path("blog", "src", "content", "writeups", str(year), str(day))
+    writeup_folder = Path(
+        Path.cwd(), "blog", "src", "content", "writeups", str(year), str(day)
+    )
     writeup_folder.mkdir(parents=True, exist_ok=True)
-    notes_path = writeup_folder / "index.md"
-    if not notes_path.exists():
-        notes_path.write_text(
+    writeup_path = writeup_folder / "index.md"
+    if not writeup_path.exists():
+        writeup_path.write_text(
             "\n".join(
                 [
                     "---",
@@ -73,6 +76,10 @@ if __name__ == "__main__":
                 ]
             )
         )
+    solution_symlink = day_dir / "index.md"
+    solution_symlink.symlink_to(
+        writeup_path.relative_to(solution_symlink.parent, walk_up=True)
+    )
 
     solution_path = Path(day_dir, "solution.py")
     if solution_path.exists():
