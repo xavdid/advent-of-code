@@ -1,7 +1,7 @@
 from enum import IntEnum
 from itertools import product
 from operator import itemgetter
-from typing import Iterator, Literal, Optional, overload
+from typing import Iterator, Literal, NamedTuple, Optional, overload
 
 type GridPoint = tuple[int, int]
 type Grid = dict[GridPoint, str]
@@ -141,6 +141,20 @@ Rotation = Literal["CCW", "CW"]
 
 
 class Direction(IntEnum):
+    """
+    A small class to help manage facing a direction on a grid.
+
+    Initialize it facing a direction. Then you can rotate and get the offset that you'd use to step in that direction.
+
+    ```
+    facing = Direction(1) # east
+    Direction.offset(facing) # (0, 1)
+    Direction.rotate(facing, 'CW') # Direction(2)
+    Direction.rotate(facing, 'CW') # Direction(3)
+    Direction.rotate(facing, 'CW') # Direction(0)
+    ```
+    """
+
     UP = 0
     RIGHT = 1
     DOWN = 2
@@ -149,12 +163,15 @@ class Direction(IntEnum):
     @staticmethod
     def rotate(facing: "Direction", towards: Rotation) -> "Direction":
         offset = 1 if towards == "CW" else -1
-        return Direction((facing.value + offset) % 4)
+        # cheaper to use singletons than recalculate dynamically every time
+        return _DIRECTIONS[(facing.value + offset) % 4]
 
     @staticmethod
     def offset(facing: "Direction") -> GridPoint:
         return _ROW_COLL_OFFSETS[facing]
 
+
+_DIRECTIONS = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
 
 _ROW_COLL_OFFSETS: dict[Direction, GridPoint] = {
     Direction.UP: (-1, 0),
@@ -162,3 +179,41 @@ _ROW_COLL_OFFSETS: dict[Direction, GridPoint] = {
     Direction.DOWN: (1, 0),
     Direction.LEFT: (0, -1),
 }
+
+
+class Position(NamedTuple):
+    """
+    Represents an immutable directional location in a grid. Methods return new `Position`s.
+
+    ```
+    cur = Position((0, 0), Direction.DOWN)
+    cur.next_loc # (1, 0)
+    cur.step() # Position((1, 0), Direction.DOWN)
+    cur # Position((0, 0), Direction.DOWN)
+    ```
+    """
+
+    loc: GridPoint
+    """
+    Your location in a `(row, col)` grid.
+    """
+    facing: Direction
+    """
+    Your current direction.
+    """
+
+    @property
+    def next_loc(self) -> GridPoint:
+        """
+        Where you'd land, if you stepped.
+        """
+        return add_points(self.loc, Direction.offset(self.facing))
+
+    def step(self) -> "Position":
+        """
+        Return a new Position based on stepping once in a direction.
+        """
+        return Position(self.next_loc, self.facing)
+
+    def rotate(self, towards: Rotation) -> "Position":
+        return Position(self.loc, Direction.rotate(self.facing, towards))
