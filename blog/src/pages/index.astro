@@ -32,8 +32,7 @@ const newestPosts = thisYearsPosts?.toSorted((a,b) => a.data.day - b.data.day).s
         {newestPosts?.map((post, postIndex) => (
           <>
             {postIndex === newestPosts.length-1 ? "    |   └── " : "    |   ├── "}
-            <a href={`/writeups/${post.slug}`}>Day {post.data.day}</a></>
-          <br />
+            <a href={`/writeups/${post.slug}`}>Day {post.data.day}</a></><br />
         ))}
         </>
       )

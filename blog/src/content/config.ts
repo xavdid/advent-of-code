@@ -1,11 +1,9 @@
-// 1. Import utilities from `astro:content`
 import { defineCollection, z } from "astro:content";
 
 const isProdBuild = import.meta.env.PROD;
 
 const prodOnlyRule = (c: boolean) => (isProdBuild ? c : true);
 
-// 2. Define a `type` and `schema` for each collection
 const writeups = defineCollection({
   type: "content",
   schema: z.object({
@@ -20,5 +18,4 @@ const writeups = defineCollection({
   }),
 });
 
-// 3. Export a single `collections` object to register your collection(s)
 export const collections = { writeups };

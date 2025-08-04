@@ -3,15 +3,15 @@
   "type": "module",
   "version": "1.0.0",
   "dependencies": {
-    "@astrojs/check": "0.3.1",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.1",
-    "astro": "^3.3.0",
-    "astro-expressive-code": "^0.29.2",
-    "astro-seo": "0.8.0",
-    "rehype-autolink-headings": "^7.0.0",
+    "@astrojs/check": "0.9.4",
+    "@astrojs/rss": "4.0.12",
+    "@astrojs/sitemap": "3.4.2",
+    "astro": "^5.12.8",
+    "astro-expressive-code": "0.41.3",
+    "astro-seo": "0.8.4",
+    "rehype-autolink-headings": "^7.1.0",
     "rehype-external-links": "^3.0.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.9.2",
     "water.css": "^2.1.1"
   },
   "devDependencies": {
