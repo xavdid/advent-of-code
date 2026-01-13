@@ -1,5 +1,5 @@
 # manualy update this
-YEAR := "2024"
+YEAR := "2025"
 
 _default:
   just --list

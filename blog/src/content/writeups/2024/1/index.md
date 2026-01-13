@@ -17,7 +17,7 @@ There are a few goals:
 
 Readers are [expected to have](https://advent-of-code.xavd.id/#audience) a basic understanding of programming fundamentals. Advent of Code isn't the place to learn programming from scratch ([Exercism's upcoming bootcamp](https://bootcamp.exercism.org/) is a better place for that).
 
-Each of my solutions will use my [GitHub template](https://github.com/xavdid/advent-of-code-python-template), which handles some basic input parsing. It also a good [Ruff](https://docs.astral.sh/ruff/) setup for linting and formatting. Feel free to fork this an adapt it for your needs! I didn't include any utility functions in the template itself, but you're encouraged to write and use your own. I've got a few (like for graph traversal) that I'll reference in my solutions, but you can take whatever approach you'd like.
+Each of my solutions will use my [GitHub template](https://github.com/xavdid/advent-of-code-python-template), which handles some basic input parsing. It also has a good [Ruff](https://docs.astral.sh/ruff/) setup for linting and formatting. Feel free to fork this an adapt it for your needs! I didn't include any utility functions in the template itself, but you're encouraged to write and use your own. I've got a few (like for graph traversal) that I'll reference in my solutions, but you can take whatever approach you'd like.
 
 I think that's everything. Let's get to it!
 

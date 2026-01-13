@@ -1,0 +1,1 @@
+../../../blog/src/content/writeups/2025/1/index.md
