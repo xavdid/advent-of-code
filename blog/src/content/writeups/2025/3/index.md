@@ -2,9 +2,9 @@
 year: 2025
 day: 3
 slug: "2025/day/3"
-title: "TKTK"
+title: "Lobby"
 concepts: [recursion]
-# pub_date: "TBD"
+pub_date: "2026-01-31"
 ---
 
 ## Part 1
