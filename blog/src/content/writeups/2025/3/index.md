@@ -3,7 +3,7 @@ year: 2025
 day: 3
 slug: "2025/day/3"
 title: "Lobby"
-concepts: [recursion]
+concepts: [recursion, "dynamic programming"]
 pub_date: "2026-01-31"
 ---
 
@@ -36,13 +36,13 @@ class Solution(StrSplitSolution):
 
 ## Part 2
 
-Well, that didn't last long. Luckily, our general approach is sound, but we need to tweak the algorithm so that the size of our number is configurable. Believe it or not, this is a great use case for recursion!
+Well, that didn't last long. Luckily, our general approach is sound, but we need to tweak the algorithm so that the size of our number is configurable. This is a type of problem that lends itself well to an approach called "dynamic programming", where we break down a repetitive problem into more manageable chunks
 
-Part 1 illustrated the two steps in our algorithm: find a lead digit and find a tail digit. If we wanted to find a 3-digit number, the process would be mostly the same. We'd find a lead digit that has at least 2 numbers after it, then find a 2-digit number to its right. A 4-digit number is a lead digit that's 3+ spots from the end followed by our 3-digit number above. And so the recursive shape of this problem starts to take shape.
+If we wanted to find a 3-digit number, the process would be similar to that of the 2-digit number. We'd find a lead digit that has at least 2 numbers after it, then find a 2-digit number to its right. A 4-digit number follows the same pattern: a lead digit that's 3+ spots from the end followed by our 3-digit number above.
 
-To find a number of any length `N`, we find the highest lead with enough space behind it followed by the largest `N-1`-digit number. On each recursion, we pass the digits to the right of the last lead digit and decrement its length. Eventually we just need a 1 digit number, which will be the `max` of the digits (with no more recursion).
+Generalizing this approach, the solution for any number length `N` is a lead digit at least `N` spaces from the end followed by the solution to `N-1`. That continues to be true until you reach `N == 1`, at which point you just find the biggest remaining number and stop recursing. This is the heart of dynamic programming: a big solution is just a bunch of smaller solutions strung together (usually with recursion of some kind).
 
-We'll restructure our code to separate concerns a bit. Now our function will _only_ find numbers, not do any of the type conversion we'll need for the actual problem. Here's the diff:
+To actually code this up, we'll restructure our code to separate concerns a bit. Now our function will _only_ find numbers, not do any of the type conversion we'll need for the actual problem. Here's the diff:
 
 ```py del={1,3,7,11,13} ins={2,4-5,8,14}
 def highest_joltage(num: str) -> int:
@@ -63,7 +63,7 @@ def _recursive_joltage(digits: list[int], length: int) -> list[int]:
 
 It's the same basic approach, with a couple of key differences:
 
-- as mentioned, we're only dealing with `list[int]`. The conversion from string goes elsewhere
+- we're only dealing with `list[int]`. The conversion from string goes elsewhere
 - we're returning a `list[int]` that gets built up as we recurse
 - the length we recurse shrinks until it hits `1` (our **base case**)
 - the index we stop at has changed: it's now calculated based on length. For a 2-digit number, we used `-1`. So for an `N` digit number, we stop at `-(N-1)`
