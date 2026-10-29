@@ -11,14 +11,14 @@ type Props = { year: number; writeups: Writeup[] };
 // which pages to create and what data to pass to each page
 // this has to be typed separately until https://github.com/withastro/compiler/issues/554 is fixed
 type StaticPathResult = () => Promise<
-  { params: { year: number }; props: Props }[]
+  { params: { year: string }; props: Props }[]
 >;
 
 export const getStaticPaths: StaticPathResult = async () => {
   const years = await getWriteupsByYear();
 
   return [...years.entries()].map(([year, writeups]) => ({
-    params: { year },
+    params: { year: year.toString(), },
     props: {
       year,
       writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),

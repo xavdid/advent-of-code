@@ -20,10 +20,10 @@ export const GET: APIRoute = async (context) => {
           // presume I did these in order in case of ties
           b.data.day - a.data.day
       )
-      .map(({ slug, data: { year, day, title, pub_date } }) => {
+      .map(({ id, data: { year, day, title, pub_date } }) => {
         return {
           title: `David's AoC ${year} Day ${day} Solution`,
-          link: `/writeups/${slug}`,
+          link: `/writeups/${id}`,
           description: `David solves: ${title}`,
           pubDate: new Date(pub_date!),
         };

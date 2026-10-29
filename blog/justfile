@@ -1,29 +1,42 @@
-# make installed binaries available at the top level
-export PATH := "./node_modules/.bin:" + env_var('PATH')
+set quiet
 
-@_default:
+# make installed binaries available at the top level
+export PATH := "./node_modules/.bin:" + env('PATH')
+
+_default:
 	just --list
 
-@dev:
+dev:
 	astro dev
 
 # general purpose handler for anstro commands
-@astro *options="":
+astro *options="":
 	astro {{options}}
 
 # to any checks to ensure the site is ready to go
-@validate:
+validate:
 	astro check
 # don't need to test, since the only test so far is for an unused function
 # just test
 # eslint?
 
+[no-exit-message]
+lint-check:
+    # eslint src
+    prettier --check src
+
+# fix issues checks
+[no-exit-message]
+lint:
+    # eslint src --fix
+    prettier src --write
+
 # do a production build
-@build: validate
+build: validate
 	astro build
 
-@test:
+test:
   vitest run
 
-@test-watch:
+test-watch:
   vitest watch

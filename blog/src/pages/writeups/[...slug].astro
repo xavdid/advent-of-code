@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import  { type CollectionEntry, render } from "astro:content";
 
 import { getPublishedWriteups } from "../../utils/collections";
 import BaseLayout from "../../layouts/Layout.astro";
@@ -8,15 +8,15 @@ import NavControls from "../../components/NavControls.astro";
 
 export const getStaticPaths = async () => {
   const writeups = await getPublishedWriteups();
-  return writeups.map(({ slug, ...writeup }) => ({
-    params: { slug },
+  return writeups.map(({ id, ...writeup }) => ({
+    params: { slug:id },
     props: writeup,
   }));
 };
 type Props = CollectionEntry<"writeups">;
 
 const writeup = Astro.props;
-const { Content } = await writeup.render();
+const { Content } = await render(writeup);
 const {
   data: { year, day, title, pub_date },
 } = Astro.props;

@@ -1,4 +1,4 @@
-import { rehypeHeadingIds } from "@astrojs/markdown-remark";
+import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
@@ -9,27 +9,29 @@ import rehypeExternalLinks from "rehype-external-links";
 export default defineConfig({
   site: "https://advent-of-code.xavd.id",
   markdown: {
-    rehypePlugins: [
-      rehypeHeadingIds,
-      [
-        rehypeExternalLinks,
-        {
-          target: "_blank",
-          // content: {
-          //   type: "element",
-          //   tagName: "span",
-          //   properties: { className: ["external-link-icon"] },
-          //   children: [{ type: "text", value: " ↗" }],
-          // },
-        },
+    processor: unified({
+      rehypePlugins: [
+        rehypeHeadingIds,
+        [
+          rehypeExternalLinks,
+          {
+            target: "_blank",
+            // content: {
+            //   type: "element",
+            //   tagName: "span",
+            //   properties: { className: ["external-link-icon"] },
+            //   children: [{ type: "text", value: " ↗" }],
+            // },
+          },
+        ],
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "wrap",
+          },
+        ],
       ],
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "wrap",
-        },
-      ],
-    ],
+    }),
   },
   integrations: [
     sitemap(),

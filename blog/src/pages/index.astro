@@ -41,7 +41,7 @@ const newestPosts = thisYearsPosts
         {newestPosts?.map((post, postIndex) => (
           <>
             {postIndex === newestPosts.length-1 ? "        └── " : "        ├── "}
-            <a href={`/writeups/${post.slug}`}>Day {post.data.day}</a></><br />
+            <a href={`/writeups/${post.id}`}>Day {post.data.day}</a></><br />
         ))}
         </>
       )
