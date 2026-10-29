@@ -12,13 +12,18 @@
     "astro-seo": "0.8.4",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-external-links": "^3.0.0",
-    "typescript": "^6",
     "water.css": "^2.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^3.2.1",
     "just-install": "^1.0.11",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
     "vitest": "^5"
   },
   "allowScripts": {

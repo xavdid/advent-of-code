@@ -22,14 +22,14 @@ validate:
 
 [no-exit-message]
 lint-check:
-    # eslint src
-    prettier --check src
+    eslint .
+    prettier --check src --log-level error
 
 # fix issues checks
 [no-exit-message]
 lint:
-    # eslint src --fix
-    prettier src --write
+    eslint . --fix
+    prettier src --write --log-level error
 
 # do a production build
 build: validate
