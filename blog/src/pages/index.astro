@@ -27,26 +27,15 @@ const newestPosts = thisYearsPosts
 
 <Layout>
   <WelcomeContent />
-  <pre>~
+  <!-- the formatting in here is really specific -->
+  <pre>
+~
 └── <a href="/writeups">writeups</a>
-    ├── ...
-{recentYears.map((year, index) => (
-  <>
-    {`    ${index === (NUM_RECENT_POSTS - 1) ? '└' : '├'}── `}
-    <a href={`/writeups/${year}`}>{year}</a><br />{
-      index === (NUM_RECENT_POSTS - 1) &&
-      (
-        <>
-        {showEllipse && <div>{"        ├── ..."}</div> }
-        {newestPosts?.map((post, postIndex) => (
-          <>
-            {postIndex === newestPosts.length-1 ? "        └── " : "        ├── "}
-            <a href={`/writeups/${post.id}`}>Day {post.data.day}</a></><br />
-        ))}
-        </>
-      )
-    }
-  </>
-))}</pre>
+    ├── ...{recentYears.map((year, index) => (<>
+    {`${index === (NUM_RECENT_POSTS - 1) ? '└' : '├'}── `}<a href={`/writeups/${year}`}>{year}</a>{
+      index === (NUM_RECENT_POSTS - 1) && (<>{showEllipse && <div>{"├── ..."}</div> }{
+      newestPosts?.map((post, postIndex) => (<>
+        {postIndex === newestPosts.length-1 ? "└── " : "├── "}<a href={`/writeups/${post.id}`}>Day {post.data.day}</a></>
+    ))}</>)}</>))}</pre>
   <AboutContent />
 </Layout>
