@@ -163,4 +163,5 @@ class Solution(StrSplitSolution):
 ```
 
 [^1]: Remember, in these writeups we're practicing writing clear, maintainable solutions. My goal isn't to write my solution the quickest or with the fewest [characters](https://en.wikipedia.org/wiki/Code_golf).
+
 [^2]: In our case, `Shape.ROCK != 1`, even though `Shape.ROCK.value == 1`. To make your enum compare to its underlying primitive, it should inherit from that type (e.g. `class X(int, Enum)`).

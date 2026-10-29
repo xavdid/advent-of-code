@@ -1,6 +1,6 @@
 // currently unused
 export const pathToBreadcrumbs = (
-  url?: string
+  url?: string,
 ): { page: string; path?: string[] } => {
   if (!url || url == "/") {
     return { page: "" };

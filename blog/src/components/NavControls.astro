@@ -14,36 +14,38 @@ const next = await getEntry("writeups", nextSlug);
 ---
 
 <div class="footer-nav">
-  {
-    prev && (
-      <a href={`/writeups/${prevSlug}`} class="prev">
-        ❮ Day {day - 1}
-      </a>
-    )
-  }
+  {prev && (
+    <a href={`/writeups/${prevSlug}`} class="prev">
+      ❮ Day {day - 1}
+    </a>
+  )}
   <a
     href={`https://github.com/xavdid/advent-of-code/blob/main/solutions/${year}/day_${String(
-      day
+      day,
     ).padStart(2, "0")}/solution.py`}
     target="_blank"
     rel="noopener"
-    class="solution center">Published Solution</a
+    class="solution center"
   >
-  <a href={`/writeups/${year}`} class="back-to-year center">Back to {year}</a>
+    Published Solution
+  </a>
+  <a href={`/writeups/${year}`} class="back-to-year center">
+    Back to {year}
+  </a>
   <a
     href="https://github.com/xavdid/advent-of-code-python-template"
     target="_blank"
     rel="noopener"
-    class="template center">My Python Template</a
+    class="template center"
   >
+    My Python Template
+  </a>
 
-  {
-    next && (
-      <a href={`/writeups/${nextSlug}`} class="next right">
-        Day {day + 1} ❯
-      </a>
-    )
-  }
+  {next && (
+    <a href={`/writeups/${nextSlug}`} class="next right">
+      Day {day + 1} ❯
+    </a>
+  )}
 </div>
 
 <style>

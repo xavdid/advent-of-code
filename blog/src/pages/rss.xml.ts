@@ -18,7 +18,7 @@ export const GET: APIRoute = async (context) => {
           new Date(b.data.pub_date!).valueOf() -
             new Date(a.data.pub_date!).valueOf() ||
           // presume I did these in order in case of ties
-          b.data.day - a.data.day
+          b.data.day - a.data.day,
       )
       .map(({ id, data: { year, day, title, pub_date } }) => {
         return {

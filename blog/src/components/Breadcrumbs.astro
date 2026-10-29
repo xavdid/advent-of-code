@@ -8,17 +8,17 @@ const { page, path } = Astro.props;
 ---
 
 <div class="breadcrumbs">
-  <code class="location"
-    ><a href="/">~</a>
-    {
-      path?.map((segment, index) => {
-        return (
-          <span>
-            {' '} / <a href={`/${path.slice(0, index + 1).join("/")}`}>{segment}</a>
-          </span>
-        );
-      })
-    }<span> / {page}</span>
+  <code class="location">
+    <a href="/">~</a>
+    {path?.map((segment, index) => {
+      return (
+        <span>
+          {" "}
+          / <a href={`/${path.slice(0, index + 1).join("/")}`}>{segment}</a>
+        </span>
+      );
+    })}
+    <span> / {page}</span>
   </code>
 </div>
 

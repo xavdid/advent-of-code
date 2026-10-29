@@ -252,4 +252,5 @@ And that's it! Our grid lies exactly as much as we want it to, we can still prin
 > _NOTE_: The above is a summary of my cleaned and edited part 2 solution. You can also read [my completed (but not edited) part 2 solution](https://github.com/xavdid/advent-of-code/blob/790483a834628af6ac5535675c8058cd81a1ad70/solutions/2022/day_14/solution.py), if you like reading messy code; sometimes it's nice to see the process.
 
 [^1]: except for printing the grid, which we'll cover. That's not required for the solution though.
+
 [^2]: if we did, it would be easier to subclass `set` itself and modify from there.

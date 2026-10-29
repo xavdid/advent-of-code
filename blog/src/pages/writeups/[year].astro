@@ -18,7 +18,7 @@ export const getStaticPaths: StaticPathResult = async () => {
   const years = await getWriteupsByYear();
 
   return [...years.entries()].map(([year, writeups]) => ({
-    params: { year: year.toString(), },
+    params: { year: year.toString() },
     props: {
       year,
       writeups: writeups.toSorted((a, b) => a.data.day - b.data.day),
@@ -36,16 +36,12 @@ const { year, writeups } = Astro.props;
   }}
 >
   <Breadcrumbs path={["writeups"]} page={year} />
-  <h1>
-    {year}'s Writeups
-  </h1>
+  <h1>{year}'s Writeups</h1>
   <ul>
-    {
-      writeups.map(({ data: { day, title } }) => (
-        <li>
-          <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
-        </li>
-      ))
-    }
+    {writeups.map(({ data: { day, title } }) => (
+      <li>
+        <a href={`/writeups/${year}/day/${day}`}>Day {day}</a>: {title}
+      </li>
+    ))}
   </ul>
 </BaseLayout>

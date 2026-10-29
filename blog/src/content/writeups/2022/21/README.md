@@ -252,5 +252,7 @@ class Solution(StrSplitSolution):
 And that, as they say, is that!
 
 [^1]: which, scientists claim, is nearly a million individual numbers!
+
 [^2]: I'll be honest, all of my initial work here used no functions at all; just the same block, haphazardly duplicated repeatedly. Not my finest hour.
+
 [^3]: Without an [external library](https://problemsolvingwithpython.com/10-Symbolic-Math/10.06-Solving-Equations/#equations-with-one-solution), anyway.

@@ -6,7 +6,7 @@ export type Writeup = CollectionEntry<"writeups">;
 // everything in dev, published only in prod
 export const getPublishedWriteups = async () =>
   getCollection("writeups", ({ data: { pub_date } }) =>
-    import.meta.env.PROD ? pub_date : true
+    import.meta.env.PROD ? pub_date : true,
   );
 
 export const getWriteupsByYear = async () => {

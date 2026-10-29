@@ -1,5 +1,5 @@
 ---
-import  { type CollectionEntry, render } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 
 import { getPublishedWriteups } from "../../utils/collections";
 import BaseLayout from "../../layouts/Layout.astro";
@@ -9,7 +9,7 @@ import NavControls from "../../components/NavControls.astro";
 export const getStaticPaths = async () => {
   const writeups = await getPublishedWriteups();
   return writeups.map(({ id, ...writeup }) => ({
-    params: { slug:id },
+    params: { slug: id },
     props: writeup,
   }));
 };
@@ -34,15 +34,15 @@ const writeupTitle = `Advent of Code ${year} Day ${day}: ${title}`;
 >
   <Breadcrumbs path={["writeups", String(year)]} page={`Day ${day}`} />
   <article>
-    <h1>
-      {title}
-    </h1>
+    <h1>{title}</h1>
 
     <div class="info">
-      <span>Published: <code>{pub_date || "TBD"}</code></span>
-      <a href={`https://adventofcode.com/${year}/day/${day}`} target="_blank"
-        >Original Prompt</a
-      >
+      <span>
+        Published: <code>{pub_date || "TBD"}</code>
+      </span>
+      <a href={`https://adventofcode.com/${year}/day/${day}`} target="_blank">
+        Original Prompt
+      </a>
       <!-- <span> Concepts: Depth-First Search, Recursion, Pathfinding</span> -->
     </div>
 

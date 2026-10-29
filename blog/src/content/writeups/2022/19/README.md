@@ -423,4 +423,5 @@ Because of our bounding, the longer rounds didn't meaningfully add to the queue 
 Lastly, I recommending checking out this [great Reddit thread](https://old.reddit.com/r/adventofcode/comments/zpy5rm/2022_day_19_what_are_your_insights_and/) of optimization approaches folks came up with. It's really cool seeing all the different approaches. Give it a read!
 
 [^1]: Of course, I'm writing this after having completed both parts, so call it a _very good_ hunch. Really though, I added that arg in the first version of this code because I've done enough of these at this point to occasionally guess what's coming.
+
 [^2]: This uses Python's little-known but very powerful [format string mini-language](https://docs.python.org/3/library/string.html#formatspec). Definitely worth being familiar with for very nice looking strings!
